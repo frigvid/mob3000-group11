@@ -48,5 +48,5 @@ The repository `LICENSE` file, as you may have noticed, marks this repository as
 - Documentation: `CC0`
 - Resources (e.g. images): `CC0`
 
-As mentioned, this is not withstanding resources that have other licenses. E.g. the react logo in use in the project logo is MIT while the chess piece is CC0.
+As mentioned, this is not withstanding resources that have other licenses.
 
