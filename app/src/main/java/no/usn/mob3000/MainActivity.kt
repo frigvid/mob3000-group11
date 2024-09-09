@@ -1,47 +1,39 @@
 package no.usn.mob3000
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import no.usn.mob3000.ui.theme.ChessbuddyTheme
 
-class MainActivity : ComponentActivity() {
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
+class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ChessbuddyTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+        setContentView(R.layout.activity_main)
+
+        // Load the default HomeFragment
+        loadFragment(HomeFragment())
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            val fragment: Fragment = when (menuItem.itemId) {
+                R.id.nav_news -> NewsFragment()
+                R.id.nav_notifications -> NotificationsFragment()
+                R.id.nav_home -> HomeFragment()
+                R.id.nav_profile -> ProfileFragment()
+                R.id.nav_settings -> SettingsFragment()
+                else -> HomeFragment()
             }
+            loadFragment(fragment)
+            true
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ChessbuddyTheme {
-        Greeting("Android")
+    private fun loadFragment(fragment: Fragment) {
+        // Replace the fragment in the container
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .commit()
     }
 }
