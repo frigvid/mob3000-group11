@@ -1,3 +1,8 @@
+/**
+ * This is the main entry point of the application.
+ *
+ * @author Hussein Abdul-Ameer
+ */
 package no.usn.mob3000
 
 import android.annotation.SuppressLint
@@ -117,6 +122,7 @@ fun BottomNavigationBar(navController: NavController) {
 
 // Navigation graph
 @Composable
+
 fun NavigationGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController, startDestination = BottomNavItem.Home.route, modifier = modifier) {
 
@@ -185,3 +191,5 @@ fun NotificationPage() {
         content = { Text("This is the Notifications Page") }
     )
 }
+
+
