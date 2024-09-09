@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme extending from AppCompat -->
-    <style name="Theme.Chessbuddy" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here -->
-        <item name="colorPrimary">@color/background_color</item>
-        <item name="colorPrimaryDark">@color/menu_bar_color</item>
-        <item name="colorAccent">@color/text_color</item>
-    </style>
-
+    <style name="Theme.Chessbuddy" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
