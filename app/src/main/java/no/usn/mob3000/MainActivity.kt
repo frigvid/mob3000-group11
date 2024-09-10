@@ -9,16 +9,25 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import no.usn.mob3000.ui.theme.*;
 import androidx.compose.ui.unit.dp
@@ -53,7 +62,7 @@ fun MainScreen() {
 // Sealed class to define bottom navigation items
 sealed class BottomNavItem(val route: String, val icon: Int, val title: String) {
 
-    object Documents : BottomNavItem("News", R.drawable.ic_documents, "News")
+    object Documents : BottomNavItem("Documentation", R.drawable.ic_documents, "Documentation")
     object Profile : BottomNavItem("profile", R.drawable.ic_profile, "Profile")
     object Home : BottomNavItem("home", R.drawable.ic_home, "Home")
     object Settings : BottomNavItem("settings", R.drawable.ic_settings, "Settings")
@@ -72,7 +81,7 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavItem.Profile,
         BottomNavItem.Settings,
 
-    )
+        )
 
     BottomNavigation(
         backgroundColor = menu_bar_color,
@@ -91,7 +100,7 @@ fun BottomNavigationBar(navController: NavController) {
                             .padding(bottom = if (isSelected) 2.dp else 4.dp),  // Add padding below the icon for text space
                         tint = if (currentRoute == item.route) background_color else text_color.copy(alpha = 0.5f),
 
-                    )
+                        )
                 },
                 label = {
                     Text(
@@ -101,7 +110,7 @@ fun BottomNavigationBar(navController: NavController) {
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
 
-                    )
+                        )
                 },
                 selected = currentRoute == item.route,
                 onClick = {
@@ -115,7 +124,7 @@ fun BottomNavigationBar(navController: NavController) {
                 },
                 alwaysShowLabel = false,
 
-            )
+                )
         }
     }
 }
@@ -141,24 +150,100 @@ fun currentRoute(navController: NavController): String? {
     return navBackStackEntry?.destination?.route
 }
 
+
+
 // Individual pages
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage() {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Home Page") }) },
-        content = { Text("This is the Home Page") }
+        topBar = {
+            TopAppBar(
+                title = { Text("Home Page") },
+
+            )
+        },
+        content = { innerPadding ->
+            // The main content is wrapped in a Box to center everything
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                // Column with vertical buttons
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(24.dp), // Space between buttons
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // First button (Blue)
+                    ColorfulButton(
+                        color = Color.Blue,
+                        icon = R.drawable.ic_chess_horse,  // Replace with your icon
+                        text = "Tren Åpninger"
+                    )
+
+                    // Second button (Green)
+                    ColorfulButton(
+                        color = Color.Green,
+                        icon = R.drawable.ic_play,  // Replace with your icon
+                        text = "Spill Nå"
+                    )
+
+                    // Third button (Red)
+                    ColorfulButton(
+                        color = Color.Red,
+                        icon = R.drawable.ic_reload,  // Replace with your icon
+                        text = "Din Historikk"
+                    )
+                }
+            }
+        }
     )
 }
+
+@Composable
+fun ColorfulButton(color: Color, icon: Int, text: String) {
+    Surface(
+        modifier = Modifier
+            .size(width = 150.dp, height = 150.dp) // Adjust the size of the buttons
+            .clickable { /* Handle click action */ },
+        color = color,
+        shape = RoundedCornerShape(12.dp) // Rounded corners
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource(id = icon),
+                contentDescription = text,
+                tint = Color.White, // White icon color
+                modifier = Modifier.size(48.dp) // Icon size
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = text,
+                color = Color.White, // White text color
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentPage() {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("News Page") }) },
-        content = { Text("This is the News Page") }
+        topBar = { TopAppBar(title = { Text("Documentation Page") }) },
+        content = {  }
     )
 }
 
@@ -168,7 +253,7 @@ fun DocumentPage() {
 fun ProfilePage() {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Profile Page") }) },
-        content = { Text("This is the Profile Page") }
+        content = {  }
     )
 }
 
@@ -178,7 +263,7 @@ fun ProfilePage() {
 fun SettingsPage() {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Settings Page") }) },
-        content = { Text("This is the Settings Page") }
+        content = {  }
     )
 }
 
@@ -188,8 +273,7 @@ fun SettingsPage() {
 fun NotificationPage() {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Notifications Page") }) },
-        content = { Text("This is the Notifications Page") }
+        content = {  }
+
     )
 }
-
-
