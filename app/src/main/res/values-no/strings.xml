@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Chess Buddy</string>
     <string name="title_home">Hjem</string>
     <string name="title_dashboard">Dashbord</string>
     <string name="title_notifications">Notifikasjoner</string>
