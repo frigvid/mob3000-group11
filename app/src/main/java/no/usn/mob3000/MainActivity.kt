@@ -71,7 +71,6 @@ sealed class BottomNavItem(val route: String, val icon: Int, val title: String) 
 
 // Bottom navigation bar composable
 @Composable
-
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
         BottomNavItem.Documents,
@@ -126,7 +125,6 @@ fun BottomNavigationBar(navController: NavController) {
 
 // Navigation graph
 @Composable
-
 fun NavigationGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController, startDestination = BottomNavItem.Home.route, modifier = modifier) {
         composable(BottomNavItem.Documents.route) {
