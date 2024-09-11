@@ -1,3 +1,7 @@
+# Manual
+*.zip
+
+# Auto-generated
 *.iml
 .gradle
 /local.properties
