@@ -167,11 +167,9 @@ fun HomePage() {
         topBar = {
             TopAppBar(
                 title = { Text("Home Page") },
-
             )
         },
         content = { innerPadding ->
-            // The main content is wrapped in a Box to center everything
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -179,7 +177,7 @@ fun HomePage() {
                 contentAlignment = Alignment.Center
             ) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(24.dp), // Space between buttons
+                    verticalArrangement = Arrangement.spacedBy(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     ColorfulButton(
@@ -238,14 +236,15 @@ fun ColorfulButton(color: Color, icon: Int, text: String) {
     }
 }
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentPage() {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Documentation Page") }) },
-        content = {  }
+        topBar = {
+            TopAppBar(title = { Text("Documentation Page") })
+        },
+        content = {}
     )
 }
 
@@ -254,8 +253,10 @@ fun DocumentPage() {
 @Composable
 fun ProfilePage() {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Profile Page") }) },
-        content = {  }
+        topBar = {
+            TopAppBar(title = { Text("Profile Page") })
+        },
+        content = {}
     )
 }
 
@@ -264,8 +265,10 @@ fun ProfilePage() {
 @Composable
 fun SettingsPage() {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Settings Page") }) },
-        content = {  }
+        topBar = {
+            TopAppBar(title = { Text("Settings Page") })
+        },
+        content = {}
     )
 }
 
@@ -274,8 +277,9 @@ fun SettingsPage() {
 @Composable
 fun NotificationPage() {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Notifications Page") }) },
-        content = {  }
-
+        topBar = {
+            TopAppBar(title = { Text("Notifications Page") })
+        },
+        content = {}
     )
 }
