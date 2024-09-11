@@ -61,12 +61,11 @@ fun MainScreen() {
 
 // Sealed class to define bottom navigation items
 sealed class BottomNavItem(val route: String, val icon: Int, val title: String) {
-
-    object Documents : BottomNavItem("Documentation", R.drawable.ic_documents, "Documentation")
-    object Profile : BottomNavItem("profile", R.drawable.ic_profile, "Profile")
-    object Home : BottomNavItem("home", R.drawable.ic_home, "Home")
-    object Settings : BottomNavItem("settings", R.drawable.ic_settings, "Settings")
-    object Notifications : BottomNavItem("notifications", R.drawable.ic_notifications, "Notifications")
+    data object Documents : BottomNavItem("Documentation", R.drawable.navbar_documentation, "Documentation")
+    data object Profile : BottomNavItem("profile", R.drawable.navbar_user, "Profile")
+    data object Home : BottomNavItem("home", R.drawable.navbar_home, "Home")
+    data object Settings : BottomNavItem("settings", R.drawable.navbar_settings, "Settings")
+    data object Notifications : BottomNavItem("notifications", R.drawable.navbar_news, "News")
 }
 
 // Bottom navigation bar composable
@@ -74,14 +73,12 @@ sealed class BottomNavItem(val route: String, val icon: Int, val title: String) 
 
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-
         BottomNavItem.Documents,
         BottomNavItem.Notifications,
         BottomNavItem.Home,
         BottomNavItem.Profile,
         BottomNavItem.Settings,
-
-        )
+    )
 
     BottomNavigation(
         backgroundColor = menu_bar_color,
@@ -97,20 +94,18 @@ fun BottomNavigationBar(navController: NavController) {
                         contentDescription = item.title,
                         modifier = Modifier
                             .size(28.dp)
-                            .padding(bottom = if (isSelected) 2.dp else 4.dp),  // Add padding below the icon for text space
+                            .padding(bottom = if (isSelected) 2.dp else 4.dp),
                         tint = if (currentRoute == item.route) background_color else text_color.copy(alpha = 0.5f),
-
-                        )
+                    )
                 },
                 label = {
                     Text(
                         text = item.title,
                         color = text_color,
-                        style = Typography.labelSmall,  // Apply Typography for consistent text style
+                        style = Typography.labelSmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-
-                        )
+                    )
                 },
                 selected = currentRoute == item.route,
                 onClick = {
@@ -123,8 +118,7 @@ fun BottomNavigationBar(navController: NavController) {
                     }
                 },
                 alwaysShowLabel = false,
-
-                )
+            )
         }
     }
 }
@@ -134,12 +128,25 @@ fun BottomNavigationBar(navController: NavController) {
 
 fun NavigationGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController, startDestination = BottomNavItem.Home.route, modifier = modifier) {
+        composable(BottomNavItem.Documents.route) {
+            DocumentPage()
+        }
 
-        composable(BottomNavItem.Documents.route) { DocumentPage() }
-        composable(BottomNavItem.Profile.route) { ProfilePage() }
-        composable(BottomNavItem.Home.route) { HomePage() }
-        composable(BottomNavItem.Settings.route) { SettingsPage() }
-        composable(BottomNavItem.Notifications.route) { NotificationPage() }
+        composable(BottomNavItem.Profile.route) {
+            ProfilePage()
+        }
+
+        composable(BottomNavItem.Home.route) {
+            HomePage()
+        }
+
+        composable(BottomNavItem.Settings.route) {
+            SettingsPage()
+        }
+
+        composable(BottomNavItem.Notifications.route) {
+            NotificationPage()
+        }
     }
 }
 
@@ -149,8 +156,6 @@ fun currentRoute(navController: NavController): String? {
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
     return navBackStackEntry?.destination?.route
 }
-
-
 
 // Individual pages
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -172,29 +177,25 @@ fun HomePage() {
                     .padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
-                // Column with vertical buttons
                 Column(
                     verticalArrangement = Arrangement.spacedBy(24.dp), // Space between buttons
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // First button (Blue)
                     ColorfulButton(
-                        color = Color.Blue,
-                        icon = R.drawable.ic_chess_horse,  // Replace with your icon
+                        color = Color(0xFF3b82f6),
+                        icon = R.drawable.home_train,
                         text = "Tren Åpninger"
                     )
 
-                    // Second button (Green)
                     ColorfulButton(
-                        color = Color.Green,
-                        icon = R.drawable.ic_play,  // Replace with your icon
+                        color = Color(0xFF22c55e),
+                        icon = R.drawable.home_play,
                         text = "Spill Nå"
                     )
 
-                    // Third button (Red)
                     ColorfulButton(
-                        color = Color.Red,
-                        icon = R.drawable.ic_reload,  // Replace with your icon
+                        color = Color(0xFFef4444),
+                        icon = R.drawable.home_history,
                         text = "Din Historikk"
                     )
                 }
@@ -207,10 +208,10 @@ fun HomePage() {
 fun ColorfulButton(color: Color, icon: Int, text: String) {
     Surface(
         modifier = Modifier
-            .size(width = 150.dp, height = 150.dp) // Adjust the size of the buttons
+            .size(width = 150.dp, height = 150.dp)
             .clickable { /* Handle click action */ },
         color = color,
-        shape = RoundedCornerShape(12.dp) // Rounded corners
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(
             modifier = Modifier
@@ -222,13 +223,13 @@ fun ColorfulButton(color: Color, icon: Int, text: String) {
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = text,
-                tint = Color.White, // White icon color
-                modifier = Modifier.size(48.dp) // Icon size
+                tint = Color.White,
+                modifier = Modifier.size(48.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = text,
-                color = Color.White, // White text color
+                color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
