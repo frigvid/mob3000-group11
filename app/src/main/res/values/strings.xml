@@ -1,3 +1,4 @@
 <resources>
+    <!-- This shouldn't be necessary to localize. -->
     <string name="app_name">Chess Buddy</string>
 </resources>

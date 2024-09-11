@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Documentation page. -->
+    <string name="documentation_title">Dokumentasjon</string>
+
+    <!-- News page. -->
+    <string name="news_title">Nyheter</string>
+
+    <!-- Home page. -->
+    <string name="home_title">Hjemmeside</string>
+    <string name="home_train_title">Tren Åpninger</string>
+    <string name="home_play_title">Spill Nå</string>
+    <string name="home_history_title">Din Historikk</string>
+
+    <!-- Profile page. -->
+    <string name="profile_title">Brukerprofil</string>
+
+    <!-- Settings page. -->
+    <string name="settings_title">Innstillinger</string>
+</resources>

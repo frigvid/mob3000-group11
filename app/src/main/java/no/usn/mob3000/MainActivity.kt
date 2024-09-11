@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import no.usn.mob3000.ui.theme.*;
@@ -164,7 +165,7 @@ fun HomePage() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Home Page") },
+                title = { Text(stringResource(R.string.home_title)) },
             )
         },
         content = { innerPadding ->
@@ -181,19 +182,19 @@ fun HomePage() {
                     ColorfulButton(
                         color = Color(0xFF3b82f6),
                         icon = R.drawable.home_train,
-                        text = "Tren Åpninger"
+                        text = stringResource(R.string.home_train_title)
                     )
 
                     ColorfulButton(
                         color = Color(0xFF22c55e),
                         icon = R.drawable.home_play,
-                        text = "Spill Nå"
+                        text = stringResource(R.string.home_play_title)
                     )
 
                     ColorfulButton(
                         color = Color(0xFFef4444),
                         icon = R.drawable.home_history,
-                        text = "Din Historikk"
+                        text = stringResource(R.string.home_history_title)
                     )
                 }
             }
@@ -240,7 +241,7 @@ fun ColorfulButton(color: Color, icon: Int, text: String) {
 fun DocumentPage() {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Documentation Page") })
+            TopAppBar(title = { Text(stringResource(R.string.documentation_title)) })
         },
         content = {}
     )
@@ -252,7 +253,7 @@ fun DocumentPage() {
 fun ProfilePage() {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Profile Page") })
+            TopAppBar(title = { Text(stringResource(R.string.profile_title)) })
         },
         content = {}
     )
@@ -264,7 +265,7 @@ fun ProfilePage() {
 fun SettingsPage() {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Settings Page") })
+            TopAppBar(title = { Text(stringResource(R.string.settings_title)) })
         },
         content = {}
     )
@@ -276,7 +277,7 @@ fun SettingsPage() {
 fun NotificationPage() {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Notifications Page") })
+            TopAppBar(title = { Text(stringResource(R.string.news_title)) })
         },
         content = {}
     )
