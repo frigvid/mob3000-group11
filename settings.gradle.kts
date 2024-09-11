@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "chess-buddy"
+rootProject.name = "mob3000"
 include(":app")
  
