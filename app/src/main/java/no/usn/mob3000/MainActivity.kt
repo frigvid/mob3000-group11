@@ -1,8 +1,3 @@
-/**
- * This is the main entry point of the application.
- *
- * @author Hussein Abdul-Ameer
- */
 package no.usn.mob3000
 
 import android.annotation.SuppressLint
@@ -39,6 +34,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
+/**
+ * Main activity file.
+ *
+ * @author Husseinabdulameer11, frigvid
+ * @created 2024-09-02
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
