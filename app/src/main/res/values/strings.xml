@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Chess Buddy</string>
     <string name="news_title">News</string>
+    <string name="docs_title">Documentation</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
