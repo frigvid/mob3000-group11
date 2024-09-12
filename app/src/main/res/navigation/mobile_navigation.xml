@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="no.usn.mob3000.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="@string/home_title"
         tools:layout="@layout/fragment_home" />
 
     <fragment

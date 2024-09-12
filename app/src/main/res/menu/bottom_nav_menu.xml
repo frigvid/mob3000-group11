@@ -12,8 +12,8 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:icon="@drawable/navbar_home"
+        android:title="@string/home_title" />
 
     <item
         android:id="@+id/navigation_dashboard"
