@@ -31,8 +31,7 @@ class DocsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         /* Initialize the ViewModel using ViewModelProvider. */
-        val docsViewModel =
-            ViewModelProvider(this)[DocsViewModel::class.java]
+        val docsViewModel = ViewModelProvider(this)[DocsViewModel::class.java]
 
         /* Inflate the layout for this fragment. */
         _binding = FragmentDocsBinding.inflate(inflater, container, false)

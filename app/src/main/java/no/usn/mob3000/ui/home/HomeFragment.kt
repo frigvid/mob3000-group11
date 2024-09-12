@@ -9,6 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import no.usn.mob3000.databinding.FragmentHomeBinding
 
+/**
+ * News fragment.
+ *
+ * @author frigvid
+ * @created 2024-09-11
+ */
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
 

@@ -54,8 +54,7 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         /* Initialize the ViewModel using ViewModelProvider. */
-        val newsViewModel =
-            ViewModelProvider(this)[NewsViewModel::class.java]
+        val newsViewModel = ViewModelProvider(this)[NewsViewModel::class.java]
 
         /* Inflate the layout for this fragment. */
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
