@@ -24,10 +24,16 @@ class MainActivity : AppCompatActivity() {
 
         /* Passing each menu ID as a set of Ids because each menu should be considered as top
          * level destinations.
+         *
+         * If a fragment is not defined here, but is in the navbar, you'll get a back arrow
+         * in the top left corner. It'll be non-functional though.
          */
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_news,
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_notifications
             )
         )
 
