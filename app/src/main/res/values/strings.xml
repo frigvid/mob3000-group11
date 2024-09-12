@@ -3,6 +3,4 @@
     <string name="news_title">News</string>
     <string name="docs_title">Documentation</string>
     <string name="home_title">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
 </resources>
