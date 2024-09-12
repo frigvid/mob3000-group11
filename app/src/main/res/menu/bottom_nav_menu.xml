@@ -19,4 +19,9 @@
         android:id="@+id/navigation_profile"
         android:icon="@drawable/navbar_profile"
         android:title="@string/profile_title" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/navbar_settings"
+        android:title="@string/settings_title" />
 </menu>

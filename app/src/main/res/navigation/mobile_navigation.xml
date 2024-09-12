@@ -27,4 +27,10 @@
         android:name="no.usn.mob3000.ui.profile.ProfileFragment"
         android:label="@string/profile_title"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="no.usn.mob3000.ui.settings.SettingsFragment"
+        android:label="@string/settings_title"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
