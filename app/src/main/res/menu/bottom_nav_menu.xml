@@ -14,4 +14,9 @@
         android:id="@+id/navigation_home"
         android:icon="@drawable/navbar_home"
         android:title="@string/home_title" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/navbar_profile"
+        android:title="@string/profile_title" />
 </menu>
