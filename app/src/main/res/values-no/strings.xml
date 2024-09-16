@@ -1,7 +1,20 @@
 <resources>
-    <string name="news_title">Nyheter</string>
+    <string name="app_name" translatable="false">Chess Buddy</string>
+    <!-- Documentation page. -->
     <string name="docs_title">Dokumentasjon</string>
+
+    <!-- News page. -->
+    <string name="news_title">Nyheter</string>
+
+    <!-- Home page. -->
     <string name="home_title">Hjem</string>
+    <string name="home_train_title">Tren Åpninger</string>
+    <string name="home_play_title">Spill Nå</string>
+    <string name="home_history_title">Din Historikk</string>
+
+    <!-- Profile page. -->
     <string name="profile_title">Brukerprofil</string>
+
+    <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>
 </resources>

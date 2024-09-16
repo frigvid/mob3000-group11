@@ -2,6 +2,10 @@ package no.usn.mob3000.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val DefaultBackground = Color(0xFFFFFBF3)
+val NavbarBackground = Color(0xFFA67F5A)
+val NavbarButtonSelected = Color(0xFF7F563B)
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)

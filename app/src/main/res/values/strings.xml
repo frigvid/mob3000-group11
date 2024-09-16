@@ -1,8 +1,20 @@
 <resources>
     <string name="app_name" translatable="false">Chess Buddy</string>
-    <string name="news_title">News</string>
+    <!-- Documentation page. -->
     <string name="docs_title">Documentation</string>
-    <string name="home_title">Home</string>
+
+    <!-- News page. -->
+    <string name="news_title">News</string>
+
+    <!-- Home page. -->
+    <string name="home_title">Home Page</string>
+    <string name="home_train_title">Train Openings</string>
+    <string name="home_play_title">Play Now</string>
+    <string name="home_history_title">Your History</string>
+
+    <!-- Profile page. -->
     <string name="profile_title">User profile</string>
+
+    <!-- Settings page. -->
     <string name="settings_title">Settings</string>
 </resources>

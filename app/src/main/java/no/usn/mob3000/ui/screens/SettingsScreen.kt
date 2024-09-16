@@ -6,10 +6,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import no.usn.mob3000.R
 
+/**
+ * @author frigvid
+ * @created 2024-09-12
+ */
 @Composable
 fun SettingsScreen() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Settings Screen")
+        Text(stringResource(R.string.settings_title))
     }
 }
