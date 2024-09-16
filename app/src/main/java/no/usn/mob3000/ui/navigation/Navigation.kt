@@ -53,7 +53,7 @@ fun Navigation() {
                 )
             }
         ) { innerPadding ->
-            NavbarHost(
+            NavHost(
                 navController = navController,
                 paddingValues = innerPadding
             )

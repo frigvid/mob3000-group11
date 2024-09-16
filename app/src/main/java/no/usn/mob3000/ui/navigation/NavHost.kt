@@ -18,7 +18,7 @@ import no.usn.mob3000.ui.screens.SettingsScreen
  * @created 2024-09-16
  */
 @Composable
-fun NavbarHost (
+fun NavHost (
     navController: NavHostController,
     paddingValues: PaddingValues
 ) {
