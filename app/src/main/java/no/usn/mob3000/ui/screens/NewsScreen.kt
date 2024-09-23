@@ -48,7 +48,7 @@ fun NewsScreen() {
                 color = colorResource(id = R.color.beige_1),
                 size = boxSize,
                 height = height,
-                onClick = { /* TODO: Implement Train action */ }
+                onClick = { /* TODO: Implement single-news-page */ }
             )
 
             NewsBox(
@@ -58,7 +58,7 @@ fun NewsScreen() {
                 color = colorResource(id = R.color.beige_1),
                 size = boxSize,
                 height = height,
-                onClick = { /* TODO: Implement Train action */ }
+                onClick = { /* TODO: Implement single-news-page */ }
             )
 
         }
