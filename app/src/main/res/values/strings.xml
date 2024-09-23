@@ -2,6 +2,11 @@
     <string name="app_name" translatable="false">Chess Buddy</string>
     <!-- Documentation page. -->
     <string name="docs_title">Documentation</string>
+    <string name="docs_faq_title">We also have a FAQ section</string>
+    <string name="docs_button">FAQ</string>
+    <string name="help_title">How to play with your friend</string>
+    <string name="help_description">Like for real</string>
+    <string name="help_body">You don\'t. For now.</string>
 
     <!-- News page. -->
     <string name="news_title">News</string>
