@@ -5,6 +5,12 @@
 
     <!-- News page. -->
     <string name="news_title">News</string>
+    <string name="niemann_intro">Can Hans Niemann really fit that buttplug?</string>
+    <string name="magnus_intro">What would Magnus do?</string>
+    <string name="niemann_report">"A new report delivered from the University of Montana reveals that mr Niemanns victory against the reigning champion Magnus Carlsen might not be cheating after all. Niemanns anus-circumference is estimated to be too small after an operation back in 2015 to fit such a communication object.    "</string>
+    <string name="magnus_report">"Magnus Carlsen was asked to review downfall of Runescape 3 and had no comment what so ever. Don't click here please "</string>
+    <string name="breaking_news">Breaking news</string>
+    <string name="shocking_news">Shocking news</string>
 
     <!-- Home page. -->
     <string name="home_title">Home Page</string>
@@ -17,4 +23,5 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
+
 </resources>

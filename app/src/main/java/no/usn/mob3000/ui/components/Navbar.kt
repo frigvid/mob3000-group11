@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -23,6 +24,7 @@ import no.usn.mob3000.ui.theme.NavbarButtonSelected
  * @author frigvid
  * @created 2024-09-16
  */
+
 @Composable
 fun Navbar(
     navController: NavController,
