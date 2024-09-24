@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">Chess Buddy</string>
     <!-- Documentation page. -->
     <string name="docs_title">Dokumentasjon</string>
+    <string name="faq_title">FAQ</string>
 
     <!-- News page. -->
     <string name="news_title">Nyheter</string>
@@ -17,4 +18,20 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>
+
+    <!-- Openings/groups page. -->
+    <string name="openings_title">Åpninger</string>
+    <string name="groups_title">Grupper</string>
+
+    <!-- Play now page. -->
+    <string name="play_title">Spill</string>
+
+    <!-- Your history page. -->
+    <string name="history_title">Historikk</string>
+
+    <!-- Authentication related -->
+    <string name="auth_login_title">Innlogging</string>
+    <string name="auth_createUser_title">Lag brukerkonto</string>
+    <string name="auth_forgotPassword_title">Glemt passord</string>
+    <string name="auth_resetPassword_title">Nullstill passord</string>
 </resources>

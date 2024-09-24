@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens
+package no.usn.mob3000.ui.screens.info
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
