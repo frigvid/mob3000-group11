@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name" translatable="false">Chess Buddy</string>
+    <!-- Documentation page. -->
+    <string name="docs_title">Dokumentasjon</string>
+    <string name="faq_title">FAQ</string>
+
+    <!-- News page. -->
+    <string name="news_title">Nyheter</string>
+
+    <!-- Home page. -->
+    <string name="home_title">Hjem</string>
+    <string name="home_train_title">Tren Åpninger</string>
+    <string name="home_play_title">Spill Nå</string>
+    <string name="home_history_title">Din Historikk</string>
+
+    <!-- Profile page. -->
+    <string name="profile_title">Brukerprofil</string>
+
+    <!-- Settings page. -->
+    <string name="settings_title">Innstillinger</string>
+
+    <!-- Openings/groups page. -->
+    <string name="openings_title">Åpninger</string>
+    <string name="groups_title">Grupper</string>
+
+    <!-- Play now page. -->
+    <string name="play_title">Spill</string>
+
+    <!-- Your history page. -->
+    <string name="history_title">Historikk</string>
+
+    <!-- Authentication related -->
+    <string name="auth_login_title">Innlogging</string>
+    <string name="auth_createUser_title">Lag brukerkonto</string>
+    <string name="auth_forgotPassword_title">Glemt passord</string>
+    <string name="auth_resetPassword_title">Nullstill passord</string>
+</resources>

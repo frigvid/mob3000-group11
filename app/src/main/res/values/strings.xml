@@ -1,3 +1,37 @@
 <resources>
-    <string name="app_name">chess-buddy</string>
+    <string name="app_name" translatable="false">Chess Buddy</string>
+    <!-- Documentation/FAQ page. -->
+    <string name="docs_title">Documentation</string>
+    <string name="faq_title">FAQ</string>
+
+    <!-- News page. -->
+    <string name="news_title">News</string>
+
+    <!-- Home page. -->
+    <string name="home_title">Home Page</string>
+    <string name="home_train_title">Train Openings</string>
+    <string name="home_play_title">Play Now</string>
+    <string name="home_history_title">Your History</string>
+
+    <!-- Profile page. -->
+    <string name="profile_title">User profile</string>
+
+    <!-- Settings page. -->
+    <string name="settings_title">Settings</string>
+
+    <!-- Openings/groups page. -->
+    <string name="openings_title">Openings</string>
+    <string name="groups_title">Groups</string>
+
+    <!-- Play now page. -->
+    <string name="play_title">Play</string>
+
+    <!-- Your history page. -->
+    <string name="history_title">History</string>
+
+    <!-- Authentication related -->
+    <string name="auth_login_title">Login</string>
+    <string name="auth_createUser_title">Create user</string>
+    <string name="auth_forgotPassword_title">Forgot password</string>
+    <string name="auth_resetPassword_title">Reset password</string>
 </resources>
