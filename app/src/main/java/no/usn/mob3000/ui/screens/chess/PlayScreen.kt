@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens
+package no.usn.mob3000.ui.screens.chess
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,12 +10,15 @@ import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 
 /**
+ * This is the chessboard page, where users can free-play against an AI or
+ * fellow physically near player. (Local multiplayer, in other words).
+ *
  * @author frigvid
- * @created 2024-09-12
+ * @created 2024-09-24
  */
 @Composable
-fun DocumentationScreen() {
+fun PlayScreen() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(stringResource(R.string.docs_title))
+        Text(stringResource(R.string.play_title))
     }
 }

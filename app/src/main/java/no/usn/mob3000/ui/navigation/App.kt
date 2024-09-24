@@ -35,12 +35,20 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.R
-import no.usn.mob3000.ui.screens.DocumentationScreen
+import no.usn.mob3000.ui.screens.info.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
-import no.usn.mob3000.ui.screens.NewsScreen
+import no.usn.mob3000.ui.screens.info.NewsScreen
 import no.usn.mob3000.ui.screens.ProfileScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
-import no.usn.mob3000.ui.screens.train.OpeningsScreen
+import no.usn.mob3000.ui.screens.auth.CreateUserScreen
+import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
+import no.usn.mob3000.ui.screens.auth.LoginScreen
+import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
+import no.usn.mob3000.ui.screens.chess.HistoryScreen
+import no.usn.mob3000.ui.screens.chess.PlayScreen
+import no.usn.mob3000.ui.screens.info.FAQScreen
+import no.usn.mob3000.ui.screens.chess.train.GroupsScreen
+import no.usn.mob3000.ui.screens.chess.train.OpeningsScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
@@ -135,33 +143,26 @@ fun App(
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
-            composable(route = Screen.DOCUMENTATION.name) {
-                DocumentationScreen()
-            }
-
-            composable(route = Screen.NEWS.name) {
-                NewsScreen()
-            }
-
+            composable(route = Screen.DOCUMENTATION.name) { DocumentationScreen() }
+            composable(route = Screen.FAQ.name) { FAQScreen() }
+            composable(route = Screen.NEWS.name) { NewsScreen() }
             composable(route = Screen.HOME.name) {
                 HomeScreen(
                     onTrainClick = { navController.navigate(Screen.OPENINGS.name) },
-                    onPlayClick =  { navController.navigate(Screen.OPENINGS.name) },
-                    onHistoryClick =  { navController.navigate(Screen.OPENINGS.name) }
+                    onPlayClick =  { navController.navigate(Screen.PLAY.name) },
+                    onHistoryClick =  { navController.navigate(Screen.HISTORY.name) }
                 )
             }
-
-            composable(route = Screen.PROFILE.name) {
-                ProfileScreen()
-            }
-
-            composable(route = Screen.SETTINGS.name) {
-                SettingsScreen()
-            }
-
-            composable(route = Screen.OPENINGS.name) {
-                OpeningsScreen()
-            }
+            composable(route = Screen.OPENINGS.name) { OpeningsScreen() }
+            composable(route = Screen.GROUPS.name) { GroupsScreen() }
+            composable(route = Screen.PLAY.name) { PlayScreen() }
+            composable(route = Screen.HISTORY.name) { HistoryScreen() }
+            composable(route = Screen.PROFILE.name) { ProfileScreen() }
+            composable(route = Screen.SETTINGS.name) { SettingsScreen() }
+            composable(route = Screen.AUTH_LOGIN.name) { LoginScreen() }
+            composable(route = Screen.AUTH_CREATE.name) { CreateUserScreen() }
+            composable(route = Screen.AUTH_FORGOT.name) { ForgotPasswordScreen() }
+            composable(route = Screen.AUTH_RESET.name) { ResetPasswordScreen() }
         }
     }
 }
@@ -176,11 +177,19 @@ fun App(
  */
 enum class Screen(@StringRes val title: Int, val icon: Icon?) {
     DOCUMENTATION(title = R.string.docs_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_documentation)),
+    FAQ(title = R.string.faq_title, icon = null),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),
-    OPENINGS(title = R.string.openings_title, icon = null)
+    OPENINGS(title = R.string.openings_title, icon = null),
+    GROUPS(title = R.string.groups_title, icon = null),
+    PLAY(title = R.string.home_play_title, icon = null),
+    HISTORY(title = R.string.home_history_title, icon = null),
+    AUTH_LOGIN(title = R.string.auth_login_title, icon = null),
+    AUTH_CREATE(title = R.string.auth_createUser_title, icon = null),
+    AUTH_FORGOT(title = R.string.auth_forgotPassword_title, icon = null),
+    AUTH_RESET(title = R.string.auth_resetPassword_title, icon = null)
 }
 
 /**
