@@ -236,6 +236,8 @@ fun TopNavbar(
  * Similarly to the Icon class, this function serves the purpose of actually
  * returning the correct type of Icon so it can be drawn to the compositor.
  *
+ * @param icon Either an ImageVector or Drawable resource from the Icon class.
+ * @param modifier Any modifiers, as necessary.
  * @author frigvid
  * @created 2024-09-16
  */
