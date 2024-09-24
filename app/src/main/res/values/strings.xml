@@ -17,4 +17,7 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
+
+    <!-- Openings page. -->
+    <string name="openings_title">Openings</string>
 </resources>
