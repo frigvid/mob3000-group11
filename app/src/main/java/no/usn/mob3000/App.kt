@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.navigation
+package no.usn.mob3000
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -34,7 +34,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import no.usn.mob3000.R
 import no.usn.mob3000.ui.screens.info.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.info.NewsScreen
