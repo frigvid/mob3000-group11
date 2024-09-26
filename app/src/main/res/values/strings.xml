@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Chess Buddy</string>
-    <!-- Documentation page. -->
+    <!-- Documentation/FAQ page. -->
     <string name="docs_title">Documentation</string>
+    <string name="faq_title">FAQ</string>
 
     <!-- News page. -->
     <string name="news_title">News</string>
@@ -17,4 +18,20 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
+
+    <!-- Openings/groups page. -->
+    <string name="openings_title">Openings</string>
+    <string name="groups_title">Groups</string>
+
+    <!-- Play now page. -->
+    <string name="play_title">Play</string>
+
+    <!-- Your history page. -->
+    <string name="history_title">History</string>
+
+    <!-- Authentication related -->
+    <string name="auth_login_title">Login</string>
+    <string name="auth_createUser_title">Create user</string>
+    <string name="auth_forgotPassword_title">Forgot password</string>
+    <string name="auth_resetPassword_title">Reset password</string>
 </resources>

@@ -19,7 +19,12 @@ import no.usn.mob3000.R
  * @created 2024-09-12
  */
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onTrainClick: () -> Unit,
+    onPlayClick: () -> Unit,
+    onHistoryClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val buttonSize = (screenWidth * 0.4f).coerceAtMost(192.dp)
@@ -37,21 +42,21 @@ fun HomeScreen() {
                 icon = R.drawable.home_train,
                 color = Color(0xFF3B82F6),
                 size = buttonSize,
-                onClick = { /* TODO: Implement Train action */ }
+                onClick = onTrainClick
             )
             HomePageButton(
                 text = stringResource(R.string.home_play_title),
                 icon = R.drawable.home_play,
                 color = Color(0xFF22C55E),
                 size = buttonSize,
-                onClick = { /* TODO: Implement Play action */ }
+                onClick = onPlayClick
             )
             HomePageButton(
                 text = stringResource(R.string.home_history_title),
                 icon = R.drawable.home_history,
                 color = Color(0xFFEF4444),
                 size = buttonSize,
-                onClick = { /* TODO: Implement History action */ }
+                onClick = onHistoryClick
             )
         }
     }
