@@ -156,7 +156,11 @@ fun App(
             composable(route = Screen.GROUPS.name) { GroupsScreen() }
             composable(route = Screen.PLAY.name) { PlayScreen() }
             composable(route = Screen.HISTORY.name) { HistoryScreen() }
-            composable(route = Screen.PROFILE.name) { ProfileScreen() }
+            composable(route = Screen.PROFILE.name) {
+                ProfileScreen(
+                    onLoginClick = { navController.navigate(Screen.AUTH_LOGIN.name) }
+                )
+            }
             composable(route = Screen.SETTINGS.name) { SettingsScreen() }
             composable(route = Screen.AUTH_LOGIN.name) { LoginScreen() }
             composable(route = Screen.AUTH_CREATE.name) { CreateUserScreen() }

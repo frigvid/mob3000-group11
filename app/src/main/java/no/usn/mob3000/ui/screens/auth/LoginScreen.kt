@@ -33,7 +33,7 @@ import no.usn.mob3000.R
  * @created 2024-09-30
  */
 @Composable
-fun LoginScreen(onLogin: () -> Unit) {
+fun LoginScreen(/*onLogin: () -> Unit*/) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -72,7 +72,7 @@ fun LoginScreen(onLogin: () -> Unit) {
 
             // Logg in button
             Button(
-                onClick = { onLogin() },
+                onClick = { /*onLogin()*/ },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Log In")
@@ -82,7 +82,7 @@ fun LoginScreen(onLogin: () -> Unit) {
 
             // Gjestebruker knapp
             Button(
-                onClick = { onLogin() },
+                onClick = { /*onLogin()*/ },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Log in as guest")
