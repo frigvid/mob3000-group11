@@ -162,7 +162,9 @@ fun App(
                 )
             }
             composable(route = Screen.SETTINGS.name) { SettingsScreen() }
-            composable(route = Screen.AUTH_LOGIN.name) { LoginScreen() }
+            composable(route = Screen.AUTH_LOGIN.name) { LoginScreen(
+                onLogin = { navController.navigate(Screen.HOME.name)}
+            ) }
             composable(route = Screen.AUTH_CREATE.name) { CreateUserScreen() }
             composable(route = Screen.AUTH_FORGOT.name) { ForgotPasswordScreen() }
             composable(route = Screen.AUTH_RESET.name) { ResetPasswordScreen() }
