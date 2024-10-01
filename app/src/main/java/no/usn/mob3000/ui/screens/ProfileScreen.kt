@@ -49,12 +49,12 @@ fun ProfileScreen() {
             Button(
                 onClick = { /* Handle login logic here */ },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = NavbarBackground, // Bruk fargen fra Color.kt
-                    contentColor = Color.White  // Tekstfarge
+                    containerColor = NavbarBackground,
+                    contentColor = Color.White
                 ),
                 modifier = Modifier
                     .padding(top = 16.dp)
-                    .wrapContentWidth() // Tilpasser bredden til innholdet
+                    .wrapContentWidth()
             ) {
                 Text("Login")
             }
