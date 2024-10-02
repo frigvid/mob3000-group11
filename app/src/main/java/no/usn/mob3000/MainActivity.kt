@@ -13,16 +13,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ChessbuddyTheme {
-                App()
-                /*
-                Surface(
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    App()
-                }
-                */
-            }
+            ChessbuddyTheme { App() }
         }
     }
 }

@@ -6,8 +6,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
+import no.usn.mob3000.Viewport
 
 /**
  * This shows the various chess opening groups that have been created by the active user.
@@ -22,9 +37,28 @@ import no.usn.mob3000.R
  * @author frigvid
  * @created 2024-09-24
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupsScreen() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(stringResource(R.string.groups_title))
+fun GroupsScreen(
+    onCreateGroupClick: () -> Unit,
+    onReturnToOpeningClick: () -> Unit
+) {
+    Viewport (
+        floatingActionButton = {
+            FloatingActionButton(onClick = onCreateGroupClick) {
+                Icon(Icons.Default.Add, contentDescription = "Create Groups")
+            }
+        },
+        topBarActions = {
+            IconButton(onClick = onReturnToOpeningClick) {
+                Icon(Icons.Default.Close, contentDescription = "Return to Openings")
+            }
+        }
+    ) { innerPadding ->
+        Box (
+            Modifier.padding(innerPadding)
+        ) {
+
+        }
     }
 }
