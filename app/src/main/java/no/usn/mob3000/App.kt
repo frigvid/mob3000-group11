@@ -159,11 +159,14 @@ fun App(
             composable(route = Destination.PLAY.name) { PlayScreen() }
             composable(route = Destination.HISTORY.name) { HistoryScreen() }
             composable(route = Destination.PROFILE.name) { /* ProfileScreen() */ LoginScreen(
-                onLogin = { navController.navigate(Destination.HOME.name)}
+                onLogin = { navController.navigate(Destination.HOME.name)},
+                onForgot = { navController.navigate(Destination.AUTH_FORGOT.name) }
+
             ) }
             composable(route = Destination.SETTINGS.name) { SettingsScreen() }
             composable(route = Destination.AUTH_LOGIN.name) { LoginScreen(
-                onLogin = { navController.navigate(Destination.HOME.name) }
+                onLogin = { navController.navigate(Destination.HOME.name) },
+                onForgot = { navController.navigate(Destination.AUTH_FORGOT.name) }
             ) }
             composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }
             composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
