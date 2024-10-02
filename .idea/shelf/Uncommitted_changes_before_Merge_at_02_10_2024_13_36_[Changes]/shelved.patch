@@ -1,0 +1,111 @@
+Index: app/src/main/java/no/usn/mob3000/ui/screens/auth/LoginScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package no.usn.mob3000.ui.screens.auth\r\n\r\nimport androidx.compose.foundation.layout.Box\r\nimport androidx.compose.foundation.layout.Column\r\nimport androidx.compose.foundation.layout.Spacer\r\nimport androidx.compose.foundation.layout.fillMaxSize\r\nimport androidx.compose.foundation.layout.fillMaxWidth\r\nimport androidx.compose.foundation.layout.height\r\nimport androidx.compose.foundation.layout.padding\r\nimport androidx.compose.material3.Button\r\nimport androidx.compose.material3.Text\r\nimport androidx.compose.material3.TextField\r\nimport androidx.compose.runtime.Composable\r\nimport androidx.compose.runtime.getValue\r\nimport androidx.compose.runtime.mutableStateOf\r\nimport androidx.compose.runtime.remember\r\nimport androidx.compose.runtime.setValue\r\nimport androidx.compose.ui.Alignment\r\nimport androidx.compose.ui.Modifier\r\nimport androidx.compose.ui.res.stringResource\r\nimport androidx.compose.ui.unit.dp\r\nimport no.usn.mob3000.R\r\n\r\n\r\n\r\n/**\r\n * This is the login screen for authorization to an account\r\n * as well as an option for logging in with a guest account.\r\n *\r\n * @see ForgotPasswordScreen\r\n * @see ResetPasswordScreen\r\n * @author Anarox\r\n * @created 2024-09-30\r\n */\r\n@Composable\r\nfun LoginScreen(onLogin: () -> Unit) {\r\n    var username by remember { mutableStateOf(\"\") }\r\n    var password by remember { mutableStateOf(\"\") }\r\n\r\n    Box(\r\n        modifier = Modifier.fillMaxSize(),\r\n        contentAlignment = Alignment.Center\r\n    ) {\r\n        Column(\r\n            modifier = Modifier.padding(16.dp),\r\n            horizontalAlignment = Alignment.CenterHorizontally\r\n        ) {\r\n            // Title\r\n            Text(text = stringResource(R.string.auth_login_title))\r\n\r\n            Spacer(modifier = Modifier.height(16.dp))\r\n\r\n            // Username input\r\n            TextField(\r\n                value = username,\r\n                onValueChange = { username = it },\r\n                label = { Text(\"Brukernavn\") },\r\n                modifier = Modifier.fillMaxWidth()\r\n            )\r\n\r\n            Spacer(modifier = Modifier.height(16.dp))\r\n\r\n            // Password input\r\n            TextField(\r\n                value = password,\r\n                onValueChange = { password = it },\r\n                label = { Text(\"Passord\") },\r\n                modifier = Modifier.fillMaxWidth()\r\n            )\r\n\r\n            Spacer(modifier = Modifier.height(24.dp))\r\n\r\n            // Logg in button\r\n            Button(\r\n                onClick = { onLogin() },\r\n                modifier = Modifier.fillMaxWidth()\r\n            ) {\r\n                Text(\"Log In\")\r\n            }\r\n\r\n            Spacer(modifier = Modifier.height(16.dp))\r\n\r\n            // Gjestebruker knapp\r\n            Button(\r\n                onClick = { onLogin() },\r\n                modifier = Modifier.fillMaxWidth()\r\n            ) {\r\n                Text(\"Log in as guest\")\r\n            }\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/no/usn/mob3000/ui/screens/auth/LoginScreen.kt b/app/src/main/java/no/usn/mob3000/ui/screens/auth/LoginScreen.kt
+--- a/app/src/main/java/no/usn/mob3000/ui/screens/auth/LoginScreen.kt	(revision 8f2ae783f4b69e26152785c1607f812be552d2b9)
++++ b/app/src/main/java/no/usn/mob3000/ui/screens/auth/LoginScreen.kt	(date 1727868984257)
+@@ -37,55 +37,59 @@
+     var username by remember { mutableStateOf("") }
+     var password by remember { mutableStateOf("") }
+ 
+-    Box(
+-        modifier = Modifier.fillMaxSize(),
+-        contentAlignment = Alignment.Center
+-    ) {
+-        Column(
+-            modifier = Modifier.padding(16.dp),
+-            horizontalAlignment = Alignment.CenterHorizontally
+-        ) {
+-            // Title
+-            Text(text = stringResource(R.string.auth_login_title))
++    Viewport { innerPadding ->
++        Box(
++            modifier = Modifier
++                .fillMaxSize()
++                .padding(innerPadding),
++            contentAlignment = Alignment.Center
++        ) {
++            Column(
++                modifier = Modifier.padding(16.dp),
++                horizontalAlignment = Alignment.CenterHorizontally
++            ) {
++                // Title
++                Text(text = stringResource(R.string.auth_login_title))
+ 
+-            Spacer(modifier = Modifier.height(16.dp))
++                Spacer(modifier = Modifier.height(16.dp))
+ 
+-            // Username input
+-            TextField(
+-                value = username,
+-                onValueChange = { username = it },
+-                label = { Text("Brukernavn") },
+-                modifier = Modifier.fillMaxWidth()
+-            )
++                // Username input
++                TextField(
++                    value = username,
++                    onValueChange = { username = it },
++                    label = { Text("Brukernavn") },
++                    modifier = Modifier.fillMaxWidth()
++                )
+ 
+-            Spacer(modifier = Modifier.height(16.dp))
++                Spacer(modifier = Modifier.height(16.dp))
+ 
+-            // Password input
+-            TextField(
+-                value = password,
+-                onValueChange = { password = it },
+-                label = { Text("Passord") },
+-                modifier = Modifier.fillMaxWidth()
+-            )
++                // Password input
++                TextField(
++                    value = password,
++                    onValueChange = { password = it },
++                    label = { Text("Passord") },
++                    modifier = Modifier.fillMaxWidth()
++                )
+ 
+-            Spacer(modifier = Modifier.height(24.dp))
++                Spacer(modifier = Modifier.height(24.dp))
+ 
+-            // Logg in button
+-            Button(
+-                onClick = { onLogin() },
+-                modifier = Modifier.fillMaxWidth()
+-            ) {
+-                Text("Log In")
+-            }
++                // Logg in button
++                Button(
++                    onClick = { onLogin() },
++                    modifier = Modifier.fillMaxWidth()
++                ) {
++                    Text("Log In")
++                }
+ 
+-            Spacer(modifier = Modifier.height(16.dp))
++                Spacer(modifier = Modifier.height(16.dp))
+ 
+-            // Gjestebruker knapp
+-            Button(
+-                onClick = { onLogin() },
+-                modifier = Modifier.fillMaxWidth()
+-            ) {
+-                Text("Log in as guest")
++                // Gjestebruker knapp
++                Button(
++                    onClick = { onLogin() },
++                    modifier = Modifier.fillMaxWidth()
++                ) {
++                    Text("Log in as guest")
++                }
+             }
+         }
+     }

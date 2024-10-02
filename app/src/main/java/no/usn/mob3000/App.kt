@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -118,7 +119,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * @see Viewport
  * @see ScreenIcon
  * @see Icon
- * @author frigvid
+ * @author Anarox
  * @created 2024-09-24
  */
 @Composable
@@ -157,9 +158,13 @@ fun App(
             composable(route = Destination.GROUPS_CREATE.name) { CreateGroupScreen() }
             composable(route = Destination.PLAY.name) { PlayScreen() }
             composable(route = Destination.HISTORY.name) { HistoryScreen() }
-            composable(route = Destination.PROFILE.name) { ProfileScreen() }
+            composable(route = Destination.PROFILE.name) { /* ProfileScreen() */ LoginScreen(
+                onLogin = { navController.navigate(Destination.HOME.name)}
+            ) }
             composable(route = Destination.SETTINGS.name) { SettingsScreen() }
-            composable(route = Destination.AUTH_LOGIN.name) { LoginScreen() }
+            composable(route = Destination.AUTH_LOGIN.name) { LoginScreen(
+                onLogin = { navController.navigate(Destination.HOME.name) }
+            ) }
             composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }
             composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
             composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen() }
