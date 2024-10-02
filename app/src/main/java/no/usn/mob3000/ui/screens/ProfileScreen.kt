@@ -11,8 +11,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
-import no.usn.mob3000.ui.theme.NavbarBackground // Importer fargen
+import no.usn.mob3000.ui.theme.NavbarBackground
 
+/**
+ * @author markus
+**/
 @Composable
 fun ProfileScreen() {
     var username by remember { mutableStateOf("") }
@@ -45,7 +48,7 @@ fun ProfileScreen() {
                 modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
             )
 
-            // Login button with customized colors and smaller width
+            // Login button with customized colors and width
             Button(
                 onClick = { /* Handle login logic here */ },
                 colors = ButtonDefaults.buttonColors(
