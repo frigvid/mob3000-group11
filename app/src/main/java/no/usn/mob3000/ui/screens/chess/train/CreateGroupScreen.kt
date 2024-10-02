@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.auth
+package no.usn.mob3000.ui.screens.chess.train
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,24 +11,15 @@ import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 
-/**
- * This is the chessboard page, where users can free-play against an AI or
- * fellow physically near player. (Local multiplayer, in other words).
- *
- * @see LoginScreen
- * @see ResetPasswordScreen
- * @author frigvid
- * @created 2024-09-24
- */
 @Composable
-fun ForgotPasswordScreen() {
+fun CreateGroupScreen() {
     Viewport { innerPadding ->
         Box(
             modifier = Modifier.fillMaxSize()
                                .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
-            Text(stringResource(R.string.auth_forgotPassword_title))
+            Text("Create group screen. Stub.")
         }
     }
 }
