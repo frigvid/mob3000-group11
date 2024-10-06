@@ -64,7 +64,7 @@ fun LoginScreen(
                 TextField(
                     value = username,
                     onValueChange = { username = it },
-                    label = { Text("Brukernavn") },
+                    label = { Text("Username") },
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -74,7 +74,7 @@ fun LoginScreen(
                 TextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Passord") },
+                    label = { Text("Password") },
                     modifier = Modifier.fillMaxWidth()
                 )
 

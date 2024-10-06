@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
  *
  * @see LoginScreen
  * @see ResetPasswordScreen
- * @author frigvid
+ * @author Anarox, frigvid
  * @created 2024-09-24
  */
 @Composable
