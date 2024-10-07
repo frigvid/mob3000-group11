@@ -1,6 +1,12 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.secrets.gradle.plugin)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+secrets {
+    propertiesFileName = ".env.local"
 }
 
 android {
@@ -18,6 +24,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "NEXT_PUBLIC_SUPABASE_URL", "\"${findProperty("NEXT_PUBLIC_SUPABASE_URL") ?: ""}\"")
+        buildConfigField("String", "NEXT_PUBLIC_SUPABASE_ANON_KEY", "\"${findProperty("NEXT_PUBLIC_SUPABASE_ANON_KEY") ?: ""}\"")
     }
 
     buildTypes {
@@ -38,6 +47,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
@@ -59,6 +69,8 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.navigation.compose)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.kotlinx.serialization.json)
 
     // Supabase package/modules.
     // See: https://supabase.com/docs/reference/kotlin/installing
