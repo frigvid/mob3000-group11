@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import no.usn.mob3000.ui.theme.ChessbuddyTheme
 import no.usn.mob3000.data.SecureEnvManager
+import no.usn.mob3000.data.SupabaseClientWrapper
 
 /**
  * @author frigvid
@@ -13,6 +14,7 @@ import no.usn.mob3000.data.SecureEnvManager
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         SecureEnvManager.initializeEnvVariables(applicationContext)
+        SupabaseClientWrapper.initialize(applicationContext)
 
         super.onCreate(savedInstanceState)
         setContent {
