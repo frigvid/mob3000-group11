@@ -35,6 +35,7 @@ import no.usn.mob3000.Viewport
  * @see ForgotPasswordScreen
  * @see ResetPasswordScreen
  * @author Anarox
+ * @Contributor Markus
  * @created 2024-09-30
  */
 @Composable

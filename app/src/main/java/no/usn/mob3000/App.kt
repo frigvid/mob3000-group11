@@ -120,6 +120,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * @see ScreenIcon
  * @see Icon
  * @author Anarox
+ * @Contributor Markus
  * @created 2024-09-24
  */
 @Composable
@@ -175,8 +176,12 @@ fun App(
                 onSignIn = { navController.navigate(Destination.HOME.name) },
                 onLogin = { navController.navigate(Destination. AUTH_LOGIN.name) }
             ) }
-            composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
-            composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen() }
+            composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen(
+                onResetPassword = { navController.navigate(Destination.AUTH_RESET.name) }
+            ) }
+            composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen(
+                onReset = { navController.navigate(Destination.HOME.name) },
+            ) }
         }
     }
 }

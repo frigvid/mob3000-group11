@@ -94,6 +94,7 @@ fun CreateUserScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Confirm password
                 TextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },

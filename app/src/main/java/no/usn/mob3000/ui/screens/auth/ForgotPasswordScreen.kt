@@ -32,7 +32,9 @@ import androidx.compose.ui.unit.sp
  * @created 2024-09-24
  */
 @Composable
-fun ForgotPasswordScreen() {
+fun ForgotPasswordScreen(
+    onResetPassword: () -> Unit
+) {
     Viewport { innerPadding ->
         Box(
             modifier = Modifier
@@ -59,13 +61,13 @@ fun ForgotPasswordScreen() {
                     onValueChange = { email = it },
                     placeholder = { Text("Your email") },
                     label = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth(0.8f)
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = {},
+                    onClick = { onResetPassword () },
 //                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Reset password")
