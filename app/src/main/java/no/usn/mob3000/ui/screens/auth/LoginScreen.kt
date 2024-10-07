@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
@@ -39,7 +40,8 @@ import no.usn.mob3000.Viewport
 @Composable
 fun LoginScreen(
     onLogin: () -> Unit,
-    onForgot: () -> Unit
+    onForgot: () -> Unit,
+    onCreateUser: () -> Unit
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -75,10 +77,24 @@ fun LoginScreen(
                     value = password,
                     onValueChange = { password = it },
                     label = { Text("Password") },
+                    visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(10.dp))
+
+                // Sign in
+                Text(
+                    text = "Or sign in",
+                    color = Color(0xFF7F563B),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        textDecoration = TextDecoration.Underline
+                    ),
+                    modifier = Modifier.clickable {
+                        onCreateUser()
+                    })
+
+                Spacer(modifier = Modifier.height(10.dp))
 
                 // Logg in button
                 Button(
@@ -87,8 +103,6 @@ fun LoginScreen(
                 ) {
                     Text("Log In")
                 }
-
-                Spacer(modifier = Modifier.height(16.dp))
 
                 // Gjestebruker knapp
                 Button(
@@ -106,7 +120,7 @@ fun LoginScreen(
                     color = Color(0xFF7F563B),
                     style = MaterialTheme.typography.bodyMedium.copy(
                         textDecoration = TextDecoration.Underline
-                ),
+                    ),
                     modifier = Modifier.clickable {
                         onForgot()
                     })
