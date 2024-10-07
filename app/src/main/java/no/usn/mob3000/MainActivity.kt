@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import no.usn.mob3000.ui.theme.ChessbuddyTheme
+import no.usn.mob3000.data.SecureEnvManager
 
 /**
  * @author frigvid
@@ -11,6 +12,8 @@ import no.usn.mob3000.ui.theme.ChessbuddyTheme
  */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        SecureEnvManager.initializeEnvVariables(applicationContext)
+
         super.onCreate(savedInstanceState)
         setContent {
             ChessbuddyTheme {
