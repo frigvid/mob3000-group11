@@ -16,16 +16,7 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            ChessbuddyTheme {
-                App()
-                /*
-                Surface(
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    App()
-                }
-                */
-            }
+            ChessbuddyTheme { App() }
         }
     }
 }
