@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
+import no.usn.mob3000.Viewport
 
 /**
  * @author frigvid
@@ -30,35 +31,38 @@ fun HomeScreen(
     val screenWidth = configuration.screenWidthDp.dp
     val buttonSize = (screenWidth * 0.4f).coerceAtMost(192.dp)
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+    Viewport { innerPadding ->
+        Box(
+            modifier = Modifier.fillMaxSize()
+                               .padding(innerPadding),
+            contentAlignment = Alignment.Center
         ) {
-            HomePageButton(
-                text = stringResource(R.string.home_train_title),
-                icon = R.drawable.home_train,
-                color = Color(0xFF3B82F6),
-                size = buttonSize,
-                onClick = onTrainClick
-            )
-            HomePageButton(
-                text = stringResource(R.string.home_play_title),
-                icon = R.drawable.home_play,
-                color = Color(0xFF22C55E),
-                size = buttonSize,
-                onClick = onPlayClick
-            )
-            HomePageButton(
-                text = stringResource(R.string.home_history_title),
-                icon = R.drawable.home_history,
-                color = Color(0xFFEF4444),
-                size = buttonSize,
-                onClick = onHistoryClick
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                HomePageButton(
+                    text = stringResource(R.string.home_train_title),
+                    icon = R.drawable.home_train,
+                    color = Color(0xFF3B82F6),
+                    size = buttonSize,
+                    onClick = onTrainClick
+                )
+                HomePageButton(
+                    text = stringResource(R.string.home_play_title),
+                    icon = R.drawable.home_play,
+                    color = Color(0xFF22C55E),
+                    size = buttonSize,
+                    onClick = onPlayClick
+                )
+                HomePageButton(
+                    text = stringResource(R.string.home_history_title),
+                    icon = R.drawable.home_history,
+                    color = Color(0xFFEF4444),
+                    size = buttonSize,
+                    onClick = onHistoryClick
+                )
+            }
         }
     }
 }

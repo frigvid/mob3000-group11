@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
+import no.usn.mob3000.Viewport
 
 /**
  * @author 258030, Eirik

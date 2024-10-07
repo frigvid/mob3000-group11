@@ -22,6 +22,8 @@
     <!-- Openings/groups page. -->
     <string name="openings_title">Åpninger</string>
     <string name="groups_title">Grupper</string>
+    <string name="openings_create_title">ÅpningLagingStub</string>
+    <string name="groups_create_title">GruppeLagingStub</string>
 
     <!-- Play now page. -->
     <string name="play_title">Spill</string>

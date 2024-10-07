@@ -33,6 +33,8 @@
     <!-- Openings/groups page. -->
     <string name="openings_title">Openings</string>
     <string name="groups_title">Groups</string>
+    <string name="openings_create_title">OpeningsCreateStub</string>
+    <string name="groups_create_title">GroupsCreateStub</string>
 
     <!-- Play now page. -->
     <string name="play_title">Play</string>
