@@ -24,6 +24,12 @@
     <string name="groups_title">Grupper</string>
     <string name="openings_create_title">ÅpningLagingStub</string>
     <string name="groups_create_title">GruppeLagingStub</string>
+    <string name="opening_details">Åpningsdetaljer</string>
+
+    <!-- Opening details page. -->
+    <string name="opening_details_description">Beskrivelse</string>
+    <string name="opening_details_moves">Trekk</string>
+    <string name="opening_details_practice_button">Øv på denne åpningen</string>
 
     <!-- Play now page. -->
     <string name="play_title">Spill</string>

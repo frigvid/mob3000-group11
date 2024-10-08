@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -37,6 +38,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import no.usn.mob3000.ui.CBViewModel
 import no.usn.mob3000.ui.screens.info.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.info.NewsScreen
@@ -52,6 +54,7 @@ import no.usn.mob3000.ui.screens.chess.train.CreateGroupScreen
 import no.usn.mob3000.ui.screens.chess.train.CreateOpeningScreen
 import no.usn.mob3000.ui.screens.info.FAQScreen
 import no.usn.mob3000.ui.screens.chess.train.GroupsScreen
+import no.usn.mob3000.ui.screens.chess.train.OpeningDetailsScreen
 import no.usn.mob3000.ui.screens.chess.train.OpeningsScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
@@ -123,6 +126,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  */
 @Composable
 fun App(
+    viewModel: CBViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -144,10 +148,19 @@ fun App(
             composable(route = Destination.OPENINGS.name) {
                 OpeningsScreen(
                     onGroupsClick = { navController.navigate(Destination.GROUPS.name) },
-                    onCreateOpeningClick = { navController.navigate(Destination.OPENINGS_CREATE.name) }
+                    onCreateOpeningClick = { navController.navigate(Destination.OPENINGS_CREATE.name) },
+                    onOpeningClick = { navController.navigate(Destination.OPENING_DETAILS.name) },
+                    setOpenings = viewModel::setOpenings,
+                    setSelectedOpening = viewModel::setSelectedOpening
                 )
             }
             composable(route = Destination.OPENINGS_CREATE.name) { CreateOpeningScreen() }
+            composable(route = Destination.OPENING_DETAILS.name) {
+                OpeningDetailsScreen(
+                    opening = viewModel.selectedOpening.value,
+                    onPracticeClick = { navController.navigate(Destination.PLAY.name) }
+                )
+            }
             composable(route = Destination.GROUPS.name) {
                 GroupsScreen(
                     onCreateGroupClick = { navController.navigate(Destination.GROUPS_CREATE.name) },
@@ -342,6 +355,7 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),
     OPENINGS(title = R.string.openings_title),
     OPENINGS_CREATE(title = R.string.openings_create_title),
+    OPENING_DETAILS(title = R.string.opening_details),
     GROUPS(title = R.string.groups_title),
     GROUPS_CREATE(title = R.string.groups_create_title),
     PLAY(title = R.string.home_play_title),

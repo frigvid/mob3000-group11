@@ -40,8 +40,11 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * Its sibling screen, which is accessible from this one, is the GroupsScreen.
  *
- * @param onGroupsClick Callback function to navigate to the Groups screen
- * @param onCreateOpeningClick Callback function to navigate to the Create Opening screen
+ * @param onGroupsClick Callback function to navigate to the [GroupsScreen].
+ * @param onCreateOpeningClick Callback function to navigate to the [CreateOpeningScreen].
+ * @param onOpeningClick Callback function to navigate to the [OpeningDetailsScreen].
+ * @param setOpenings ViewModel function to set the openings.
+ * @param setSelectedOpening ViewModel function to set the selected opening.
  * @param filter TODO: Optional list of string IDs to filter openings
  * @author frigvid
  * @created 2024-09-24
@@ -51,9 +54,12 @@ import no.usn.mob3000.ui.theme.DefaultButton
 fun OpeningsScreen(
     onGroupsClick: () -> Unit,
     onCreateOpeningClick: () -> Unit,
+    onOpeningClick: (Opening) -> Unit,
+    setOpenings: (List<Opening>) -> Unit,
+    setSelectedOpening: (Opening) -> Unit,
     filter: List<String>? = null
 ) {
-    /* TODO: Extract data-handling code to data/ layer. */
+    /* TODO: Extract data-handling code to data layer. */
     var openings by remember { mutableStateOf<List<Opening>>(emptyList()) }
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
@@ -65,6 +71,7 @@ fun OpeningsScreen(
                 supabase.from("openings").select().decodeList<Opening>()
             }
             openings = result
+            setOpenings(result)
             Log.d("OpeningsScreen", "Fetched openings: ${openings.size}")
         } catch (e: Exception) {
             Log.e("OpeningsScreen", "Error fetching openings", e)
@@ -103,7 +110,9 @@ fun OpeningsScreen(
                     imageResource = R.drawable.placeholder_chess,
                     onClick = {
                         /* TODO: Go to details page. Might need to implement a ViewModel for this. */
-                        Log.d("OpeningsScreen", opening.title)
+                        Log.d("OpeningsScreen", opening.pgn.toString())
+                        setSelectedOpening(opening)
+                        onOpeningClick(opening)
                     }
                 )
             }
@@ -111,7 +120,7 @@ fun OpeningsScreen(
     }
 }
 
-/* Todo: Extract to data/ layer. */
+/* Todo: Extract to data layer. */
 @Serializable
 data class Opening(
     val id: String,
@@ -122,6 +131,18 @@ data class Opening(
     val timestamp: String
 )
 
+/**
+ * Displays a card, with a title and a thumbnail of the opening.
+ *
+ * TODO: Either generate the thumbnail, or otherwise display the finished steps akin to the website,
+ *       instead of showing a placeholder.
+ *
+ * @param text The title to display above the picture.
+ * @param imageResource The thumbnail to display. Temporary, should be generated and not a reference.
+ * @param onClick What the card does when clicked.
+ * @author frigvid
+ * @created 2024-10-08
+ */
 @Composable
 fun CardButton(
     text: String,

@@ -24,6 +24,12 @@
     <string name="groups_title">Groups</string>
     <string name="openings_create_title">OpeningsCreateStub</string>
     <string name="groups_create_title">GroupsCreateStub</string>
+    <string name="opening_details">Opening details</string>
+
+    <!-- Opening details page. -->
+    <string name="opening_details_description">Description</string>
+    <string name="opening_details_moves">Moves</string>
+    <string name="opening_details_practice_button">Practice this opening</string>
 
     <!-- Play now page. -->
     <string name="play_title">Play</string>
