@@ -50,12 +50,12 @@ import no.usn.mob3000.ui.screens.auth.LoginScreen
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
-import no.usn.mob3000.ui.screens.chess.train.CreateGroupScreen
-import no.usn.mob3000.ui.screens.chess.train.CreateOpeningScreen
+import no.usn.mob3000.ui.screens.chess.train.group.CreateGroupScreen
+import no.usn.mob3000.ui.screens.chess.train.opening.CreateOpeningScreen
 import no.usn.mob3000.ui.screens.info.FAQScreen
-import no.usn.mob3000.ui.screens.chess.train.GroupsScreen
-import no.usn.mob3000.ui.screens.chess.train.OpeningDetailsScreen
-import no.usn.mob3000.ui.screens.chess.train.OpeningsScreen
+import no.usn.mob3000.ui.screens.chess.train.group.GroupsScreen
+import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
+import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 

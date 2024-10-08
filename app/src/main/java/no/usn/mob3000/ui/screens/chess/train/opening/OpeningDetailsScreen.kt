@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.chess.train
+package no.usn.mob3000.ui.screens.chess.train.opening
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
