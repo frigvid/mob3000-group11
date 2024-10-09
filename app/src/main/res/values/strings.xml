@@ -33,6 +33,7 @@
     <string name="groups_create_title">GroupsCreateStub</string>
     <string name="opening_details">Opening details</string>
 
+    <!-- Opening creation page. -->
     <string name="openings_create_title">Create an opening</string>
     <string name="opening_create_prompt_title">Title</string>
     <string name="opening_create_prompt_description">Description</string>

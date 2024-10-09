@@ -31,6 +31,7 @@
     <string name="groups_create_title">GruppeLagingStub</string>
     <string name="opening_details">Åpningsdetaljer</string>
 
+    <!-- Opening creation page. -->
     <string name="openings_create_title">ÅpningLagingStub</string>
     <string name="opening_create_prompt_title">Tittel</string>
     <string name="opening_create_prompt_description">Beskrivelse</string>
