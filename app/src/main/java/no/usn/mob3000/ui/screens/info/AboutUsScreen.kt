@@ -25,7 +25,7 @@ fun AboutUsScreen() {
                 .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
-            Text(stringResource(R.string.docs_title))
+            Text(stringResource(R.string.about_us_title))
         }
     }
 }
