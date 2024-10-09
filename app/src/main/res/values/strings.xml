@@ -1,5 +1,7 @@
 <resources>
+    <!-- -->
     <string name="app_name" translatable="false">Chess Buddy</string>
+
     <!-- Documentation/FAQ page. -->
     <string name="docs_title">Documentation</string>
     <string name="faq_title">FAQ</string>
@@ -28,9 +30,17 @@
     <!-- Openings/groups page. -->
     <string name="openings_title">Openings</string>
     <string name="groups_title">Groups</string>
-    <string name="openings_create_title">OpeningsCreateStub</string>
     <string name="groups_create_title">GroupsCreateStub</string>
     <string name="opening_details">Opening details</string>
+
+    <string name="openings_create_title">Create an opening</string>
+    <string name="opening_create_prompt_title">Title</string>
+    <string name="opening_create_prompt_description">Description</string>
+    <string name="opening_create_moves">Moves</string>
+    <string name="opening_create_undo_move">Undo Move</string>
+    <string name="opening_create_reset_board">Reset Board</string>
+    <string name="opening_create_save_opening">Save Opening</string>
+    <string name="opening_create_reset_all">Clear</string>
 
     <!-- Opening details page. -->
     <string name="opening_details_description">Description</string>
