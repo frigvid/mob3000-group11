@@ -131,7 +131,11 @@ fun App(
             startDestination = Destination.HOME.name,
             modifier = Modifier.fillMaxSize()
         ) {
-            composable(route = Destination.DOCUMENTATION.name) { DocumentationScreen() }
+            composable(route = Destination.DOCUMENTATION.name) {
+                DocumentationScreen(
+                    onFAQButtonClick = { navController.navigate(Destination.FAQ.name) }
+                )
+            }
             composable(route = Destination.FAQ.name) { FAQScreen() }
             composable(route = Destination.NEWS.name) { NewsScreen() }
             composable(route = Destination.HOME.name) {

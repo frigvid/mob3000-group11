@@ -25,7 +25,11 @@ import no.usn.mob3000.Viewport
  */
 
 @Composable
-fun DocumentationScreen() {
+fun DocumentationScreen(
+    onFAQButtonClick: () -> Unit
+) {
+
+
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
@@ -36,37 +40,39 @@ fun DocumentationScreen() {
     val buttonH = (screenHeight * 0.25f).coerceAtMost(25.dp)
     val buttonW = (screenWidth * 0.8f).coerceAtMost(200.dp)
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Column(
-            modifier = Modifier.padding(top = 15.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+    Viewport {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.TopCenter
         ) {
-            FaqField(
-                title = stringResource(R.string.docs_title),
-                description = stringResource(R.string.docs_faq_title),
-                width = textBoxW,
-                height = textBoxH
-            )
-            FaqButton(
-                width = buttonW,
-                height = buttonH,
-                onClick = { /* Todo */ }
-            )
+            Column(
+                modifier = Modifier.padding(top = 15.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                FaqField(
+                    title = stringResource(R.string.docs_title),
+                    description = stringResource(R.string.docs_faq_title),
+                    width = textBoxW,
+                    height = textBoxH
+                )
+                FaqButton(
+                    width = buttonW,
+                    height = buttonH,
+                    onClick = onFAQButtonClick
+                )
 
-            DocBox(
-                title = stringResource(R.string.help_title),
-                description = stringResource(R.string.help_description),
-                body = stringResource(R.string.help_body),
-                color = colorResource(id = R.color.beige_1),
-                width = width,
-                height = height,
-                onClick = { /* TODO: Implement FAQ page */ }
-            )
+                DocBox(
+                    title = stringResource(R.string.help_title),
+                    description = stringResource(R.string.help_description),
+                    body = stringResource(R.string.help_body),
+                    color = colorResource(id = R.color.beige_1),
+                    width = width,
+                    height = height,
+                    onClick = { /* TODO: Implement FAQ page */ }
+                )
 
+            }
         }
     }
 }

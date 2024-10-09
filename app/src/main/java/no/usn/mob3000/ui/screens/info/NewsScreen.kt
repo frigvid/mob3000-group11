@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
+import no.usn.mob3000.Viewport
 
 /**
  * @author 258030, Eirik
@@ -32,35 +33,38 @@ fun NewsScreen() {
     val boxSize = (screenWidth * 0.85f).coerceAtMost(300.dp)
     val height = (screenHeight * 0.25f).coerceAtMost(250.dp)
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Column(
-            modifier = Modifier.padding(top = 30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+    Viewport { innerPadding ->
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .padding(innerPadding),
+            contentAlignment = Alignment.TopCenter
         ) {
-            NewsBox(
-                title = stringResource(R.string.breaking_news),
-                description = stringResource(R.string.niemann_intro),
-                body = stringResource(R.string.niemann_report),
-                color = colorResource(id = R.color.beige_1),
-                size = boxSize,
-                height = height,
-                onClick = { /* TODO: Implement single-news-page */ }
-            )
+            Column(
+                modifier = Modifier.padding(top = 30.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                NewsBox(
+                    title = stringResource(R.string.breaking_news),
+                    description = stringResource(R.string.niemann_intro),
+                    body = stringResource(R.string.niemann_report),
+                    color = colorResource(id = R.color.beige_1),
+                    size = boxSize,
+                    height = height,
+                    onClick = { /* TODO: Implement single-news-page */ }
+                )
 
-            NewsBox(
-                title = stringResource(R.string.shocking_news),
-                description = stringResource(R.string.magnus_intro),
-                body = stringResource(R.string.magnus_report),
-                color = colorResource(id = R.color.beige_1),
-                size = boxSize,
-                height = height,
-                onClick = { /* TODO: Implement single-news-page */ }
-            )
+                NewsBox(
+                    title = stringResource(R.string.shocking_news),
+                    description = stringResource(R.string.magnus_intro),
+                    body = stringResource(R.string.magnus_report),
+                    color = colorResource(id = R.color.beige_1),
+                    size = boxSize,
+                    height = height,
+                    onClick = { /* TODO: Implement single-news-page */ }
+                )
 
+            }
         }
     }
 }
@@ -69,6 +73,7 @@ fun NewsScreen() {
  * @author 258030, Eirik
  * @created 2024-09-23
  */
+
 
 @Composable
 fun NewsBox(
