@@ -6,7 +6,21 @@
     <string name="info_title">Information</string>
     <string name="docs_title">Documentation</string>
     <string name="faq_title">FAQ</string>
+
+    <!-- About us page. -->
     <string name="about_us_title">About us</string>
+    <string name="about_us_preamble1">Chess Buddy is an innovative web application designed to strengthen your chess openings and improve your overall game.</string>
+    <string name="about_us_preamble2">By using Chess Buddy, players of all levels can explore a wide range of chess openings, learn the strategies behind them, and practice implementing them in their own games.</string>
+    <string name="about_us_preamble3">Features include interactive lessons, practical challenges, and the ability to play against one AI to test out new openings in realistic scenarios. Chess Buddy is not just a tool for learning; it is a partner in your chess development.</string>
+    <string name="about_us_how_we_help1">Customized learning paths that match your skill level and learning goals.</string>
+    <string name="about_us_how_we_help2">Interactive lessons that in-depth explain each slot and its variables.</string>
+    <string name="about_us_how_we_help3">Challenges and games against AI to practice and reinforce learning.</string>
+    <string name="about_us_how_we_help4">Feedback and analyzes that help you understand your strengths and weaknesses.</string>
+    <string name="about_us_the_company1">Here at Chess Buddy, we are driven by a simple vision: To make high-quality chess instruction available to everyone. Our passion for chess and a clear understanding of the market\'s needs inspired us to create a tool that specifically focuses on opening moves; a vital, but often underrated, part of the game.</string>
+    <string name="about_us_the_company2">We recognized a gap in the market for a dedicated tool that could offer deeper insight and practical training in chess openings. This led us to develop Chess Buddy, a platform that combines the latest technology with extensive chess expertise to offer a unique learning experience.</string>
+    <string name="about_us_the_company3">In developing Chess Buddy, we wanted to provide an intuitive and user-friendly tool that demystifies chess openings and gives players of all levels the opportunity to improve their opening strategies and overall play.</string>
+    <string name="about_us_vision_title">Our vision</string>
+    <string name="about_us_vision">Our vision is to promote chess teaching by focusing on opening strategies. With Chess Buddy, we strive to equip chess enthusiasts with the knowledge and skills they need to elevate their game. We are proud to help build a community where players can share, explore, and grow together. Join us on this journey to explore the world of chess and take your skills to new heights.</string>
 
     <!-- News page. -->
     <string name="news_title">News</string>
