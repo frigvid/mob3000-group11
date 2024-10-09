@@ -173,7 +173,13 @@ fun App(
                 )
             }
             composable(route = Destination.PLAY.name) { PlayScreen() }
-            composable(route = Destination.HISTORY.name) { HistoryScreen() }
+            composable(route = Destination.HISTORY.name) {
+                HistoryScreen(
+                    setSelectedOpening = viewModel::setSelectedOpening,
+                    getOpeningById = viewModel::getOpeningById,
+                    onOpeningDetailsClick = { navController.navigate(Destination.OPENING_DETAILS.name) }
+                )
+            }
             composable(route = Destination.PROFILE.name) { ProfileScreen() }
             composable(route = Destination.SETTINGS.name) {
                 SettingsScreen(

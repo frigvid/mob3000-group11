@@ -65,6 +65,10 @@
 
     <!-- Your history page. -->
     <string name="history_title">History</string>
+    <string name="history_result">Result: %s</string>
+    <string name="history_step_backward">Step Backward</string>
+    <string name="history_step_forward">Step Forward</string>
+    <string name="history_view_opening">View Opening</string>
 
     <!-- Authentication related -->
     <string name="auth_login_title">Login</string>

@@ -63,6 +63,10 @@
 
     <!-- Your history page. -->
     <string name="history_title">Historikk</string>
+    <string name="history_result">Resultat: %s</string>
+    <string name="history_step_backward">Gå bakover</string>
+    <string name="history_step_forward">Gå forover</string>
+    <string name="history_view_opening">Vis åpningsdetaljer</string>
 
     <!-- Authentication related -->
     <string name="auth_login_title">Innlogging</string>

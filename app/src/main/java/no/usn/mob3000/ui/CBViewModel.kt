@@ -27,6 +27,18 @@ class CBViewModel : ViewModel() {
         _selectedOpening.value = opening
     }
 
+    /**
+     * Retrieves an Opening by its ID.
+     *
+     * @param id The ID of the opening to retrieve.
+     * @return The Opening with the matching ID, or null if not found.
+     * @author frigvid
+     * @created 2024-10-09
+     */
+    fun getOpeningById(id: String): Opening? {
+        return _openings.value.find { it.id == id }
+    }
+
     /* Settings.
      * 
      * TODO: Figure out a better way to store default values. Can't use composables here.
