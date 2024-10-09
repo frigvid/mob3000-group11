@@ -18,6 +18,12 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_enus">English</string>
+    <string name="settings_language_nonb">Norwegian Bokmål</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Default - light</string>
+    <string name="settings_theme_dark">Default - dark</string>
 
     <!-- Openings/groups page. -->
     <string name="openings_title">Openings</string>

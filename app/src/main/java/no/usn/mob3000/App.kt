@@ -171,7 +171,14 @@ fun App(
             composable(route = Destination.PLAY.name) { PlayScreen() }
             composable(route = Destination.HISTORY.name) { HistoryScreen() }
             composable(route = Destination.PROFILE.name) { ProfileScreen() }
-            composable(route = Destination.SETTINGS.name) { SettingsScreen() }
+            composable(route = Destination.SETTINGS.name) {
+                SettingsScreen(
+                    selectedTheme = viewModel.selectedTheme.value,
+                    selectedLanguage = viewModel.selectedLanguage.value,
+                    onThemeChange = viewModel::setSelectedTheme,
+                    onLanguageChange = viewModel::setSelectedLanguage
+                )
+            }
             composable(route = Destination.AUTH_LOGIN.name) { LoginScreen() }
             composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }
             composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
