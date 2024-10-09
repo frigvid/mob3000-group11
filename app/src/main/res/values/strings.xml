@@ -27,10 +27,8 @@
     <string name="settings_theme_light">Default - light</string>
     <string name="settings_theme_dark">Default - dark</string>
 
-    <!-- Openings/groups page. -->
+    <!-- Openings page. -->
     <string name="openings_title">Openings</string>
-    <string name="groups_title">Groups</string>
-    <string name="groups_create_title">GroupsCreateStub</string>
 
     <!-- Opening creation page. -->
     <string name="openings_create_title">Create an opening</string>
@@ -47,6 +45,13 @@
     <string name="opening_details_description">Description</string>
     <string name="opening_details_moves">Moves</string>
     <string name="opening_details_practice_button">Practice this opening</string>
+
+    <!-- Groups page. -->
+    <string name="groups_title">Repertoires</string>
+
+    <!-- Groups creation page. -->
+    <string name="groups_create_title">Create a repertoire</string>
+
 
     <!-- Play now page. -->
     <string name="play_title">Play</string>

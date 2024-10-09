@@ -27,8 +27,6 @@
 
     <!-- Openings/groups page. -->
     <string name="openings_title">Åpninger</string>
-    <string name="groups_title">Grupper</string>
-    <string name="groups_create_title">GruppeLagingStub</string>
 
     <!-- Opening creation page. -->
     <string name="openings_create_title">ÅpningLagingStub</string>
@@ -45,6 +43,12 @@
     <string name="opening_details_description">Beskrivelse</string>
     <string name="opening_details_moves">Trekk</string>
     <string name="opening_details_practice_button">Øv på denne åpningen</string>
+
+    <!-- Groups page. -->
+    <string name="groups_title">Repertoarer</string>
+
+    <!-- Groups creation page. -->
+    <string name="groups_create_title">Lag en ny repertoar</string>
 
     <!-- Play now page. -->
     <string name="play_title">Spill</string>
