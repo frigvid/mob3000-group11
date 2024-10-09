@@ -1,8 +1,12 @@
 <resources>
+    <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
-    <!-- Documentation page. -->
+
+    <!-- Documentation related pages. -->
+    <string name="info_title">Informasjon</string>
     <string name="docs_title">Dokumentasjon</string>
     <string name="faq_title">FAQ</string>
+    <string name="about_us_title">Om oss</string>
 
     <!-- News page. -->
     <string name="news_title">Nyheter</string>

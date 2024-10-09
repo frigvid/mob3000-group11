@@ -21,7 +21,11 @@ import no.usn.mob3000.Viewport
  * @created 2024-09-12
  */
 @Composable
-fun InfoScreen() {
+fun InfoScreen(
+    onAboutUsClick: () -> Unit,
+    onDocumentationClick: () -> Unit,
+    onFAQClick: () -> Unit,
+) {
     Viewport { innerPadding ->
         Box(
             modifier = Modifier.fillMaxSize()

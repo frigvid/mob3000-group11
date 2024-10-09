@@ -56,6 +56,8 @@ import no.usn.mob3000.ui.screens.info.FAQScreen
 import no.usn.mob3000.ui.screens.chess.train.group.GroupsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
+import no.usn.mob3000.ui.screens.info.AboutUsScreen
+import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
@@ -135,8 +137,16 @@ fun App(
             startDestination = Destination.HOME.name,
             modifier = Modifier.fillMaxSize()
         ) {
+            composable(route = Destination.INFO.name) {
+                InfoScreen(
+                    onAboutUsClick = { navController.navigate(Destination.ABOUT_US.name) },
+                    onDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) },
+                    onFAQClick = { navController.navigate(Destination.FAQ.name) }
+                )
+            }
             composable(route = Destination.DOCUMENTATION.name) { DocumentationScreen() }
             composable(route = Destination.FAQ.name) { FAQScreen() }
+            composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) { NewsScreen() }
             composable(route = Destination.HOME.name) {
                 HomeScreen(
@@ -364,8 +374,10 @@ fun Viewport(
  * @created 2024-09-24
  */
 enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
+    INFO(title = R.string.info_title),
     DOCUMENTATION(title = R.string.docs_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_documentation)),
     FAQ(title = R.string.faq_title),
+    ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
