@@ -46,6 +46,8 @@
 
     <!-- Groups page. -->
     <string name="groups_title">Repertoarer</string>
+    <string name="groups_create_description_missing">Ingen beskrivelse tilgjengelig</string>
+    <string name="groups_create_openings">Åpninger</string>
 
     <!-- Groups creation page. -->
     <string name="groups_create_title">Lag en ny repertoar</string>

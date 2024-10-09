@@ -48,10 +48,11 @@
 
     <!-- Groups page. -->
     <string name="groups_title">Repertoires</string>
+    <string name="groups_create_description_missing">No description available</string>
+    <string name="groups_create_openings">Openings</string>
 
     <!-- Groups creation page. -->
     <string name="groups_create_title">Create a repertoire</string>
-
 
     <!-- Play now page. -->
     <string name="play_title">Play</string>

@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,6 +22,7 @@ import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
+import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
@@ -58,7 +60,9 @@ fun GroupsScreen(
         try {
             val result = withContext(Dispatchers.IO) {
                 val supabase = SupabaseClientWrapper.getClient()
-                supabase.from("repertoire").select().decodeList<Group>()
+                supabase.from("repertoire")
+                        .select()
+                        .decodeList<Group>()
             }
 
             groups = result
@@ -152,14 +156,14 @@ fun GroupItem(group: Group) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = group.description ?: "No description available",
+                    text = group.description ?: stringResource(R.string.groups_create_description_missing),
                     fontSize = 14.sp
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Openings:",
+                    text = stringResource(R.string.groups_create_openings) + ":",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
