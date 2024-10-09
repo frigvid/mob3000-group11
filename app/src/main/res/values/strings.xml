@@ -1,13 +1,19 @@
 <resources>
+    <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
-    <!-- Documentation/FAQ page. -->
+
+    <!-- Documentation related pages. -->
+    <string name="info_title">Information</string>
     <string name="docs_title">Documentation</string>
+    <string name="faq_title">FAQ</string>
+    <string name="about_us_title">About us</string>
     <string name="docs_faq_title">We also have a FAQ section</string>
     <string name="docs_button">FAQ</string>
     <string name="help_title">How to play with your friend</string>
     <string name="help_description">Like for real</string>
     <string name="help_body">You don\'t. For now.</string>
-    <string name="faq_title">FAQ</string>
+    <string name ="docs_create_title">Create Documentation</string>
+
 
     <!-- News page. -->
     <string name="news_title">News</string>
@@ -17,6 +23,10 @@
     <string name="magnus_report">"Magnus Carlsen was asked to review downfall of Runescape 3 and had no comment what so ever. Don't click here please "</string>
     <string name="breaking_news">Breaking news</string>
     <string name="shocking_news">Shocking news</string>
+    <string name="create_news_title">Create news</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="publish">Publish</string>
+
 
     <!-- Home page. -->
     <string name="home_title">Home Page</string>
@@ -29,19 +39,63 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_enus">English</string>
+    <string name="settings_language_nonb">Norwegian Bokmål</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Default - light</string>
+    <string name="settings_theme_dark">Default - dark</string>
 
-
-    <!-- Openings/groups page. -->
+    <!-- Openings page. -->
     <string name="openings_title">Openings</string>
-    <string name="groups_title">Groups</string>
-    <string name="openings_create_title">OpeningsCreateStub</string>
-    <string name="groups_create_title">GroupsCreateStub</string>
+
+    <!-- Opening creation page. -->
+    <string name="openings_create_title">Create an opening</string>
+    <string name="opening_create_prompt_title">Title</string>
+    <string name="opening_create_prompt_description">Description</string>
+    <string name="opening_create_moves">Moves</string>
+    <string name="opening_create_undo_move">Undo Move</string>
+    <string name="opening_create_reset_board">Reset Board</string>
+    <string name="opening_create_save_opening">Save Opening</string>
+    <string name="opening_create_reset_all">Clear</string>
+
+    <!-- Opening details page. -->
+    <string name="opening_details">Opening details</string>
+    <string name="opening_details_description">Description</string>
+    <string name="opening_details_moves">Moves</string>
+    <string name="opening_details_practice_button">Practice this opening</string>
+
+    <!-- Groups page. -->
+    <string name="groups_title">Repertoires</string>
+    <string name="groups_create_description_missing">No description available</string>
+    <string name="groups_create_openings">Openings</string>
+
+    <!-- Groups creation page. -->
+    <string name="groups_create_title">Create a repertoire</string>
+    <string name="group_create_prompt_title">Title</string>
+    <string name="group_create_prompt_description">Description</string>
+    <string name="group_create_available_openings">Openings</string>
+    <string name="group_create_selected_openings">Openings in this repertoire</string>
+    <string name="group_create_reset_all">Clear all</string>
+    <string name="group_create_save_group">Save repertoire</string>
 
     <!-- Play now page. -->
     <string name="play_title">Play</string>
+    <string name="play_game_status">Game Status</string>
+    <string name="play_statistics">Statistics</string>
+    <string name="play_wins">Wins</string>
+    <string name="play_losses">Losses</string>
+    <string name="play_draws">Draws</string>
+    <string name="play_reset_board">Reset Board</string>
+    <string name="play_undo_move">Undo Move</string>
+    <string name="play_multiplayer">Multiplayer</string>
 
     <!-- Your history page. -->
     <string name="history_title">History</string>
+    <string name="history_result">Result: %s</string>
+    <string name="history_step_backward">Step Backward</string>
+    <string name="history_step_forward">Step Forward</string>
+    <string name="history_view_opening">View Opening</string>
 
     <!-- Authentication related -->
     <string name="auth_login_title">Login</string>

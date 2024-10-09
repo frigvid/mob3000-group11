@@ -1,8 +1,12 @@
 <resources>
+    <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
-    <!-- Documentation page. -->
+
+    <!-- Documentation related pages. -->
+    <string name="info_title">Informasjon</string>
     <string name="docs_title">Dokumentasjon</string>
     <string name="faq_title">FAQ</string>
+    <string name="about_us_title">Om oss</string>
 
     <!-- News page. -->
     <string name="news_title">Nyheter</string>
@@ -18,18 +22,63 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>
+    <string name="settings_language">Språk</string>
+    <string name="settings_language_enus">Engelsk</string>
+    <string name="settings_language_nonb">Norsk Bokmål</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_light">Default - lyst</string>
+    <string name="settings_theme_dark">Default - mørkt</string>
 
     <!-- Openings/groups page. -->
     <string name="openings_title">Åpninger</string>
-    <string name="groups_title">Grupper</string>
+
+    <!-- Opening creation page. -->
     <string name="openings_create_title">ÅpningLagingStub</string>
-    <string name="groups_create_title">GruppeLagingStub</string>
+    <string name="opening_create_prompt_title">Tittel</string>
+    <string name="opening_create_prompt_description">Beskrivelse</string>
+    <string name="opening_create_moves">Trekk</string>
+    <string name="opening_create_undo_move">Angre trekk</string>
+    <string name="opening_create_reset_board">Nullstill sjakkbrett</string>
+    <string name="opening_create_save_opening">Lagre åpning</string>
+    <string name="opening_create_reset_all">Nullstill</string>
+
+    <!-- Opening details page. -->
+    <string name="opening_details">Åpningsdetaljer</string>
+    <string name="opening_details_description">Beskrivelse</string>
+    <string name="opening_details_moves">Trekk</string>
+    <string name="opening_details_practice_button">Øv på denne åpningen</string>
+
+    <!-- Groups page. -->
+    <string name="groups_title">Repertoarer</string>
+    <string name="groups_create_description_missing">Ingen beskrivelse tilgjengelig</string>
+    <string name="groups_create_openings">Åpninger</string>
+
+    <!-- Groups creation page. -->
+    <string name="groups_create_title">Lag en ny repertoar</string>
+    <string name="group_create_prompt_title">Tittel</string>
+    <string name="group_create_prompt_description">Beskrivelse</string>
+    <string name="group_create_available_openings">Åpninger</string>
+    <string name="group_create_selected_openings">Åpninger i dette repertoaret</string>
+    <string name="group_create_reset_all">Nullstill</string>
+    <string name="group_create_save_group">Lagre repertoar</string>
 
     <!-- Play now page. -->
     <string name="play_title">Spill</string>
+    <string name="play_game_status">Spill status</string>
+    <string name="play_statistics">Statistikk</string>
+    <string name="play_wins">Vinn</string>
+    <string name="play_losses">Tap</string>
+    <string name="play_draws">Uavgjort</string>
+    <string name="play_reset_board">Nullstill sjakkbrett</string>
+    <string name="play_undo_move">Angre trekk</string>
+    <string name="play_multiplayer">Multiplayer</string>
 
     <!-- Your history page. -->
     <string name="history_title">Historikk</string>
+    <string name="history_result">Resultat: %s</string>
+    <string name="history_step_backward">Gå bakover</string>
+    <string name="history_step_forward">Gå forover</string>
+    <string name="history_view_opening">Vis åpningsdetaljer</string>
 
     <!-- Authentication related -->
     <string name="auth_login_title">Innlogging</string>

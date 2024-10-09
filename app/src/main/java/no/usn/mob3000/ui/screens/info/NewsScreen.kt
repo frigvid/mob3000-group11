@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,21 +21,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * @author 258030, Eirik
  * @created 2024-09-23
  */
-@Preview
+
 @Composable
-fun NewsScreen() {
+fun NewsScreen(
+    onCreateNewsClick: () -> Unit
+) {
+
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
     val boxSize = (screenWidth * 0.85f).coerceAtMost(300.dp)
     val height = (screenHeight * 0.25f).coerceAtMost(250.dp)
 
-    Viewport { innerPadding ->
+    Viewport(
+        floatingActionButton = {
+            FloatingActionButton(
+                containerColor = DefaultButton,
+                onClick = onCreateNewsClick
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Create documentation")
+            }
+        }) { innerPadding ->
         Box(
             modifier = Modifier.fillMaxSize()
                 .padding(innerPadding),

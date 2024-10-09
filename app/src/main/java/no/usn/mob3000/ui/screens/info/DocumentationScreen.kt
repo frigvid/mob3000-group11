@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * @author 258030, Eirik
@@ -26,7 +29,8 @@ import no.usn.mob3000.Viewport
 
 @Composable
 fun DocumentationScreen(
-    onFAQButtonClick: () -> Unit
+    onFAQButtonClick: () -> Unit,
+    onCreateDocumentClick: () -> Unit
 ) {
 
 
@@ -40,7 +44,15 @@ fun DocumentationScreen(
     val buttonH = (screenHeight * 0.25f).coerceAtMost(25.dp)
     val buttonW = (screenWidth * 0.8f).coerceAtMost(200.dp)
 
-    Viewport {
+    Viewport(
+        floatingActionButton = {
+            FloatingActionButton(
+                containerColor = DefaultButton,
+                onClick = onCreateDocumentClick
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Create documentation")
+            }
+        }) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter
@@ -76,6 +88,7 @@ fun DocumentationScreen(
         }
     }
 }
+
 
 /**
  * @author 258030, Eirik
