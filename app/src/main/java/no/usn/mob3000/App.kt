@@ -167,7 +167,11 @@ fun App(
                     onReturnToOpeningClick = { navController.navigate(Destination.OPENINGS.name) }
                 )
             }
-            composable(route = Destination.GROUPS_CREATE.name) { CreateGroupScreen() }
+            composable(route = Destination.GROUPS_CREATE.name) {
+                CreateGroupScreen(
+                    availableOpenings = viewModel.openings.value
+                )
+            }
             composable(route = Destination.PLAY.name) { PlayScreen() }
             composable(route = Destination.HISTORY.name) { HistoryScreen() }
             composable(route = Destination.PROFILE.name) { ProfileScreen() }

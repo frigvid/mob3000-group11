@@ -53,6 +53,12 @@
 
     <!-- Groups creation page. -->
     <string name="groups_create_title">Create a repertoire</string>
+    <string name="group_create_prompt_title">Title</string>
+    <string name="group_create_prompt_description">Description</string>
+    <string name="group_create_available_openings">Openings</string>
+    <string name="group_create_selected_openings">Openings in this repertoire</string>
+    <string name="group_create_reset_all">Clear all</string>
+    <string name="group_create_save_group">Save repertoire</string>
 
     <!-- Play now page. -->
     <string name="play_title">Play</string>
