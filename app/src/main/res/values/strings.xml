@@ -31,7 +31,6 @@
     <string name="openings_title">Openings</string>
     <string name="groups_title">Groups</string>
     <string name="groups_create_title">GroupsCreateStub</string>
-    <string name="opening_details">Opening details</string>
 
     <!-- Opening creation page. -->
     <string name="openings_create_title">Create an opening</string>
@@ -44,6 +43,7 @@
     <string name="opening_create_reset_all">Clear</string>
 
     <!-- Opening details page. -->
+    <string name="opening_details">Opening details</string>
     <string name="opening_details_description">Description</string>
     <string name="opening_details_moves">Moves</string>
     <string name="opening_details_practice_button">Practice this opening</string>
