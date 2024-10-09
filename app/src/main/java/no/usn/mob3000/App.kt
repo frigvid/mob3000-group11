@@ -316,7 +316,7 @@ fun Viewport(
     )
 
     val rootEntries = listOf(
-        Destination.DOCUMENTATION,
+        Destination.INFO,
         Destination.NEWS,
         Destination.HOME,
         Destination.PROFILE,
@@ -374,8 +374,8 @@ fun Viewport(
  * @created 2024-09-24
  */
 enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
-    INFO(title = R.string.info_title),
-    DOCUMENTATION(title = R.string.docs_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_documentation)),
+    INFO(title = R.string.info_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_info)),
+    DOCUMENTATION(title = R.string.docs_title),
     FAQ(title = R.string.faq_title),
     ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
