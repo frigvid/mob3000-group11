@@ -27,15 +27,21 @@ import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 
-
 /**
  * This is the login screen for authorization to an account
  * as well as an option for logging in with a guest account.
  *
+ * @param onLogin Callback triggered when the user presses the "Log In" button
+ * to authenticate their account.
+ * @param onForgot Callback triggered when the user clicks the "Forgot password?"
+ * text to navigate to the password recovery screen.
+ * @param onCreateUser Callback triggered when the user clicks the "Or sign in"
+ * text to navigate to the user creation screen.
+ *
+ * @see CreateUserScreen
  * @see ForgotPasswordScreen
  * @see ResetPasswordScreen
- * @author Anarox
- * @Contributor Markus
+ * @author Anarox, Markus
  * @created 2024-09-30
  */
 @Composable
@@ -58,12 +64,7 @@ fun LoginScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Title
-                Text(text = stringResource(R.string.auth_login_title))
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Username input
                 TextField(
                     value = username,
                     onValueChange = { username = it },
@@ -73,7 +74,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Password input
                 TextField(
                     value = password,
                     onValueChange = { password = it },
@@ -84,7 +84,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // Sign in
                 Text(
                     text = "Or sign in",
                     color = Color(0xFF7F563B),
@@ -93,11 +92,11 @@ fun LoginScreen(
                     ),
                     modifier = Modifier.clickable {
                         onCreateUser()
-                    })
+                    }
+                )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // Logg in button
                 Button(
                     onClick = { onLogin() },
                     modifier = Modifier.fillMaxWidth()
@@ -105,7 +104,6 @@ fun LoginScreen(
                     Text("Log In")
                 }
 
-                // Gjestebruker knapp
                 Button(
                     onClick = { onLogin() },
                     modifier = Modifier.fillMaxWidth()
@@ -115,7 +113,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Forgot password?
                 Text(
                     text = "Forgot password?",
                     color = Color(0xFF7F563B),
@@ -124,7 +121,8 @@ fun LoginScreen(
                     ),
                     modifier = Modifier.clickable {
                         onForgot()
-                    })
+                    }
+                )
             }
         }
     }

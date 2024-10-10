@@ -17,15 +17,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 
 /**
  * This is the chessboard page, where users can free-play against an AI or
  * fellow physically near player. (Local multiplayer, in other words).
+ *
+ * @param onReset Callback triggered when the user presses the "Reset Password"
+ * button to initiate the password reset process.
  *
  * @see LoginScreen
  * @see ForgotPasswordScreen
@@ -51,11 +52,7 @@ fun ResetPasswordScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(stringResource(R.string.auth_resetPassword_title))
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Password input
                 TextField(
                     value = password,
                     onValueChange = { password = it },
@@ -66,7 +63,6 @@ fun ResetPasswordScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Confirm password
                 TextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
@@ -77,7 +73,6 @@ fun ResetPasswordScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Reset Button
                 Button(
                     onClick = { onReset() },
                     modifier = Modifier.fillMaxWidth()

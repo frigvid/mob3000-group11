@@ -20,20 +20,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 
 /**
  * This is the chessboard page, where users can free-play against an AI or
  * fellow physically near player. (Local multiplayer, in other words).
  *
+ * @param onSignIn Callback triggered when the user presses the "Sign up" button
+ * to attempt account creation.
+ * @param onLogin Callback triggered when the user clicks the "Already have an account? Log in"
+ * text to navigate to the login screen.
+ *
  * @see LoginScreen
- * @see ForgotPasswordScreen
- * @see ResetPasswordScreen
  * @author Markus
  * @created 2024-09-24
  */
@@ -58,12 +59,6 @@ fun CreateUserScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Title
-                Text(text = stringResource(R.string.auth_createUser_title))
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Username input
                 TextField(
                     value = username,
                     onValueChange = { username = it },
@@ -73,7 +68,6 @@ fun CreateUserScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // mail input
                 TextField(
                     value = mail,
                     onValueChange = { mail = it },
@@ -83,7 +77,6 @@ fun CreateUserScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Password input
                 TextField(
                     value = password,
                     onValueChange = { password = it },
@@ -94,7 +87,6 @@ fun CreateUserScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Confirm password
                 TextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
@@ -105,7 +97,6 @@ fun CreateUserScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Logg in button
                 Button(
                     onClick = { onSignIn() },
                     modifier = Modifier.fillMaxWidth()
@@ -115,7 +106,6 @@ fun CreateUserScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Sign in
                 Text(
                     text = "Already have an account? Log in",
                     color = Color(0xFF7F563B),
@@ -124,7 +114,8 @@ fun CreateUserScreen(
                     ),
                     modifier = Modifier.clickable {
                         onLogin()
-                    })
+                    }
+                )
             }
         }
     }

@@ -21,14 +21,17 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 /**
  * This is the chessboard page, where users can free-play against an AI or
  * fellow physically near player. (Local multiplayer, in other words).
  *
+ * @param onResetPassword Callback triggered when the user presses the "Reset
+ * password" button to initiate the password reset process.
+ *
  * @see LoginScreen
  * @see ResetPasswordScreen
  * @author Anarox, frigvid
+ * @Contributor Markus
  * @created 2024-09-24
  */
 @Composable
@@ -44,17 +47,15 @@ fun ForgotPasswordScreen(
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(16.dp) // Legg til litt padding
+                modifier = Modifier.padding(16.dp)
             ) {
-
                 Text(
-                    text = "Type in your email that is linked to your account. You will recieve a mail with a link to reset your password.",
+                    text = "Type in your email that is linked to your account. You will receive a mail with a link to reset your password.",
                     fontSize = 12.sp
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // TextField with placeholder text
                 var email by remember { mutableStateOf("") }
                 OutlinedTextField(
                     value = email,
@@ -67,8 +68,8 @@ fun ForgotPasswordScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = { onResetPassword () },
-//                    modifier = Modifier.fillMaxWidth()
+                    onClick = { onResetPassword() },
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Reset password")
                 }
