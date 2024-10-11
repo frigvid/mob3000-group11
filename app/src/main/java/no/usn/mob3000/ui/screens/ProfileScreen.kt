@@ -30,6 +30,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.res.colorResource
 import no.usn.mob3000.BottomNavbar
+import no.usn.mob3000.Destination
+import no.usn.mob3000.LocalNavController
 import no.usn.mob3000.TopNavbar
 
 
@@ -45,6 +47,7 @@ import no.usn.mob3000.Viewport
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen() {
+    val navController = LocalNavController.current
     Viewport(
         topBar = { currentScreen, canNavigateBack, navigateUp, modifier, roots, title, actions ->
             TopNavbar(
@@ -65,7 +68,7 @@ fun ProfileScreen() {
             )
         },
         topBarActions = {
-            IconButton(onClick = { /* Handle edit profile action */ }) {
+            IconButton(onClick = { navController.navigate(Destination.EDIT_PROFILE.name) }) {
                 Icon(
                     painter = painterResource(R.drawable.edit_profile_icon), // Replace with your edit icon
                     contentDescription = "Edit Profile",
@@ -73,7 +76,7 @@ fun ProfileScreen() {
                     tint = Color.Black
                 )
             }
-            IconButton(onClick = { /* Handle add friend action */ }) {
+            IconButton(onClick = { navController.navigate(Destination.ADD_FRIENDS.name) }) {
                 Icon(
                     painter = painterResource(R.drawable.friend_icon), // Replace with your friend icon
                     contentDescription = "Add Friend",
@@ -81,10 +84,10 @@ fun ProfileScreen() {
                     tint = Color.Black
                 )
             }
-            IconButton(onClick = { /* Handle settings action */ }) {
+            IconButton(onClick = {  navController.navigate(Destination.FRIEND_REQUESTS.name) }) {
                 Icon(
                     painter = painterResource(R.drawable.navbar_profile), // Replace with your settings icon
-                    contentDescription = "Settings",
+                    contentDescription = "Friend Requests",
                     modifier = Modifier.size(24.dp),
                     tint = Color.Black
                 )
@@ -105,6 +108,43 @@ fun ProfileScreen() {
     )
 }
 
+
+
+@Composable
+fun EditProfileScreen() {
+    Viewport { innerPadding ->
+        Box(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Edit Profile Screen")
+        }
+    }
+}
+
+@Composable
+fun AddFriendScreen() {
+    Viewport { innerPadding ->
+        Box(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Add Friend Screen")
+        }
+    }
+}
+
+@Composable
+fun FriendRequestScreen() {
+    Viewport { innerPadding ->
+        Box(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Profile Settings Screen")
+        }
+    }
+}
 
 
 
