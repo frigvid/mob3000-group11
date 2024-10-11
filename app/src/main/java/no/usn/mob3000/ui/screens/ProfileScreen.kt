@@ -21,7 +21,16 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
+import androidx.compose.material3.Icon;
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.res.colorResource
+import no.usn.mob3000.BottomNavbar
+import no.usn.mob3000.TopNavbar
 
 
 import no.usn.mob3000.Viewport
@@ -31,49 +40,101 @@ import no.usn.mob3000.Viewport
  * @author frigvid, Hussein
  * @created 2024-09-12
  */
+
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen() {
-    Viewport { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            ProfileHeader()
-            ProfileStats()
-            AboutSection()
-            FriendsSection()
+    Viewport(
+        topBar = { currentScreen, canNavigateBack, navigateUp, modifier, roots, title, actions ->
+            TopNavbar(
+                currentScreen = currentScreen,
+                canNavigateBack = canNavigateBack,
+                navigateUp = navigateUp,
+                modifier = modifier,
+                roots = roots,
+                showTitle = title,
+                topBarActions = actions
+            )
+        },
+        bottomBar = { rootEntries, currentDestination, onNavigate ->
+            BottomNavbar(
+                roots = rootEntries,
+                currentDestination = currentDestination,
+                onNavigate = onNavigate
+            )
+        },
+        topBarActions = {
+            IconButton(onClick = { /* Handle edit profile action */ }) {
+                Icon(
+                    painter = painterResource(R.drawable.edit_profile_icon), // Replace with your edit icon
+                    contentDescription = "Edit Profile",
+                    modifier = Modifier.size(24.dp),
+                    tint = Color.Black
+                )
+            }
+            IconButton(onClick = { /* Handle add friend action */ }) {
+                Icon(
+                    painter = painterResource(R.drawable.friend_icon), // Replace with your friend icon
+                    contentDescription = "Add Friend",
+                    modifier = Modifier.size(24.dp),
+                    tint = Color.Black
+                )
+            }
+            IconButton(onClick = { /* Handle settings action */ }) {
+                Icon(
+                    painter = painterResource(R.drawable.navbar_profile), // Replace with your settings icon
+                    contentDescription = "Settings",
+                    modifier = Modifier.size(24.dp),
+                    tint = Color.Black
+                )
+            }
+        },
+        content = { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                ProfileHeader()
+                ProfileStats()
+                AboutSection()
+                FriendsSection()
+            }
         }
-    }
+    )
 }
+
+
+
+
 @Composable
 fun ProfileHeader() {
-    Box(
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(colorResource(id=R.color.beige)), // Light brown background similar to your example
-        contentAlignment = Alignment.Center
+            .background(colorResource(id = R.color.beige)),
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(R.drawable.profile_icon), // Replace with your profile icon
-                contentDescription = "Profile Icon",
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape)
-                    .border(2.dp, Color.Black, CircleShape)
-            )
-            Text(
-                text = stringResource(R.string.profile_username), // Add "Administrator" to your strings.xml
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-
-        }
+        Image(
+            painter = painterResource(R.drawable.profile_icon), // Replace with your profile icon
+            contentDescription = "Profile Icon",
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .border(2.dp, Color.Black, CircleShape)
+        )
+        Text(
+            text = stringResource(R.string.profile_username), // Example username "Administrator"
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            modifier = Modifier.padding(top = 8.dp)
+        )
     }
 }
+
 @Composable
 fun ProfileStats() {
     Row(
