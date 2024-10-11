@@ -12,6 +12,7 @@
     <string name="home_train_title">Tren Åpninger</string>
     <string name="home_play_title">Spill Nå</string>
     <string name="home_history_title">Din Historikk</string>
+    <string name="profile_username">Test Bruker</string>
 
     <!-- Profile page. -->
     <string name="profile_title">Brukerprofil</string>
