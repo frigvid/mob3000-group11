@@ -37,10 +37,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import no.usn.mob3000.ui.screens.AddFriendScreen
+import no.usn.mob3000.ui.screens.EditProfileScreen
+import no.usn.mob3000.ui.screens.FriendRequestScreen
 import no.usn.mob3000.ui.screens.info.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.info.NewsScreen
-import no.usn.mob3000.ui.screens.ProfileScreen
+import no.usn.mob3000.ui.screens.ProfileScreen;
 import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
@@ -163,6 +166,10 @@ fun App(
             composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }
             composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
             composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen() }
+
+            composable(route = Destination.EDIT_PROFILE.name) { EditProfileScreen() }
+            composable(route = Destination.ADD_FRIENDS.name) { AddFriendScreen() }
+            composable(route = Destination.FRIEND_REQUESTS.name) { FriendRequestScreen() }
         }
     }
 }
@@ -349,7 +356,11 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     AUTH_LOGIN(title = R.string.auth_login_title),
     AUTH_CREATE(title = R.string.auth_createUser_title),
     AUTH_FORGOT(title = R.string.auth_forgotPassword_title),
-    AUTH_RESET(title = R.string.auth_resetPassword_title)
+    AUTH_RESET(title = R.string.auth_resetPassword_title),
+    EDIT_PROFILE(title = R.string.edit_profile_title), // New destination
+    ADD_FRIENDS(title = R.string.add_friend_title),     // New destination
+    FRIEND_REQUESTS(title = R.string.friend_requests_title) // Friend Requests destination
+
 }
 
 /**
