@@ -50,6 +50,7 @@ import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
+import no.usn.mob3000.ui.screens.auth.ReadNews
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
@@ -162,8 +163,14 @@ fun App(
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
-                    onCreateNewsClick = { navController.navigate(Destination.CREATE_NEWS.name) }
+                    onCreateNewsClick = { navController.navigate(Destination.CREATE_NEWS.name) },
+                    setNews = viewModel::setNews,
+                    setSelectedNews = viewModel::setSelectedNews,
+                    onNewsClick = { navController.navigate(Destination.READ_NEWS.name) }
                 ) }
+            composable(route = Destination.READ_NEWS.name) { ReadNews(
+                news = viewModel.selectedNews.value
+            ) }
             composable(route = Destination.HOME.name) {
                 HomeScreen(
                     onTrainClick = { navController.navigate(Destination.OPENINGS.name) },
@@ -396,6 +403,7 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     DOCUMENTATION_CREATE(title = R.string.docs_create_title),
     ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
+    READ_NEWS(title = R.string.news_title),
     CREATE_NEWS(title = R.string.create_news_title),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),

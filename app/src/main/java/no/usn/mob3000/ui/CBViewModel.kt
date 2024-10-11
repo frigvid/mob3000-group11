@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import no.usn.mob3000.ui.screens.chess.train.opening.Opening
+import no.usn.mob3000.ui.screens.info.News
 
 /**
  * ViewModel to save state where necessary.
@@ -26,6 +27,29 @@ class CBViewModel : ViewModel() {
     fun setSelectedOpening(opening: Opening) {
         _selectedOpening.value = opening
     }
+
+    /**
+     *
+     */
+
+    private val _news = mutableStateOf<List<News>>(emptyList())
+    val news: State<List<News>> = _news
+
+    private val _selectedNews = mutableStateOf<News?>(null)
+    val selectedNews: State<News?> = _selectedNews
+
+    fun setNews(news: List<News>) {
+        _news.value = news
+    }
+
+    fun setSelectedNews(news: News) {
+        _selectedNews.value = news
+    }
+
+    fun getNewsById(id: String): News? {
+        return _news.value.find { it.id == id }
+    }
+
 
     /**
      * Retrieves an Opening by its ID.
@@ -58,4 +82,5 @@ class CBViewModel : ViewModel() {
     fun setSelectedLanguage(language: String) {
         _selectedLanguage.value = language
     }
+
 }
