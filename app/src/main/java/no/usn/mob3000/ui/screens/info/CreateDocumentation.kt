@@ -12,7 +12,9 @@ import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 
 /**
-
+ *
+ * @created 2024-10-10
+ * @author Eirik, 258030
  */
 @Composable
 fun CreateDocumentation() {

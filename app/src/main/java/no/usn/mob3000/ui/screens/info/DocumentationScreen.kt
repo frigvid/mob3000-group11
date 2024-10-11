@@ -23,6 +23,17 @@ import no.usn.mob3000.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
+ *
+ * Screen for the documentation page. There is a temporary solution for admin to create new documentation, but we'll see what
+ * we do about that functionality. {@link no.usn.mob3000.ui.screens.info.CreateDocumentation} does currently have no form, but
+ * the form will probably be identical to {@link no.usn.mob3000.ui.screens.info.CreateNews}. Preferable to have one class for handling both
+ * of these requests.
+ *
+ * TODO: Considering abstracting the create form and connecting the cards to the database.
+ * TODO: Reuse the code from {@link no.usn.mob3000.ui.screens.info.NewsScreen} for the documentation boxes.
+ *
+ * @param onFAQButtonClick Callback function to navigate to [FAQScreen].
+ * @param onCreateDocumentClick Callback function to navigate to [CreateDocumentation].
  * @author 258030, Eirik
  * @created 2024-09-23
  */
@@ -32,7 +43,6 @@ fun DocumentationScreen(
     onFAQButtonClick: () -> Unit,
     onCreateDocumentClick: () -> Unit
 ) {
-
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -177,13 +187,13 @@ fun DocBox(
         modifier = Modifier
             .height(height)
             .width(width)
-            .shadow(4.dp, shape = RoundedCornerShape(8.dp)) // Adds a shadow effect
+            .shadow(4.dp, shape = RoundedCornerShape(8.dp))
             .border(
                 BorderStroke(1.dp, Color.Gray),
                 shape = RoundedCornerShape(8.dp)
-            ) // Adds a 1px border
+            )
             .background(color = color, shape = RoundedCornerShape(8.dp))
-            .padding(16.dp) // Adds padding inside the box
+            .padding(16.dp)
     ) {
         Text(
             text = title,
@@ -202,7 +212,7 @@ fun DocBox(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
             maxLines = 7,
-            overflow = TextOverflow.Ellipsis // Truncates the text if it overflows
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

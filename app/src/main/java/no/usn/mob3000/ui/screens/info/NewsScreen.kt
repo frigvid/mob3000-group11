@@ -2,7 +2,6 @@ package no.usn.mob3000.ui.screens.info
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -23,11 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +41,17 @@ import no.usn.mob3000.data.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
+ * Screen where the users can read news and the admin can create news. Follows the same structure as
+ * {@link no.usn.mob3000.ui.screens.chess.train.opening.OpeningScreen}
+ *
+ * TODO: Limit how "sensetive" {@code onNewsClick} is (limit the area which is clickable)
+ *
+ * @param onCreateNewsClick Callback function to navigate to the [CreateNewsScreen].
+ * @param setNews ViewModel function to set the news.
+ * @param setSelectedNews ViewModel function to set the selected news.
+ * @param onNewsClick Callback function to navigate to the [ReadNewsScreen].
+ *
+ *
  * @author 258030, Eirik
  * @created 2024-09-23
  */
@@ -52,17 +61,15 @@ fun NewsScreen(
     onCreateNewsClick: () -> Unit,
     setNews: (List<News>) -> Unit,
     setSelectedNews: (News) -> Unit,
-    onNewsClick: (News) -> Unit,
-    filter: List<String>? = null
+    onNewsClick: (News) -> Unit
 ) {
 
-    /* TODO: Extract data-handling code to data layer. */
     var existingNews by remember { mutableStateOf<List<News>>(emptyList()) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
-    val boxSize = (screenWidth * 0.85f).coerceAtMost(300.dp)
     val height = (screenHeight * 0.25f).coerceAtMost(250.dp)
+    val width = (screenWidth * 0.85f).coerceAtMost(300.dp)
 
     LaunchedEffect(key1 = true) {
         try {
@@ -84,49 +91,27 @@ fun NewsScreen(
                 containerColor = DefaultButton,
                 onClick = onCreateNewsClick
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Create documentation")
+                Icon(Icons.Default.Add, contentDescription = "Create news")
             }
         }) { innerPadding ->
-        Box(
-            modifier = Modifier.fillMaxSize()
-                .padding(innerPadding),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Column(
-                modifier = Modifier.padding(top = 30.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                NewsBox(
-                    title = stringResource(R.string.breaking_news),
-                    description = stringResource(R.string.niemann_intro),
-                    body = stringResource(R.string.niemann_report),
-                    color = colorResource(id = R.color.beige_1),
-                    size = boxSize,
-                    height = height,
-                    onClick = { /* TODO: Implement single-news-page */ }
-                )
-                NewsBox(
-                    title = stringResource(R.string.shocking_news),
-                    description = stringResource(R.string.magnus_intro),
-                    body = stringResource(R.string.magnus_report),
-                    color = colorResource(id = R.color.beige_1),
-                    size = boxSize,
-                    height = height,
-                    onClick = { /* TODO: Implement single-news-page */ }
-                )
+
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 300.dp),
                     contentPadding = PaddingValues(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(20.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .padding(innerPadding)
                 ) {
 
                     items(existingNews) { news ->
                         CardButton(
-                            text = news.title,
+                            color = colorResource(id = R.color.beige_1),
+                            height = height,
+                            title = news.title,
+                            summary = news.summary,
+                            content = news.content,
                             onClick = {
                                 setSelectedNews(news)
                                 onNewsClick(news)
@@ -137,9 +122,12 @@ fun NewsScreen(
 
             }
         }
-    }
-}
 
+/**
+ * Data class for the news table in the database. Not all values are used currently, but all of them are made available
+ * for future use. This class would ideally be abstracted or placed within its own relevant package with other db-related
+ * classes/functions.
+ */
 @Serializable
 data class News(
     val id: String,
@@ -154,86 +142,55 @@ data class News(
 
 @Composable
 fun CardButton(
-    text: String,
+    title: String,
+    summary: String,
+    content: String,
+    height: androidx.compose.ui.unit.Dp,
+    color: Color,
     onClick: () -> Unit
 ) {
     Card(
         onClick = onClick,
-        shape = RoundedCornerShape(8.dp),
         modifier = Modifier
-            .aspectRatio(1f)
-            .fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF976646))
+            .shadow(4.dp, shape = RoundedCornerShape(8.dp))
+            .border(
+                BorderStroke(2.dp, Color.Black),
+                shape = RoundedCornerShape(8.dp)
+            ),
+        shape = RoundedCornerShape(8.dp)
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Start,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                .height(height)
+                .background(color = color, shape = RoundedCornerShape(8.dp))
+                .padding(14.dp)
         ) {
             Text(
-                text = text,
-                color = Color.White,
+                text = title,
                 fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
             )
+            Text(
+                text = summary,
+                fontSize = 12.sp,
+                fontStyle = FontStyle.Italic,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = content,
+                fontSize = 10.sp,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }
 
-
-
-/**
- * @author 258030, Eirik
- * @created 2024-09-23
- */
-
-
-@Composable
-fun NewsBox(
-    title: String,
-    description: String,
-    body: String,
-    color: Color,
-    height: androidx.compose.ui.unit.Dp,
-    size: androidx.compose.ui.unit.Dp,
-    onClick: () -> Unit
-) {
-    Column(
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .height(height)
-            .size(size)
-            .shadow(4.dp, shape = RoundedCornerShape(8.dp)) // Adds a shadow effect
-            .border(
-                BorderStroke(1.dp, Color.Gray),
-                shape = RoundedCornerShape(8.dp)
-            ) // Adds a 1px border
-            .background(color = color, shape = RoundedCornerShape(8.dp))
-            .padding(16.dp) // Adds padding inside the box
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = body,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
-            maxLines = 7,
-            overflow = TextOverflow.Ellipsis // Truncates the text if it overflows
-        )
-    }
-}
 

@@ -29,9 +29,20 @@ class CBViewModel : ViewModel() {
     }
 
     /**
+     * Retrieves an Opening by its ID.
      *
+     * @param id The ID of the opening to retrieve.
+     * @return The Opening with the matching ID, or null if not found.
+     * @author frigvid
+     * @created 2024-10-09
      */
+    fun getOpeningById(id: String): Opening? {
+        return _openings.value.find { it.id == id }
+    }
 
+    /***********************************************************/
+
+    /* News. */
     private val _news = mutableStateOf<List<News>>(emptyList())
     val news: State<List<News>> = _news
 
@@ -46,22 +57,19 @@ class CBViewModel : ViewModel() {
         _selectedNews.value = news
     }
 
+    /**
+     * Retrieves a News by its ID. Currently not in use
+     *
+     * @param id The ID of the news to retrieve.
+     * @return The News with the matching ID, or null if not found.
+     * @author Eirik, 258030
+     * @Created 2024-10-11
+     */
     fun getNewsById(id: String): News? {
         return _news.value.find { it.id == id }
     }
 
-
-    /**
-     * Retrieves an Opening by its ID.
-     *
-     * @param id The ID of the opening to retrieve.
-     * @return The Opening with the matching ID, or null if not found.
-     * @author frigvid
-     * @created 2024-10-09
-     */
-    fun getOpeningById(id: String): Opening? {
-        return _openings.value.find { it.id == id }
-    }
+    /***********************************************************/
 
     /* Settings.
      * 
