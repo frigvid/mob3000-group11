@@ -43,6 +43,7 @@
 
     <!-- Profile pending friend requests page. -->
     <string name="profile_pending_friend_requests_title">Pending friend requests</string>
+    <string name="profile_pending_friend_requests_no_requests">There are no pending friend requests right now.</string>
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>

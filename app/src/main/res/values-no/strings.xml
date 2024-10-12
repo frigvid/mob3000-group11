@@ -42,6 +42,7 @@
 
     <!-- Profile pending friend requests page. -->
     <string name="profile_pending_friend_requests_title">Ventende venneforespørsler</string>
+    <string name="profile_pending_friend_requests_no_requests">Det er ingen ventende forespørsler akkurat nå.</string>
 
     <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>
