@@ -80,7 +80,7 @@ class CBViewModel : ViewModel() {
      *
      * @param id The ID of the news to retrieve.
      * @return The News with the matching ID, or null if not found.
-     * @author Eirik, 258030
+     * @author 258030 (Eirik)
      * @Created 2024-10-11
      */
     fun getNewsById(id: String): News? {

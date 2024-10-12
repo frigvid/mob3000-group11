@@ -51,10 +51,9 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * @param onNewsClick Callback function to navigate to the [ReadNewsScreen].
  *
  *
- * @author 258030, Eirik
+ * @author 258030 (Eirik)
  * @created 2024-09-23
  */
-
 @Composable
 fun NewsScreen(
     onCreateNewsClick: () -> Unit,

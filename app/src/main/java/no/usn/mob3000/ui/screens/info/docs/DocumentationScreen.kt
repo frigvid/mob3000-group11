@@ -34,10 +34,9 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * @param onFAQButtonClick Callback function to navigate to [FAQScreen].
  * @param onCreateDocumentClick Callback function to navigate to [CreateDocumentationScreen].
- * @author 258030, Eirik
+ * @author 258030 (Eirik)
  * @created 2024-09-23
  */
-
 @Composable
 fun DocumentationScreen(
     onFAQButtonClick: () -> Unit,
@@ -101,10 +100,9 @@ fun DocumentationScreen(
 
 
 /**
- * @author 258030, Eirik
+ * @author 258030 (Eirik)
  * @created 2024-09-23
  */
-
 @Composable
 fun FaqField(
     title: String,
@@ -136,7 +134,7 @@ fun FaqField(
 }
 
 /**
- * @author 258030, Eirik
+ * @author 258030 (Eirik)
  * @created 2024-09-23
  */
 @Composable
@@ -169,7 +167,7 @@ fun FaqButton(
 
 
 /**
- * @author 258030, Eirik
+ * @author 258030 (Eirik)
  * @created 2024-09-23
  */
 @Composable

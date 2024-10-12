@@ -34,8 +34,8 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * TODO: Make a {@code UPDATE} function for inserting data into the [NEWS] table.
  * TODO: Go over options for customizability (font size, colors, font types, images, etc.)
  *
+ * @author 258030 (Eirik)
  * @Created 2024-10-10
- * @author 258030, Eirik
  */
 @Composable
 fun CreateNewsScreen() {

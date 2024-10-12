@@ -13,8 +13,8 @@ import no.usn.mob3000.Viewport
 
 /**
  *
+ * @author 258030 (Eirik)
  * @created 2024-10-10
- * @author Eirik, 258030
  */
 @Composable
 fun CreateDocumentationScreen() {

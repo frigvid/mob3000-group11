@@ -23,9 +23,9 @@ import no.usn.mob3000.Viewport
  *
  * TODO: Add more structure and make it 🌟💅pretty💅🌟
  *
- *@param news The [News] to display details about.
- *@author 258030, Eirik
- *@created 2024-10-11
+ * @param news The [News] to display details about.
+ * @author 258030 (Eirik)
+ * @created 2024-10-11
  */
 @Composable
 fun ReadNewsScreen(
