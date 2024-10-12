@@ -173,8 +173,8 @@ fun App(
             }
             composable(route = Destination.AUTH_CREATE.name) {
                 CreateUserScreen(
-                    onSignIn = { navController.navigate(Destination.HOME.name) },
-                    onLogin = { navController.navigate(Destination. AUTH_LOGIN.name) }
+                    onSignUpClick = { navController.navigate(Destination.HOME.name) },
+                    onReturnToLoginClick = { navController.navigate(Destination. AUTH_LOGIN.name) }
                 )
             }
             composable(route = Destination.AUTH_FORGOT.name) {
@@ -371,7 +371,7 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     PLAY(title = R.string.home_play_title),
     HISTORY(title = R.string.home_history_title),
     AUTH_LOGIN(title = R.string.auth_login_title),
-    AUTH_CREATE(title = R.string.auth_createUser_title),
+    AUTH_CREATE(title = R.string.auth_create_user_title),
     AUTH_FORGOT(title = R.string.auth_forgot_password_title),
     AUTH_RESET(title = R.string.auth_reset_password_title)
 }

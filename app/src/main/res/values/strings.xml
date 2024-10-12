@@ -43,7 +43,11 @@
     <string name="auth_login_register">Register</string>
 
     <!-- Create user page. -->
-    <string name="auth_createUser_title">Create user</string>
+    <string name="auth_create_user_title">Create user</string>
+    <string name="auth_create_user_password">Password</string>
+    <string name="auth_create_user_confirm">Confirm password</string>
+    <string name="auth_create_user_sign_up">Sign up</string>
+    <string name="auth_create_user_return_to_login">Already have an account? Log in.</string>
 
     <!-- Forgot password page. -->
     <string name="auth_forgot_password_title">Forgot password</string>

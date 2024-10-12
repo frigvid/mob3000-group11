@@ -43,7 +43,11 @@
     <string name="auth_login_register">Registrer deg</string>
 
     <!-- Create user page. -->
-    <string name="auth_createUser_title">Lag brukerkonto</string>
+    <string name="auth_create_user_title">Lag brukerkonto</string>
+    <string name="auth_create_user_password">Passord</string>
+    <string name="auth_create_user_confirm">Gjenta passord</string>
+    <string name="auth_create_user_sign_up">Opprett brukerkonto</string>
+    <string name="auth_create_user_return_to_login">Har du allerede en konto? Logg inn.</string>
 
     <!-- Forgot password page. -->
     <string name="auth_forgot_password_title">Glemt passord</string>
