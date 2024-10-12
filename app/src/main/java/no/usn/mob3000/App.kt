@@ -48,7 +48,7 @@ import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
-import no.usn.mob3000.ui.screens.info.news.ReadNewsScreen
+import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
@@ -190,16 +190,23 @@ fun App(
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
+                    news = viewModel.news.value,
+                    onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
                     onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
-                    setNews = viewModel::setNews,
-                    setSelectedNews = viewModel::setSelectedNews,
-                    onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) }
+                    setNewsList = viewModel::setNews,
+                    setSelectedNews = viewModel::setSelectedNews
                 )
             }
-            composable(route = Destination.NEWS_CREATE.name) { CreateNewsScreen() }
             composable(route = Destination.NEWS_DETAILS.name) {
-                ReadNewsScreen(
-                    news = viewModel.selectedNews.value
+                NewsDetailsScreen(
+                    selectedNews = viewModel.selectedNews.value,
+                    onEditClick = { navController.navigate(Destination.NEWS_CREATE.name) }
+                )
+            }
+            composable(route = Destination.NEWS_CREATE.name) {
+                CreateNewsScreen(
+                    selectedNews = viewModel.selectedNews.value,
+                    onSaveNewsClick = { navController.navigateUp() }
                 )
             }
             composable(route = Destination.HOME.name) {

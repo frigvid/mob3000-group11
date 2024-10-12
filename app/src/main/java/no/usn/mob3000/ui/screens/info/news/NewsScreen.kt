@@ -1,194 +1,203 @@
 package no.usn.mob3000.ui.screens.info.news
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import io.github.jan.supabase.postgrest.from
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.Serializable
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.data.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import no.usn.mob3000.ui.theme.DefaultListItemBackground
+import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
- * Screen where the users can read news and the admin can create news. Follows the same structure as
- * {@link no.usn.mob3000.ui.screens.chess.train.opening.OpeningScreen}
+ * Screen for displaying a list of news articles.
  *
- * TODO: Limit how "sensetive" {@code onNewsClick} is (limit the area which is clickable)
+ * This screen shows a scrollable list of news articles. Each article is represented
+ * by a card showing its title, summary, and creation date. Users can click on an
+ * article to view its details. There's also a floating action button to create new articles.
  *
- * @param onCreateNewsClick Callback function to navigate to the [CreateNewsScreen].
- * @param setNews ViewModel function to set the news.
- * @param setSelectedNews ViewModel function to set the selected news.
- * @param onNewsClick Callback function to navigate to the [ReadNewsScreen].
+ * TODO: This and [DocumentationScreen] can probably be made more generic, so they depend
+ *       on fellow components similar to the web-version.
+ * TODO: Adding the ability to set an image for news would make them easier to differentiate
+ *       from the [DocumentationScreen].
  *
- *
- * @author 258030 (Eirik)
+ * @param news The list of news articles stored in the ViewModel's state.
+ * @param onNewsClick Callback function to navigate to the [News] object's details screen.
+ * @param onCreateNewsClick Callback function to navigate to the create news screen.
+ * @param setNewsList ViewModel function to store the list of [News] objects in state.
+ * @param setSelectedNews ViewModel function to store a specific [News] object in state.
+ * @author frigvid, 258030 (Eirik)
  * @created 2024-09-23
  */
 @Composable
 fun NewsScreen(
+    news: List<News>,
+    onNewsClick: (News) -> Unit,
     onCreateNewsClick: () -> Unit,
-    setNews: (List<News>) -> Unit,
-    setSelectedNews: (News) -> Unit,
-    onNewsClick: (News) -> Unit
+    setNewsList: (List<News>) -> Unit,
+    setSelectedNews: (News) -> Unit
 ) {
+    /* TODO: Replace dummy data with fetched data from data layer and cache it in ViewModel state.
+     *       Maybe check for news in the background, so there's less of a load time?
+     */
+    LaunchedEffect(Unit) {
+        val dummyNews = listOf(
+            News(
+                "1",
+                Date(),
+                Date(),
+                "User1",
+                "New Chess Tournament Announced",
+                "Exciting chess tournament coming up next month",
+                "A major chess tournament has been announced for next month. Players from around the world are expected to participate...",
+                true
+            ),
+            News(
+                "2",
+                Date(),
+                Date(),
+                "User2",
+                "Chess AI Beats World Champion",
+                "Artificial Intelligence makes history in chess",
+                "In a shocking turn of events, a new chess AI has defeated the current world champion in a series of matches...",
+                true
+            ),
+            News(
+                "3",
+                Date(),
+                Date(),
+                "User3",
+                "Chess Strategy Workshop",
+                "Learn from the masters",
+                "A week-long chess strategy workshop is being organized, featuring lectures from grandmasters...",
+                false
+            )
+        )
 
-    var existingNews by remember { mutableStateOf<List<News>>(emptyList()) }
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
-    val height = (screenHeight * 0.25f).coerceAtMost(250.dp)
-    val width = (screenWidth * 0.85f).coerceAtMost(300.dp)
-
-    LaunchedEffect(key1 = true) {
-        try {
-            val result = withContext(Dispatchers.IO) {
-                val supabase = SupabaseClientWrapper.getClient()
-                supabase.from("news").select().decodeList<News>()
-            }
-            existingNews = result
-            setNews(result)
-            Log.d("NewsScreen", "Fetched news: ${existingNews.size}")
-        } catch (e: Exception) {
-            Log.e("Function…", "Error fetching news", e)
-        }
+        setNewsList(dummyNews)
     }
 
     Viewport(
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = DefaultButton,
-                onClick = onCreateNewsClick
+                onClick = onCreateNewsClick,
+                containerColor = DefaultButton
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Create news")
-            }
-        }) { innerPadding ->
-
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 300.dp),
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                ) {
-
-                    items(existingNews) { news ->
-                        CardButton(
-                            color = colorResource(id = R.color.beige_1),
-                            height = height,
-                            title = news.title,
-                            summary = news.summary,
-                            content = news.content,
-                            onClick = {
-                                setSelectedNews(news)
-                                onNewsClick(news)
-                            }
-                        )
-                    }
-                }
-
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = "Create News"
+                )
             }
         }
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(news) { newsItem ->
+                NewsItem(
+                    news = newsItem,
+                    onClick = {
+                        setSelectedNews(newsItem)
+                        onNewsClick(newsItem)
+                    }
+                )
+            }
+        }
+    }
+}
 
 /**
- * Data class for the news table in the database. Not all values are used currently, but all of them are made available
- * for future use. This class would ideally be abstracted or placed within its own relevant package with other db-related
- * classes/functions.
+ * Composable function to display individual news items.
+ *
+ * @param news The [News] object to display.
+ * @param onClick Callback function to navigate to the [News] object's details screen.
+ * @author frigvid, 258030 (Eirik)
+ * @created 2024-10-12
  */
-@Serializable
-data class News(
-    val id: String,
-    val created_at: String? = null,
-    val modified_at: String? = null,
-    val created_by: String? = null,
-    val title: String,
-    val summary: String,
-    val content: String,
-    val is_published: Boolean
-)
-
 @Composable
-fun CardButton(
-    title: String,
-    summary: String,
-    content: String,
-    height: androidx.compose.ui.unit.Dp,
-    color: Color,
+fun NewsItem(
+    news: News,
     onClick: () -> Unit
 ) {
     Card(
-        onClick = onClick,
         modifier = Modifier
-            .shadow(4.dp, shape = RoundedCornerShape(8.dp))
-            .border(
-                BorderStroke(2.dp, Color.Black),
-                shape = RoundedCornerShape(8.dp)
-            ),
-        shape = RoundedCornerShape(8.dp)
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
+        border =
+        if (news.isPublished) null
+        else BorderStroke(width = 2.dp, color = Color(0xFFFF0000))
     ) {
         Column(
-            horizontalAlignment = Alignment.Start,
             modifier = Modifier
-                .height(height)
-                .background(color = color, shape = RoundedCornerShape(8.dp))
-                .padding(14.dp)
+                .padding(16.dp)
+                .fillMaxWidth()
         ) {
             Text(
-                text = title,
+                text = news.title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                fontWeight = FontWeight.Bold
             )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            news.summary?.let {
+                Text(
+                    text = it,
+                    fontSize = 14.sp
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+            }
+
             Text(
-                text = summary,
-                fontSize = 12.sp,
-                fontStyle = FontStyle.Italic,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = content,
-                fontSize = 10.sp,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
-                overflow = TextOverflow.Ellipsis
+                text = stringResource(R.string.news_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_date_pattern), Locale.getDefault()).format(news.createdAt)}",
+                fontSize = 12.sp
             )
         }
     }
 }
 
-
+/**
+ * TODO: Extract to data layer and fix for use with fetched data.
+ *
+ * @property id Unique identifier for the news article.
+ * @property createdAt Date and time when the article was created.
+ * @property modifiedAt Date and time when the article was last modified.
+ * @property createdBy Identifier of the user who created the article.
+ * @property title Title of the news article.
+ * @property summary Brief summary of the article content.
+ * @property content Full content of the news article.
+ * @property isPublished Boolean indicating whether the article is published or in draft state
+ * @author frigvid
+ * @created 2024-10-12
+ */
+data class News(
+    val id: String,
+    val createdAt: Date,
+    val modifiedAt: Date,
+    val createdBy: String,
+    val title: String,
+    val summary: String?,
+    val content: String?,
+    val isPublished: Boolean
+)

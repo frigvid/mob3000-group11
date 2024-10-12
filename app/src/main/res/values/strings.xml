@@ -65,16 +65,30 @@
 
     <!-- News page. -->
     <string name="news_title">News</string>
-    <string name="niemann_intro">Can Hans Niemann really fit that buttplug?</string>
-    <string name="magnus_intro">What would Magnus do?</string>
-    <string name="niemann_report">"A new report delivered from the University of Montana reveals that mr Niemanns victory against the reigning champion Magnus Carlsen might not be cheating after all. Niemanns anus-circumference is estimated to be too small after an operation back in 2015 to fit such a communication object.    "</string>
-    <string name="magnus_report">"Magnus Carlsen was asked to review downfall of Runescape 3 and had no comment what so ever. Don't click here please "</string>
-    <string name="breaking_news">Breaking news</string>
-    <string name="shocking_news">Shocking news</string>
-    <string name="news_create_title">Create news</string>
     <string name="subtitle">Subtitle</string>
     <string name="publish">Publish</string>
+    <string name="news_date_prefix">Date</string>
+    <string name="news_date_pattern">yyyy-MM-dd HH:mm</string>
 
+    <!-- News details page. -->
+    <string name="news_details_created_date_prefix">Created</string>
+    <string name="news_details_modified_date_prefix">Modified</string>
+    <string name="news_details_status_prefix">Status</string>
+    <string name="news_details_status_published">Published</string>
+    <string name="news_details_status_draft">Draft</string>
+    <string name="news_details_not_found">News not found</string>
+    <string name="news_details_created_date_pattern">yyyy-MM-dd HH:mm</string>
+    <string name="news_details_modified_date_pattern">yyyy-MM-dd HH:mm</string>
+
+    <!-- News creation page. -->
+    <string name="news_create_title">Create news</string>
+    <string name="news_create_label_title">Title</string>
+    <string name="news_create_label_summary">Summary</string>
+    <string name="news_create_label_content">Content</string>
+    <string name="news_create_check_publish">Publish news</string>
+    <string name="news_create_check_unpublish">Unpublish news?</string>
+    <string name="news_create_save_news">Save News</string>
+    <string name="news_create_save_changes">Save Changes</string>
 
     <!-- Home page. -->
     <string name="home_title">Home Page</string>

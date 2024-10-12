@@ -78,7 +78,7 @@ class CBViewModel : ViewModel() {
     }
 
     /**
-     * Retrieves a News by its ID. Currently not in use
+     * Retrieves a News by its ID.
      *
      * @param id The ID of the news to retrieve.
      * @return The News with the matching ID, or null if not found.

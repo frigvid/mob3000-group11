@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.info.news
+package no.usn.mob3000.ui.screens.info.news.old
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +27,7 @@ import no.usn.mob3000.Viewport
  * @author 258030 (Eirik)
  * @created 2024-10-11
  */
+/*
 @Composable
 fun ReadNewsScreen(
     news: News?
@@ -67,3 +68,4 @@ fun ReadNewsScreen(
         }
     }
 }
+*/
