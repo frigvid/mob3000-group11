@@ -22,6 +22,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.LocalNavController
 import no.usn.mob3000.Viewport
 
@@ -116,13 +117,15 @@ fun ProfileStats() {
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        StatItem("ELO", "430")
-        StatItem("Games", "0")
-        StatItem("Wins", "0")
-        StatItem("Losses", "0")
-        StatItem("Draws", "0")
+        StatItem(stringResource(R.string.profile_stat_elo), "430")
+        StatItem(stringResource(R.string.profile_stat_games), "0")
+        StatItem(stringResource(R.string.profile_stat_wins), "0")
+        StatItem(stringResource(R.string.profile_stat_losses), "0")
+        StatItem(stringResource(R.string.profile_stat_draws), "0")
+        StatItem(stringResource(R.string.profile_stat_country), "\uD83C\uDDF3\uD83C\uDDF4")
     }
 }
+
 @Composable
 fun StatItem(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -135,7 +138,7 @@ fun StatItem(label: String, value: String) {
 fun AboutSection() {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
-            text = "About Me",
+            text = stringResource(R.string.profile_about_me),
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -150,7 +153,7 @@ fun AboutSection() {
 fun FriendsSection() {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
-            text = "Friends",
+            text = stringResource(R.string.profile_friends),
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 8.dp)

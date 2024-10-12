@@ -15,8 +15,22 @@
 
     <!-- Profile page. -->
     <string name="profile_title">User profile</string>
+    <string name="profile_about_me">About me</string>
+    <string name="profile_friends">Friends</string>
+    <string name="profile_stat_elo">ELO</string>
+    <string name="profile_stat_games">Games</string>
+    <string name="profile_stat_wins">Wins</string>
+    <string name="profile_stat_losses">Losses</string>
+    <string name="profile_stat_draws">Draws</string>
+    <string name="profile_stat_country">Country</string>
+
+    <!-- Profile editor page. -->
     <string name="profile_edit_profile_title">Edit profile</string>
+
+    <!-- Profile add friends page. -->
     <string name="profile_add_friends_title">Add friends</string>
+
+    <!-- Profile pending friend requests page. -->
     <string name="profile_pending_friend_requests_title">Pending friend requests</string>
 
     <!-- Settings page. -->

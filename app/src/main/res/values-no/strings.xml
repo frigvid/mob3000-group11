@@ -15,8 +15,22 @@
 
     <!-- Profile page. -->
     <string name="profile_title">Brukerprofil</string>
+    <string name="profile_about_me">Om meg</string>
+    <string name="profile_friends">Venner</string>
+    <string name="profile_stat_elo">ELO</string>
+    <string name="profile_stat_games">Antall spill</string>
+    <string name="profile_stat_wins">Vinn</string>
+    <string name="profile_stat_losses">Tap</string>
+    <string name="profile_stat_draws">Uavgjort</string>
+    <string name="profile_stat_country">Nasjonalitet</string>
+
+    <!-- Profile editor page. -->
     <string name="profile_edit_profile_title">Rediger brukerprofil</string>
+
+    <!-- Profile add friends page. -->
     <string name="profile_add_friends_title">Legg til venner</string>
+
+    <!-- Profile pending friend requests page. -->
     <string name="profile_pending_friend_requests_title">Ventende venneforespørsler</string>
 
     <!-- Settings page. -->
