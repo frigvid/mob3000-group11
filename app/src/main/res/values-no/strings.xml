@@ -26,6 +26,16 @@
 
     <!-- Profile editor page. -->
     <string name="profile_edit_profile_title">Rediger brukerprofil</string>
+    <string name="profile_edit_title">Rediger profilen din</string>
+    <string name="profile_edit_avatar_url">Profilbilde link</string>
+    <string name="profile_edit_avatar_url_placeholder">https://eksempel.no/mitt-kule-profilbilde</string>
+    <string name="profile_edit_display_name">Visningsnavn</string>
+    <string name="profile_edit_display_name_placeholder">Kult navn</string>
+    <string name="profile_edit_about_me">Om meg</string>
+    <string name="profile_edit_nationality">Nasjonalitet</string>
+    <string name="profile_edit_visibility">Brukerprofilsynlighet</string>
+    <string name="profile_edit_friends_list_visibility">Vennelistesynlighet</string>
+    <string name="profile_edit_save_button">Lagre detaljer</string>
 
     <!-- Profile add friends page. -->
     <string name="profile_add_friends_title">Legg til venner</string>

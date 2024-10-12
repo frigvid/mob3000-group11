@@ -167,7 +167,11 @@ fun App(
                     onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }
                 )
             }
-            composable(route = Destination.PROFILE_EDIT_PROFILE.name) { ProfileEditScreen() }
+            composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
+                ProfileEditScreen(
+                    onSaveProfileClick = { navController.navigate(Destination.PROFILE.name) }
+                )
+            }
             composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen() }
             composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
             composable(route = Destination.SETTINGS.name) { SettingsScreen() }
