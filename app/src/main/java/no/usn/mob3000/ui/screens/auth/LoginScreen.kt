@@ -78,7 +78,7 @@ fun LoginScreen(
                     value = password,
                     onValueChange = { password = it },
                     label = { Text(stringResource(R.string.auth_login_password)) },
-                    placeholder = { Text("••••••••") },
+                    placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier
                         .fillMaxWidth()

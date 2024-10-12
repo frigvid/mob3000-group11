@@ -36,6 +36,7 @@
     <string name="auth_login_email">E-mail</string>
     <string name="auth_login_email_placeholder">you@example.com</string>
     <string name="auth_login_password">Password</string>
+    <string name="auth_login_password_placeholder" translatable="false">••••••••</string>
     <string name="auth_login_authenticate">Log in</string>
     <string name="auth_login_forgot_password">Forgot password?</string>
     <string name="auth_login_divider">Or</string>

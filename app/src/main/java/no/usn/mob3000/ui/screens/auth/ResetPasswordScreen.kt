@@ -57,7 +57,7 @@ fun ResetPasswordScreen(
                     value = password,
                     onValueChange = { password = it },
                     label = { Text(stringResource(R.string.auth_reset_password_input)) },
-                    placeholder = { Text("••••••••") },
+                    placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -68,7 +68,7 @@ fun ResetPasswordScreen(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
                     label = { Text(stringResource(R.string.auth_reset_password_confirm)) },
-                    placeholder = { Text("••••••••") },
+                    placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth()
                 )
