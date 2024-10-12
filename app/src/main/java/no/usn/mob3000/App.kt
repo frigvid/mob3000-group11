@@ -159,25 +159,35 @@ fun App(
             composable(route = Destination.GROUPS_CREATE.name) { CreateGroupScreen() }
             composable(route = Destination.PLAY.name) { PlayScreen() }
             composable(route = Destination.HISTORY.name) { HistoryScreen() }
-            composable(route = Destination.PROFILE.name) { ProfileScreen(
-                onLogin = { navController.navigate(Destination.AUTH_LOGIN.name) }
-            ) }
+            composable(route = Destination.PROFILE.name) {
+                ProfileScreen(
+                    onLogin = { navController.navigate(Destination.AUTH_LOGIN.name) }
+                )
+            }
             composable(route = Destination.SETTINGS.name) { SettingsScreen() }
-            composable(route = Destination.AUTH_LOGIN.name) { LoginScreen(
-                onCreateUser = { navController.navigate(Destination.AUTH_CREATE.name)},
-                onLogin = { navController.navigate(Destination.HOME.name) },
-                onForgot = { navController.navigate(Destination.AUTH_FORGOT.name) }
-            ) }
-            composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen(
-                onSignIn = { navController.navigate(Destination.HOME.name) },
-                onLogin = { navController.navigate(Destination. AUTH_LOGIN.name) }
-            ) }
-            composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen(
-                onResetPassword = { navController.navigate(Destination.AUTH_RESET.name) }
-            ) }
-            composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen(
-                onReset = { navController.navigate(Destination.HOME.name) },
-            ) }
+            composable(route = Destination.AUTH_LOGIN.name) {
+                LoginScreen(
+                    onCreateUser = { navController.navigate(Destination.AUTH_CREATE.name)},
+                    onLogin = { navController.navigate(Destination.HOME.name) },
+                    onForgot = { navController.navigate(Destination.AUTH_FORGOT.name) }
+                )
+            }
+            composable(route = Destination.AUTH_CREATE.name) {
+                CreateUserScreen(
+                    onSignIn = { navController.navigate(Destination.HOME.name) },
+                    onLogin = { navController.navigate(Destination. AUTH_LOGIN.name) }
+                )
+            }
+            composable(route = Destination.AUTH_FORGOT.name) {
+                ForgotPasswordScreen(
+                    onResetPassword = { navController.navigate(Destination.AUTH_RESET.name) }
+                )
+            }
+            composable(route = Destination.AUTH_RESET.name) {
+                ResetPasswordScreen(
+                    onReset = { navController.navigate(Destination.HOME.name) },
+                )
+            }
         }
     }
 }

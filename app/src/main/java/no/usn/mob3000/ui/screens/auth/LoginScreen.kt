@@ -32,16 +32,16 @@ import no.usn.mob3000.Viewport
  * as well as an option for logging in with a guest account.
  *
  * @param onLogin Callback triggered when the user presses the "Log In" button
- * to authenticate their account.
+ *                to authenticate their account.
  * @param onForgot Callback triggered when the user clicks the "Forgot password?"
- * text to navigate to the password recovery screen.
+ *                 text to navigate to the password recovery screen.
  * @param onCreateUser Callback triggered when the user clicks the "Or sign in"
- * text to navigate to the user creation screen.
- *
+ *                     text to navigate to the user creation screen.
  * @see CreateUserScreen
  * @see ForgotPasswordScreen
  * @see ResetPasswordScreen
  * @author Anarox, Markus
+ * @contributor frigvid
  * @created 2024-09-30
  */
 @Composable
@@ -64,7 +64,6 @@ fun LoginScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 TextField(
                     value = username,
                     onValueChange = { username = it },
@@ -90,9 +89,7 @@ fun LoginScreen(
                     style = MaterialTheme.typography.bodyMedium.copy(
                         textDecoration = TextDecoration.Underline
                     ),
-                    modifier = Modifier.clickable {
-                        onCreateUser()
-                    }
+                    modifier = Modifier.clickable { onCreateUser() }
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -100,16 +97,12 @@ fun LoginScreen(
                 Button(
                     onClick = { onLogin() },
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Log In")
-                }
+                ) { Text("Log In") }
 
                 Button(
                     onClick = { onLogin() },
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Log in as guest")
-                }
+                ) { Text("Log in as guest") }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -119,9 +112,7 @@ fun LoginScreen(
                     style = MaterialTheme.typography.bodyMedium.copy(
                         textDecoration = TextDecoration.Underline
                     ),
-                    modifier = Modifier.clickable {
-                        onForgot()
-                    }
+                    modifier = Modifier.clickable { onForgot() }
                 )
             }
         }

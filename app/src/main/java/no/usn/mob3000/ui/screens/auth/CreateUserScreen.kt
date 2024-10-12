@@ -30,12 +30,12 @@ import no.usn.mob3000.Viewport
  * fellow physically near player. (Local multiplayer, in other words).
  *
  * @param onSignIn Callback triggered when the user presses the "Sign up" button
- * to attempt account creation.
+ *                 to attempt account creation.
  * @param onLogin Callback triggered when the user clicks the "Already have an account? Log in"
- * text to navigate to the login screen.
- *
+ *                text to navigate to the login screen.
  * @see LoginScreen
  * @author Markus
+ * @contributor frigvid
  * @created 2024-09-24
  */
 @Composable
@@ -112,9 +112,7 @@ fun CreateUserScreen(
                     style = MaterialTheme.typography.bodyMedium.copy(
                         textDecoration = TextDecoration.Underline
                     ),
-                    modifier = Modifier.clickable {
-                        onLogin()
-                    }
+                    modifier = Modifier.clickable { onLogin() }
                 )
             }
         }

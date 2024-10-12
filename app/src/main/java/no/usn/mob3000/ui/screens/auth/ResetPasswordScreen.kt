@@ -31,6 +31,7 @@ import no.usn.mob3000.Viewport
  * @see LoginScreen
  * @see ForgotPasswordScreen
  * @author Markus
+ * @contributor frigvid
  * @created 2024-09-24
  */
 @Composable

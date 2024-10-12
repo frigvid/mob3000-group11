@@ -26,18 +26,19 @@ import androidx.compose.ui.unit.sp
  * fellow physically near player. (Local multiplayer, in other words).
  *
  * @param onResetPassword Callback triggered when the user presses the "Reset
- * password" button to initiate the password reset process.
- *
+ *                        password" button to initiate the password reset process.
  * @see LoginScreen
  * @see ResetPasswordScreen
- * @author Anarox, frigvid
- * @Contributor Markus
+ * @author Anarox
+ * @Contributor Markus, frigvid
  * @created 2024-09-24
  */
 @Composable
 fun ForgotPasswordScreen(
     onResetPassword: () -> Unit
 ) {
+    var email by remember { mutableStateOf("") }
+
     Viewport { innerPadding ->
         Box(
             modifier = Modifier
@@ -56,7 +57,6 @@ fun ForgotPasswordScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                var email by remember { mutableStateOf("") }
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -70,9 +70,7 @@ fun ForgotPasswordScreen(
                 Button(
                     onClick = { onResetPassword() },
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Reset password")
-                }
+                ) { Text(text = "Reset password") }
             }
         }
     }
