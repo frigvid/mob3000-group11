@@ -161,15 +161,14 @@ fun App(
             composable(route = Destination.PLAY.name) { PlayScreen() }
             composable(route = Destination.HISTORY.name) { HistoryScreen() }
             composable(route = Destination.PROFILE.name) { ProfileScreen() }
+            composable(route = Destination.PROFILE_EDIT_PROFILE.name) { EditProfileScreen() }
+            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { AddFriendScreen() }
+            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { FriendRequestScreen() }
             composable(route = Destination.SETTINGS.name) { SettingsScreen() }
             composable(route = Destination.AUTH_LOGIN.name) { LoginScreen() }
             composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }
             composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
             composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen() }
-
-            composable(route = Destination.EDIT_PROFILE.name) { EditProfileScreen() }
-            composable(route = Destination.ADD_FRIENDS.name) { AddFriendScreen() }
-            composable(route = Destination.FRIEND_REQUESTS.name) { FriendRequestScreen() }
         }
     }
 }
