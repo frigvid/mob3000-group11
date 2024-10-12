@@ -77,6 +77,10 @@ class CBViewModel : ViewModel() {
         _selectedNews.value = news
     }
 
+    fun clearSelectedNews() {
+        _selectedNews.value = null
+    }
+
     /**
      * Retrieves a News by its ID.
      *
@@ -102,6 +106,10 @@ class CBViewModel : ViewModel() {
 
     fun setSelectedDocumentation(documentation: Documentation) {
         _selectedDocumentation.value = documentation
+    }
+
+    fun clearSelectedDocumentation() {
+        _selectedDocumentation.value = null
     }
 
     /* FAQ */

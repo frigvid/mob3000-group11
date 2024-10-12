@@ -41,6 +41,7 @@ import java.util.*
  * @param onCreateNewsClick Callback function to navigate to the create news screen.
  * @param setNewsList ViewModel function to store the list of [News] objects in state.
  * @param setSelectedNews ViewModel function to store a specific [News] object in state.
+ * @param clearSelectedNews ViewModel function to clear the stored state news object.
  * @author frigvid, 258030 (Eirik)
  * @created 2024-09-23
  */
@@ -50,12 +51,15 @@ fun NewsScreen(
     onNewsClick: (News) -> Unit,
     onCreateNewsClick: () -> Unit,
     setNewsList: (List<News>) -> Unit,
-    setSelectedNews: (News) -> Unit
+    setSelectedNews: (News) -> Unit,
+    clearSelectedNews: () -> Unit
 ) {
     /* TODO: Replace dummy data with fetched data from data layer and cache it in ViewModel state.
      *       Maybe check for news in the background, so there's less of a load time?
      */
     LaunchedEffect(Unit) {
+        clearSelectedNews()
+
         val dummyNews = listOf(
             News(
                 "1",

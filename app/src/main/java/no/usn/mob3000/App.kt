@@ -156,7 +156,8 @@ fun App(
                     onDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
                     onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
                     setDocumentationList = viewModel::setDocumentations,
-                    setSelectedDocumentation = viewModel::setSelectedDocumentation
+                    setSelectedDocumentation = viewModel::setSelectedDocumentation,
+                    clearSelectedDocumentation = viewModel::clearSelectedDocumentation
                 )
             }
             composable(route = Destination.DOCUMENTATION_DETAILS.name) {
@@ -194,7 +195,8 @@ fun App(
                     onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
                     onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
                     setNewsList = viewModel::setNews,
-                    setSelectedNews = viewModel::setSelectedNews
+                    setSelectedNews = viewModel::setSelectedNews,
+                    clearSelectedNews = viewModel::clearSelectedNews
                 )
             }
             composable(route = Destination.NEWS_DETAILS.name) {

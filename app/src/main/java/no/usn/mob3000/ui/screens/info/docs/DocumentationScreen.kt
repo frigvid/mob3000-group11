@@ -36,6 +36,7 @@ import java.util.*
  * @param onCreateDocumentationClick Callback function to navigate to [CreateDocumentationScreen].
  * @param setDocumentationList ViewModel function to store the list of [Documentation] objects in state.
  * @param setSelectedDocumentation ViewModel function to store a specific [Documentation] object in state.
+ * @param clearSelectedDocumentation ViewModel function to clear the stored state documentation object.
  * @author frigvid, 258030 (Eirik)
  * @created 2024-09-23
  */
@@ -45,10 +46,13 @@ fun DocumentationScreen(
     onDocumentationClick: (Documentation) -> Unit,
     onCreateDocumentationClick: () -> Unit,
     setDocumentationList: (List<Documentation>) -> Unit,
-    setSelectedDocumentation: (Documentation) -> Unit
+    setSelectedDocumentation: (Documentation) -> Unit,
+    clearSelectedDocumentation: () -> Unit
 ) {
     /* TODO: Replace dummy data with data fetched from back-end. */
     LaunchedEffect(Unit) {
+        clearSelectedDocumentation()
+
         val dummyDocumentations = listOf(
             Documentation(
                 "1",
