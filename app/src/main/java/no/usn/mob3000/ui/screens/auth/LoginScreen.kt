@@ -99,11 +99,6 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) { Text("Log In") }
 
-                Button(
-                    onClick = { onLogin() },
-                    modifier = Modifier.fillMaxWidth()
-                ) { Text("Log in as guest") }
-
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
