@@ -40,6 +40,9 @@
 
     <!-- Profile add friends page. -->
     <string name="profile_add_friends_title">Add friends</string>
+    <string name="profile_add_friends_description">You can add friends by searching for their display name or ID.</string>
+    <string name="profile_add_friends_search_label">Enter a display name or ID</string>
+    <string name="profile_add_friends_add_button">Add</string>
 
     <!-- Profile pending friend requests page. -->
     <string name="profile_pending_friend_requests_title">Pending friend requests</string>

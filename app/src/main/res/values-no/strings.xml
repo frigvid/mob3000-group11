@@ -39,6 +39,9 @@
 
     <!-- Profile add friends page. -->
     <string name="profile_add_friends_title">Legg til venner</string>
+    <string name="profile_add_friends_description">Du kan legge til venner ved å søke etter visningsnavnet eller IDen deres.</string>
+    <string name="profile_add_friends_search_label">Skriv inn visningsnavn eller ID</string>
+    <string name="profile_add_friends_add_button">Legg til</string>
 
     <!-- Profile pending friend requests page. -->
     <string name="profile_pending_friend_requests_title">Ventende venneforespørsler</string>
