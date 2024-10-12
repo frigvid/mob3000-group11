@@ -51,5 +51,7 @@
     <string name="auth_forgot_password_reset">Reset password</string>
 
     <!-- Reset password page. -->
-    <string name="auth_resetPassword_title">Reset password</string>
+    <string name="auth_reset_password_title">Reset password</string>
+    <string name="auth_reset_password_input">New password</string>
+    <string name="auth_reset_password_confirm">Confirm new password</string>
 </resources>

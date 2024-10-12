@@ -51,5 +51,7 @@
     <string name="auth_forgot_password_reset">Nullstill passord</string>
 
     <!-- Reset password page. -->
-    <string name="auth_resetPassword_title">Nullstill passord</string>
+    <string name="auth_reset_password_title">Nullstill passord</string>
+    <string name="auth_reset_password_input">Nytt passord</string>
+    <string name="auth_reset_password_confirm">Gjenta nytt passord</string>
 </resources>

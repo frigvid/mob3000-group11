@@ -184,7 +184,7 @@ fun App(
             }
             composable(route = Destination.AUTH_RESET.name) {
                 ResetPasswordScreen(
-                    onReset = { navController.navigate(Destination.HOME.name) },
+                    onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
                 )
             }
         }
@@ -373,7 +373,7 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     AUTH_LOGIN(title = R.string.auth_login_title),
     AUTH_CREATE(title = R.string.auth_createUser_title),
     AUTH_FORGOT(title = R.string.auth_forgot_password_title),
-    AUTH_RESET(title = R.string.auth_resetPassword_title)
+    AUTH_RESET(title = R.string.auth_reset_password_title)
 }
 
 /**
