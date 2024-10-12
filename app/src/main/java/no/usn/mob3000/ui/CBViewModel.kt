@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import no.usn.mob3000.ui.screens.chess.train.opening.Opening
+import no.usn.mob3000.ui.screens.info.docs.Documentation
 import no.usn.mob3000.ui.screens.info.news.News
 
 /**
@@ -85,5 +86,20 @@ class CBViewModel : ViewModel() {
      */
     fun getNewsById(id: String): News? {
         return _news.value.find { it.id == id }
+    }
+
+    /* Documentation. */
+    private val _documentations = mutableStateOf<List<Documentation>>(emptyList())
+    val documentations: State<List<Documentation>> = _documentations
+
+    private val _selectedDocumentation = mutableStateOf<Documentation?>(null)
+    val selectedDocumentation: State<Documentation?> = _selectedDocumentation
+
+    fun setDocumentations(documentations: List<Documentation>) {
+        _documentations.value = documentations
+    }
+
+    fun setSelectedDocumentation(documentation: Documentation) {
+        _selectedDocumentation.value = documentation
     }
 }

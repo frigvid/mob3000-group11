@@ -59,9 +59,10 @@ import no.usn.mob3000.ui.screens.chess.train.group.GroupsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
 import no.usn.mob3000.ui.screens.info.AboutUsScreen
-import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.InfoScreen
+import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
+import no.usn.mob3000.ui.screens.info.docs.DocumentationDetailsScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
@@ -150,13 +151,26 @@ fun App(
             }
             composable(route = Destination.DOCUMENTATION.name) {
                 DocumentationScreen(
-                    onFAQButtonClick = { navController.navigate(Destination.FAQ.name) },
-                    onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) }
+                    documentations = viewModel.documentations.value,
+                    onDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
+                    onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
+                    setDocumentationList = viewModel::setDocumentations,
+                    setSelectedDocumentation = viewModel::setSelectedDocumentation
                 )
             }
-
+            composable(route = Destination.DOCUMENTATION_DETAILS.name) {
+                DocumentationDetailsScreen(
+                    selectedDocumentation = viewModel.selectedDocumentation.value,
+                    onEditClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) }
+                )
+            }
+            composable(route = Destination.DOCUMENTATION_CREATE.name) {
+                CreateDocumentationScreen(
+                    selectedDocumentation = viewModel.selectedDocumentation.value,
+                    onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
+                )
+            }
             composable(route = Destination.FAQ.name) { FAQScreen() }
-            composable(route = Destination.DOCUMENTATION_CREATE.name) { CreateDocumentationScreen() }
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
@@ -400,13 +414,14 @@ fun Viewport(
  */
 enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     INFO(title = R.string.info_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_info)),
-    DOCUMENTATION(title = R.string.docs_title),
+    DOCUMENTATION(title = R.string.documentation_title),
+    DOCUMENTATION_CREATE(title = R.string.documentation_create_title),
+    DOCUMENTATION_DETAILS(title = R.string.documentation_details_title),
     FAQ(title = R.string.faq_title),
-    DOCUMENTATION_CREATE(title = R.string.docs_create_title),
     ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     NEWS_DETAILS(title = R.string.news_title),
-    NEWS_CREATE(title = R.string.create_news_title),
+    NEWS_CREATE(title = R.string.news_create_title),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),

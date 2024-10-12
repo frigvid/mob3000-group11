@@ -1,217 +1,183 @@
 package no.usn.mob3000.ui.screens.info.docs
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import no.usn.mob3000.ui.theme.DefaultListItemBackground
+import no.usn.mob3000.ui.screens.info.faq.FAQScreen
+import no.usn.mob3000.ui.screens.info.news.NewsScreen
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
+ * Screen for the documentation page.
  *
- * Screen for the documentation page. There is a temporary solution for admin to create new documentation, but we'll see what
- * we do about that functionality. {@link no.usn.mob3000.ui.screens.info.CreateDocumentation} does currently have no form, but
- * the form will probably be identical to {@link no.usn.mob3000.ui.screens.info.CreateNews}. Preferable to have one class for handling both
- * of these requests.
+ * TODO: This, [FAQScreen] and [NewsScreen] can probably be made more generic, so they depend
+ *       on fellow components similar to the web-version.
  *
- * TODO: Considering abstracting the create form and connecting the cards to the database.
- * TODO: Reuse the code from {@link no.usn.mob3000.ui.screens.info.NewsScreen} for the documentation boxes.
- *
- * @param onFAQButtonClick Callback function to navigate to [FAQScreen].
- * @param onCreateDocumentClick Callback function to navigate to [CreateDocumentationScreen].
- * @author 258030 (Eirik)
+ * @param documentations The list of documentation stored in the ViewModel's state.
+ * @param onDocumentationClick Callback function to navigate to the [Documentation] object's [DocumentationDetailsScreen].
+ * @param onCreateDocumentationClick Callback function to navigate to [CreateDocumentationScreen].
+ * @param setDocumentationList ViewModel function to store the list of [Documentation] objects in state.
+ * @param setSelectedDocumentation ViewModel function to store a specific [Documentation] object in state.
+ * @author frigvid, 258030 (Eirik)
  * @created 2024-09-23
  */
 @Composable
 fun DocumentationScreen(
-    onFAQButtonClick: () -> Unit,
-    onCreateDocumentClick: () -> Unit
+    documentations: List<Documentation>,
+    onDocumentationClick: (Documentation) -> Unit,
+    onCreateDocumentationClick: () -> Unit,
+    setDocumentationList: (List<Documentation>) -> Unit,
+    setSelectedDocumentation: (Documentation) -> Unit
 ) {
+    /* TODO: Replace dummy data with data fetched from back-end. */
+    LaunchedEffect(Unit) {
+        val dummyDocumentations = listOf(
+            Documentation(
+                "1",
+                Date(),
+                Date(),
+                "User1",
+                "Getting Started",
+                "A guide for beginners",
+                "Content here",
+                true
+            ),
+            Documentation(
+                "2",
+                Date(),
+                Date(),
+                "User2",
+                "Advanced Techniques",
+                "For experienced users",
+                "More content",
+                false
+            ),
+            Documentation(
+                "3",
+                Date(),
+                Date(),
+                "User3",
+                "Troubleshooting",
+                "Common issues and solutions",
+                "Even more content",
+                true
+            )
+        )
 
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
-    val width = (screenWidth * 0.85f).coerceAtMost(300.dp)
-    val height = (screenHeight * 0.15f).coerceAtMost(250.dp)
-    val textBoxH = (screenHeight * 0.25f).coerceAtMost(55.dp)
-    val textBoxW = (screenWidth)
-    val buttonH = (screenHeight * 0.25f).coerceAtMost(25.dp)
-    val buttonW = (screenWidth * 0.8f).coerceAtMost(200.dp)
+        setDocumentationList(dummyDocumentations)
+    }
 
     Viewport(
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = DefaultButton,
-                onClick = onCreateDocumentClick
+                onClick = onCreateDocumentationClick,
+                containerColor = DefaultButton
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Create documentation")
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = "Create Documentation"
+                )
             }
-        }) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopCenter
+        }
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(top = 15.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                FaqField(
-                    title = stringResource(R.string.docs_title),
-                    description = stringResource(R.string.docs_faq_title),
-                    width = textBoxW,
-                    height = textBoxH
+            items(documentations) { documentation ->
+                DocumentationItem(
+                    documentation = documentation,
+                    onClick = {
+                        setSelectedDocumentation(documentation)
+                        onDocumentationClick(documentation)
+                    }
                 )
-                FaqButton(
-                    width = buttonW,
-                    height = buttonH,
-                    onClick = onFAQButtonClick
-                )
-
-                DocBox(
-                    title = stringResource(R.string.help_title),
-                    description = stringResource(R.string.help_description),
-                    body = stringResource(R.string.help_body),
-                    color = colorResource(id = R.color.beige_1),
-                    width = width,
-                    height = height,
-                    onClick = { /* TODO: Implement FAQ page */ }
-                )
-
             }
         }
     }
 }
 
-
 /**
- * @author 258030 (Eirik)
- * @created 2024-09-23
+ * Composable function to display individual documentation items.
+ *
+ * @param documentation The [Documentation] object.
+ * @param onClick Callback function to navigate to the [Documentation] object's [DocumentationDetailsScreen].
+ * @author frigvid, 258030 (Eirik)
+ * @created 2024-10-12
  */
 @Composable
-fun FaqField(
-    title: String,
-    description: String,
-    width: androidx.compose.ui.unit.Dp,
-    height: androidx.compose.ui.unit.Dp
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .height(height)
-            .width(width)
-            .padding(top = 8.dp)
-            .padding(bottom = 2.dp)
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-    }
-}
-
-/**
- * @author 258030 (Eirik)
- * @created 2024-09-23
- */
-@Composable
-fun FaqButton(
-    title: String = stringResource(R.string.docs_button),
-    width: androidx.compose.ui.unit.Dp,
-    height: androidx.compose.ui.unit.Dp,
-    color: Color = colorResource(id = R.color.light_brown),
-    onClick: () -> Unit
-)
-{
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .width(width)
-            .height(height),
-        shape = RoundedCornerShape(4.dp),
-        contentPadding = PaddingValues(2.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = color
-        )
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-}
-
-
-/**
- * @author 258030 (Eirik)
- * @created 2024-09-23
- */
-@Composable
-fun DocBox(
-    title: String,
-    description: String,
-    body: String,
-    color: Color,
-    height: androidx.compose.ui.unit.Dp,
-    width: androidx.compose.ui.unit.Dp,
+fun DocumentationItem(
+    documentation: Documentation,
     onClick: () -> Unit
 ) {
-    Column(
-        horizontalAlignment = Alignment.Start,
+    Card(
         modifier = Modifier
-            .height(height)
-            .width(width)
-            .shadow(4.dp, shape = RoundedCornerShape(8.dp))
-            .border(
-                BorderStroke(1.dp, Color.Gray),
-                shape = RoundedCornerShape(8.dp)
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
+        border =
+            if (documentation.isPublished) null
+            else BorderStroke(width = 2.dp, color = Color(0xFFFF0000))
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = documentation.title,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
             )
-            .background(color = color, shape = RoundedCornerShape(8.dp))
-            .padding(16.dp)
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = body,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
-            maxLines = 7,
-            overflow = TextOverflow.Ellipsis
-        )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            documentation.summary?.let {
+                Text(
+                    text = it,
+                    fontSize = 14.sp
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+            }
+
+            Text(
+                text = stringResource(R.string.documentation_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.documentation_date_pattern), Locale.getDefault()).format(documentation.createdAt)}",
+                fontSize = 12.sp
+            )
+        }
     }
 }
 
+/* TODO: Extract to data layer and fix for use with fetched data. */
+data class Documentation(
+    val id: String,
+    val createdAt: Date,
+    val modifiedAt: Date,
+    val createdBy: String,
+    val title: String,
+    val summary: String?,
+    val content: String?,
+    val isPublished: Boolean
+)
