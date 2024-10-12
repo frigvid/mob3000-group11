@@ -151,24 +151,27 @@ fun App(
             composable(route = Destination.DOCUMENTATION.name) {
                 DocumentationScreen(
                     onFAQButtonClick = { navController.navigate(Destination.FAQ.name) },
-                    onCreateDocumentClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) }
+                    onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) }
                 )
             }
 
             composable(route = Destination.FAQ.name) { FAQScreen() }
             composable(route = Destination.DOCUMENTATION_CREATE.name) { CreateDocumentationScreen() }
-            composable(route = Destination.CREATE_NEWS.name) { CreateNewsScreen() }
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
-                    onCreateNewsClick = { navController.navigate(Destination.CREATE_NEWS.name) },
+                    onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
                     setNews = viewModel::setNews,
                     setSelectedNews = viewModel::setSelectedNews,
-                    onNewsClick = { navController.navigate(Destination.READ_NEWS.name) }
-                ) }
-            composable(route = Destination.READ_NEWS.name) { ReadNewsScreen(
-                news = viewModel.selectedNews.value
-            ) }
+                    onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) }
+                )
+            }
+            composable(route = Destination.NEWS_CREATE.name) { CreateNewsScreen() }
+            composable(route = Destination.NEWS_DETAILS.name) {
+                ReadNewsScreen(
+                    news = viewModel.selectedNews.value
+                )
+            }
             composable(route = Destination.HOME.name) {
                 HomeScreen(
                     onTrainClick = { navController.navigate(Destination.OPENINGS.name) },
@@ -402,8 +405,8 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     DOCUMENTATION_CREATE(title = R.string.docs_create_title),
     ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
-    READ_NEWS(title = R.string.news_title),
-    CREATE_NEWS(title = R.string.create_news_title),
+    NEWS_DETAILS(title = R.string.news_title),
+    NEWS_CREATE(title = R.string.create_news_title),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),
