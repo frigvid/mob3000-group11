@@ -39,6 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.ui.CBViewModel
+import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.info.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.info.NewsScreen
@@ -203,6 +204,7 @@ fun App(
             composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }
             composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
             composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen() }
+            composable(route = Destination.ADMIN_DASHBOARD.name) { AdministratorDashboardScreen() }
         }
     }
 }
@@ -392,7 +394,8 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     AUTH_LOGIN(title = R.string.auth_login_title),
     AUTH_CREATE(title = R.string.auth_createUser_title),
     AUTH_FORGOT(title = R.string.auth_forgotPassword_title),
-    AUTH_RESET(title = R.string.auth_resetPassword_title)
+    AUTH_RESET(title = R.string.auth_resetPassword_title),
+    ADMIN_DASHBOARD(title = R.string.admin_dashboard_title)
 }
 
 /**

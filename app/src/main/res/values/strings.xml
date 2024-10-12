@@ -99,4 +99,8 @@
     <string name="auth_createUser_title">Create user</string>
     <string name="auth_forgotPassword_title">Forgot password</string>
     <string name="auth_resetPassword_title">Reset password</string>
+
+    <!-- Administrator dashboard page. -->
+    <string name="admin_dashboard_title">Administrator dashboard</string>
+    <string name="admin_dashboard_subtitle">You will not be able to see your own account here.</string>
 </resources>

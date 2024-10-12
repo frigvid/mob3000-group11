@@ -99,4 +99,8 @@
     <string name="auth_createUser_title">Lag brukerkonto</string>
     <string name="auth_forgotPassword_title">Glemt passord</string>
     <string name="auth_resetPassword_title">Nullstill passord</string>
+
+    <!-- Administrator dashboard page. -->
+    <string name="admin_dashboard_title">Administrator dashboard</string>
+    <string name="admin_dashboard_subtitle">Du vil ikke kunne se din egen brukerkonto her.</string>
 </resources>
