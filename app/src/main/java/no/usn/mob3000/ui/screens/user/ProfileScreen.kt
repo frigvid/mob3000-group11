@@ -28,6 +28,12 @@ import no.usn.mob3000.Viewport
 /**
  * The profile screen.
  *
+ * This screen show the user's profile picture, their display name, statistics about the user,
+ * a section regarding them, and their friends (if any).
+ *
+ * @param onProfileEditClick Callback function to navigate to [ProfileEditScreen].
+ * @param onProfileAddFriendsClick Callback function to navigate to [ProfileAddFriendsScreen].
+ * @param onProfileFriendRequestsClick Callback function to navigate to [ProfileFriendRequestsScreen].
  * @author frigvid, Hussein
  * @created 2024-09-12
  */
@@ -47,6 +53,7 @@ fun ProfileScreen(
                     tint = Color.Black
                 )
             }
+
             IconButton(onClick = onProfileAddFriendsClick) {
                 Icon(
                     painter = painterResource(R.drawable.profile_add_friends),
@@ -55,6 +62,7 @@ fun ProfileScreen(
                     tint = Color.Black
                 )
             }
+
             IconButton(onClick = onProfileFriendRequestsClick) {
                 Icon(
                     painter = painterResource(R.drawable.profile_pending_friends),
@@ -78,7 +86,14 @@ fun ProfileScreen(
     }
 }
 
-
+/**
+ * Composable function that displays the header section of the profile screen.
+ *
+ * This section includes the user's profile picture and display name.
+ *
+ * @author Hussein
+ * @created 2024-10-11
+ */
 @Composable
 fun ProfileHeader() {
     Column(
@@ -89,6 +104,7 @@ fun ProfileHeader() {
             .background(colorResource(id = R.color.beige)),
         verticalArrangement = Arrangement.Center
     ) {
+        /* TODO: Fetch the user's icon and display name from cached state in ViewModel. */
         Image(
             painter = painterResource(R.drawable.profile_icon),
             contentDescription = "Profile Icon",
@@ -97,6 +113,7 @@ fun ProfileHeader() {
                 .clip(CircleShape)
                 .border(2.dp, Color.Black, CircleShape)
         )
+
         Text(
             text = "Example user",
             fontWeight = FontWeight.Bold,
@@ -106,6 +123,15 @@ fun ProfileHeader() {
     }
 }
 
+/**
+ * Composable function that displays the statistics section of the profile screen.
+ *
+ * This section shows various user statistics such as ELO rating, games played,
+ * wins, losses, draws, and country.
+ *
+ * @author Hussein
+ * @created 2024-10-11
+ */
 @Composable
 fun ProfileStats() {
     Row(
@@ -124,14 +150,33 @@ fun ProfileStats() {
     }
 }
 
+/**
+ * Composable function that displays a single statistic item.
+ *
+ * @param label String The label for the statistic.
+ * @param value String The value of the statistic.
+ * @author Hussein
+ * @created 2024-10-11
+ */
 @Composable
-fun StatItem(label: String, value: String) {
+fun StatItem(
+    label: String,
+    value: String
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = value, fontWeight = FontWeight.Bold)
         Text(text = label, fontSize = 12.sp, textAlign = TextAlign.Center)
     }
 }
 
+/**
+ * Composable function that displays the "About Me" section of the profile screen.
+ *
+ * This section shows a brief description or biography of the user.
+ *
+ * @author Hussein
+ * @created 2024-10-11
+ */
 @Composable
 fun AboutSection() {
     Column(modifier = Modifier.padding(16.dp)) {
@@ -141,12 +186,23 @@ fun AboutSection() {
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
+
+        /* TODO: Fetch the user's description from cached state in ViewModel. */
         Text(
             text = "Example user description.",
             style = MaterialTheme.typography.bodyMedium
         )
     }
 }
+
+/**
+ * Composable function that displays the friends section of the profile screen.
+ *
+ * This section lists the user's friends, showing their profile pictures and names.
+ *
+ * @author Hussein
+ * @created 2024-10-11
+ */
 @Composable
 fun FriendsSection() {
     Column(modifier = Modifier.padding(16.dp)) {
@@ -156,6 +212,7 @@ fun FriendsSection() {
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -163,6 +220,7 @@ fun FriendsSection() {
                 .padding(8.dp)
                 .clickable {  }
         ) {
+            /* TODO: Get user icon and display name from data layer by querying the user's friends. */
             Image(
                 painter = painterResource(R.drawable.profile_icon),
                 contentDescription = "Friend Icon",
@@ -171,6 +229,7 @@ fun FriendsSection() {
                     .clip(CircleShape)
                     .border(1.dp, Color.Gray, CircleShape)
             )
+
             Text(
                 text = "Example user name",
                 modifier = Modifier.padding(start = 8.dp),

@@ -9,6 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import no.usn.mob3000.Viewport
 
+/**
+ * Screen to allow users to edit their profiles, and get access to some user-related settings.
+ *
+ * @author Hussein
+ * @created 2024-10-11
+ */
 @Composable
 fun ProfileEditScreen() {
     Viewport { innerPadding ->

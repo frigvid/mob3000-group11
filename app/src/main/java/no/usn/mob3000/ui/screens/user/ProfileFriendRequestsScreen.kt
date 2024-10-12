@@ -9,6 +9,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import no.usn.mob3000.Viewport
 
+/**
+ * Screen to allow users to see pending friend requests for their acccounts,
+ * and accept or reject them.
+ *
+ * @author Hussein
+ * @created 2024-10-11
+ */
 @Composable
 fun ProfileFriendRequestsScreen() {
     Viewport { innerPadding ->

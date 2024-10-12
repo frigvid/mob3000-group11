@@ -9,6 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import no.usn.mob3000.Viewport
 
+/**
+ * Screen for allowing users to search for other users and sending them a friend request.
+ *
+ * @author Hussein
+ * @created 2024-10-11
+ */
 @Composable
 fun ProfileAddFriendsScreen() {
     Viewport { innerPadding ->
