@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import no.usn.mob3000.ui.screens.chess.train.opening.Opening
-import no.usn.mob3000.ui.screens.info.News
+import no.usn.mob3000.ui.screens.info.news.News
 
 /**
  * ViewModel to save state where necessary.

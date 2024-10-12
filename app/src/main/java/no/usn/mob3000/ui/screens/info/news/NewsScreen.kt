@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.info
+package no.usn.mob3000.ui.screens.info.news
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -28,7 +28,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.jan.supabase.postgrest.from

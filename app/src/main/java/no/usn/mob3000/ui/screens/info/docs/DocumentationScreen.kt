@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.info
+package no.usn.mob3000.ui.screens.info.docs
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -33,7 +33,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * TODO: Reuse the code from {@link no.usn.mob3000.ui.screens.info.NewsScreen} for the documentation boxes.
  *
  * @param onFAQButtonClick Callback function to navigate to [FAQScreen].
- * @param onCreateDocumentClick Callback function to navigate to [CreateDocumentation].
+ * @param onCreateDocumentClick Callback function to navigate to [CreateDocumentationScreen].
  * @author 258030, Eirik
  * @created 2024-09-23
  */

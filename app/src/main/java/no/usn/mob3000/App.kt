@@ -5,10 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
@@ -43,27 +40,27 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.ui.CBViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
-import no.usn.mob3000.ui.screens.info.DocumentationScreen
+import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
-import no.usn.mob3000.ui.screens.info.NewsScreen
+import no.usn.mob3000.ui.screens.info.news.NewsScreen
 import no.usn.mob3000.ui.screens.ProfileScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
-import no.usn.mob3000.ui.screens.auth.ReadNews
+import no.usn.mob3000.ui.screens.info.news.ReadNewsScreen
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 import no.usn.mob3000.ui.screens.chess.train.group.CreateGroupScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.CreateOpeningScreen
-import no.usn.mob3000.ui.screens.info.FAQScreen
+import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.chess.train.group.GroupsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
 import no.usn.mob3000.ui.screens.info.AboutUsScreen
-import no.usn.mob3000.ui.screens.info.CreateDocumentation
-import no.usn.mob3000.ui.screens.info.CreateNews
+import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
+import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
@@ -159,8 +156,8 @@ fun App(
             }
 
             composable(route = Destination.FAQ.name) { FAQScreen() }
-            composable(route = Destination.DOCUMENTATION_CREATE.name) { CreateDocumentation() }
-            composable(route = Destination.CREATE_NEWS.name) { CreateNews() }
+            composable(route = Destination.DOCUMENTATION_CREATE.name) { CreateDocumentationScreen() }
+            composable(route = Destination.CREATE_NEWS.name) { CreateNewsScreen() }
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
@@ -169,7 +166,7 @@ fun App(
                     setSelectedNews = viewModel::setSelectedNews,
                     onNewsClick = { navController.navigate(Destination.READ_NEWS.name) }
                 ) }
-            composable(route = Destination.READ_NEWS.name) { ReadNews(
+            composable(route = Destination.READ_NEWS.name) { ReadNewsScreen(
                 news = viewModel.selectedNews.value
             ) }
             composable(route = Destination.HOME.name) {
