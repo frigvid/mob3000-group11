@@ -1,17 +1,13 @@
 package no.usn.mob3000.ui.screens.auth
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,38 +15,41 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import no.usn.mob3000.Viewport
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.font.FontWeight
 import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
 
 /**
- * This is the login screen for authorization to an account
- * as well as an option for logging in with a guest account.
+ * This screen allows users to log into accounts, request new passwords ([ForgotPasswordScreen]),
+ * and register new accounts ([CreateUserScreen]).
  *
- * @param onLogin Callback triggered when the user presses the "Log In" button
- *                to authenticate their account.
- * @param onForgot Callback triggered when the user clicks the "Forgot password?"
- *                 text to navigate to the password recovery screen.
- * @param onCreateUser Callback triggered when the user clicks the "Or sign in"
- *                     text to navigate to the user creation screen.
- * @see CreateUserScreen
- * @see ForgotPasswordScreen
- * @see ResetPasswordScreen
- * @author Anarox, Markus
- * @contributor frigvid
+ * TODO: Make use of ViewModel to store stateful data like user account details.
+ *
+ * @param onLoginClick Callback triggered when the user presses the "Log In" button
+ *                     to authenticate their account.
+ * @param onForgotPasswordClick Callback triggered when the user clicks the "Forgot password?"
+ *                              text to navigate to the password recovery screen.
+ * @param onCreateUserClick Callback triggered when the user clicks the "Or sign in"
+ *                          text to navigate to the user creation screen.
+ * @author frigvid
+ * @contributor Anarox, Markus
  * @created 2024-09-30
  */
 @Composable
 fun LoginScreen(
-    onLogin: () -> Unit,
-    onForgot: () -> Unit,
-    onCreateUser: () -> Unit
+    onLoginClick: () -> Unit,
+    onForgotPasswordClick: () -> Unit,
+    onCreateUserClick: () -> Unit
 ) {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     Viewport { innerPadding ->
@@ -64,51 +63,72 @@ fun LoginScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextField(
-                    value = username,
-                    onValueChange = { username = it },
-                    label = { Text("Username") },
-                    modifier = Modifier.fillMaxWidth()
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text(stringResource(R.string.auth_login_email)) },
+                    placeholder = { Text(stringResource(R.string.auth_login_email_placeholder)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                TextField(
+                OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Password") },
+                    label = { Text(stringResource(R.string.auth_login_password)) },
+                    placeholder = { Text("••••••••") },
                     visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Text(
-                    text = "Or sign in",
-                    color = Color(0xFF7F563B),
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        textDecoration = TextDecoration.Underline
-                    ),
-                    modifier = Modifier.clickable { onCreateUser() }
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
 
                 Button(
-                    onClick = { onLogin() },
-                    modifier = Modifier.fillMaxWidth()
-                ) { Text("Log In") }
+                    onClick = onLoginClick,
+                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
+                    colors = ButtonDefaults.buttonColors(Color(0XFFC0A080)),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                ) { Text(stringResource(R.string.auth_login_authenticate)) }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Text(
-                    text = "Forgot password?",
-                    color = Color(0xFF7F563B),
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        textDecoration = TextDecoration.Underline
-                    ),
-                    modifier = Modifier.clickable { onForgot() }
-                )
+                OutlinedButton(
+                    onClick = onForgotPasswordClick,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) { Text(stringResource(R.string.auth_login_forgot_password)) }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    HorizontalDivider(modifier = Modifier.weight(1f))
+                    Text(
+                        stringResource(R.string.auth_login_divider),
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
+                    )
+                    HorizontalDivider(modifier = Modifier.weight(1f))
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(stringResource(R.string.auth_login_register_reminder))
+                    Button(
+                        onClick = onCreateUserClick,
+                        /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
+                        colors = ButtonDefaults.buttonColors(Color(0XFFC0A080))
+                    ) { Text(stringResource(R.string.auth_login_register)) }
+                }
             }
         }
     }

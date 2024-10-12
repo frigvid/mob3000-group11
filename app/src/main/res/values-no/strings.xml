@@ -31,9 +31,23 @@
     <!-- Your history page. -->
     <string name="history_title">Historikk</string>
 
-    <!-- Authentication related -->
+    <!-- Login page. -->
     <string name="auth_login_title">Innlogging</string>
+    <string name="auth_login_email">E-post</string>
+    <string name="auth_login_email_placeholder">deg@eksempel.no</string>
+    <string name="auth_login_password">Passord</string>
+    <string name="auth_login_authenticate">Logg inn</string>
+    <string name="auth_login_forgot_password">Glemt passord?</string>
+    <string name="auth_login_divider">Eller</string>
+    <string name="auth_login_register_reminder">Har du ikke en konto?</string>
+    <string name="auth_login_register">Registrer deg</string>
+
+    <!-- Create user page. -->
     <string name="auth_createUser_title">Lag brukerkonto</string>
+
+    <!-- Forgot password page. -->
     <string name="auth_forgotPassword_title">Glemt passord</string>
+
+    <!-- Reset password page. -->
     <string name="auth_resetPassword_title">Nullstill passord</string>
 </resources>

@@ -31,9 +31,23 @@
     <!-- Your history page. -->
     <string name="history_title">History</string>
 
-    <!-- Authentication related -->
+    <!-- Login page. -->
     <string name="auth_login_title">Login</string>
+    <string name="auth_login_email">E-mail</string>
+    <string name="auth_login_email_placeholder">you@example.com</string>
+    <string name="auth_login_password">Password</string>
+    <string name="auth_login_authenticate">Log in</string>
+    <string name="auth_login_forgot_password">Forgot password?</string>
+    <string name="auth_login_divider">Or</string>
+    <string name="auth_login_register_reminder">Do you not have an account?</string>
+    <string name="auth_login_register">Register</string>
+
+    <!-- Create user page. -->
     <string name="auth_createUser_title">Create user</string>
+
+    <!-- Forgot password page. -->
     <string name="auth_forgotPassword_title">Forgot password</string>
+
+    <!-- Reset password page. -->
     <string name="auth_resetPassword_title">Reset password</string>
 </resources>

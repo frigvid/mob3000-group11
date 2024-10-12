@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -167,9 +166,9 @@ fun App(
             composable(route = Destination.SETTINGS.name) { SettingsScreen() }
             composable(route = Destination.AUTH_LOGIN.name) {
                 LoginScreen(
-                    onCreateUser = { navController.navigate(Destination.AUTH_CREATE.name)},
-                    onLogin = { navController.navigate(Destination.HOME.name) },
-                    onForgot = { navController.navigate(Destination.AUTH_FORGOT.name) }
+                    onCreateUserClick = { navController.navigate(Destination.AUTH_CREATE.name)},
+                    onLoginClick = { navController.navigate(Destination.HOME.name) },
+                    onForgotPasswordClick = { navController.navigate(Destination.AUTH_FORGOT.name) }
                 )
             }
             composable(route = Destination.AUTH_CREATE.name) {
