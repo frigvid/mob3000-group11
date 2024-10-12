@@ -12,7 +12,6 @@
     <string name="home_train_title">Train Openings</string>
     <string name="home_play_title">Play Now</string>
     <string name="home_history_title">Your History</string>
-    <string name="profile_username">Test User</string>
 
     <!-- Profile page. -->
     <string name="profile_title">User profile</string>

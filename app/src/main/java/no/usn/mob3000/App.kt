@@ -37,13 +37,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import no.usn.mob3000.ui.screens.AddFriendScreen
-import no.usn.mob3000.ui.screens.EditProfileScreen
-import no.usn.mob3000.ui.screens.FriendRequestScreen
 import no.usn.mob3000.ui.screens.info.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.info.NewsScreen
-import no.usn.mob3000.ui.screens.ProfileScreen;
+import no.usn.mob3000.ui.screens.user.ProfileScreen;
 import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
@@ -56,6 +53,9 @@ import no.usn.mob3000.ui.screens.chess.train.CreateOpeningScreen
 import no.usn.mob3000.ui.screens.info.FAQScreen
 import no.usn.mob3000.ui.screens.chess.train.GroupsScreen
 import no.usn.mob3000.ui.screens.chess.train.OpeningsScreen
+import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
+import no.usn.mob3000.ui.screens.user.ProfileEditScreen
+import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
@@ -160,10 +160,16 @@ fun App(
             composable(route = Destination.GROUPS_CREATE.name) { CreateGroupScreen() }
             composable(route = Destination.PLAY.name) { PlayScreen() }
             composable(route = Destination.HISTORY.name) { HistoryScreen() }
-            composable(route = Destination.PROFILE.name) { ProfileScreen() }
-            composable(route = Destination.PROFILE_EDIT_PROFILE.name) { EditProfileScreen() }
-            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { AddFriendScreen() }
-            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { FriendRequestScreen() }
+            composable(route = Destination.PROFILE.name) {
+                ProfileScreen(
+                    onProfileEditClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) },
+                    onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
+                    onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }
+                )
+            }
+            composable(route = Destination.PROFILE_EDIT_PROFILE.name) { ProfileEditScreen() }
+            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen() }
+            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
             composable(route = Destination.SETTINGS.name) { SettingsScreen() }
             composable(route = Destination.AUTH_LOGIN.name) { LoginScreen() }
             composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }

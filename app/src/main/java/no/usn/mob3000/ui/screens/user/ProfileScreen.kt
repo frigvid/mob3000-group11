@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens
+package no.usn.mob3000.ui.screens.user
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,7 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.graphics.Color
@@ -21,121 +20,64 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon;
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.res.colorResource
-import no.usn.mob3000.BottomNavbar
-import no.usn.mob3000.Destination
 import no.usn.mob3000.LocalNavController
-import no.usn.mob3000.TopNavbar
 import no.usn.mob3000.Viewport
 
 /**
+ * The profile screen.
+ *
  * @author frigvid, Hussein
  * @created 2024-09-12
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    onProfileEditClick: () -> Unit,
+    onProfileAddFriendsClick: () -> Unit,
+    onProfileFriendRequestsClick: () -> Unit
+) {
     val navController = LocalNavController.current
     Viewport(
-        topBar = { currentScreen, canNavigateBack, navigateUp, modifier, roots, title, actions ->
-            TopNavbar(
-                currentScreen = currentScreen,
-                canNavigateBack = canNavigateBack,
-                navigateUp = navigateUp,
-                modifier = modifier,
-                roots = roots,
-                showTitle = title,
-                topBarActions = actions
-            )
-        },
-        bottomBar = { rootEntries, currentDestination, onNavigate ->
-            BottomNavbar(
-                roots = rootEntries,
-                currentDestination = currentDestination,
-                onNavigate = onNavigate
-            )
-        },
         topBarActions = {
-            IconButton(onClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) }) {
+            IconButton(onClick = onProfileEditClick) {
                 Icon(
-                    painter = painterResource(R.drawable.profile_edit), // Replace with your edit icon
+                    painter = painterResource(R.drawable.profile_edit),
                     contentDescription = "Edit Profile",
                     modifier = Modifier.size(24.dp),
                     tint = Color.Black
                 )
             }
-            IconButton(onClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) }) {
+            IconButton(onClick = onProfileAddFriendsClick) {
                 Icon(
-                    painter = painterResource(R.drawable.profile_add_friends), // Replace with your friend icon
+                    painter = painterResource(R.drawable.profile_add_friends),
                     contentDescription = "Add Friend",
                     modifier = Modifier.size(24.dp),
                     tint = Color.Black
                 )
             }
-            IconButton(onClick = {  navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }) {
+            IconButton(onClick = onProfileFriendRequestsClick) {
                 Icon(
-                    painter = painterResource(R.drawable.profile_pending_friends), // Replace with your settings icon
+                    painter = painterResource(R.drawable.profile_pending_friends),
                     contentDescription = "Friend Requests",
                     modifier = Modifier.size(24.dp),
                     tint = Color.Black
                 )
             }
-        },
-        content = { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                ProfileHeader()
-                ProfileStats()
-                AboutSection()
-                FriendsSection()
-            }
         }
-    )
-}
-
-
-
-@Composable
-fun EditProfileScreen() {
-    Viewport { innerPadding ->
-        Box(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
-            contentAlignment = Alignment.Center
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
         ) {
-            Text("Edit Profile Screen")
+            ProfileHeader()
+            ProfileStats()
+            AboutSection()
+            FriendsSection()
         }
     }
 }
-
-@Composable
-fun AddFriendScreen() {
-    Viewport { innerPadding ->
-        Box(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Add Friend Screen")
-        }
-    }
-}
-
-@Composable
-fun FriendRequestScreen() {
-    Viewport { innerPadding ->
-        Box(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Profile Settings Screen")
-        }
-    }
-}
-
 
 
 @Composable
@@ -149,7 +91,7 @@ fun ProfileHeader() {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(R.drawable.profile_icon), // Replace with your profile icon
+            painter = painterResource(R.drawable.profile_icon),
             contentDescription = "Profile Icon",
             modifier = Modifier
                 .size(60.dp)
@@ -157,7 +99,7 @@ fun ProfileHeader() {
                 .border(2.dp, Color.Black, CircleShape)
         )
         Text(
-            text = stringResource(R.string.profile_username), // Example username "Administrator"
+            text = "Example user",
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             modifier = Modifier.padding(top = 8.dp)
@@ -199,7 +141,7 @@ fun AboutSection() {
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Text(
-            text = "Secure. Contain. Protect.",
+            text = "Example user description.",
             style = MaterialTheme.typography.bodyMedium
         )
     }
@@ -218,10 +160,10 @@ fun FriendsSection() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-                .clickable { /* Handle click action */ }
+                .clickable {  }
         ) {
             Image(
-                painter = painterResource(R.drawable.profile_icon), // Replace with your friend's icon
+                painter = painterResource(R.drawable.profile_icon),
                 contentDescription = "Friend Icon",
                 modifier = Modifier
                     .size(40.dp)
@@ -229,7 +171,7 @@ fun FriendsSection() {
                     .border(1.dp, Color.Gray, CircleShape)
             )
             Text(
-                text = "RoboticOrangutan",
+                text = "Example user name",
                 modifier = Modifier.padding(start = 8.dp),
                 style = MaterialTheme.typography.bodyMedium
             )
