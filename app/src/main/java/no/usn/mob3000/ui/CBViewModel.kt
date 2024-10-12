@@ -40,7 +40,25 @@ class CBViewModel : ViewModel() {
         return _openings.value.find { it.id == id }
     }
 
-    /***********************************************************/
+    /* Settings.
+     * 
+     * TODO: Figure out a better way to store default values. Can't use composables here.
+     */
+    private val _selectedTheme = mutableStateOf("Default - light")
+    val selectedTheme: State<String> = _selectedTheme
+
+    private val _selectedLanguage = mutableStateOf("English")
+    val selectedLanguage: State<String> = _selectedLanguage
+
+    /* TODO: Add functionality to actually switch themes, somewhere. Probably not here though. */
+    fun setSelectedTheme(theme: String) {
+        _selectedTheme.value = theme
+    }
+
+    /* TODO: Add functionality to actually switch language, somewhere. Probably not here though. */
+    fun setSelectedLanguage(language: String) {
+        _selectedLanguage.value = language
+    }
 
     /* News. */
     private val _news = mutableStateOf<List<News>>(emptyList())
@@ -68,27 +86,4 @@ class CBViewModel : ViewModel() {
     fun getNewsById(id: String): News? {
         return _news.value.find { it.id == id }
     }
-
-    /***********************************************************/
-
-    /* Settings.
-     * 
-     * TODO: Figure out a better way to store default values. Can't use composables here.
-     */
-    private val _selectedTheme = mutableStateOf("Default - light")
-    val selectedTheme: State<String> = _selectedTheme
-
-    private val _selectedLanguage = mutableStateOf("English")
-    val selectedLanguage: State<String> = _selectedLanguage
-
-    /* TODO: Add functionality to actually switch themes, somewhere. Probably not here though. */
-    fun setSelectedTheme(theme: String) {
-        _selectedTheme.value = theme
-    }
-
-    /* TODO: Add functionality to actually switch language, somewhere. Probably not here though. */
-    fun setSelectedLanguage(language: String) {
-        _selectedLanguage.value = language
-    }
-
 }
