@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import no.usn.mob3000.ui.screens.chess.train.opening.Opening
 import no.usn.mob3000.ui.screens.info.docs.Documentation
+import no.usn.mob3000.ui.screens.info.faq.FAQ
 import no.usn.mob3000.ui.screens.info.news.News
 
 /**
@@ -101,5 +102,20 @@ class CBViewModel : ViewModel() {
 
     fun setSelectedDocumentation(documentation: Documentation) {
         _selectedDocumentation.value = documentation
+    }
+
+    /* FAQ */
+    private val _faqs = mutableStateOf<List<FAQ>>(emptyList())
+    val faqs: State<List<FAQ>> = _faqs
+
+    private val _selectedFAQ = mutableStateOf<FAQ?>(null)
+    val selectedFAQ: State<FAQ?> = _selectedFAQ
+
+    fun setFAQs(faqs: List<FAQ>) {
+        _faqs.value = faqs
+    }
+
+    fun setSelectedFAQ(faq: FAQ) {
+        _selectedFAQ.value = faq
     }
 }

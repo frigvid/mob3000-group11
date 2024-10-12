@@ -63,6 +63,7 @@ import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.docs.DocumentationDetailsScreen
+import no.usn.mob3000.ui.screens.info.faq.CreateFAQScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
@@ -170,7 +171,22 @@ fun App(
                     onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
                 )
             }
-            composable(route = Destination.FAQ.name) { FAQScreen() }
+            composable(route = Destination.FAQ.name) {
+                FAQScreen(
+                    faqList = viewModel.faqs.value,
+                    onFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
+                    onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
+                    setFAQList = viewModel::setFAQs,
+                    setSelectedFAQ = viewModel::setSelectedFAQ
+                )
+            }
+            composable(route = Destination.FAQ_CREATE.name) {
+                CreateFAQScreen(
+                    selectedFAQ = viewModel.selectedFAQ.value,
+                    onSaveFAQClick = { navController.navigate(Destination.FAQ.name) },
+                    onDeleteFAQClick = { navController.navigate(Destination.FAQ.name) }
+                )
+            }
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
@@ -418,6 +434,7 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     DOCUMENTATION_CREATE(title = R.string.documentation_create_title),
     DOCUMENTATION_DETAILS(title = R.string.documentation_details_title),
     FAQ(title = R.string.faq_title),
+    FAQ_CREATE(title = R.string.faq_create_title),
     ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     NEWS_DETAILS(title = R.string.news_title),

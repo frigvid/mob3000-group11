@@ -33,6 +33,20 @@
 
     <!-- FAQ page. -->
     <string name="faq_title">FAQ</string>
+    <string name="faq_create_title">Create FAQ</string>
+    <string name="faq_created_at">Created</string>
+    <string name="faq_modified_at">Modified</string>
+    <string name="faq_date_pattern">yyyy-MM-dd HH:mm</string>
+
+    <!-- FAQ creation page. -->
+    <string name="faq_create_label_title">Question</string>
+    <string name="faq_create_label_subtitle">Subtitle</string>
+    <string name="faq_create_label_content">Answer</string>
+    <string name="faq_create_check_publish">Publish FAQ</string>
+    <string name="faq_create_check_unpublish">Unpublish FAQ</string>
+    <string name="faq_create_save_faq">Save FAQ</string>
+    <string name="faq_create_save_changes">Save Changes</string>
+    <string name="faq_create_delete_faq">Delete FAQ</string>
 
     <!-- About us page. -->
     <string name="about_us_title">About us</string>
