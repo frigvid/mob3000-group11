@@ -71,13 +71,6 @@ fun ProfileEditScreen(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = stringResource(R.string.profile_edit_title),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
             OutlinedTextField(
                 value = avatarUrl,
                 onValueChange = { avatarUrl = it },
