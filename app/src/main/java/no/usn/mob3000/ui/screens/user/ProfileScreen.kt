@@ -23,7 +23,6 @@ import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import no.usn.mob3000.LocalNavController
 import no.usn.mob3000.Viewport
 
 /**
@@ -38,7 +37,6 @@ fun ProfileScreen(
     onProfileAddFriendsClick: () -> Unit,
     onProfileFriendRequestsClick: () -> Unit
 ) {
-    val navController = LocalNavController.current
     Viewport(
         topBarActions = {
             IconButton(onClick = onProfileEditClick) {
