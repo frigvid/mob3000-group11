@@ -346,6 +346,9 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
+    PROFILE_EDIT_PROFILE(title = R.string.profile_edit_profile_title),
+    PROFILE_ADD_FRIENDS(title = R.string.profile_add_friends_title),
+    PROFILE_FRIEND_REQUESTS(title = R.string.profile_pending_friend_requests_title),
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),
     OPENINGS(title = R.string.openings_title),
     OPENINGS_CREATE(title = R.string.openings_create_title),
@@ -356,10 +359,7 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     AUTH_LOGIN(title = R.string.auth_login_title),
     AUTH_CREATE(title = R.string.auth_createUser_title),
     AUTH_FORGOT(title = R.string.auth_forgotPassword_title),
-    AUTH_RESET(title = R.string.auth_resetPassword_title),
-    EDIT_PROFILE(title = R.string.edit_profile_title), // New destination
-    ADD_FRIENDS(title = R.string.add_friend_title),     // New destination
-    FRIEND_REQUESTS(title = R.string.friend_requests_title) // Friend Requests destination
+    AUTH_RESET(title = R.string.auth_resetPassword_title)
 
 }
 

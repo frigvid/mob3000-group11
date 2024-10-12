@@ -16,6 +16,9 @@
 
     <!-- Profile page. -->
     <string name="profile_title">User profile</string>
+    <string name="profile_edit_profile_title">Edit profile</string>
+    <string name="profile_add_friends_title">Add friends</string>
+    <string name="profile_pending_friend_requests_title">Pending friend requests</string>
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
