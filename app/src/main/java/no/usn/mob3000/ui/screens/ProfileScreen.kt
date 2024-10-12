@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.material3.Text
@@ -23,27 +22,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.res.colorResource
 import no.usn.mob3000.BottomNavbar
 import no.usn.mob3000.Destination
 import no.usn.mob3000.LocalNavController
 import no.usn.mob3000.TopNavbar
-
-
 import no.usn.mob3000.Viewport
-
 
 /**
  * @author frigvid, Hussein
  * @created 2024-09-12
  */
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen() {
@@ -68,25 +58,25 @@ fun ProfileScreen() {
             )
         },
         topBarActions = {
-            IconButton(onClick = { navController.navigate(Destination.EDIT_PROFILE.name) }) {
+            IconButton(onClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) }) {
                 Icon(
-                    painter = painterResource(R.drawable.edit_profile_icon), // Replace with your edit icon
+                    painter = painterResource(R.drawable.profile_edit), // Replace with your edit icon
                     contentDescription = "Edit Profile",
                     modifier = Modifier.size(24.dp),
                     tint = Color.Black
                 )
             }
-            IconButton(onClick = { navController.navigate(Destination.ADD_FRIENDS.name) }) {
+            IconButton(onClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) }) {
                 Icon(
-                    painter = painterResource(R.drawable.friend_icon), // Replace with your friend icon
+                    painter = painterResource(R.drawable.profile_add_friends), // Replace with your friend icon
                     contentDescription = "Add Friend",
                     modifier = Modifier.size(24.dp),
                     tint = Color.Black
                 )
             }
-            IconButton(onClick = {  navController.navigate(Destination.FRIEND_REQUESTS.name) }) {
+            IconButton(onClick = {  navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }) {
                 Icon(
-                    painter = painterResource(R.drawable.navbar_profile), // Replace with your settings icon
+                    painter = painterResource(R.drawable.profile_pending_friends), // Replace with your settings icon
                     contentDescription = "Friend Requests",
                     modifier = Modifier.size(24.dp),
                     tint = Color.Black
@@ -231,7 +221,7 @@ fun FriendsSection() {
                 .clickable { /* Handle click action */ }
         ) {
             Image(
-                painter = painterResource(R.drawable.friend_icon), // Replace with your friend's icon
+                painter = painterResource(R.drawable.profile_icon), // Replace with your friend's icon
                 contentDescription = "Friend Icon",
                 modifier = Modifier
                     .size(40.dp)
