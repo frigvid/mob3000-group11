@@ -148,6 +148,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isProfileVisible,
                     onCheckedChange = { isProfileVisible = it },
+                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
                     colors = SwitchDefaults.colors(checkedTrackColor = Color(0XFFC0A080))
                 )
             }
@@ -166,6 +167,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isFriendsListVisible,
                     onCheckedChange = { isFriendsListVisible = it },
+                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
                     colors = SwitchDefaults.colors(checkedTrackColor = Color(0XFFC0A080))
                 )
             }
