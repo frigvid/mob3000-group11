@@ -46,7 +46,9 @@
     <string name="auth_createUser_title">Create user</string>
 
     <!-- Forgot password page. -->
-    <string name="auth_forgotPassword_title">Forgot password</string>
+    <string name="auth_forgot_password_title">Forgot password</string>
+    <string name="auth_forgot_password_preamble">Input your email and click the reset password button. You will receive a mail with a link to reset your password.</string>
+    <string name="auth_forgot_password_reset">Reset password</string>
 
     <!-- Reset password page. -->
     <string name="auth_resetPassword_title">Reset password</string>

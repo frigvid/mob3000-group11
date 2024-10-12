@@ -46,7 +46,9 @@
     <string name="auth_createUser_title">Lag brukerkonto</string>
 
     <!-- Forgot password page. -->
-    <string name="auth_forgotPassword_title">Glemt passord</string>
+    <string name="auth_forgot_password_title">Glemt passord</string>
+    <string name="auth_forgot_password_preamble">Skriv inn e-post adressen din og klikk på reset passord knappen. Du vil etterpå motta en e-post som lar deg endre passordet ditt.</string>
+    <string name="auth_forgot_password_reset">Nullstill passord</string>
 
     <!-- Reset password page. -->
     <string name="auth_resetPassword_title">Nullstill passord</string>

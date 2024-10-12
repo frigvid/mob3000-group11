@@ -179,7 +179,7 @@ fun App(
             }
             composable(route = Destination.AUTH_FORGOT.name) {
                 ForgotPasswordScreen(
-                    onResetPassword = { navController.navigate(Destination.AUTH_RESET.name) }
+                    onResetPasswordClick = { navController.navigate(Destination.AUTH_RESET.name) }
                 )
             }
             composable(route = Destination.AUTH_RESET.name) {
@@ -372,7 +372,7 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     HISTORY(title = R.string.home_history_title),
     AUTH_LOGIN(title = R.string.auth_login_title),
     AUTH_CREATE(title = R.string.auth_createUser_title),
-    AUTH_FORGOT(title = R.string.auth_forgotPassword_title),
+    AUTH_FORGOT(title = R.string.auth_forgot_password_title),
     AUTH_RESET(title = R.string.auth_resetPassword_title)
 }
 

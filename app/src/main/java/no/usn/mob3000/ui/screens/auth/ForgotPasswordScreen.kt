@@ -17,25 +17,29 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import no.usn.mob3000.R
 
 /**
- * This is the chessboard page, where users can free-play against an AI or
- * fellow physically near player. (Local multiplayer, in other words).
+ * This is the password reset request screen.
  *
- * @param onResetPassword Callback triggered when the user presses the "Reset
- *                        password" button to initiate the password reset process.
- * @see LoginScreen
- * @see ResetPasswordScreen
+ * TODO: Implement reset request functionality in the data layer.
+ * NOTE: Currently this practically only sends you to the [ResetPasswordScreen].
+ *
+ * @param onResetPasswordClick Callback triggered when the user presses the "Reset
+ *                             password" button to initiate the password reset process.
  * @author Anarox
  * @Contributor Markus, frigvid
  * @created 2024-09-24
  */
 @Composable
 fun ForgotPasswordScreen(
-    onResetPassword: () -> Unit
+    onResetPasswordClick: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
 
@@ -50,27 +54,26 @@ fun ForgotPasswordScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(16.dp)
             ) {
-                Text(
-                    text = "Type in your email that is linked to your account. You will receive a mail with a link to reset your password.",
-                    fontSize = 12.sp
-                )
+                Text(text = stringResource(R.string.auth_forgot_password_preamble))
 
                 Spacer(modifier = Modifier.height(12.dp))
 
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    placeholder = { Text("Your email") },
-                    label = { Text("Email") },
+                    placeholder = { Text(stringResource(R.string.auth_login_email)) },
+                    label = { Text(stringResource(R.string.auth_login_email_placeholder)) },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = { onResetPassword() },
+                    onClick = onResetPasswordClick,
+                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
+                    colors = ButtonDefaults.buttonColors(Color(0XFFC0A080)),
                     modifier = Modifier.fillMaxWidth()
-                ) { Text(text = "Reset password") }
+                ) { Text(text = stringResource(R.string.auth_forgot_password_reset)) }
             }
         }
     }
