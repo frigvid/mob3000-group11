@@ -8,6 +8,8 @@ val NavbarButtonSelected = Color(0xFF7F563B)
 val DefaultButton = Color(0XFFC0A080)
 /* TODO: Should probably make this and the DefaultButton color more easily differentiable. */
 val DefaultListItemBackground = Color(0xFFDAB892)
+val ProfileUserBackground = Color(0xFFA1887F)
+val ProfileUserStatisticsBackground = Color(0xFFEFEBE9)
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)

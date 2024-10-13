@@ -98,6 +98,38 @@
 
     <!-- Profile page. -->
     <string name="profile_title">User profile</string>
+    <string name="profile_about_me">About me</string>
+    <string name="profile_friends">Friends</string>
+    <string name="profile_stat_elo">ELO</string>
+    <string name="profile_stat_games">Games</string>
+    <string name="profile_stat_wins">Wins</string>
+    <string name="profile_stat_losses">Losses</string>
+    <string name="profile_stat_draws">Draws</string>
+    <string name="profile_stat_country">Country</string>
+
+    <!-- Profile editor page. -->
+    <string name="profile_edit_profile_title">Edit profile</string>
+    <string name="profile_edit_title">Edit your profile</string>
+    <string name="profile_edit_avatar_url">Avatar URL</string>
+    <string name="profile_edit_avatar_url_placeholder">https://example.com/my-fancy-avatar</string>
+    <string name="profile_edit_display_name">Display name</string>
+    <string name="profile_edit_display_name_placeholder">Fancy Name</string>
+    <string name="profile_edit_about_me">About me</string>
+    <string name="profile_edit_about_me_placeholder" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="profile_edit_nationality">Nationality</string>
+    <string name="profile_edit_visibility">Profile visibility</string>
+    <string name="profile_edit_friends_list_visibility">Friend list visibility</string>
+    <string name="profile_edit_save_button">Save details</string>
+
+    <!-- Profile add friends page. -->
+    <string name="profile_add_friends_title">Add friends</string>
+    <string name="profile_add_friends_description">You can add friends by searching for their display name or ID.</string>
+    <string name="profile_add_friends_search_label">Enter a display name or ID</string>
+    <string name="profile_add_friends_add_button">Add</string>
+
+    <!-- Profile pending friend requests page. -->
+    <string name="profile_pending_friend_requests_title">Pending friend requests</string>
+    <string name="profile_pending_friend_requests_no_requests">There are no pending friend requests right now.</string>
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>

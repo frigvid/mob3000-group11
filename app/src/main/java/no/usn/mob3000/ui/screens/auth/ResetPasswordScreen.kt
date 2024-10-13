@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This is the password reset screen, where users can change their passwords.
@@ -77,8 +78,7 @@ fun ResetPasswordScreen(
 
                 Button(
                     onClick = onResetPasswordClick,
-                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
-                    colors = ButtonDefaults.buttonColors(Color(0XFFC0A080)),
+                    colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Reset Password")

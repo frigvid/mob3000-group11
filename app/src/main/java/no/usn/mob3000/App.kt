@@ -40,30 +40,33 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.ui.CBViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
-import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
-import no.usn.mob3000.ui.screens.info.news.NewsScreen
-import no.usn.mob3000.ui.screens.ProfileScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
-import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 import no.usn.mob3000.ui.screens.chess.train.group.CreateGroupScreen
-import no.usn.mob3000.ui.screens.chess.train.opening.CreateOpeningScreen
-import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.chess.train.group.GroupsScreen
+import no.usn.mob3000.ui.screens.chess.train.opening.CreateOpeningScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
 import no.usn.mob3000.ui.screens.info.AboutUsScreen
-import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.docs.DocumentationDetailsScreen
+import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
 import no.usn.mob3000.ui.screens.info.faq.CreateFAQScreen
+import no.usn.mob3000.ui.screens.info.faq.FAQScreen
+import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
+import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
+import no.usn.mob3000.ui.screens.info.news.NewsScreen
+import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
+import no.usn.mob3000.ui.screens.user.ProfileEditScreen
+import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
+import no.usn.mob3000.ui.screens.user.ProfileScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
@@ -179,7 +182,8 @@ fun App(
                     onFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
                     setFAQList = viewModel::setFAQs,
-                    setSelectedFAQ = viewModel::setSelectedFAQ
+                    setSelectedFAQ = viewModel::setSelectedFAQ,
+                    clearSelectedFAQ = viewModel::clearSelectedFAQ
                 )
             }
             composable(route = Destination.FAQ_CREATE.name) {
@@ -256,9 +260,19 @@ fun App(
             }
             composable(route = Destination.PROFILE.name) {
                 ProfileScreen(
-                    onLogin = { navController.navigate(Destination.AUTH_LOGIN.name) }
+                    onTemporaryLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
+                    onProfileEditClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) },
+                    onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
+                    onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }
                 )
             }
+            composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
+                ProfileEditScreen(
+                    onSaveProfileClick = { navController.navigate(Destination.PROFILE.name) }
+                )
+            }
+            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen() }
+            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
             composable(route = Destination.SETTINGS.name) {
                 SettingsScreen(
                     selectedTheme = viewModel.selectedTheme.value,
@@ -474,6 +488,9 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     NEWS_CREATE(title = R.string.news_create_title),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
+    PROFILE_EDIT_PROFILE(title = R.string.profile_edit_profile_title),
+    PROFILE_ADD_FRIENDS(title = R.string.profile_add_friends_title),
+    PROFILE_FRIEND_REQUESTS(title = R.string.profile_pending_friend_requests_title),
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),
     OPENINGS(title = R.string.openings_title),
     OPENINGS_CREATE(title = R.string.openings_create_title),

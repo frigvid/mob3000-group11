@@ -98,6 +98,37 @@
 
     <!-- Profile page. -->
     <string name="profile_title">Brukerprofil</string>
+    <string name="profile_about_me">Om meg</string>
+    <string name="profile_friends">Venner</string>
+    <string name="profile_stat_elo">ELO</string>
+    <string name="profile_stat_games">Antall spill</string>
+    <string name="profile_stat_wins">Vinn</string>
+    <string name="profile_stat_losses">Tap</string>
+    <string name="profile_stat_draws">Uavgjort</string>
+    <string name="profile_stat_country">Nasjonalitet</string>
+
+    <!-- Profile editor page. -->
+    <string name="profile_edit_profile_title">Rediger brukerprofil</string>
+    <string name="profile_edit_title">Rediger profilen din</string>
+    <string name="profile_edit_avatar_url">Profilbilde link</string>
+    <string name="profile_edit_avatar_url_placeholder">https://eksempel.no/mitt-kule-profilbilde</string>
+    <string name="profile_edit_display_name">Visningsnavn</string>
+    <string name="profile_edit_display_name_placeholder">Kult navn</string>
+    <string name="profile_edit_about_me">Om meg</string>
+    <string name="profile_edit_nationality">Nasjonalitet</string>
+    <string name="profile_edit_visibility">Brukerprofilsynlighet</string>
+    <string name="profile_edit_friends_list_visibility">Vennelistesynlighet</string>
+    <string name="profile_edit_save_button">Lagre detaljer</string>
+
+    <!-- Profile add friends page. -->
+    <string name="profile_add_friends_title">Legg til venner</string>
+    <string name="profile_add_friends_description">Du kan legge til venner ved å søke etter visningsnavnet eller IDen deres.</string>
+    <string name="profile_add_friends_search_label">Skriv inn visningsnavn eller ID</string>
+    <string name="profile_add_friends_add_button">Legg til</string>
+
+    <!-- Profile pending friend requests page. -->
+    <string name="profile_pending_friend_requests_title">Ventende venneforespørsler</string>
+    <string name="profile_pending_friend_requests_no_requests">Det er ingen ventende forespørsler akkurat nå.</string>
 
     <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>
