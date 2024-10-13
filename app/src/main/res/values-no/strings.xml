@@ -159,11 +159,33 @@
     <string name="history_step_forward">Gå forover</string>
     <string name="history_view_opening">Vis åpningsdetaljer</string>
 
-    <!-- Authentication related -->
+    <!-- Login page. -->
     <string name="auth_login_title">Innlogging</string>
-    <string name="auth_createUser_title">Lag brukerkonto</string>
-    <string name="auth_forgotPassword_title">Glemt passord</string>
-    <string name="auth_resetPassword_title">Nullstill passord</string>
+    <string name="auth_login_email">E-post</string>
+    <string name="auth_login_email_placeholder">deg@eksempel.no</string>
+    <string name="auth_login_password">Passord</string>
+    <string name="auth_login_authenticate">Logg inn</string>
+    <string name="auth_login_forgot_password">Glemt passord?</string>
+    <string name="auth_login_divider">Eller</string>
+    <string name="auth_login_register_reminder">Har du ikke en konto?</string>
+    <string name="auth_login_register">Registrer deg</string>
+
+    <!-- Create user page. -->
+    <string name="auth_create_user_title">Lag brukerkonto</string>
+    <string name="auth_create_user_password">Passord</string>
+    <string name="auth_create_user_confirm">Gjenta passord</string>
+    <string name="auth_create_user_sign_up">Opprett brukerkonto</string>
+    <string name="auth_create_user_return_to_login">Har du allerede en konto? Logg inn.</string>
+
+    <!-- Forgot password page. -->
+    <string name="auth_forgot_password_title">Glemt passord</string>
+    <string name="auth_forgot_password_preamble">Skriv inn e-post adressen din og klikk på reset passord knappen. Du vil etterpå motta en e-post som lar deg endre passordet ditt.</string>
+    <string name="auth_forgot_password_reset">Nullstill passord</string>
+
+    <!-- Reset password page. -->
+    <string name="auth_reset_password_title">Nullstill passord</string>
+    <string name="auth_reset_password_input">Nytt passord</string>
+    <string name="auth_reset_password_confirm">Gjenta nytt passord</string>
 
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>

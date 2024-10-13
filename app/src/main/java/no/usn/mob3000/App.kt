@@ -130,6 +130,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * @see ScreenIcon
  * @see Icon
  * @author frigvid
+ * @contributors Routes: Anarox, Markus
  * @created 2024-09-24
  */
 @Composable
@@ -253,7 +254,11 @@ fun App(
                     onOpeningDetailsClick = { navController.navigate(Destination.OPENING_DETAILS.name) }
                 )
             }
-            composable(route = Destination.PROFILE.name) { ProfileScreen() }
+            composable(route = Destination.PROFILE.name) {
+                ProfileScreen(
+                    onLogin = { navController.navigate(Destination.AUTH_LOGIN.name) }
+                )
+            }
             composable(route = Destination.SETTINGS.name) {
                 SettingsScreen(
                     selectedTheme = viewModel.selectedTheme.value,
@@ -262,10 +267,29 @@ fun App(
                     onLanguageChange = viewModel::setSelectedLanguage
                 )
             }
-            composable(route = Destination.AUTH_LOGIN.name) { LoginScreen() }
-            composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }
-            composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
-            composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen() }
+            composable(route = Destination.AUTH_LOGIN.name) {
+                LoginScreen(
+                    onCreateUserClick = { navController.navigate(Destination.AUTH_CREATE.name)},
+                    onLoginClick = { navController.navigate(Destination.HOME.name) },
+                    onForgotPasswordClick = { navController.navigate(Destination.AUTH_FORGOT.name) }
+                )
+            }
+            composable(route = Destination.AUTH_CREATE.name) {
+                CreateUserScreen(
+                    onSignUpClick = { navController.navigate(Destination.HOME.name) },
+                    onReturnToLoginClick = { navController.navigate(Destination. AUTH_LOGIN.name) }
+                )
+            }
+            composable(route = Destination.AUTH_FORGOT.name) {
+                ForgotPasswordScreen(
+                    onResetPasswordClick = { navController.navigate(Destination.AUTH_RESET.name) }
+                )
+            }
+            composable(route = Destination.AUTH_RESET.name) {
+                ResetPasswordScreen(
+                    onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
+                )
+            }
             composable(route = Destination.ADMIN_DASHBOARD.name) { AdministratorDashboardScreen() }
         }
     }
@@ -383,7 +407,7 @@ fun Viewport(
         Destination.INFO,
         Destination.NEWS,
         Destination.HOME,
-        Destination.PROFILE,
+        Destination. PROFILE,
         Destination.SETTINGS
     )
 
@@ -459,9 +483,9 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     PLAY(title = R.string.home_play_title),
     HISTORY(title = R.string.home_history_title),
     AUTH_LOGIN(title = R.string.auth_login_title),
-    AUTH_CREATE(title = R.string.auth_createUser_title),
-    AUTH_FORGOT(title = R.string.auth_forgotPassword_title),
-    AUTH_RESET(title = R.string.auth_resetPassword_title),
+    AUTH_CREATE(title = R.string.auth_create_user_title),
+    AUTH_FORGOT(title = R.string.auth_forgot_password_title),
+    AUTH_RESET(title = R.string.auth_reset_password_title),
     ADMIN_DASHBOARD(title = R.string.admin_dashboard_title)
 }
 

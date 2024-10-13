@@ -159,11 +159,34 @@
     <string name="history_step_forward">Step Forward</string>
     <string name="history_view_opening">View Opening</string>
 
-    <!-- Authentication related -->
+    <!-- Login page. -->
     <string name="auth_login_title">Login</string>
-    <string name="auth_createUser_title">Create user</string>
-    <string name="auth_forgotPassword_title">Forgot password</string>
-    <string name="auth_resetPassword_title">Reset password</string>
+    <string name="auth_login_email">E-mail</string>
+    <string name="auth_login_email_placeholder">you@example.com</string>
+    <string name="auth_login_password">Password</string>
+    <string name="auth_login_password_placeholder" translatable="false">••••••••</string>
+    <string name="auth_login_authenticate">Log in</string>
+    <string name="auth_login_forgot_password">Forgot password?</string>
+    <string name="auth_login_divider">Or</string>
+    <string name="auth_login_register_reminder">Do you not have an account?</string>
+    <string name="auth_login_register">Register</string>
+
+    <!-- Create user page. -->
+    <string name="auth_create_user_title">Create user</string>
+    <string name="auth_create_user_password">Password</string>
+    <string name="auth_create_user_confirm">Confirm password</string>
+    <string name="auth_create_user_sign_up">Sign up</string>
+    <string name="auth_create_user_return_to_login">Already have an account? Log in.</string>
+
+    <!-- Forgot password page. -->
+    <string name="auth_forgot_password_title">Forgot password</string>
+    <string name="auth_forgot_password_preamble">Input your email and click the reset password button. You will receive a mail with a link to reset your password.</string>
+    <string name="auth_forgot_password_reset">Reset password</string>
+
+    <!-- Reset password page. -->
+    <string name="auth_reset_password_title">Reset password</string>
+    <string name="auth_reset_password_input">New password</string>
+    <string name="auth_reset_password_confirm">Confirm new password</string>
 
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
