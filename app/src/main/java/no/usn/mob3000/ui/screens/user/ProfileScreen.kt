@@ -19,11 +19,17 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.theme.DefaultButton
+import no.usn.mob3000.ui.theme.ProfileUserBackground
+import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 
 /**
  * The profile screen.
@@ -39,12 +45,18 @@ import no.usn.mob3000.Viewport
  */
 @Composable
 fun ProfileScreen(
+    onTemporaryLoginClick: () -> Unit,
     onProfileEditClick: () -> Unit,
     onProfileAddFriendsClick: () -> Unit,
     onProfileFriendRequestsClick: () -> Unit
 ) {
     Viewport(
         topBarActions = {
+            IconButton(
+                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
+                onClick = onTemporaryLoginClick
+            ) { Icon(Icons.Default.PlayArrow, contentDescription = "Temporary login") }
+            
             IconButton(onClick = onProfileEditClick) {
                 Icon(
                     painter = painterResource(R.drawable.profile_edit),
@@ -92,6 +104,7 @@ fun ProfileScreen(
  * This section includes the user's profile picture and display name.
  *
  * @author Hussein
+ * @contributor frigvid
  * @created 2024-10-11
  */
 @Composable
@@ -101,7 +114,7 @@ fun ProfileHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(colorResource(id = R.color.beige)),
+            .background(ProfileUserBackground),
         verticalArrangement = Arrangement.Center
     ) {
         /* TODO: Fetch the user's icon and display name from cached state in ViewModel. */
@@ -130,6 +143,7 @@ fun ProfileHeader() {
  * wins, losses, draws, and country.
  *
  * @author Hussein
+ * @contributor frigvid
  * @created 2024-10-11
  */
 @Composable
@@ -137,7 +151,7 @@ fun ProfileStats() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(id=R.color.soft_beige))
+            .background(ProfileUserStatisticsBackground)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {

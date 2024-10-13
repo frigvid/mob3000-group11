@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- frigvid@2024-09-16: NoTitleBar is here to remove the default top bar with the app title. -->
     <application
         android:allowBackup="true"
