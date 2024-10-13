@@ -126,4 +126,8 @@ class CBViewModel : ViewModel() {
     fun setSelectedFAQ(faq: FAQ) {
         _selectedFAQ.value = faq
     }
+
+    fun clearSelectedFAQ() {
+        _selectedFAQ.value = null
+    }
 }

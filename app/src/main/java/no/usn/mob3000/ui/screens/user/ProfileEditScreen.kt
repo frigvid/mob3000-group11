@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen to allow users to edit their profiles, and get access to some user-related settings.
@@ -120,6 +121,7 @@ fun ProfileEditScreen(
                     expanded = isDropdownExpanded,
                     onDismissRequest = { isDropdownExpanded = false }
                 ) {
+                    /* TODO: Use country-code to decide on which emoji to display. */
                     commonCountries.forEach { (code, name) ->
                         DropdownMenuItem(
                             text = { Text(name) },
@@ -146,8 +148,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isProfileVisible,
                     onCheckedChange = { isProfileVisible = it },
-                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
-                    colors = SwitchDefaults.colors(checkedTrackColor = Color(0XFFC0A080))
+                    colors = SwitchDefaults.colors(checkedTrackColor = DefaultButton)
                 )
             }
 
@@ -165,8 +166,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isFriendsListVisible,
                     onCheckedChange = { isFriendsListVisible = it },
-                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
-                    colors = SwitchDefaults.colors(checkedTrackColor = Color(0XFFC0A080))
+                    colors = SwitchDefaults.colors(checkedTrackColor = DefaultButton)
                 )
             }
 
@@ -175,8 +175,7 @@ fun ProfileEditScreen(
                     /* TODO: Implement update to database. */
                     onSaveProfileClick()
                 },
-                /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
-                colors = ButtonDefaults.buttonColors(Color(0XFFC0A080)),
+                colors = ButtonDefaults.buttonColors(DefaultButton),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)

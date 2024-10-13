@@ -31,6 +31,7 @@ import java.util.*
  * @param onCreateFAQClick Callback function to navigate to [CreateFAQScreen].
  * @param setFAQList ViewModel function to save a list of [FAQ] objects to state.
  * @param setSelectedFAQ ViewModel function to save a specific [FAQ] object to state.
+ * @param clearSelectedFAQ ViewModel function to clear selected [FAQ] object.
  * @author frigvid
  * @created 2024-09-24
  */
@@ -40,10 +41,13 @@ fun FAQScreen(
     onFAQClick: (FAQ) -> Unit,
     onCreateFAQClick: () -> Unit,
     setFAQList: (List<FAQ>) -> Unit,
-    setSelectedFAQ: (FAQ) -> Unit
+    setSelectedFAQ: (FAQ) -> Unit,
+    clearSelectedFAQ: () -> Unit
 ) {
     /* TODO: Replace dummy data with data fetched from back-end. */
     LaunchedEffect(Unit) {
+        clearSelectedFAQ()
+
         val dummyFAQs = listOf(
             FAQ(
                 "1",

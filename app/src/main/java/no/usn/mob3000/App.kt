@@ -63,7 +63,9 @@ import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
+import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
 import no.usn.mob3000.ui.screens.user.ProfileEditScreen
+import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
 import no.usn.mob3000.ui.screens.user.ProfileScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
@@ -180,7 +182,8 @@ fun App(
                     onFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
                     setFAQList = viewModel::setFAQs,
-                    setSelectedFAQ = viewModel::setSelectedFAQ
+                    setSelectedFAQ = viewModel::setSelectedFAQ,
+                    clearSelectedFAQ = viewModel::clearSelectedFAQ
                 )
             }
             composable(route = Destination.FAQ_CREATE.name) {
@@ -268,6 +271,8 @@ fun App(
                     onSaveProfileClick = { navController.navigate(Destination.PROFILE.name) }
                 )
             }
+            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen() }
+            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
             composable(route = Destination.SETTINGS.name) {
                 SettingsScreen(
                     selectedTheme = viewModel.selectedTheme.value,

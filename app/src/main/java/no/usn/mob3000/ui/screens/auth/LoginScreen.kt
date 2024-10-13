@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.font.FontWeight
 import no.usn.mob3000.R
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This screen allows users to log into accounts, request new passwords ([ForgotPasswordScreen]),
@@ -88,8 +89,7 @@ fun LoginScreen(
 
                 Button(
                     onClick = onLoginClick,
-                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
-                    colors = ButtonDefaults.buttonColors(Color(0XFFC0A080)),
+                    colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -125,8 +125,7 @@ fun LoginScreen(
                     Text(stringResource(R.string.auth_login_register_reminder))
                     Button(
                         onClick = onCreateUserClick,
-                        /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
-                        colors = ButtonDefaults.buttonColors(Color(0XFFC0A080))
+                        colors = ButtonDefaults.buttonColors(DefaultButton)
                     ) { Text(stringResource(R.string.auth_login_register)) }
                 }
             }

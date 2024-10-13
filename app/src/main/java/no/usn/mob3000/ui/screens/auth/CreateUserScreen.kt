@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This is account registration screen.
@@ -86,8 +87,7 @@ fun CreateUserScreen(
 
                 Button(
                     onClick = { onSignUpClick() },
-                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
-                    colors = ButtonDefaults.buttonColors(Color(0XFFC0A080)),
+                    colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) { Text(stringResource(R.string.auth_create_user_sign_up)) }
 

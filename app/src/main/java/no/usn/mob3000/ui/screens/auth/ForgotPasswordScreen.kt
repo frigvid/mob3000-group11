@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This is the password reset request screen.
@@ -69,8 +70,7 @@ fun ForgotPasswordScreen(
 
                 Button(
                     onClick = onResetPasswordClick,
-                    /* TODO: Replace with DefaultButton theme color when up-to-date with master. */
-                    colors = ButtonDefaults.buttonColors(Color(0XFFC0A080)),
+                    colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) { Text(text = stringResource(R.string.auth_forgot_password_reset)) }
             }
