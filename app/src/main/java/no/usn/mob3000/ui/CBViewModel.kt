@@ -4,6 +4,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import no.usn.mob3000.ui.screens.chess.train.opening.Opening
+import no.usn.mob3000.ui.screens.info.docs.Documentation
+import no.usn.mob3000.ui.screens.info.faq.FAQ
+import no.usn.mob3000.ui.screens.info.news.News
 
 /**
  * ViewModel to save state where necessary.
@@ -57,5 +60,70 @@ class CBViewModel : ViewModel() {
     /* TODO: Add functionality to actually switch language, somewhere. Probably not here though. */
     fun setSelectedLanguage(language: String) {
         _selectedLanguage.value = language
+    }
+
+    /* News. */
+    private val _news = mutableStateOf<List<News>>(emptyList())
+    val news: State<List<News>> = _news
+
+    private val _selectedNews = mutableStateOf<News?>(null)
+    val selectedNews: State<News?> = _selectedNews
+
+    fun setNews(news: List<News>) {
+        _news.value = news
+    }
+
+    fun setSelectedNews(news: News) {
+        _selectedNews.value = news
+    }
+
+    fun clearSelectedNews() {
+        _selectedNews.value = null
+    }
+
+    /**
+     * Retrieves a News by its ID.
+     *
+     * @param id The ID of the news to retrieve.
+     * @return The News with the matching ID, or null if not found.
+     * @author 258030 (Eirik)
+     * @Created 2024-10-11
+     */
+    fun getNewsById(id: String): News? {
+        return _news.value.find { it.id == id }
+    }
+
+    /* Documentation. */
+    private val _documentations = mutableStateOf<List<Documentation>>(emptyList())
+    val documentations: State<List<Documentation>> = _documentations
+
+    private val _selectedDocumentation = mutableStateOf<Documentation?>(null)
+    val selectedDocumentation: State<Documentation?> = _selectedDocumentation
+
+    fun setDocumentations(documentations: List<Documentation>) {
+        _documentations.value = documentations
+    }
+
+    fun setSelectedDocumentation(documentation: Documentation) {
+        _selectedDocumentation.value = documentation
+    }
+
+    fun clearSelectedDocumentation() {
+        _selectedDocumentation.value = null
+    }
+
+    /* FAQ */
+    private val _faqs = mutableStateOf<List<FAQ>>(emptyList())
+    val faqs: State<List<FAQ>> = _faqs
+
+    private val _selectedFAQ = mutableStateOf<FAQ?>(null)
+    val selectedFAQ: State<FAQ?> = _selectedFAQ
+
+    fun setFAQs(faqs: List<FAQ>) {
+        _faqs.value = faqs
+    }
+
+    fun setSelectedFAQ(faq: FAQ) {
+        _selectedFAQ.value = faq
     }
 }

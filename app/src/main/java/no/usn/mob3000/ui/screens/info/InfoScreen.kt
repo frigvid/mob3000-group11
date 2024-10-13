@@ -48,7 +48,7 @@ fun InfoScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             InfoButton(
-                text = stringResource(R.string.docs_title),
+                text = stringResource(R.string.documentation_title),
                 onClick = onDocumentationClick
             )
 

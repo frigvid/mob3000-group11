@@ -40,25 +40,30 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.ui.CBViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
-import no.usn.mob3000.ui.screens.info.DocumentationScreen
+import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
-import no.usn.mob3000.ui.screens.info.NewsScreen
+import no.usn.mob3000.ui.screens.info.news.NewsScreen
 import no.usn.mob3000.ui.screens.ProfileScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
+import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 import no.usn.mob3000.ui.screens.chess.train.group.CreateGroupScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.CreateOpeningScreen
-import no.usn.mob3000.ui.screens.info.FAQScreen
+import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.chess.train.group.GroupsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
 import no.usn.mob3000.ui.screens.info.AboutUsScreen
+import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.InfoScreen
+import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
+import no.usn.mob3000.ui.screens.info.docs.DocumentationDetailsScreen
+import no.usn.mob3000.ui.screens.info.faq.CreateFAQScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
@@ -145,10 +150,67 @@ fun App(
                     onFAQClick = { navController.navigate(Destination.FAQ.name) }
                 )
             }
-            composable(route = Destination.DOCUMENTATION.name) { DocumentationScreen() }
-            composable(route = Destination.FAQ.name) { FAQScreen() }
+            composable(route = Destination.DOCUMENTATION.name) {
+                DocumentationScreen(
+                    documentations = viewModel.documentations.value,
+                    onDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
+                    onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
+                    setDocumentationList = viewModel::setDocumentations,
+                    setSelectedDocumentation = viewModel::setSelectedDocumentation,
+                    clearSelectedDocumentation = viewModel::clearSelectedDocumentation
+                )
+            }
+            composable(route = Destination.DOCUMENTATION_DETAILS.name) {
+                DocumentationDetailsScreen(
+                    selectedDocumentation = viewModel.selectedDocumentation.value,
+                    onEditClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) }
+                )
+            }
+            composable(route = Destination.DOCUMENTATION_CREATE.name) {
+                CreateDocumentationScreen(
+                    selectedDocumentation = viewModel.selectedDocumentation.value,
+                    onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
+                )
+            }
+            composable(route = Destination.FAQ.name) {
+                FAQScreen(
+                    faqList = viewModel.faqs.value,
+                    onFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
+                    onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
+                    setFAQList = viewModel::setFAQs,
+                    setSelectedFAQ = viewModel::setSelectedFAQ
+                )
+            }
+            composable(route = Destination.FAQ_CREATE.name) {
+                CreateFAQScreen(
+                    selectedFAQ = viewModel.selectedFAQ.value,
+                    onSaveFAQClick = { navController.navigate(Destination.FAQ.name) },
+                    onDeleteFAQClick = { navController.navigate(Destination.FAQ.name) }
+                )
+            }
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
-            composable(route = Destination.NEWS.name) { NewsScreen() }
+            composable(route = Destination.NEWS.name) {
+                NewsScreen(
+                    news = viewModel.news.value,
+                    onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
+                    onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
+                    setNewsList = viewModel::setNews,
+                    setSelectedNews = viewModel::setSelectedNews,
+                    clearSelectedNews = viewModel::clearSelectedNews
+                )
+            }
+            composable(route = Destination.NEWS_DETAILS.name) {
+                NewsDetailsScreen(
+                    selectedNews = viewModel.selectedNews.value,
+                    onEditClick = { navController.navigate(Destination.NEWS_CREATE.name) }
+                )
+            }
+            composable(route = Destination.NEWS_CREATE.name) {
+                CreateNewsScreen(
+                    selectedNews = viewModel.selectedNews.value,
+                    onSaveNewsClick = { navController.navigateUp() }
+                )
+            }
             composable(route = Destination.HOME.name) {
                 HomeScreen(
                     onTrainClick = { navController.navigate(Destination.OPENINGS.name) },
@@ -377,10 +439,15 @@ fun Viewport(
  */
 enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     INFO(title = R.string.info_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_info)),
-    DOCUMENTATION(title = R.string.docs_title),
+    DOCUMENTATION(title = R.string.documentation_title),
+    DOCUMENTATION_CREATE(title = R.string.documentation_create_title),
+    DOCUMENTATION_DETAILS(title = R.string.documentation_details_title),
     FAQ(title = R.string.faq_title),
+    FAQ_CREATE(title = R.string.faq_create_title),
     ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
+    NEWS_DETAILS(title = R.string.news_title),
+    NEWS_CREATE(title = R.string.news_create_title),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),

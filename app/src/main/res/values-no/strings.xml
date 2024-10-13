@@ -4,8 +4,49 @@
 
     <!-- Documentation related pages. -->
     <string name="info_title">Informasjon</string>
-    <string name="docs_title">Dokumentasjon</string>
+
+    <!-- Documentation page. -->
+    <string name="documentation_title">Dokumentasjon</string>
+    <string name="documentation_date_prefix">Opprettet</string>
+    <string name="documentation_date_pattern">yyyy/MM/dd</string>
+
+    <!-- Documentation details page. -->
+    <string name="documentation_details_title">Dokumentasjonsdetaljer</string>
+    <string name="documentation_details_created_date_prefix">Opprettet</string>
+    <string name="documentation_details_created_date_pattern">yyyy/MM/dd HH:mm</string>
+    <string name="documentation_details_modified_date_prefix">Sist endret</string>
+    <string name="documentation_details_modified_date_pattern">yyyy/MM/dd HH:mm</string>
+    <string name="documentation_details_status_prefix">Status</string>
+    <string name="documentation_details_status_published">Publisert</string>
+    <string name="documentation_details_status_draft">Utkast</string>
+    <string name="documentation_details_not_found">Ikke funner</string>
+
+    <!-- Documentation creation page. -->
+    <string name="documentation_create_title">Lag dokumentasjon</string>
+    <string name="documentation_create_label_title">Tittel</string>
+    <string name="documentation_create_label_summary">Sammendrag</string>
+    <string name="documentation_create_label_content">Innhold</string>
+    <string name="documentation_create_check_publish">Publiser ummidelbart</string>
+    <string name="documentation_create_check_unpublish">Gjør om til utkast</string>
+    <string name="documentation_create_save_documentation">Lagre dokumentasjon</string>
+    <string name="documentation_create_save_changes">Lagre endringer</string>
+
+    <!-- FAQ page. -->
     <string name="faq_title">FAQ</string>
+    <string name="faq_create_title">Opprett FAQ</string>
+    <string name="faq_created_at">Opprettet</string>
+    <string name="faq_modified_at">Modifisert</string>
+    <string name="faq_date_pattern">yyyy/MM/dd HH:mm</string>
+
+    <!-- FAQ creation page. -->
+    <string name="faq_create_label_title">Spørsmål</string>
+    <string name="faq_create_label_subtitle">Undertittel</string>
+    <string name="faq_create_label_content">Svar</string>
+    <string name="faq_create_check_publish">Publiser FAQ</string>
+    <string name="faq_create_check_unpublish">Avpubliser FAQ</string>
+    <string name="faq_create_save_faq">Lagre FAQ</string>
+    <string name="faq_create_save_changes">Lagre endringer</string>
+    <string name="faq_create_delete_faq">Slett FAQ</string>
 
     <!-- About us page. -->
     <string name="about_us_title">Om oss</string>
@@ -24,6 +65,30 @@
 
     <!-- News page. -->
     <string name="news_title">Nyheter</string>
+    <string name="subtitle">Undertittel</string>
+    <string name="publish">Publiser</string>
+    <string name="news_date_prefix">Dato</string>
+    <string name="news_date_pattern">yyyy/MM/dd HH:mm</string>
+
+    <!-- News details page. -->
+    <string name="news_details_created_date_prefix">Opprettet</string>
+    <string name="news_details_modified_date_prefix">Endret</string>
+    <string name="news_details_status_prefix">Status</string>
+    <string name="news_details_status_published">Publisert</string>
+    <string name="news_details_status_draft">Utkast</string>
+    <string name="news_details_not_found">Nyhet ikke funnet</string>
+    <string name="news_details_created_date_pattern">yyyy/MM/dd HH:mm</string>
+    <string name="news_details_modified_date_pattern">yyyy/MM/dd HH:mm</string>
+
+    <!-- News creation page. -->
+    <string name="news_create_title">Oprett nyhet</string>
+    <string name="news_create_label_title">Tittel</string>
+    <string name="news_create_label_summary">Sammendrag</string>
+    <string name="news_create_label_content">Innhold</string>
+    <string name="news_create_check_publish">Publiser nyhet</string>
+    <string name="news_create_check_unpublish">Avpubliser nyhet?</string>
+    <string name="news_create_save_news">Lagre nyhet</string>
+    <string name="news_create_save_changes">Lagre endringer</string>
 
     <!-- Home page. -->
     <string name="home_title">Hjem</string>
