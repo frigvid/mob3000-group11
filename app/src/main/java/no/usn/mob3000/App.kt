@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -37,6 +38,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import no.usn.mob3000.ui.CBViewModel
+import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.info.DocumentationScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.info.NewsScreen
@@ -48,11 +51,14 @@ import no.usn.mob3000.ui.screens.auth.LoginScreen
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
-import no.usn.mob3000.ui.screens.chess.train.CreateGroupScreen
-import no.usn.mob3000.ui.screens.chess.train.CreateOpeningScreen
+import no.usn.mob3000.ui.screens.chess.train.group.CreateGroupScreen
+import no.usn.mob3000.ui.screens.chess.train.opening.CreateOpeningScreen
 import no.usn.mob3000.ui.screens.info.FAQScreen
-import no.usn.mob3000.ui.screens.chess.train.GroupsScreen
-import no.usn.mob3000.ui.screens.chess.train.OpeningsScreen
+import no.usn.mob3000.ui.screens.chess.train.group.GroupsScreen
+import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
+import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
+import no.usn.mob3000.ui.screens.info.AboutUsScreen
+import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.theme.NavbarBackground
 import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
@@ -123,6 +129,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  */
 @Composable
 fun App(
+    viewModel: CBViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -131,8 +138,16 @@ fun App(
             startDestination = Destination.HOME.name,
             modifier = Modifier.fillMaxSize()
         ) {
+            composable(route = Destination.INFO.name) {
+                InfoScreen(
+                    onAboutUsClick = { navController.navigate(Destination.ABOUT_US.name) },
+                    onDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) },
+                    onFAQClick = { navController.navigate(Destination.FAQ.name) }
+                )
+            }
             composable(route = Destination.DOCUMENTATION.name) { DocumentationScreen() }
             composable(route = Destination.FAQ.name) { FAQScreen() }
+            composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) { NewsScreen() }
             composable(route = Destination.HOME.name) {
                 HomeScreen(
@@ -144,25 +159,52 @@ fun App(
             composable(route = Destination.OPENINGS.name) {
                 OpeningsScreen(
                     onGroupsClick = { navController.navigate(Destination.GROUPS.name) },
-                    onCreateOpeningClick = { navController.navigate(Destination.OPENINGS_CREATE.name) }
+                    onCreateOpeningClick = { navController.navigate(Destination.OPENINGS_CREATE.name) },
+                    onOpeningClick = { navController.navigate(Destination.OPENING_DETAILS.name) },
+                    setOpenings = viewModel::setOpenings,
+                    setSelectedOpening = viewModel::setSelectedOpening
                 )
             }
             composable(route = Destination.OPENINGS_CREATE.name) { CreateOpeningScreen() }
+            composable(route = Destination.OPENING_DETAILS.name) {
+                OpeningDetailsScreen(
+                    opening = viewModel.selectedOpening.value,
+                    onPracticeClick = { navController.navigate(Destination.PLAY.name) }
+                )
+            }
             composable(route = Destination.GROUPS.name) {
                 GroupsScreen(
                     onCreateGroupClick = { navController.navigate(Destination.GROUPS_CREATE.name) },
                     onReturnToOpeningClick = { navController.navigate(Destination.OPENINGS.name) }
                 )
             }
-            composable(route = Destination.GROUPS_CREATE.name) { CreateGroupScreen() }
+            composable(route = Destination.GROUPS_CREATE.name) {
+                CreateGroupScreen(
+                    availableOpenings = viewModel.openings.value
+                )
+            }
             composable(route = Destination.PLAY.name) { PlayScreen() }
-            composable(route = Destination.HISTORY.name) { HistoryScreen() }
+            composable(route = Destination.HISTORY.name) {
+                HistoryScreen(
+                    setSelectedOpening = viewModel::setSelectedOpening,
+                    getOpeningById = viewModel::getOpeningById,
+                    onOpeningDetailsClick = { navController.navigate(Destination.OPENING_DETAILS.name) }
+                )
+            }
             composable(route = Destination.PROFILE.name) { ProfileScreen() }
-            composable(route = Destination.SETTINGS.name) { SettingsScreen() }
+            composable(route = Destination.SETTINGS.name) {
+                SettingsScreen(
+                    selectedTheme = viewModel.selectedTheme.value,
+                    selectedLanguage = viewModel.selectedLanguage.value,
+                    onThemeChange = viewModel::setSelectedTheme,
+                    onLanguageChange = viewModel::setSelectedLanguage
+                )
+            }
             composable(route = Destination.AUTH_LOGIN.name) { LoginScreen() }
             composable(route = Destination.AUTH_CREATE.name) { CreateUserScreen() }
             composable(route = Destination.AUTH_FORGOT.name) { ForgotPasswordScreen() }
             composable(route = Destination.AUTH_RESET.name) { ResetPasswordScreen() }
+            composable(route = Destination.ADMIN_DASHBOARD.name) { AdministratorDashboardScreen() }
         }
     }
 }
@@ -276,7 +318,7 @@ fun Viewport(
     )
 
     val rootEntries = listOf(
-        Destination.DOCUMENTATION,
+        Destination.INFO,
         Destination.NEWS,
         Destination.HOME,
         Destination.PROFILE,
@@ -334,14 +376,17 @@ fun Viewport(
  * @created 2024-09-24
  */
 enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
-    DOCUMENTATION(title = R.string.docs_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_documentation)),
+    INFO(title = R.string.info_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_info)),
+    DOCUMENTATION(title = R.string.docs_title),
     FAQ(title = R.string.faq_title),
+    ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),
     OPENINGS(title = R.string.openings_title),
     OPENINGS_CREATE(title = R.string.openings_create_title),
+    OPENING_DETAILS(title = R.string.opening_details),
     GROUPS(title = R.string.groups_title),
     GROUPS_CREATE(title = R.string.groups_create_title),
     PLAY(title = R.string.home_play_title),
@@ -349,7 +394,8 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     AUTH_LOGIN(title = R.string.auth_login_title),
     AUTH_CREATE(title = R.string.auth_createUser_title),
     AUTH_FORGOT(title = R.string.auth_forgotPassword_title),
-    AUTH_RESET(title = R.string.auth_resetPassword_title)
+    AUTH_RESET(title = R.string.auth_resetPassword_title),
+    ADMIN_DASHBOARD(title = R.string.admin_dashboard_title)
 }
 
 /**

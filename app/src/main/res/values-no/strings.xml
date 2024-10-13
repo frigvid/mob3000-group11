@@ -1,8 +1,26 @@
 <resources>
+    <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
-    <!-- Documentation page. -->
+
+    <!-- Documentation related pages. -->
+    <string name="info_title">Informasjon</string>
     <string name="docs_title">Dokumentasjon</string>
     <string name="faq_title">FAQ</string>
+
+    <!-- About us page. -->
+    <string name="about_us_title">Om oss</string>
+    <string name="about_us_preamble1">Chess Buddy er en innovativ webapplikasjon designet for å styrke dine sjakkåpninger og forbedre ditt generelle spill.</string>
+    <string name="about_us_preamble2">Ved å bruke Chess Buddy kan spillere på alle nivåer utforske et bredt spekter av sjakkåpninger, lære strategiene bak dem, og øve på å implementere dem i sine egne spill.</string>
+    <string name="about_us_preamble3">Funksjoner inkluderer interaktive leksjoner, praktiske utfordringer, og muligheten til å spille mot en AI for å teste ut nye åpninger i realistiske scenarioer. Chess Buddy er ikke bare et verktøy for læring; det er en partner i din sjakkutvikling.</string>
+    <string name="about_us_how_we_help1">Tilpassede læringsveier som matcher ditt ferdighetsnivå og læringsmål.</string>
+    <string name="about_us_how_we_help2">Interaktive leksjoner som forklarer hver åpning og dens variabler i dybden.</string>
+    <string name="about_us_how_we_help3">Utfordringer og spill mot AI for å øve og forsterke læringen.</string>
+    <string name="about_us_how_we_help4">Tilbakemelding og analyser som hjelper deg å forstå dine styrker og svakheter.</string>
+    <string name="about_us_the_company1">Her hos Chess Buddy, er vi drevet av en enkel visjon: Å gjøre sjakkundervisning av høy kvalitet tilgjengelig for alle. Vår lidenskap for sjakk og en klar forståelse av markedets behov inspirerte oss til å skape et verktøy som spesifikt fokuserer på åpningstrekk; en vital, men ofte undervurdert, del av spillet.</string>
+    <string name="about_us_the_company2">Vi anerkjente et gap i markedet for et dedikert verktøy som kunne tilby dypere innsikt og praktisk trening i sjakkåpninger. Dette førte oss til å utvikle Chess Buddy, en plattform som kombinerer den nyeste teknologien med omfattende sjakkekspertise for å tilby en unik læringsopplevelse.</string>
+    <string name="about_us_the_company3">Ved å utvikle Chess Buddy, ønsket vi å tilby et intuitivt og brukervennlig verktøy som demystifiserer sjakkåpningene og gir spillere på alle nivåer muligheten til å forbedre sine åpningsstrategier og generelle spill.</string>
+    <string name="about_us_vision_title">Vår visjon</string>
+    <string name="about_us_vision">Vår visjon er å fremme sjakkundervisning ved å fokusere på åpningsstrategier. Med Chess Buddy strever vi etter å utruste sjakkentusiaster med kunnskapen og ferdighetene de trenger for å heve spillet sitt. Vi er stolte over å bidra til å bygge et samfunn hvor spillere kan dele, utforske, og vokse sammen. Bli med oss på denne reisen for å utforske sjakkens verden og ta dine ferdigheter til nye høyder.</string>
 
     <!-- News page. -->
     <string name="news_title">Nyheter</string>
@@ -18,22 +36,71 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>
+    <string name="settings_language">Språk</string>
+    <string name="settings_language_enus">Engelsk</string>
+    <string name="settings_language_nonb">Norsk Bokmål</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_light">Default - lyst</string>
+    <string name="settings_theme_dark">Default - mørkt</string>
 
     <!-- Openings/groups page. -->
     <string name="openings_title">Åpninger</string>
-    <string name="groups_title">Grupper</string>
+
+    <!-- Opening creation page. -->
     <string name="openings_create_title">ÅpningLagingStub</string>
-    <string name="groups_create_title">GruppeLagingStub</string>
+    <string name="opening_create_prompt_title">Tittel</string>
+    <string name="opening_create_prompt_description">Beskrivelse</string>
+    <string name="opening_create_moves">Trekk</string>
+    <string name="opening_create_undo_move">Angre trekk</string>
+    <string name="opening_create_reset_board">Nullstill sjakkbrett</string>
+    <string name="opening_create_save_opening">Lagre åpning</string>
+    <string name="opening_create_reset_all">Nullstill</string>
+
+    <!-- Opening details page. -->
+    <string name="opening_details">Åpningsdetaljer</string>
+    <string name="opening_details_description">Beskrivelse</string>
+    <string name="opening_details_moves">Trekk</string>
+    <string name="opening_details_practice_button">Øv på denne åpningen</string>
+
+    <!-- Groups page. -->
+    <string name="groups_title">Repertoarer</string>
+    <string name="groups_create_description_missing">Ingen beskrivelse tilgjengelig</string>
+    <string name="groups_create_openings">Åpninger</string>
+
+    <!-- Groups creation page. -->
+    <string name="groups_create_title">Lag en ny repertoar</string>
+    <string name="group_create_prompt_title">Tittel</string>
+    <string name="group_create_prompt_description">Beskrivelse</string>
+    <string name="group_create_available_openings">Åpninger</string>
+    <string name="group_create_selected_openings">Åpninger i dette repertoaret</string>
+    <string name="group_create_reset_all">Nullstill</string>
+    <string name="group_create_save_group">Lagre repertoar</string>
 
     <!-- Play now page. -->
     <string name="play_title">Spill</string>
+    <string name="play_game_status">Spill status</string>
+    <string name="play_statistics">Statistikk</string>
+    <string name="play_wins">Vinn</string>
+    <string name="play_losses">Tap</string>
+    <string name="play_draws">Uavgjort</string>
+    <string name="play_reset_board">Nullstill sjakkbrett</string>
+    <string name="play_undo_move">Angre trekk</string>
+    <string name="play_multiplayer">Multiplayer</string>
 
     <!-- Your history page. -->
     <string name="history_title">Historikk</string>
+    <string name="history_result">Resultat: %s</string>
+    <string name="history_step_backward">Gå bakover</string>
+    <string name="history_step_forward">Gå forover</string>
+    <string name="history_view_opening">Vis åpningsdetaljer</string>
 
     <!-- Authentication related -->
     <string name="auth_login_title">Innlogging</string>
     <string name="auth_createUser_title">Lag brukerkonto</string>
     <string name="auth_forgotPassword_title">Glemt passord</string>
     <string name="auth_resetPassword_title">Nullstill passord</string>
+
+    <!-- Administrator dashboard page. -->
+    <string name="admin_dashboard_title">Administrator dashboard</string>
+    <string name="admin_dashboard_subtitle">Du vil ikke kunne se din egen brukerkonto her.</string>
 </resources>
