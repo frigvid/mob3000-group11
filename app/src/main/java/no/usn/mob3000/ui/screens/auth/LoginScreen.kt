@@ -40,8 +40,8 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *                              text to navigate to the password recovery screen.
  * @param onCreateUserClick Callback triggered when the user clicks the "Or sign in"
  *                          text to navigate to the user creation screen.
- * @author frigvid
- * @contributor Anarox, Markus
+ * @author frigvid, Anarox
+ * @contributor Markus
  * @created 2024-09-30
  */
 @Composable
