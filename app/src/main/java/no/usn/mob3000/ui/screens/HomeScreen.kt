@@ -2,6 +2,8 @@ package no.usn.mob3000.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * @author frigvid
@@ -25,13 +28,21 @@ fun HomeScreen(
     onTrainClick: () -> Unit,
     onPlayClick: () -> Unit,
     onHistoryClick: () -> Unit,
+    onTemporaryAdminDashboardClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val buttonSize = (screenWidth * 0.4f).coerceAtMost(192.dp)
 
-    Viewport { innerPadding ->
+    Viewport (
+        topBarActions = {
+            IconButton(
+                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
+                onClick = onTemporaryAdminDashboardClick
+            ) { Icon(Icons.Default.PlayArrow, contentDescription = "Temporary login") }
+        }
+    ) { innerPadding ->
         Box(
             modifier = Modifier.fillMaxSize()
                                .padding(innerPadding),

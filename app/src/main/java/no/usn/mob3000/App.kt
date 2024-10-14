@@ -220,7 +220,8 @@ fun App(
                 HomeScreen(
                     onTrainClick = { navController.navigate(Destination.OPENINGS.name) },
                     onPlayClick =  { navController.navigate(Destination.PLAY.name) },
-                    onHistoryClick =  { navController.navigate(Destination.HISTORY.name) }
+                    onHistoryClick =  { navController.navigate(Destination.HISTORY.name) },
+                    onTemporaryAdminDashboardClick = { navController.navigate(Destination.ADMIN_DASHBOARD.name) }
                 )
             }
             composable(route = Destination.OPENINGS.name) {
