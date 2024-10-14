@@ -421,7 +421,7 @@ fun Viewport(
         Destination.INFO,
         Destination.NEWS,
         Destination.HOME,
-        Destination. PROFILE,
+        Destination.PROFILE,
         Destination.SETTINGS
     )
 
