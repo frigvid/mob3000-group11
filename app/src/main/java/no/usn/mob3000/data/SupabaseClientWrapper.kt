@@ -3,8 +3,10 @@ package no.usn.mob3000.data
 import android.content.Context
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.functions.Functions
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.realtime.Realtime
 import no.usn.mob3000.MainActivity
 
 /**
@@ -47,6 +49,8 @@ object SupabaseClientWrapper {
             // TODO: Investigate if more plugins are necessary.
             install(Auth)
             install(Postgrest)
+            install(Realtime)
+            install(Functions)
         }
     }
 
