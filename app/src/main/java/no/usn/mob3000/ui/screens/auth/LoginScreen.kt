@@ -1,5 +1,7 @@
 package no.usn.mob3000.ui.screens.auth
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,11 +23,19 @@ import no.usn.mob3000.Viewport
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.font.FontWeight
+import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.providers.builtin.Email
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import no.usn.mob3000.R
+import no.usn.mob3000.data.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -50,8 +60,11 @@ fun LoginScreen(
     onForgotPasswordClick: () -> Unit,
     onCreateUserClick: () -> Unit
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    var inputEmail by remember { mutableStateOf("") }
+    var inputPassword by remember { mutableStateOf("") }
 
     Viewport { innerPadding ->
         Box(
@@ -65,8 +78,8 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = inputEmail,
+                    onValueChange = { inputEmail = it },
                     label = { Text(stringResource(R.string.auth_login_email)) },
                     placeholder = { Text(stringResource(R.string.auth_login_email_placeholder)) },
                     modifier = Modifier
@@ -76,8 +89,8 @@ fun LoginScreen(
                 )
 
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = inputPassword,
+                    onValueChange = { inputPassword = it },
                     label = { Text(stringResource(R.string.auth_login_password)) },
                     placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
                     visualTransformation = PasswordVisualTransformation(),
@@ -88,7 +101,38 @@ fun LoginScreen(
                 )
 
                 Button(
-                    onClick = onLoginClick,
+                    onClick = {
+                        /* TODO: This is a temporary implementation to allow testing of necessary
+                         *       functionality in the app. This MUST be extracted to the data layer
+                         *       later.
+                         */
+                        coroutineScope.launch {
+                            try {
+                                val supabase = SupabaseClientWrapper.getClient()
+
+                                withContext(Dispatchers.IO) {
+                                    supabase.auth.signInWith(Email) {
+                                        email = inputEmail
+                                        password = inputPassword
+                                    }
+                                }
+
+                                withContext(Dispatchers.Main) {
+                                    onLoginClick()
+                                }
+                            } catch (e: Exception) {
+                                Log.e("LoginScreen", "Error logging in", e)
+
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(
+                                        context,
+                                        "Logging in failed",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier
                         .fillMaxWidth()
