@@ -1,5 +1,9 @@
 package no.usn.mob3000.data.auth
 
+import kotlinx.datetime.Instant
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
 /**
  * The user.
  *
@@ -21,19 +25,30 @@ package no.usn.mob3000.data.auth
  * @author frigvid
  * @created 2024-10-21
  */
+@Serializable
 data class User(
+    @SerialName("id")
     val id: String,
-    val email: String,
-    val isAdmin: Boolean,
-    val accountCreatedAt: String?,
-    val accountUpdatedAt: String?,
-    val accountBannedUntil: String? = null,
-    val emailConfirmedAt: String?,
-    val emailConfirmationSentAt: String?,
-    val recoveryEmailSentAt: String?,
-    val lastSignInAt: String?,
-    val profile: UserProfile?,
-    val socialData: UserSocial?
+    @SerialName("email")
+    val email: String? = null,
+    @SerialName("is_super_admin")
+    val isAdmin: Boolean? = false,
+    @SerialName("created_at")
+    val accountCreatedAt: Instant? = null,
+    @SerialName("updated_at")
+    val accountUpdatedAt: Instant? = null,
+    @SerialName("banned_until")
+    val accountBannedUntil: Instant? = null,
+    @SerialName("email_confirmed_at")
+    val emailConfirmedAt: Instant? = null,
+    @SerialName("confirmation_sent_at")
+    val emailConfirmationSentAt: Instant? = null,
+    @SerialName("recovery_sent_at")
+    val recoveryEmailSentAt: Instant? = null,
+    @SerialName("last_sign_in_at")
+    val lastSignInAt: Instant? = null,
+    val profile: UserProfile? = null,
+    val socialData: UserSocial? = null
 )
 
 /**
@@ -50,26 +65,40 @@ data class User(
  * @author frigvid
  * @created 2024-10-21
  */
+@Serializable
 data class UserProfile(
+    @SerialName("display_name")
     val displayName: String?,
+    @SerialName("avatar_url")
     val avatar: String?, /* TODO: See Avatar. */
+    @SerialName("url_rank")
     val eloRank: Int?,
+    @SerialName("about_me")
     val aboutMe: String?,
+    @SerialName("nationality")
     val nationality: String?,
+    @SerialName("visibility")
     val visibility: Boolean,
+    @SerialName("visibility_friends")
     val visibilityFriends: Boolean,
+    @SerialName("updated_at")
     val updatedAt: String?
 )
 
 /**
- * The user's current friends, and their data,
- * as well as friend requests and their data.
+ * The user's current friends, and their data, as well as
+ * friend requests and their data.
+ *
+ * TODO: Investigate whether it's easier/better to simply use a serialized struct
+ *       for the `friends` and `friend_requests` tables for specified users. I
+ *       suspect it won't function as I expect in its current state.
  *
  * @param profileFriendList A list of [User] objects.
  * @param profileFriendRequests A list of [User] objects.
  * @author frigvid
  * @created 2024-10-21
  */
+@Serializable
 data class UserSocial(
     val profileFriendList: List<User>?,
     val profileFriendRequests: List<User>?
@@ -87,6 +116,7 @@ data class UserSocial(
  *
  * See: https://supabase.com/docs/reference/kotlin/storage-createbucket
  */
+//@Serializable
 //sealed class Avatar {
 //    data class AvatarURL(val uri: Uri) : Avatar()
 //    data class AvatarImage(val bitmap: Bitmap) : Avatar()
