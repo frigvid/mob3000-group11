@@ -36,6 +36,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import no.usn.mob3000.R
 import no.usn.mob3000.data.SupabaseClientWrapper
+import no.usn.mob3000.data.auth.AuthService
+import no.usn.mob3000.data.auth.User
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -58,7 +60,9 @@ import no.usn.mob3000.ui.theme.DefaultButton
 fun LoginScreen(
     onLoginClick: () -> Unit,
     onForgotPasswordClick: () -> Unit,
-    onCreateUserClick: () -> Unit
+    onCreateUserClick: () -> Unit,
+    onTemporaryViewModel: (User) -> Unit,
+    onTemporaryLoginClick: (String, String) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current

@@ -38,6 +38,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import no.usn.mob3000.data.auth.AuthService
 import no.usn.mob3000.ui.CBViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
@@ -289,7 +290,9 @@ fun App(
                 LoginScreen(
                     onCreateUserClick = { navController.navigate(Destination.AUTH_CREATE.name)},
                     onLoginClick = { navController.navigate(Destination.HOME.name) },
-                    onForgotPasswordClick = { navController.navigate(Destination.AUTH_FORGOT.name) }
+                    onForgotPasswordClick = { navController.navigate(Destination.AUTH_FORGOT.name) },
+                    onTemporaryViewModel = authViewModel::setAuthenticatedUser,
+                    onTemporaryLoginClick = AuthService::login
                 )
             }
             composable(route = Destination.AUTH_CREATE.name) {
