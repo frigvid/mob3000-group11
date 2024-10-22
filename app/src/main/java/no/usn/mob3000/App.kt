@@ -38,12 +38,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import no.usn.mob3000.data.auth.AuthService
 import no.usn.mob3000.ui.CBViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
-import no.usn.mob3000.ui.screens.auth.AuthViewModel
+import no.usn.mob3000.ui.screens.auth.LoginViewModel
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
@@ -129,7 +128,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * [Destination.DOCUMENTATION]. This is what decides where it goes, and if it has an icon.
  * Within the body, you call the function for the screen you made in step 1.
  *
- * @param authViewModel The authentication state view model.
+ * @param loginViewModel The authentication state view model.
  * @param navController The navigation controller.
  * @see Destination
  * @see Viewport
@@ -142,7 +141,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
 @Composable
 fun App(
     viewModel: CBViewModel = viewModel(),
-    authViewModel: AuthViewModel = viewModel(),
+    loginViewModel: LoginViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -288,11 +287,12 @@ fun App(
             }
             composable(route = Destination.AUTH_LOGIN.name) {
                 LoginScreen(
+                    loginState = loginViewModel.loginState,
+                    loginStateReset = loginViewModel::resetState,
+                    navigateHome = { navController.navigate(Destination.HOME.name) },
+                    onLoginClick = loginViewModel::login,
                     onCreateUserClick = { navController.navigate(Destination.AUTH_CREATE.name)},
-                    onLoginClick = { navController.navigate(Destination.HOME.name) },
-                    onForgotPasswordClick = { navController.navigate(Destination.AUTH_FORGOT.name) },
-                    onTemporaryViewModel = authViewModel::setAuthenticatedUser,
-                    onTemporaryLoginClick = AuthService::login
+                    onForgotPasswordClick = { navController.navigate(Destination.AUTH_FORGOT.name) }
                 )
             }
             composable(route = Destination.AUTH_CREATE.name) {

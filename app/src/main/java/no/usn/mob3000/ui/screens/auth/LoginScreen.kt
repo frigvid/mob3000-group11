@@ -1,7 +1,6 @@
 package no.usn.mob3000.ui.screens.auth
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,23 +20,19 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.Viewport
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.font.FontWeight
-import io.github.jan.supabase.gotrue.auth
-import io.github.jan.supabase.gotrue.providers.builtin.Email
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.flow.Flow
+import no.usn.mob3000.Destination
 import no.usn.mob3000.R
-import no.usn.mob3000.data.SupabaseClientWrapper
-import no.usn.mob3000.data.auth.AuthService
-import no.usn.mob3000.data.auth.User
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -46,6 +41,9 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * TODO: Make use of ViewModel to store stateful data like user account details.
  *
+ * @param loginState The current login state from [LoginViewModel].
+ * @param loginStateReset Callback function for properly handling state changes.
+ * @param navigateHome Callback function to navigate to [Destination.HOME].
  * @param onLoginClick Callback triggered when the user presses the "Log In" button
  *                     to authenticate their account.
  * @param onForgotPasswordClick Callback triggered when the user clicks the "Forgot password?"
@@ -58,14 +56,14 @@ import no.usn.mob3000.ui.theme.DefaultButton
  */
 @Composable
 fun LoginScreen(
-    onLoginClick: () -> Unit,
+    loginState: Flow<LoginState>,
+    loginStateReset: () -> Unit,
+    navigateHome: () -> Unit,
+    onLoginClick: (String, String) -> Unit,
     onForgotPasswordClick: () -> Unit,
-    onCreateUserClick: () -> Unit,
-    onTemporaryViewModel: (User) -> Unit,
-    onTemporaryLoginClick: (String, String) -> Unit
+    onCreateUserClick: () -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
+    val state by loginState.collectAsState(initial = LoginState.Idle)
 
     var inputEmail by remember { mutableStateOf("") }
     var inputPassword by remember { mutableStateOf("") }
@@ -105,38 +103,7 @@ fun LoginScreen(
                 )
 
                 Button(
-                    onClick = {
-                        /* TODO: This is a temporary implementation to allow testing of necessary
-                         *       functionality in the app. This MUST be extracted to the data layer
-                         *       later.
-                         */
-                        coroutineScope.launch {
-                            try {
-                                val supabase = SupabaseClientWrapper.getClient()
-
-                                withContext(Dispatchers.IO) {
-                                    supabase.auth.signInWith(Email) {
-                                        email = inputEmail
-                                        password = inputPassword
-                                    }
-                                }
-
-                                withContext(Dispatchers.Main) {
-                                    onLoginClick()
-                                }
-                            } catch (e: Exception) {
-                                Log.e("LoginScreen", "Error logging in", e)
-
-                                withContext(Dispatchers.Main) {
-                                    Toast.makeText(
-                                        context,
-                                        "Logging in failed",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                        }
-                    },
+                    onClick = { onLoginClick(inputEmail, inputPassword) },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -175,6 +142,39 @@ fun LoginScreen(
                         onClick = onCreateUserClick,
                         colors = ButtonDefaults.buttonColors(DefaultButton)
                     ) { Text(stringResource(R.string.auth_login_register)) }
+                }
+
+                when (state) {
+                    is LoginState.Success -> {
+                        loginStateReset()
+                        navigateHome()
+                    }
+
+                    is LoginState.Error -> {
+                        loginStateReset()
+                        Text((state as LoginState.Error).message, color = MaterialTheme.colorScheme.error)
+                    }
+
+                    is LoginState.Loading -> {
+                        Dialog(
+                            onDismissRequest = { },
+                            properties = DialogProperties(
+                                dismissOnBackPress = false,
+                                dismissOnClickOutside = false
+                            )
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = 16.dp)
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                    }
+
+                    else -> {}
                 }
             }
         }

@@ -1,4 +1,4 @@
-package no.usn.mob3000.data.auth
+package no.usn.mob3000.data.model
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
@@ -68,21 +68,79 @@ data class User(
 @Serializable
 data class UserProfile(
     @SerialName("display_name")
-    val displayName: String?,
+    val displayName: String? = "",
     @SerialName("avatar_url")
-    val avatar: String?, /* TODO: See Avatar. */
-    @SerialName("url_rank")
-    val eloRank: Int?,
+    val avatar: String? = "", /* TODO: See Avatar. */
+    @SerialName("elo_rank")
+    val eloRank: Int? = 0,
     @SerialName("about_me")
-    val aboutMe: String?,
+    val aboutMe: String? = "",
+    @SerialName("nationality")
+    val nationality: String? = null,
+    @SerialName("visibility")
+    val visibility: Boolean? = false,
+    @SerialName("visibility_friends")
+    val visibilityFriends: Boolean? = false,
+    @SerialName("wins")
+    val gameWins: Int? = null,
+    @SerialName("losses")
+    val gameLosses: Int? = null,
+    @SerialName("draws")
+    val gameDraws: Int? = null
+)
+
+/**
+ * The user's friends.
+ *
+ * @param friendshipId The friend object's `public.friends.id` UUID.
+ * @param userId The friend's `auth.users.id` UUID.
+ * @param displayName The friend's `public.profiles.display_name`.
+ * @param eloRank The friend's `public.profiles.elo_rank`.
+ * @param avatarUrl The friend's `public.profiles.avatar_url`.
+ * @param nationality The friend's `public.profiles.nationality`.
+ * @author frigvid
+ * @created 2024-10-22
+ */
+@Serializable
+data class UserFriends(
+    @SerialName("friendship_id")
+    val friendshipId: String?,
+    @SerialName("id")
+    val userId: String?,
+    @SerialName("display_name")
+    val displayName: String?,
+    @SerialName("elo_rank")
+    val eloRank: Int?,
+    @SerialName("avatar_url")
+    val avatarUrl: String?,
     @SerialName("nationality")
     val nationality: String?,
-    @SerialName("visibility")
-    val visibility: Boolean,
-    @SerialName("visibility_friends")
-    val visibilityFriends: Boolean,
-    @SerialName("updated_at")
-    val updatedAt: String?
+)
+
+/**
+ * The user's friend requests.
+ *
+ * Friend request row deletions and insertions into `public.friends` are handled by the
+ * database.
+ *
+ * @param friendRequestId The friend request object's `public.friend_requests.id` UUID.
+ * @param createdAt A timestamp for when the friend request was created.
+ * @param byUser The user sending the friend request.
+ * @param toUser The user receiving the friend request.
+ * @param accepted Whether or not the friend request has been accepted by `toUser` yet.
+ */
+@Serializable
+data class UserFriendRequests(
+    @SerialName("id")
+    val friendRequestId: String,
+    @SerialName("created_at")
+    val createdAt: Instant,
+    @SerialName("by_user")
+    val byUser: String,
+    @SerialName("to_user")
+    val toUser: String,
+    @SerialName("accepted")
+    val accepted: Boolean
 )
 
 /**
@@ -93,15 +151,15 @@ data class UserProfile(
  *       for the `friends` and `friend_requests` tables for specified users. I
  *       suspect it won't function as I expect in its current state.
  *
- * @param profileFriendList A list of [User] objects.
- * @param profileFriendRequests A list of [User] objects.
+ * @param profileFriendList A list of [UserFriends] objects.
+ * @param profileFriendRequests A list of [UserFriendRequests] objects.
  * @author frigvid
  * @created 2024-10-21
  */
 @Serializable
 data class UserSocial(
-    val profileFriendList: List<User>?,
-    val profileFriendRequests: List<User>?
+    val profileFriendList: List<UserFriends>?,
+    val profileFriendRequests: List<UserFriendRequests>?
 )
 
 /* TODO: Investigate potential for using actual images without actually having to change the
