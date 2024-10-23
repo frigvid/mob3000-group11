@@ -78,6 +78,8 @@ sealed class LoginState {
 
     /**
      * State when login fails, containing the error message.
+     *
+     * TODO: Expand errors to be more specific by type.
      */
     data class Error(val message: String) : LoginState()
 }

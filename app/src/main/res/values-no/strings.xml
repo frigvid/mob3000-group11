@@ -218,6 +218,17 @@
     <string name="auth_reset_password_input">Nytt passord</string>
     <string name="auth_reset_password_confirm">Gjenta nytt passord</string>
 
+    <!-- Authentication Error Messages. -->
+    <string name="auth_error_email_exists">E-post adresse eksisterer allerede.</string>
+    <string name="auth_error_signup_disabled">Opprettelse av konto er stengt.</string>
+
+    <string name="auth_error_email_not_confirmed">Vennligst godkjenn din e-post adresse.</string>
+    <string name="auth_error_invalid_credentials">Feil e-post eller passord.</string>
+    <string name="auth_error_user_not_found">Bruker ikke funnet.</string>
+    <string name="auth_error_user_banned">Denne brukerkontoen er blokkert.</string>
+
+    <string name="auth_error_unexpected_failure">En uforvented feilmelding oppstod: %1$s</string>
+
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">Du vil ikke kunne se din egen brukerkonto her.</string>
