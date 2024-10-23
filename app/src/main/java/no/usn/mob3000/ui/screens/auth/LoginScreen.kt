@@ -124,11 +124,13 @@ fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     HorizontalDivider(modifier = Modifier.weight(1f))
+
                     Text(
                         stringResource(R.string.auth_login_divider),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
+
                     HorizontalDivider(modifier = Modifier.weight(1f))
                 }
 
@@ -138,6 +140,7 @@ fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(stringResource(R.string.auth_login_register_reminder))
+
                     Button(
                         onClick = onCreateUserClick,
                         colors = ButtonDefaults.buttonColors(DefaultButton)
