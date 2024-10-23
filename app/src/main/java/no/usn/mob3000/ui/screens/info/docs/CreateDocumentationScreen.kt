@@ -11,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen to create or modify documentation.
@@ -86,7 +85,7 @@ fun CreateDocumentationScreen(
             Button(
                 onClick = onSaveDocumentationClick,
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(DefaultButton)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
                 if (selectedDocumentation == null) {
                     Text(stringResource(R.string.documentation_create_save_documentation))

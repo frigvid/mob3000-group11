@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.androidx.security.crypto)
     implementation(libs.kotlinx.serialization.json)
+    implementation ("androidx.compose.material:material:1.7.4")
 
     // Supabase package/modules.
     // See: https://supabase.com/docs/reference/kotlin/installing
@@ -82,7 +83,6 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:gotrue-kt")
     implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.ktor:ktor-client-android:2.3.12")
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

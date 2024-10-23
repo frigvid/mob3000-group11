@@ -7,10 +7,6 @@ import no.usn.mob3000.ui.theme.ChessbuddyTheme
 import no.usn.mob3000.data.SecureEnvManager
 import no.usn.mob3000.data.SupabaseClientWrapper
 
-/**
- * @author frigvid
- * @created 2024-09-02
- */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         SecureEnvManager.initializeEnvVariables(applicationContext)
@@ -18,7 +14,9 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            ChessbuddyTheme { App() }
+            ChessbuddyTheme { // Bruker standard lys tema
+                App() // Her går du til hovedinnholdet i appen din
+            }
         }
     }
 }

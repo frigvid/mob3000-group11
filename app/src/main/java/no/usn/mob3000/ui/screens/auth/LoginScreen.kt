@@ -21,12 +21,11 @@ import no.usn.mob3000.Viewport
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.font.FontWeight
 import no.usn.mob3000.R
-import no.usn.mob3000.ui.theme.DefaultButton
+
 
 /**
  * This screen allows users to log into accounts, request new passwords ([ForgotPasswordScreen]),
@@ -41,7 +40,6 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * @param onCreateUserClick Callback triggered when the user clicks the "Or sign in"
  *                          text to navigate to the user creation screen.
  * @author frigvid, Anarox
- * @contributor Markus
  * @created 2024-09-30
  */
 @Composable
@@ -89,18 +87,22 @@ fun LoginScreen(
 
                 Button(
                     onClick = onLoginClick,
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
-                ) { Text(stringResource(R.string.auth_login_authenticate)) }
+                ) {
+                    Text(stringResource(R.string.auth_login_authenticate))
+                }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
                 OutlinedButton(
                     onClick = onForgotPasswordClick,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) { Text(stringResource(R.string.auth_login_forgot_password)) }
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    ) { Text(stringResource(R.string.auth_login_forgot_password),
+                        color = MaterialTheme.colorScheme.onPrimary) }
 
                 Row(
                     modifier = Modifier
@@ -125,7 +127,9 @@ fun LoginScreen(
                     Text(stringResource(R.string.auth_login_register_reminder))
                     Button(
                         onClick = onCreateUserClick,
-                        colors = ButtonDefaults.buttonColors(DefaultButton)
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        ),
                     ) { Text(stringResource(R.string.auth_login_register)) }
                 }
             }

@@ -15,8 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
  * Screen for users to play chess.
@@ -48,7 +46,7 @@ fun PlayScreen() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            Card(colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)) {
+            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -67,7 +65,7 @@ fun PlayScreen() {
                 }
             }
 
-            Card(colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)) {
+            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -105,19 +103,19 @@ fun PlayScreen() {
             ) {
                 Button(
                     onClick = { /* TODO: Implement reset board logic */ },
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(end = 8.dp)
                 ) { Text(stringResource(R.string.play_reset_board)) }
 
                 Button(
                     onClick = { /* TODO: Implement undo move logic */ },
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
                 ) { Text(stringResource(R.string.play_undo_move)) }
 
                 Button(
                     onClick = { /* TODO: Implement switch to multiplayer logic */ },
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(start = 8.dp)
                 ) { Text(stringResource(R.string.play_multiplayer)) }
             }

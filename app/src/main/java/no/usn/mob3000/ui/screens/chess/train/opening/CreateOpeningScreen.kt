@@ -13,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen to allow users to create openings.
@@ -82,14 +81,14 @@ fun CreateOpeningScreen(
             ) {
                 Button(
                     onClick = { /* TODO: Implement undo move logic */ },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(end = 8.dp)
                 ) {
                     Text(stringResource(R.string.opening_create_undo_move))
                 }
                 Button(
                     onClick = { /* TODO: Implement reset board logic */ },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(start = 8.dp)
                 ) {
                     Text(stringResource(R.string.opening_create_reset_board))
@@ -109,14 +108,14 @@ fun CreateOpeningScreen(
                         description = ""
                         /* TODO: onClearOpening() */
                     },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(end = 8.dp)
                 ) {
                     Text(stringResource(R.string.opening_create_reset_all))
                 }
                 Button(
                     onClick = { /* TODO: onSaveOpening(title, description) */ },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(start = 8.dp)
                 ) {
                     Text(stringResource(R.string.opening_create_save_opening))

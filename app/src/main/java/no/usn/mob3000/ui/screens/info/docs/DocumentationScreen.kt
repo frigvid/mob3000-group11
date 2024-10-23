@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,7 +18,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
 import java.text.SimpleDateFormat
@@ -93,11 +91,12 @@ fun DocumentationScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onCreateDocumentationClick,
-                containerColor = DefaultButton
+                containerColor = MaterialTheme.colorScheme.secondary
             ) {
                 Icon(
                     Icons.Filled.Add,
-                    contentDescription = "Create Documentation"
+                    contentDescription = "Create Documentation",
+                    tint = MaterialTheme.colorScheme.onSecondary
                 )
             }
         }
@@ -139,8 +138,8 @@ fun DocumentationItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
-        border =
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+                border =
             if (documentation.isPublished) null
             else BorderStroke(width = 2.dp, color = Color(0xFFFF0000))
     ) {

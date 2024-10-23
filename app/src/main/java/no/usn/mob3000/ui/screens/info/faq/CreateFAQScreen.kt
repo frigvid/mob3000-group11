@@ -12,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import java.util.Date
 
 /**
@@ -102,7 +101,9 @@ fun CreateFAQScreen(
                         onSaveFAQClick(newFAQ)
                     },
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(DefaultButton)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
                 ) {
                     Text(
                         if (selectedFAQ == null) stringResource(R.string.faq_create_save_faq)

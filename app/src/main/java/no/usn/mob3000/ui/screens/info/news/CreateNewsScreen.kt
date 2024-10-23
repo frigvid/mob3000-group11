@@ -11,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen to create or modify documentation.
@@ -85,7 +84,7 @@ fun CreateNewsScreen(
             Button(
                 onClick = onSaveNewsClick,
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(DefaultButton)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
                 if (selectedNews == null) {
                     Text(stringResource(R.string.news_create_save_news))

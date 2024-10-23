@@ -24,12 +24,8 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.ProfileUserBackground
-import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 
 /**
  * The profile screen.
@@ -53,7 +49,7 @@ fun ProfileScreen(
     Viewport(
         topBarActions = {
             IconButton(
-                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
+                colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.surface),
                 onClick = onTemporaryLoginClick
             ) { Icon(Icons.Default.PlayArrow, contentDescription = "Temporary login") }
             
@@ -104,7 +100,7 @@ fun ProfileScreen(
  * This section includes the user's profile picture and display name.
  *
  * @author Hussein
- * @contributor frigvid
+ * @contributor frigvid,
  * @created 2024-10-11
  */
 @Composable
@@ -114,7 +110,7 @@ fun ProfileHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(ProfileUserBackground),
+            .background(MaterialTheme.colorScheme.surface),
         verticalArrangement = Arrangement.Center
     ) {
         /* TODO: Fetch the user's icon and display name from cached state in ViewModel. */
@@ -124,7 +120,7 @@ fun ProfileHeader() {
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape)
-                .border(2.dp, Color.Black, CircleShape)
+                .border(2.dp, Color.Gray, CircleShape)
         )
 
         Text(
@@ -143,7 +139,7 @@ fun ProfileHeader() {
  * wins, losses, draws, and country.
  *
  * @author Hussein
- * @contributor frigvid
+ * @contributor frigvid,
  * @created 2024-10-11
  */
 @Composable
@@ -151,7 +147,7 @@ fun ProfileStats() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(ProfileUserStatisticsBackground)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {

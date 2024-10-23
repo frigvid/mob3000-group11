@@ -67,8 +67,8 @@ import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
 import no.usn.mob3000.ui.screens.user.ProfileEditScreen
 import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
 import no.usn.mob3000.ui.screens.user.ProfileScreen
-import no.usn.mob3000.ui.theme.NavbarBackground
-import no.usn.mob3000.ui.theme.NavbarButtonSelected
+import androidx.compose.material3.MaterialTheme
+
 
 /**
  * The LocalNavController was borne out of necessity, to allow for a more dynamic UI where
@@ -544,7 +544,7 @@ fun TopNavbar(
     TopAppBar(
         title = { if (showTitle) Text(stringResource(currentScreen.title)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = NavbarBackground
+            containerColor = MaterialTheme.colorScheme.primary
         ),
         modifier = modifier,
         navigationIcon = {
@@ -590,7 +590,7 @@ fun BottomNavbar(
     onNavigate: (String) -> Unit
 ) {
     BottomAppBar(
-        containerColor = NavbarBackground
+        containerColor = MaterialTheme.colorScheme.primary
     ) {
         roots.forEach { screen ->
             NavigationBarItem(
@@ -607,7 +607,7 @@ fun BottomNavbar(
                 onClick = { onNavigate(screen.name) },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = Color.White,
-                    indicatorColor = NavbarButtonSelected
+                    indicatorColor = MaterialTheme.colorScheme.secondary
                 )
             )
         }

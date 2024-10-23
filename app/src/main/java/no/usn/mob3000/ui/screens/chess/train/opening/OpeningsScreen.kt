@@ -29,7 +29,6 @@ import kotlinx.serialization.Serializable
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.SupabaseClientWrapper
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This shows the various chess openings that are available by default, and that
@@ -78,7 +77,7 @@ fun OpeningsScreen(
     Viewport (
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = DefaultButton,
+                containerColor = MaterialTheme.colorScheme.primary,
                 onClick = onCreateOpeningClick
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Create opening")
@@ -86,7 +85,7 @@ fun OpeningsScreen(
         },
         topBarActions = {
             IconButton(
-                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
+                colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
                 onClick = onGroupsClick
             ) {
                 Icon(Icons.Default.PlayArrow, contentDescription = "Groups")

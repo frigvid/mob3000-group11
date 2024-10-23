@@ -12,12 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * @author frigvid
@@ -38,7 +36,7 @@ fun HomeScreen(
     Viewport (
         topBarActions = {
             IconButton(
-                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
+                colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.surface),
                 onClick = onTemporaryAdminDashboardClick
             ) { Icon(Icons.Default.PlayArrow, contentDescription = "Temporary login") }
         }

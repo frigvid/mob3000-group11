@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,8 +18,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
-import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +40,7 @@ import java.util.*
  * @param setSelectedNews ViewModel function to store a specific [News] object in state.
  * @param clearSelectedNews ViewModel function to clear the stored state news object.
  * @author frigvid, 258030 (Eirik)
+ * @contributor Markus
  * @created 2024-09-23
  */
 @Composable
@@ -54,9 +52,6 @@ fun NewsScreen(
     setSelectedNews: (News) -> Unit,
     clearSelectedNews: () -> Unit
 ) {
-    /* TODO: Replace dummy data with fetched data from data layer and cache it in ViewModel state.
-     *       Maybe check for news in the background, so there's less of a load time?
-     */
     LaunchedEffect(Unit) {
         clearSelectedNews()
 
@@ -100,11 +95,12 @@ fun NewsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onCreateNewsClick,
-                containerColor = DefaultButton
+                containerColor = MaterialTheme.colorScheme.secondary
             ) {
                 Icon(
                     Icons.Filled.Add,
-                    contentDescription = "Create News"
+                    contentDescription = "Create News",
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
@@ -146,7 +142,7 @@ fun NewsItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
         border =
         if (news.isPublished) null
         else BorderStroke(width = 2.dp, color = Color(0xFFFF0000))
@@ -159,7 +155,8 @@ fun NewsItem(
             Text(
                 text = news.title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimary
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -167,7 +164,8 @@ fun NewsItem(
             news.summary?.let {
                 Text(
                     text = it,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
@@ -175,7 +173,8 @@ fun NewsItem(
 
             Text(
                 text = stringResource(R.string.news_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_date_pattern), Locale.getDefault()).format(news.createdAt)}",
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
     }

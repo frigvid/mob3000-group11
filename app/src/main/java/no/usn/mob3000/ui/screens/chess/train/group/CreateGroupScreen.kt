@@ -18,8 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 import no.usn.mob3000.ui.screens.chess.train.opening.Opening
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
 
@@ -70,14 +68,14 @@ fun CreateGroupScreen(
                                 selectedOpenings = emptyList()
                                 /* TODO: onClearGroup() */
                             },
-                            colors = ButtonDefaults.buttonColors(DefaultButton),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                             modifier = Modifier.weight(1f).padding(end = 8.dp)
                         ) {
                             Text(stringResource(R.string.group_create_reset_all))
                         }
                         Button(
                             onClick = { /* TODO: onSaveGroup(title, description, selectedOpenings) */ },
-                            colors = ButtonDefaults.buttonColors(DefaultButton),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                             modifier = Modifier.weight(1f).padding(start = 8.dp)
                         ) {
                             Text(stringResource(R.string.group_create_save_group))
@@ -178,7 +176,7 @@ fun OpeningCard(
     Card(
         modifier = Modifier.fillMaxWidth()
                            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
         Row(
             modifier = Modifier.padding(12.dp)

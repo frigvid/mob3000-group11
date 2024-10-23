@@ -25,9 +25,7 @@ import kotlinx.serialization.Serializable
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.SupabaseClientWrapper
-import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
  * This shows the various chess opening groups that have been created by the active user.
@@ -76,7 +74,7 @@ fun GroupsScreen(
     Viewport(
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = DefaultButton,
+                containerColor = MaterialTheme.colorScheme.primary,
                 onClick = onCreateGroupClick
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Create Group")
@@ -84,7 +82,7 @@ fun GroupsScreen(
         },
         topBarActions = {
             IconButton(
-                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
+                colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
                 onClick = onReturnToOpeningClick
             ) {
                 Icon(Icons.Default.Close, contentDescription = "Return to Openings")
@@ -130,7 +128,7 @@ fun GroupItem(group: Group) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable { expanded = !expanded },
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
