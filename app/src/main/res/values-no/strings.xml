@@ -221,13 +221,14 @@
     <!-- Authentication Error Messages. -->
     <string name="auth_error_email_exists">E-post adresse eksisterer allerede.</string>
     <string name="auth_error_signup_disabled">Opprettelse av konto er stengt.</string>
+    <string name="auth_error_not_admin">Brukeren er ikke en administrator.</string>
 
     <string name="auth_error_email_not_confirmed">Vennligst godkjenn din e-post adresse.</string>
     <string name="auth_error_invalid_credentials">Feil e-post eller passord.</string>
     <string name="auth_error_user_not_found">Bruker ikke funnet.</string>
     <string name="auth_error_user_banned">Denne brukerkontoen er blokkert.</string>
 
-    <string name="auth_error_unexpected_failure">En uforvented feilmelding oppstod: %1$s</string>
+    <string name="auth_error_unexpected_failure">En uforvented feilmelding oppstod: </string>
 
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>

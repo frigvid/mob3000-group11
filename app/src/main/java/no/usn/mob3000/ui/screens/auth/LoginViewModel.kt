@@ -2,10 +2,12 @@ package no.usn.mob3000.ui.screens.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.github.jan.supabase.gotrue.exception.AuthRestException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.data.model.User
+import no.usn.mob3000.domain.model.AuthError
 import no.usn.mob3000.domain.usecase.LoginUseCase
 
 /**
@@ -43,7 +45,7 @@ class LoginViewModel(
                     _loginState.value = LoginState.Success(user)
                 },
                 onFailure = { error ->
-                    _loginState.value = LoginState.Error(error.message ?: "Unknown error occurred.")
+                    _loginState.value = LoginState.Error(AuthError.fromException(error as AuthRestException))
                 }
             )
         }
@@ -73,13 +75,16 @@ sealed class LoginState {
 
     /**
      * State when login succeeds, containing the user data.
+     *
+     * @param user The [User] object.
      */
     data class Success(val user: User) : LoginState()
 
     /**
-     * State when login fails, containing the error message.
+     * State when login fails, containing the specific error type.
      *
-     * TODO: Expand errors to be more specific by type.
+     * @param error The returned [AuthError].
+     * @see AuthError
      */
-    data class Error(val message: String) : LoginState()
+    data class Error(val error: AuthError) : LoginState()
 }

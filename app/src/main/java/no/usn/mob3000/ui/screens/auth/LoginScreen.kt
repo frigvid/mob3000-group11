@@ -1,5 +1,7 @@
 package no.usn.mob3000.ui.screens.auth
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -108,6 +110,7 @@ fun LoginScreen(
                     onClick = {
                         focusManager.clearFocus()
                         keyboardController?.hide()
+                        loginStateReset()
                         onLoginClick(inputEmail, inputPassword)
                     },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
@@ -155,13 +158,31 @@ fun LoginScreen(
 
                 when (state) {
                     is LoginState.Success -> {
+                        /* NOTE: State must be reset here, otherwise it will attempt
+                         *       to navigate to HOME multiple times. For some
+                         *       inexplicable reason.
+                         */
                         loginStateReset()
+
                         navigateHome()
                     }
 
                     is LoginState.Error -> {
-                        loginStateReset()
-                        Text((state as LoginState.Error).message, color = MaterialTheme.colorScheme.error)
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .clickable { loginStateReset() },
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.errorContainer
+                            )
+                        ) {
+                            Text(
+                                text = stringResource((state as LoginState.Error).error.messageRes),
+                                color = MaterialTheme.colorScheme.onErrorContainer,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
                     }
 
                     is LoginState.Loading -> {
@@ -177,9 +198,7 @@ fun LoginScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(all = 16.dp)
-                            ) {
-                                CircularProgressIndicator()
-                            }
+                            ) { CircularProgressIndicator() }
                         }
                     }
 
