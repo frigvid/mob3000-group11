@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.auth
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,14 +19,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.Viewport
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.flow.Flow
@@ -64,6 +63,9 @@ fun LoginScreen(
     onCreateUserClick: () -> Unit
 ) {
     val state by loginState.collectAsState(initial = LoginState.Idle)
+
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     var inputEmail by remember { mutableStateOf("") }
     var inputPassword by remember { mutableStateOf("") }
@@ -103,7 +105,11 @@ fun LoginScreen(
                 )
 
                 Button(
-                    onClick = { onLoginClick(inputEmail, inputPassword) },
+                    onClick = {
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
+                        onLoginClick(inputEmail, inputPassword)
+                    },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier
                         .fillMaxWidth()
