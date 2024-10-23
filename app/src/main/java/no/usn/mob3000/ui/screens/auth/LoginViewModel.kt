@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.jan.supabase.gotrue.exception.AuthRestException
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.data.model.User
@@ -20,8 +21,22 @@ import no.usn.mob3000.domain.usecase.LoginUseCase
 class LoginViewModel(
     private val loginUseCase: LoginUseCase = LoginUseCase()
 ) : ViewModel() {
+    /**
+     * The current [LoginState].
+     *
+     * @author frigvid
+     * @created 2024-10-21
+     */
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState = _loginState.asStateFlow()
+
+    /**
+     *
+     * @author frigvid
+     * @created 2024-10-22
+     */
+    private val _authenticatedUser = MutableStateFlow<User?>(null)
+    val authenticatedUser: StateFlow<User?> = _authenticatedUser.asStateFlow()
 
     /**
      * Initiates the login process with the provided credentials.
@@ -42,6 +57,7 @@ class LoginViewModel(
 
             loginUseCase(email, password).fold(
                 onSuccess = { user ->
+                    _authenticatedUser.value = user
                     _loginState.value = LoginState.Success(user)
                 },
                 onFailure = { error ->
@@ -54,6 +70,12 @@ class LoginViewModel(
     fun resetState() {
         _loginState.value = LoginState.Idle
     }
+
+    // TODO: Implement logout.
+    //fun logout() {
+    //    _authenticatedUser.value = null
+    //    _loginState.value = LoginState.Idle
+    //}
 }
 
 /**
