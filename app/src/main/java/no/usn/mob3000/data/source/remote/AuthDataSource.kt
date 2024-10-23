@@ -7,9 +7,9 @@ import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.rpc
 import io.github.jan.supabase.gotrue.user.UserInfo
 import no.usn.mob3000.data.SupabaseClientWrapper
-import no.usn.mob3000.data.model.UserFriendRequests
-import no.usn.mob3000.data.model.UserFriends
-import no.usn.mob3000.data.model.UserProfile
+import no.usn.mob3000.data.model.UserFriendRequestsDto
+import no.usn.mob3000.data.model.UserFriendsDto
+import no.usn.mob3000.data.model.UserProfileDto
 
 /**
  * The data source for authentication-related operations.
@@ -57,17 +57,17 @@ class AuthDataSource(
      * Get the user's profile.
      *
      * @param userId The user's `auth.users.id` UUID.
-     * @return The user's [UserProfile] data.
+     * @return The user's [UserProfileDto] data.
      * @throws Exception if the profile cannot be fetched or decoded.
      * @author frigvid
      * @created 2024-10-22
      */
-    suspend fun fetchUserProfile(userId: String): UserProfile {
+    suspend fun fetchUserProfile(userId: String): UserProfileDto {
         return try {
             supabase.postgrest.rpc(
                     function = "profile_get",
                     parameters = mapOf("usr_id" to userId)
-                ).decodeSingleOrNull<UserProfile>()
+                ).decodeSingleOrNull<UserProfileDto>()
                 ?: throw NoSuchElementException("No profile found for user: $userId")
         } catch (error: NoSuchElementException) {
             throw error
@@ -81,16 +81,16 @@ class AuthDataSource(
      *
      * RLS filters what data is returned, so only friends relevant to the user should be returned.
      *
-     * @return A list of [UserFriends] objects representing the user's friends.
+     * @return A list of [UserFriendsDto] objects representing the user's friends.
      * @throws Exception if the friends list cannot be fetched or decoded.
      * @author frigvid
      * @created 2024-10-22
      */
-    suspend fun fetchFriends(): List<UserFriends> {
+    suspend fun fetchFriends(): List<UserFriendsDto> {
         return try {
             supabase.postgrest.rpc(
                 function = "friend_get_all_friends"
-            ).decodeList<UserFriends>()
+            ).decodeList<UserFriendsDto>()
         } catch (error: Exception) {
             throw Exception("Failed to fetch user's friends: ${error.message}", error)
         }
@@ -102,16 +102,16 @@ class AuthDataSource(
      * RLS filters what data is returned, so only friend requests relevant to the user should
      * be returned.
      *
-     * @return A list of [UserFriendRequests] objects representing the user's pending friend requests.
+     * @return A list of [UserFriendRequestsDto] objects representing the user's pending friend requests.
      * @throws Exception if the friend requests cannot be fetched or decoded.
      * @author frigvid
      * @created 2024-10-22
      */
-    suspend fun fetchFriendRequests(): List<UserFriendRequests> {
+    suspend fun fetchFriendRequests(): List<UserFriendRequestsDto> {
         return try {
             supabase.postgrest.rpc(
                 function = "friend_request_get_all"
-            ).decodeList<UserFriendRequests>()
+            ).decodeList<UserFriendRequestsDto>()
         } catch (error: Exception) {
             throw Exception("Failed to fetch user's friend requests: ${error.message}", error)
         }

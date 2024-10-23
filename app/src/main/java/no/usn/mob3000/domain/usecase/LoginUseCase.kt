@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.usecase
 
 import no.usn.mob3000.data.repository.AuthRepository
-import no.usn.mob3000.data.model.User
+import no.usn.mob3000.data.model.UserDto
 import no.usn.mob3000.data.source.remote.AuthDataSource
 
 /**
@@ -22,14 +22,14 @@ class LoginUseCase(
      *
      * @param email The user's e-mail address.
      * @param password The user's password.
-     * @return A [Result] containing either the [User] data on success or an error on failure.
+     * @return A [Result] containing either the [UserDto] data on success or an error on failure.
      * @author frigvid
      * @created 2024-10-22
      */
     suspend operator fun invoke(
         email: String,
         password: String
-    ): Result<User> {
+    ): Result<UserDto> {
         return authRepository.login(email, password)
     }
 }

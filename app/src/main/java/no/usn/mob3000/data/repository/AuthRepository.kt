@@ -2,8 +2,8 @@ package no.usn.mob3000.data.repository
 
 import android.util.Log
 import no.usn.mob3000.data.source.remote.AuthDataSource
-import no.usn.mob3000.data.model.User
-import no.usn.mob3000.data.model.UserSocial
+import no.usn.mob3000.data.model.UserDto
+import no.usn.mob3000.data.model.UserSocialDto
 
 /**
  * This repository orchestrates authentication-related data operations between
@@ -22,7 +22,7 @@ class AuthRepository(
      *
      * @param email The user's e-mail address.
      * @param password The user's password.
-     * @return A [Result] containing either the complete [User] object on success,
+     * @return A [Result] containing either the complete [UserDto] object on success,
      *         or an error on failure.
      * @author frigvid
      * @created 2024-10-22
@@ -30,7 +30,7 @@ class AuthRepository(
     suspend fun login(
         email: String,
         password: String
-    ): Result<User> {
+    ): Result<UserDto> {
         return try {
             authDataSource.signIn(email, password)
 
@@ -50,14 +50,14 @@ class AuthRepository(
      *       visibility, friend list visibility or RLS.
      *
      * @param userId The user's `auth.users.id` UUID.
-     * @return A [User] object.
+     * @return A [UserDto] object.
      * @throws Exception if any required data cannot be fetched
      * @author frigvid
      * @created 2024-10-22
      */
     private suspend fun fetchUserData(
         userId: String
-    ): User {
+    ): UserDto {
         val user = authDataSource.fetchUser()
         Log.d("AuthRepository", "Fetched user: $user")
 
@@ -73,7 +73,7 @@ class AuthRepository(
         val friendRequests = authDataSource.fetchFriendRequests()
         Log.d("AuthRepository", "Fetched friend requests: $friendRequests")
 
-        return User(
+        return UserDto(
             id = user.id,
             email = user.email,
             isAdmin = isAdmin,
@@ -84,7 +84,7 @@ class AuthRepository(
             recoveryEmailSentAt = user.recoverySentAt,
             lastSignInAt = user.lastSignInAt,
             profile = profile,
-            socialData = UserSocial(friends, friendRequests)
+            socialData = UserSocialDto(friends, friendRequests)
         )
     }
 }

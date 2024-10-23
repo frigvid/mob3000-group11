@@ -20,13 +20,13 @@ import kotlinx.serialization.Serializable
  * @param emailConfirmationSentAt A timestamp for when the account's confirmation email was sent.
  * @param recoveryEmailSentAt A timestamp for when the password recovery email was sent.
  * @param lastSignInAt A timestamp for when the user last signed in.
- * @param profile The user's [UserProfile] object, if any.
- * @param socialData The user's [UserSocial] object, if any.
+ * @param profile The user's [UserProfileDto] object, if any.
+ * @param socialData The user's [UserSocialDto] object, if any.
  * @author frigvid
  * @created 2024-10-21
  */
 @Serializable
-data class User(
+data class UserDto(
     @SerialName("id")
     val id: String,
     @SerialName("email")
@@ -47,8 +47,8 @@ data class User(
     val recoveryEmailSentAt: Instant? = null,
     @SerialName("last_sign_in_at")
     val lastSignInAt: Instant? = null,
-    val profile: UserProfile? = null,
-    val socialData: UserSocial? = null
+    val profile: UserProfileDto? = null,
+    val socialData: UserSocialDto? = null
 )
 
 /**
@@ -66,7 +66,7 @@ data class User(
  * @created 2024-10-21
  */
 @Serializable
-data class UserProfile(
+data class UserProfileDto(
     @SerialName("display_name")
     val displayName: String? = "",
     @SerialName("avatar_url")
@@ -102,7 +102,7 @@ data class UserProfile(
  * @created 2024-10-22
  */
 @Serializable
-data class UserFriends(
+data class UserFriendsDto(
     @SerialName("friendship_id")
     val friendshipId: String?,
     @SerialName("id")
@@ -130,7 +130,7 @@ data class UserFriends(
  * @param accepted Whether or not the friend request has been accepted by `toUser` yet.
  */
 @Serializable
-data class UserFriendRequests(
+data class UserFriendRequestsDto(
     @SerialName("id")
     val friendRequestId: String,
     @SerialName("created_at")
@@ -151,15 +151,15 @@ data class UserFriendRequests(
  *       for the `friends` and `friend_requests` tables for specified users. I
  *       suspect it won't function as I expect in its current state.
  *
- * @param profileFriendList A list of [UserFriends] objects.
- * @param profileFriendRequests A list of [UserFriendRequests] objects.
+ * @param profileFriendList A list of [UserFriendsDto] objects.
+ * @param profileFriendRequests A list of [UserFriendRequestsDto] objects.
  * @author frigvid
  * @created 2024-10-21
  */
 @Serializable
-data class UserSocial(
-    val profileFriendList: List<UserFriends>?,
-    val profileFriendRequests: List<UserFriendRequests>?
+data class UserSocialDto(
+    val profileFriendList: List<UserFriendsDto>?,
+    val profileFriendRequests: List<UserFriendRequestsDto>?
 )
 
 /* TODO: Investigate potential for using actual images without actually having to change the

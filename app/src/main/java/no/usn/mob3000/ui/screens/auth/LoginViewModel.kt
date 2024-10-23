@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import no.usn.mob3000.data.model.User
+import no.usn.mob3000.data.model.UserDto
 import no.usn.mob3000.domain.model.AuthError
 import no.usn.mob3000.domain.usecase.LoginUseCase
 
@@ -35,8 +35,8 @@ class LoginViewModel(
      * @author frigvid
      * @created 2024-10-22
      */
-    private val _authenticatedUser = MutableStateFlow<User?>(null)
-    val authenticatedUser: StateFlow<User?> = _authenticatedUser.asStateFlow()
+    private val _authenticatedUser = MutableStateFlow<UserDto?>(null)
+    val authenticatedUser: StateFlow<UserDto?> = _authenticatedUser.asStateFlow()
 
     /**
      * Initiates the login process with the provided credentials.
@@ -98,9 +98,9 @@ sealed class LoginState {
     /**
      * State when login succeeds, containing the user data.
      *
-     * @param user The [User] object.
+     * @param user The [UserDto] object.
      */
-    data class Success(val user: User) : LoginState()
+    data class Success(val user: UserDto) : LoginState()
 
     /**
      * State when login fails, containing the specific error type.
