@@ -1,5 +1,7 @@
 package no.usn.mob3000.ui.screens.auth
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,10 +23,16 @@ import no.usn.mob3000.Viewport
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.flow.Flow
+import no.usn.mob3000.Destination
 import no.usn.mob3000.R
 import no.usn.mob3000.ui.theme.DefaultButton
 
@@ -34,6 +42,9 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * TODO: Make use of ViewModel to store stateful data like user account details.
  *
+ * @param loginState The current login state from [LoginViewModel].
+ * @param loginStateReset Callback function for properly handling state changes.
+ * @param navigateHome Callback function to navigate to [Destination.HOME].
  * @param onLoginClick Callback triggered when the user presses the "Log In" button
  *                     to authenticate their account.
  * @param onForgotPasswordClick Callback triggered when the user clicks the "Forgot password?"
@@ -46,12 +57,20 @@ import no.usn.mob3000.ui.theme.DefaultButton
  */
 @Composable
 fun LoginScreen(
-    onLoginClick: () -> Unit,
+    loginState: Flow<LoginState>,
+    loginStateReset: () -> Unit,
+    navigateHome: () -> Unit,
+    onLoginClick: (String, String) -> Unit,
     onForgotPasswordClick: () -> Unit,
     onCreateUserClick: () -> Unit
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val state by loginState.collectAsState(initial = LoginState.Idle)
+
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    var inputEmail by remember { mutableStateOf("") }
+    var inputPassword by remember { mutableStateOf("") }
 
     Viewport { innerPadding ->
         Box(
@@ -65,8 +84,8 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = inputEmail,
+                    onValueChange = { inputEmail = it },
                     label = { Text(stringResource(R.string.auth_login_email)) },
                     placeholder = { Text(stringResource(R.string.auth_login_email_placeholder)) },
                     modifier = Modifier
@@ -76,8 +95,8 @@ fun LoginScreen(
                 )
 
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = inputPassword,
+                    onValueChange = { inputPassword = it },
                     label = { Text(stringResource(R.string.auth_login_password)) },
                     placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
                     visualTransformation = PasswordVisualTransformation(),
@@ -88,7 +107,12 @@ fun LoginScreen(
                 )
 
                 Button(
-                    onClick = onLoginClick,
+                    onClick = {
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
+                        loginStateReset()
+                        onLoginClick(inputEmail, inputPassword)
+                    },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -109,11 +133,13 @@ fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     HorizontalDivider(modifier = Modifier.weight(1f))
+
                     Text(
                         stringResource(R.string.auth_login_divider),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
+
                     HorizontalDivider(modifier = Modifier.weight(1f))
                 }
 
@@ -123,10 +149,60 @@ fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(stringResource(R.string.auth_login_register_reminder))
+
                     Button(
                         onClick = onCreateUserClick,
                         colors = ButtonDefaults.buttonColors(DefaultButton)
                     ) { Text(stringResource(R.string.auth_login_register)) }
+                }
+
+                when (state) {
+                    is LoginState.Success -> {
+                        /* NOTE: State must be reset here, otherwise it will attempt
+                         *       to navigate to HOME multiple times. For some
+                         *       inexplicable reason.
+                         */
+                        loginStateReset()
+
+                        navigateHome()
+                    }
+
+                    is LoginState.Error -> {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .clickable { loginStateReset() },
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.errorContainer
+                            )
+                        ) {
+                            Text(
+                                text = stringResource((state as LoginState.Error).error.messageRes),
+                                color = MaterialTheme.colorScheme.onErrorContainer,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                    }
+
+                    is LoginState.Loading -> {
+                        Dialog(
+                            onDismissRequest = { },
+                            properties = DialogProperties(
+                                dismissOnBackPress = false,
+                                dismissOnClickOutside = false
+                            )
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = 16.dp)
+                            ) { CircularProgressIndicator() }
+                        }
+                    }
+
+                    else -> {}
                 }
             }
         }

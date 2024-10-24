@@ -3,8 +3,11 @@ package no.usn.mob3000.data
 import android.content.Context
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.functions.Functions
 import io.github.jan.supabase.gotrue.Auth
+import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.realtime.Realtime
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.serialization.Serializable
 import no.usn.mob3000.MainActivity
@@ -49,6 +52,8 @@ object SupabaseClientWrapper {
             // TODO: Investigate if more plugins are necessary.
             install(Auth)
             install(Postgrest)
+            install(Realtime)
+            install(Functions)
         }
     }
 
@@ -77,8 +82,12 @@ object SupabaseClientWrapper {
      *  TODO: Abstract this so it can be used for all other insert functions.
      */
     suspend fun insertNews(title: String, summary: String?, content: String?, isPublished: Boolean): Result<Unit> {
+
+        val client = getClient()
+        val userId = client.auth.currentSessionOrNull()?.user?.id ?: "user-id"
+
         return try {
-            val newsItem = NewsItem(title, summary, content, isPublished, "Hjelp?")
+            val newsItem = NewsItem(title, summary, content, isPublished, userId)
             supabaseClient.postgrest["news"].insert(newsItem)
             Result.success(Unit)
         } catch (e: Exception) {

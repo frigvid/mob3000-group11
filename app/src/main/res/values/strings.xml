@@ -220,6 +220,18 @@
     <string name="auth_reset_password_input">New password</string>
     <string name="auth_reset_password_confirm">Confirm new password</string>
 
+    <!-- Authentication Error Messages. -->
+    <string name="auth_error_email_exists">Email address already exists.</string>
+    <string name="auth_error_signup_disabled">Sign-up is disabled.</string>
+    <string name="auth_error_not_admin">The user is not an administrator.</string>
+
+    <string name="auth_error_email_not_confirmed">Please confirm your email address.</string>
+    <string name="auth_error_invalid_credentials">Invalid email or password.</string>
+    <string name="auth_error_user_not_found">User not found</string>
+    <string name="auth_error_user_banned">This user is banned.</string>
+
+    <string name="auth_error_unexpected_failure">An unexpected error occurred: </string>
+
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">You will not be able to see your own account here.</string>
