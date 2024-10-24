@@ -9,8 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.data.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -32,6 +34,8 @@ fun CreateNewsScreen(
     var summary by remember { mutableStateOf(selectedNews?.summary ?: "") }
     var content by remember { mutableStateOf(selectedNews?.content ?: "") }
     var isPublished by remember { mutableStateOf(selectedNews?.isPublished ?: true) }
+
+    val scope = rememberCoroutineScope()
 
     Viewport { innerPadding ->
         Column(
@@ -83,7 +87,19 @@ fun CreateNewsScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             Button(
-                onClick = onSaveNewsClick,
+                onClick = {
+                    scope.launch {
+                        val result = SupabaseClientWrapper.insertNews(title, summary, content, isPublished)
+                        // TODO: Do something a little more exciting here
+                        if (result.isSuccess) {
+                            println("Fantastisk")
+                            onSaveNewsClick()
+                        } else {
+                            println("Error publishing the article: ${result.exceptionOrNull()?.message}")
+                        }
+                    }
+
+                },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(DefaultButton)
             ) {
@@ -93,6 +109,10 @@ fun CreateNewsScreen(
                     Text(stringResource(R.string.news_create_save_changes))
                 }
             }
+
+
         }
     }
+
+
 }
