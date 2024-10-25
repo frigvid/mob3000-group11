@@ -93,22 +93,27 @@ fun NewsDetailsScreen(
                         .background(Color(0xFFEFEBE9))
                         .padding(16.dp)
                 ) {
-                    Text(
-                        text = stringResource(R.string.news_details_created_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_details_created_date_pattern), Locale.getDefault()).format(selectedNews.createdAt)}",
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
+                    /**
+                     * Had some formating problems, didnt have time to fuck around with this
+                     * TODO: Replacing with something to show date correctly
+                     */
 
-                    Text(
-                        text = stringResource(R.string.news_details_modified_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_details_modified_date_pattern), Locale.getDefault()).format(selectedNews.modifiedAt)}",
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
+                    //Text(
+                      //  text = stringResource(R.string.news_details_created_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_details_created_date_pattern), Locale.getDefault()).format(selectedNews.created_at)}",
+                        // fontSize = 12.sp,
+                        // modifier = Modifier.padding(bottom = 4.dp)
+                    // )
 
-                    Text(
-                        text = stringResource(R.string.news_details_status_prefix) + ": ${if (selectedNews.isPublished) stringResource(R.string.news_details_status_published) else stringResource(R.string.news_details_status_draft)}",
-                        fontSize = 12.sp
-                    )
+                    // Text(
+                     //   text = stringResource(R.string.news_details_modified_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_details_modified_date_pattern), Locale.getDefault()).format(selectedNews.modified_at)}",
+                       // fontSize = 12.sp,
+                        // modifier = Modifier.padding(bottom = 4.dp)
+                   // )
+
+                    // Text(
+                       // text = stringResource(R.string.news_details_status_prefix) + ": ${if (selectedNews.is_published) stringResource(R.string.news_details_status_published) else stringResource(R.string.news_details_status_draft)}",
+                       // fontSize = 12.sp
+                    // )
                 }
             }
         } else {

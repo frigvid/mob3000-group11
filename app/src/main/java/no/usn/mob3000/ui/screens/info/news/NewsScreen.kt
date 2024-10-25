@@ -1,5 +1,6 @@
 package no.usn.mob3000.ui.screens.info.news
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -19,9 +20,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
+import no.usn.mob3000.data.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -54,46 +59,21 @@ fun NewsScreen(
     setSelectedNews: (News) -> Unit,
     clearSelectedNews: () -> Unit
 ) {
-    /* TODO: Replace dummy data with fetched data from data layer and cache it in ViewModel state.
-     *       Maybe check for news in the background, so there's less of a load time?
+    /* TODO: Cache for loadtime
      */
     LaunchedEffect(Unit) {
         clearSelectedNews()
 
-        val dummyNews = listOf(
-            News(
-                "1",
-                Date(),
-                Date(),
-                "User1",
-                "New Chess Tournament Announced",
-                "Exciting chess tournament coming up next month",
-                "A major chess tournament has been announced for next month. Players from around the world are expected to participate...",
-                true
-            ),
-            News(
-                "2",
-                Date(),
-                Date(),
-                "User2",
-                "Chess AI Beats World Champion",
-                "Artificial Intelligence makes history in chess",
-                "In a shocking turn of events, a new chess AI has defeated the current world champion in a series of matches...",
-                true
-            ),
-            News(
-                "3",
-                Date(),
-                Date(),
-                "User3",
-                "Chess Strategy Workshop",
-                "Learn from the masters",
-                "A week-long chess strategy workshop is being organized, featuring lectures from grandmasters...",
-                false
-            )
-        )
-
-        setNewsList(dummyNews)
+        try {
+            val result = withContext(Dispatchers.IO) {
+                val supabase = SupabaseClientWrapper.getClient()
+                supabase.from("public", "news").select().decodeList<News>()
+            }
+            Log.d("News", "Fetched news: $result")
+            setNewsList(result)
+        } catch (e: Exception) {
+            Log.e("News", "Error fetching newsarticle", e)
+        }
     }
 
     Viewport(
@@ -148,7 +128,7 @@ fun NewsItem(
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
         border =
-        if (news.isPublished) null
+        if (news.is_published) null
         else BorderStroke(width = 2.dp, color = Color(0xFFFF0000))
     ) {
         Column(
@@ -173,10 +153,14 @@ fun NewsItem(
                 Spacer(modifier = Modifier.height(4.dp))
             }
 
-            Text(
-                text = stringResource(R.string.news_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_date_pattern), Locale.getDefault()).format(news.createdAt)}",
-                fontSize = 12.sp
-            )
+            /**
+             * Had some formating problems, didnt have time to fuck around with this
+             * TODO: Replacing with something to show date correctly
+             */
+            // Text(
+                // text = stringResource(R.string.news_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_date_pattern), Locale.getDefault()).format(news.created_at)}",
+                //fontSize = 12.sp
+           // )
         }
     }
 }
@@ -195,13 +179,17 @@ fun NewsItem(
  * @author frigvid
  * @created 2024-10-12
  */
+
+@Serializable
 data class News(
     val id: String,
-    val createdAt: Date,
-    val modifiedAt: Date,
-    val createdBy: String,
+    val created_at: String,
+    val modified_at: String,
+    val created_by: String,
     val title: String,
     val summary: String?,
     val content: String?,
-    val isPublished: Boolean
+    val is_published: Boolean
 )
+
+

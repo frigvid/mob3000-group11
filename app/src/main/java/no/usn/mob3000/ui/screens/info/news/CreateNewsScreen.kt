@@ -33,7 +33,7 @@ fun CreateNewsScreen(
     var title by remember { mutableStateOf(selectedNews?.title ?: "") }
     var summary by remember { mutableStateOf(selectedNews?.summary ?: "") }
     var content by remember { mutableStateOf(selectedNews?.content ?: "") }
-    var isPublished by remember { mutableStateOf(selectedNews?.isPublished ?: true) }
+    var isPublished by remember { mutableStateOf(selectedNews?.is_published ?: true) }
 
     val scope = rememberCoroutineScope()
 
