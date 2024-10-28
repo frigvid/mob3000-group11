@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.domain.model.AuthError
 import no.usn.mob3000.domain.model.User
-import no.usn.mob3000.domain.usecase.LoginUseCase
+import no.usn.mob3000.domain.usecase.auth.LoginUseCase
 import no.usn.mob3000.domain.usecase.auth.LogoutUseCase
 
 /**
