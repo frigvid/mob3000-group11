@@ -133,12 +133,21 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
-    <string name="settings_language">Language</string>
-    <string name="settings_language_enus">English</string>
-    <string name="settings_language_nonb">Norwegian Bokmål</string>
-    <string name="settings_theme">Theme</string>
-    <string name="settings_theme_light">Default - light</string>
-    <string name="settings_theme_dark">Default - dark</string>
+
+    <string name="settings_section_admin_subtitle">ADMIN</string>
+    <string name="settings_section_admin_button_admin">Go to admin dashboard</string>
+
+    <string name="settings_section_user_subtitle">USER</string>
+    <string name="settings_section_user_button_login">Go to login</string>
+    <string name="settings_section_user_button_logout">Log out</string>
+
+    <string name="settings_section_app_subtitle">APPLICATION</string>
+    <string name="settings_section_app_language">Language</string>
+    <string name="settings_section_app_language_enus">English</string>
+    <string name="settings_section_app_language_nonb">Norwegian Bokmål</string>
+    <string name="settings_section_app_theme">Theme</string>
+    <string name="settings_section_app_theme_light">Default - light</string>
+    <string name="settings_section_app_theme_dark">Default - dark</string>
 
     <!-- Openings page. -->
     <string name="openings_title">Openings</string>

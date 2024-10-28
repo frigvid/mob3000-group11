@@ -60,7 +60,7 @@ fun SettingsScreen(
         ) {
             // TODO: Only show if user is admin.
             Text(
-                "[ ADMIN ]",
+                "[ " + stringResource(R.string.settings_section_admin_subtitle) + " ]",
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -74,10 +74,10 @@ fun SettingsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
-            ) { Text("GO TO ADMIN DASHBOARD") }
+            ) { Text(stringResource(R.string.settings_section_admin_button_admin)) }
 
             Text(
-                "[ USER ]",
+                "[ " + stringResource(R.string.settings_section_user_subtitle) + " ]",
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -91,18 +91,19 @@ fun SettingsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
-            ) { Text("GO TO LOGIN") }
+            ) { Text(stringResource(R.string.settings_section_user_button_login)) }
 
+            /* TODO: Add indication that user has been successfully logged out. */
             Button(
                 onClick = onLogoutClick,
                 colors = ButtonDefaults.buttonColors(Color.Red),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
-            ) { Text("LOG OUT") }
+            ) { Text(stringResource(R.string.settings_section_user_button_logout)) }
 
             Text(
-                "[ APPLICATION ]",
+                "[ " + stringResource(R.string.settings_section_app_subtitle) + " ]",
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -111,7 +112,7 @@ fun SettingsScreen(
             )
 
             Text(
-                stringResource(R.string.settings_language),
+                stringResource(R.string.settings_section_app_language),
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -133,14 +134,14 @@ fun SettingsScreen(
                     onDismissRequest = { languageExpanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_language_enus)) },
+                        text = { Text(stringResource(R.string.settings_section_app_language_enus)) },
                         onClick = {
                             onLanguageChange("English")
                             languageExpanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_language_nonb)) },
+                        text = { Text(stringResource(R.string.settings_section_app_language_nonb)) },
                         onClick = {
                             onLanguageChange("Norwegian bokmål")
                             languageExpanded = false
@@ -150,7 +151,7 @@ fun SettingsScreen(
             }
 
             Text(
-                stringResource(R.string.settings_theme),
+                stringResource(R.string.settings_section_app_theme),
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -172,14 +173,14 @@ fun SettingsScreen(
                     onDismissRequest = { themeExpanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_theme_light)) },
+                        text = { Text(stringResource(R.string.settings_section_app_theme_light)) },
                         onClick = {
                             onThemeChange("Default - light")
                             themeExpanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_theme_dark)) },
+                        text = { Text(stringResource(R.string.settings_section_app_theme_dark)) },
                         onClick = {
                             onThemeChange("Default - dark")
                             themeExpanded = false
