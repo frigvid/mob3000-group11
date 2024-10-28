@@ -10,7 +10,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.CBViewModel
+import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**

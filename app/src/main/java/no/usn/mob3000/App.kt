@@ -38,11 +38,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import no.usn.mob3000.ui.CBViewModel
+import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
-import no.usn.mob3000.ui.screens.auth.LoginViewModel
+import no.usn.mob3000.domain.viewmodel.LoginViewModel
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen

@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.auth
+package no.usn.mob3000.domain.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
