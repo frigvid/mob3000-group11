@@ -231,7 +231,6 @@ class AuthRepository(
                             )
                         } as T
 
-                        // TODO: Extract string resource.
                         else -> throw IllegalArgumentException("Invalid list type: ${dto[0]!!::class.simpleName}")
                     }
                 } else {
@@ -239,7 +238,6 @@ class AuthRepository(
                 }
             }
 
-            // TODO: Extract string resource.
             else -> throw IllegalArgumentException("Invalid mapping: cannot convert ${dto::class.simpleName} to ${T::class.simpleName}")
         }
     }

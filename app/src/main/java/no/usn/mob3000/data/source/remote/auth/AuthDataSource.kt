@@ -60,12 +60,10 @@ class AuthDataSource(
                     eq("id", getCurrentUserId())
                 }
             }.decodeSingleOrNull<GameDataDto>()
-                // TODO: Extract string resource.
                 ?: throw NoSuchElementException("No game data found for the user.")
         } catch (error: NoSuchElementException) {
             throw error
         } catch (error: Exception) {
-            // TODO: Extract string resource.
             throw Exception("Failed to fetch user's game data: ${error.message}", error)
         }
     }
@@ -87,12 +85,10 @@ class AuthDataSource(
                     eq("id", userId)
                 }
             }.decodeSingleOrNull<ProfileDto>()
-                // TODO: Extract string resource.
                 ?: throw NoSuchElementException("No profile found for user: $userId")
         } catch (error: NoSuchElementException) {
             throw error
         } catch (error: Exception) {
-            // TODO: Extract string resource.
             throw Exception("Failed to fetch user profile: ${error.message}", error)
         }
     }
@@ -110,10 +106,6 @@ class AuthDataSource(
      */
     override suspend fun getUserFriends(userId: String): List<FriendsDto> {
         return try {
-            //supabase.postgrest.rpc(
-            //    function = "friend_get_all_friends"
-            //).decodeList<FriendsDto>()
-
             supabase.from("friends").select() {
                 filter {
                     or {
@@ -123,7 +115,6 @@ class AuthDataSource(
                 }
             }.decodeList<FriendsDto>()
         } catch (error: Exception) {
-            // TODO: Extract string resource.
             throw Exception("Failed to fetch user's friends: ${error.message}", error)
         }
     }
@@ -141,12 +132,10 @@ class AuthDataSource(
                 function = "friend_get_one",
                 parameters = mapOf("friend" to friendUserId)
             ).decodeSingleOrNull<FriendSingleDto>()
-                // TODO: Extract string resource.
                 ?: throw NoSuchElementException("No friendship found for user: $friendUserId")
         } catch (error: NoSuchElementException) {
             throw error
         } catch (error: Exception) {
-            // TODO: Extract string resource.
             throw Exception("Failed to fetch user's friends: ${error.message}", error)
         }
     }
@@ -168,7 +157,6 @@ class AuthDataSource(
                 function = "friend_request_get_all"
             ).decodeList<FriendRequestsDto>()
         } catch (error: Exception) {
-            // TODO: Extract string resource.
             throw Exception("Failed to fetch user's friend requests: ${error.message}", error)
         }
     }
@@ -195,8 +183,6 @@ class AuthDataSource(
 
     /**
      * Gets the user's ID.
-     *
-     * TODO: Consider switching out with `supabase.auth.retrieveUserForCurrentSession(updateSession = true)`
      *
      * @return The user's `auth.users.id` UUID if logged in, null otherwise.
      * @author frigvid

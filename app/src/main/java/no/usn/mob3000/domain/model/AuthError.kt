@@ -1,6 +1,5 @@
 package no.usn.mob3000.domain.model
 
-import android.util.Log
 import androidx.annotation.StringRes
 import io.github.jan.supabase.gotrue.exception.AuthRestException
 import no.usn.mob3000.R
