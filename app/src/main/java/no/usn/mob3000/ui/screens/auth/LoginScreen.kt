@@ -178,7 +178,10 @@ fun LoginScreen(
                             )
                         ) {
                             Text(
-                                text = stringResource((state as LoginState.Error).error.messageRes),
+                                text =
+                                    stringResource((state as LoginState.Error).error.messageRes)
+                                    + "\n"
+                                    + (state as LoginState.Error).error,
                                 color = MaterialTheme.colorScheme.onErrorContainer,
                                 modifier = Modifier.padding(16.dp)
                             )
