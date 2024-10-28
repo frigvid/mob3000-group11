@@ -6,7 +6,7 @@ import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.github.jan.supabase.gotrue.user.UserInfo
 import kotlinx.datetime.Instant
-import no.usn.mob3000.data.SupabaseClientWrapper
+import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.model.auth.UserDto
 import no.usn.mob3000.data.model.game.GameDataDto

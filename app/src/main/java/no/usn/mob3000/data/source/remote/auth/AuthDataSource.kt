@@ -7,7 +7,7 @@ import io.github.jan.supabase.postgrest.rpc
 import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.gotrue.user.UserSession
 import io.github.jan.supabase.postgrest.from
-import no.usn.mob3000.data.SupabaseClientWrapper
+import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendSingleDto
