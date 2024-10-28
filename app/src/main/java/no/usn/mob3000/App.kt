@@ -223,8 +223,7 @@ fun App(
                 HomeScreen(
                     onTrainClick = { navController.navigate(Destination.OPENINGS.name) },
                     onPlayClick =  { navController.navigate(Destination.PLAY.name) },
-                    onHistoryClick =  { navController.navigate(Destination.HISTORY.name) },
-                    onTemporaryAdminDashboardClick = { navController.navigate(Destination.ADMIN_DASHBOARD.name) }
+                    onHistoryClick =  { navController.navigate(Destination.HISTORY.name) }
                 )
             }
             composable(route = Destination.OPENINGS.name) {
@@ -264,7 +263,6 @@ fun App(
             }
             composable(route = Destination.PROFILE.name) {
                 ProfileScreen(
-                    onTemporaryLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
                     onProfileEditClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) },
                     onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
                     onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }
