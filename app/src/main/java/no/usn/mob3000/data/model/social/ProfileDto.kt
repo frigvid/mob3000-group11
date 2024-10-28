@@ -20,7 +20,7 @@ import kotlinx.serialization.Serializable
  * @created 2024-10-25
  */
 @Serializable
-data class ProfilesDto(
+data class ProfileDto(
     @SerialName("id")
     val userId: String,
     @SerialName("updated_at")

@@ -1,5 +1,6 @@
 package no.usn.mob3000.ui.screens.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.jan.supabase.gotrue.exception.AuthRestException
@@ -7,9 +8,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import no.usn.mob3000.data.model.UserDto
 import no.usn.mob3000.domain.model.AuthError
+import no.usn.mob3000.domain.model.User
 import no.usn.mob3000.domain.usecase.LoginUseCase
+import no.usn.mob3000.domain.usecase.auth.LogoutUseCase
 
 /**
  * ViewModel to user state and, if necessary, authentication state.
@@ -19,7 +21,8 @@ import no.usn.mob3000.domain.usecase.LoginUseCase
  * @created 2024-10-21
  */
 class LoginViewModel(
-    private val loginUseCase: LoginUseCase = LoginUseCase()
+    private val loginUseCase: LoginUseCase = LoginUseCase(),
+    private val logoutUseCase: LogoutUseCase = LogoutUseCase()
 ) : ViewModel() {
     /**
      * The current [LoginState].
@@ -35,8 +38,8 @@ class LoginViewModel(
      * @author frigvid
      * @created 2024-10-22
      */
-    private val _authenticatedUser = MutableStateFlow<UserDto?>(null)
-    val authenticatedUser: StateFlow<UserDto?> = _authenticatedUser.asStateFlow()
+    private val _authenticatedUser = MutableStateFlow<User?>(null)
+    val authenticatedUser: StateFlow<User?> = _authenticatedUser.asStateFlow()
 
     /**
      * Initiates the login process with the provided credentials.
@@ -57,11 +60,20 @@ class LoginViewModel(
 
             loginUseCase(email, password).fold(
                 onSuccess = { user ->
+                    Log.d("LoginViewModel", user.toString())
                     _authenticatedUser.value = user
                     _loginState.value = LoginState.Success(user)
                 },
                 onFailure = { error ->
-                    _loginState.value = LoginState.Error(AuthError.fromException(error as AuthRestException))
+                    /* TODO: Investigate why this became necessary.
+                     *       See: java.lang.Exception cannot be cast to io.github.jan.supabase.gotrue.exception.AuthRestException
+                     */
+                    val authError = when (error) {
+                        is AuthRestException -> AuthError.fromException(error)
+                        else -> AuthError.Unknown(error.message ?: "Unknown error occurred")
+                    }
+
+                    _loginState.value = LoginState.Error(authError)
                 }
             )
         }
@@ -71,11 +83,13 @@ class LoginViewModel(
         _loginState.value = LoginState.Idle
     }
 
-    // TODO: Implement logout.
-    //fun logout() {
-    //    _authenticatedUser.value = null
-    //    _loginState.value = LoginState.Idle
-    //}
+    fun logout() {
+        viewModelScope.launch {
+            _authenticatedUser.value = null
+            _loginState.value = LoginState.Idle
+            logoutUseCase()
+        }
+    }
 }
 
 /**
@@ -98,9 +112,9 @@ sealed class LoginState {
     /**
      * State when login succeeds, containing the user data.
      *
-     * @param user The [UserDto] object.
+     * @param user The [User] object.
      */
-    data class Success(val user: UserDto) : LoginState()
+    data class Success(val user: User) : LoginState()
 
     /**
      * State when login fails, containing the specific error type.

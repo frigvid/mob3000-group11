@@ -1,8 +1,9 @@
 package no.usn.mob3000.domain.usecase
 
-import no.usn.mob3000.data.repository.AuthRepository
-import no.usn.mob3000.data.model.UserDto
-import no.usn.mob3000.data.source.remote.AuthDataSource
+import no.usn.mob3000.data.repository.auth.AuthRepository
+import no.usn.mob3000.data.model.auth.UserDto
+import no.usn.mob3000.data.source.remote.auth.AuthDataSource
+import no.usn.mob3000.domain.model.User
 
 /**
  * Android Use Case for handling login operations.
@@ -29,7 +30,19 @@ class LoginUseCase(
     suspend operator fun invoke(
         email: String,
         password: String
-    ): Result<UserDto> {
+    ): Result<User> {
+        if (!email.isValidEmail()) {
+            return Result.failure(IllegalArgumentException("Invalid email format"))
+        }
+
+        if (password.length < 8) {
+            return Result.failure(IllegalArgumentException("Password must be at least 8 characters"))
+        }
+
         return authRepository.login(email, password)
     }
+
+
+    private fun String.isValidEmail(): Boolean =
+        android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
