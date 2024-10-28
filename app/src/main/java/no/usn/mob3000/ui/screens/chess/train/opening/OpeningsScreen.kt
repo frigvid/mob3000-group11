@@ -28,7 +28,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.data.SupabaseClientWrapper
+import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**

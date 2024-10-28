@@ -25,10 +25,10 @@ data class User(
     val id: String,
     val email: String?,
     val isAdmin: Boolean,
-    val stats: GameStats?,
+    val stats: UserGameStats?,
     val profile: UserProfile?,
     val socials: UserSocial?,
-    val userMetadata: UserMetadata
+    val metadata: UserMetadata
 )
 
 /**
@@ -37,7 +37,7 @@ data class User(
  * @author frigvid
  * @created 2024-10-22
  */
-data class GameStats(
+data class UserGameStats(
     val wins: Int,
     val losses: Int,
     val draws: Int
@@ -77,10 +77,10 @@ data class UserSocial(
  * @created 2024-10-22
  */
 data class UserMetadata(
-    val createdAt: Instant,
-    val updatedAt: Instant,
-    val emailConfirmedAt: Instant,
-    val lastSignInAt: Instant
+    val createdAt: Instant? = null,
+    val updatedAt: Instant? = null,
+    val emailConfirmedAt: Instant? = null,
+    val lastSignInAt: Instant? = null
     // TODO: val updatedProfileAt: Instant
 )
 

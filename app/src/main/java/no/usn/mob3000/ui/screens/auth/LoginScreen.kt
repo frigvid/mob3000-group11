@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.auth
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +33,7 @@ import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.Destination
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.viewmodel.LoginState
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -178,7 +178,10 @@ fun LoginScreen(
                             )
                         ) {
                             Text(
-                                text = stringResource((state as LoginState.Error).error.messageRes),
+                                text =
+                                    stringResource((state as LoginState.Error).error.messageRes)
+                                    + "\n"
+                                    + (state as LoginState.Error).error,
                                 color = MaterialTheme.colorScheme.onErrorContainer,
                                 modifier = Modifier.padding(16.dp)
                             )

@@ -132,12 +132,21 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>
-    <string name="settings_language">Språk</string>
-    <string name="settings_language_enus">Engelsk</string>
-    <string name="settings_language_nonb">Norsk Bokmål</string>
-    <string name="settings_theme">Tema</string>
-    <string name="settings_theme_light">Default - lyst</string>
-    <string name="settings_theme_dark">Default - mørkt</string>
+
+    <string name="settings_section_admin_subtitle">ADMINISTRATOR</string>
+    <string name="settings_section_admin_button_admin">Gå til administrator dashbord</string>
+
+    <string name="settings_section_user_subtitle">BRUKERKONTO</string>
+    <string name="settings_section_user_button_login">Gå til innlogging</string>
+    <string name="settings_section_user_button_logout">Logg ut</string>
+
+    <string name="settings_section_app_subtitle">APPLIKASJON</string>
+    <string name="settings_section_app_language">Språk</string>
+    <string name="settings_section_app_language_enus">Engelsk</string>
+    <string name="settings_section_app_language_nonb">Norsk Bokmål</string>
+    <string name="settings_section_app_theme">Tema</string>
+    <string name="settings_section_app_theme_light">Default - lyst</string>
+    <string name="settings_section_app_theme_dark">Default - mørkt</string>
 
     <!-- Openings/groups page. -->
     <string name="openings_title">Åpninger</string>

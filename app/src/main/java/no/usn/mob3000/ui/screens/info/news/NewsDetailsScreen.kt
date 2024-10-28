@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.data.model.content.NewsDto
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,14 +29,14 @@ import java.util.*
  * creation date, modification date, and publication status. It also provides an edit option for
  * authorized users.
  *
- * @param selectedNews The [News] object to display.
+ * @param selectedNews The [NewsDto] object to display.
  * @param onEditClick Callback function to navigate to the edit screen.
  * @author frigvid, 258030 (Eirik)
  * @created 2024-10-12
  */
 @Composable
 fun NewsDetailsScreen(
-    selectedNews: News?,
+    selectedNews: NewsDto?, // Endret fra News til NewsDto
     onEditClick: () -> Unit
 ) {
     Viewport(
@@ -61,7 +62,7 @@ fun NewsDetailsScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Text(
-                        text = selectedNews.title,
+                        text = selectedNews.title!!,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 16.dp)
@@ -99,20 +100,20 @@ fun NewsDetailsScreen(
                      */
 
                     //Text(
-                      //  text = stringResource(R.string.news_details_created_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_details_created_date_pattern), Locale.getDefault()).format(selectedNews.created_at)}",
-                        // fontSize = 12.sp,
-                        // modifier = Modifier.padding(bottom = 4.dp)
+                    //    text = stringResource(R.string.news_details_created_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_details_created_date_pattern), Locale.getDefault()).format(selectedNews.created_at)}",
+                    //    fontSize = 12.sp,
+                    //    modifier = Modifier.padding(bottom = 4.dp)
                     // )
 
                     // Text(
-                     //   text = stringResource(R.string.news_details_modified_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_details_modified_date_pattern), Locale.getDefault()).format(selectedNews.modified_at)}",
-                       // fontSize = 12.sp,
-                        // modifier = Modifier.padding(bottom = 4.dp)
-                   // )
+                    //    text = stringResource(R.string.news_details_modified_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.news_details_modified_date_pattern), Locale.getDefault()).format(selectedNews.modified_at)}",
+                    //    fontSize = 12.sp,
+                    //    modifier = Modifier.padding(bottom = 4.dp)
+                    // )
 
                     // Text(
-                       // text = stringResource(R.string.news_details_status_prefix) + ": ${if (selectedNews.is_published) stringResource(R.string.news_details_status_published) else stringResource(R.string.news_details_status_draft)}",
-                       // fontSize = 12.sp
+                    //    text = stringResource(R.string.news_details_status_prefix) + ": ${if (selectedNews.is_published) stringResource(R.string.news_details_status_published) else stringResource(R.string.news_details_status_draft)}",
+                    //    fontSize = 12.sp
                     // )
                 }
             }

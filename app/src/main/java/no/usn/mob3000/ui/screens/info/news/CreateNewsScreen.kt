@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import kotlinx.serialization.serializer
+import kotlinx.datetime.Clock
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.data.SupabaseClientWrapper
+import no.usn.mob3000.data.model.content.NewsDto
+import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -28,13 +29,13 @@ import no.usn.mob3000.ui.theme.DefaultButton
  */
 @Composable
 fun CreateNewsScreen(
-    selectedNews: News?,
+    selectedNews: NewsDto?,
     onSaveNewsClick: () -> Unit
 ) {
     var title by remember { mutableStateOf(selectedNews?.title ?: "") }
     var summary by remember { mutableStateOf(selectedNews?.summary ?: "") }
     var content by remember { mutableStateOf(selectedNews?.content ?: "") }
-    var isPublished by remember { mutableStateOf(selectedNews?.is_published ?: true) }
+    var isPublished by remember { mutableStateOf(selectedNews?.isPublished ?: true) }
 
     val scope = rememberCoroutineScope()
 
@@ -93,15 +94,18 @@ fun CreateNewsScreen(
                         val currentUserId = SupabaseClientWrapper.getCurrentUserId()
 
                         if (currentUserId != null) {
-                            val newsItem = SupabaseClientWrapper.NewsItem(
+                            val newsItem = NewsDto(
+                                newsId = null,
+                                createdAt = Clock.System.now(),
+                                modifiedAt = Clock.System.now(),
+                                createdByUser = currentUserId,
                                 title = title,
                                 summary = summary,
                                 content = content,
-                                is_published = isPublished,
-                                created_by = currentUserId
+                                isPublished = isPublished
                             )
 
-                            val result = SupabaseClientWrapper.insertItem("news", newsItem, SupabaseClientWrapper.NewsItem.serializer())
+                            val result = SupabaseClientWrapper.insertItem("news", newsItem, NewsDto.serializer())
                             if (result.isSuccess) {
                                 println("Fantastisk")
                                 onSaveNewsClick()
@@ -125,4 +129,5 @@ fun CreateNewsScreen(
         }
     }
 }
+
 
