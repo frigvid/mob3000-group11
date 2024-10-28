@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import kotlinx.serialization.serializer
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.SupabaseClientWrapper
@@ -89,16 +90,28 @@ fun CreateNewsScreen(
             Button(
                 onClick = {
                     scope.launch {
-                        val result = SupabaseClientWrapper.insertNews(title, summary, content, isPublished)
-                        // TODO: Do something a little more exciting here
-                        if (result.isSuccess) {
-                            println("Fantastisk")
-                            onSaveNewsClick()
+                        val currentUserId = SupabaseClientWrapper.getCurrentUserId()
+
+                        if (currentUserId != null) {
+                            val newsItem = SupabaseClientWrapper.NewsItem(
+                                title = title,
+                                summary = summary,
+                                content = content,
+                                is_published = isPublished,
+                                created_by = currentUserId
+                            )
+
+                            val result = SupabaseClientWrapper.insertItem("news", newsItem, SupabaseClientWrapper.NewsItem.serializer())
+                            if (result.isSuccess) {
+                                println("Fantastisk")
+                                onSaveNewsClick()
+                            } else {
+                                println("Error publishing the article: ${result.exceptionOrNull()?.message}")
+                            }
                         } else {
-                            println("Error publishing the article: ${result.exceptionOrNull()?.message}")
+                            println("Error: Current user ID is null.")
                         }
                     }
-
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(DefaultButton)
@@ -109,10 +122,7 @@ fun CreateNewsScreen(
                     Text(stringResource(R.string.news_create_save_changes))
                 }
             }
-
-
         }
     }
-
-
 }
+

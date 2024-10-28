@@ -9,8 +9,14 @@ import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.realtime.Realtime
 import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 import no.usn.mob3000.MainActivity
+import kotlin.reflect.KClass
 
 /**
  * Singleton object responsible for managing the Supabase client instance.
@@ -76,24 +82,28 @@ object SupabaseClientWrapper {
         return supabaseClient
     }
 
+    fun getCurrentUserId(): String? {
+
+        val client = getClient()
+        val userId = client.auth.currentSessionOrNull()?.user?.id ?: "user-id"
+        return userId
+    }
+
     /**
      * Inserts a new news article into the database.
      *
      *  TODO: Abstract this so it can be used for all other insert functions.
      */
-    suspend fun insertNews(title: String, summary: String?, content: String?, isPublished: Boolean): Result<Unit> {
-
-        val client = getClient()
-        val userId = client.auth.currentSessionOrNull()?.user?.id ?: "user-id"
-
+    suspend fun <T> insertItem(table: String, item: T, serializer: KSerializer<T>): Result<Unit> {
         return try {
-            val newsItem = NewsItem(title, summary, content, isPublished, userId)
-            supabaseClient.postgrest["news"].insert(newsItem)
-            Result.success(Unit)
+            val jsonElement: JsonElement = Json.encodeToJsonElement(serializer, item)
+                supabaseClient.postgrest[table].insert(jsonElement)
+                Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
+
 
     /**
      * Probably redundant as a similar data class exist elsewhere, here for testing
