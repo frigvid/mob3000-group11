@@ -133,12 +133,21 @@
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
-    <string name="settings_language">Language</string>
-    <string name="settings_language_enus">English</string>
-    <string name="settings_language_nonb">Norwegian Bokmål</string>
-    <string name="settings_theme">Theme</string>
-    <string name="settings_theme_light">Default - light</string>
-    <string name="settings_theme_dark">Default - dark</string>
+
+    <string name="settings_section_admin_subtitle">ADMIN</string>
+    <string name="settings_section_admin_button_admin">Go to admin dashboard</string>
+
+    <string name="settings_section_user_subtitle">USER</string>
+    <string name="settings_section_user_button_login">Go to login</string>
+    <string name="settings_section_user_button_logout">Log out</string>
+
+    <string name="settings_section_app_subtitle">APPLICATION</string>
+    <string name="settings_section_app_language">Language</string>
+    <string name="settings_section_app_language_enus">English</string>
+    <string name="settings_section_app_language_nonb">Norwegian Bokmål</string>
+    <string name="settings_section_app_theme">Theme</string>
+    <string name="settings_section_app_theme_light">Default - light</string>
+    <string name="settings_section_app_theme_dark">Default - dark</string>
 
     <!-- Openings page. -->
     <string name="openings_title">Openings</string>
@@ -219,6 +228,18 @@
     <string name="auth_reset_password_title">Reset password</string>
     <string name="auth_reset_password_input">New password</string>
     <string name="auth_reset_password_confirm">Confirm new password</string>
+
+    <!-- Authentication Error Messages. -->
+    <string name="auth_error_email_exists">Email address already exists.</string>
+    <string name="auth_error_signup_disabled">Sign-up is disabled.</string>
+    <string name="auth_error_not_admin">The user is not an administrator.</string>
+
+    <string name="auth_error_email_not_confirmed">Please confirm your email address.</string>
+    <string name="auth_error_invalid_credentials">Invalid email or password.</string>
+    <string name="auth_error_user_not_found">User not found</string>
+    <string name="auth_error_user_banned">This user is banned.</string>
+
+    <string name="auth_error_unexpected_failure">An unexpected error occurred: </string>
 
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>

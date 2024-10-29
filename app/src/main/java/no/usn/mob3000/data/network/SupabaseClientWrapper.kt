@@ -1,11 +1,14 @@
-package no.usn.mob3000.data
+package no.usn.mob3000.data.network
 
 import android.content.Context
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.functions.Functions
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.realtime.Realtime
 import no.usn.mob3000.MainActivity
+import no.usn.mob3000.data.SecureEnvManager
 
 /**
  * Singleton object responsible for managing the Supabase client instance.
@@ -34,7 +37,8 @@ object SupabaseClientWrapper {
      */
     fun initialize(context: Context) {
         val supabaseUrl = SecureEnvManager.getDecryptedValue(context, "NEXT_PUBLIC_SUPABASE_URL")
-        val supabaseKey = SecureEnvManager.getDecryptedValue(context, "NEXT_PUBLIC_SUPABASE_ANON_KEY")
+        val supabaseKey =
+            SecureEnvManager.getDecryptedValue(context, "NEXT_PUBLIC_SUPABASE_ANON_KEY")
 
         if (supabaseUrl == null || supabaseKey == null) {
             throw IllegalStateException("Supabase credentials not found. Make sure to call SecureEnvManager.initializeEnvVariables(context) first.")
@@ -47,6 +51,8 @@ object SupabaseClientWrapper {
             // TODO: Investigate if more plugins are necessary.
             install(Auth)
             install(Postgrest)
+            install(Realtime)
+            install(Functions)
         }
     }
 
@@ -62,7 +68,7 @@ object SupabaseClientWrapper {
      * @created 2024-10-07
      */
     fun getClient(): SupabaseClient {
-        if (!::supabaseClient.isInitialized) {
+        if (!SupabaseClientWrapper::supabaseClient.isInitialized) {
             throw IllegalStateException("SupabaseClient not initialized. Call initialize(context) first.")
         }
 

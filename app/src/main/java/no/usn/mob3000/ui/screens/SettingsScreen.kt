@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.CBViewModel
+import no.usn.mob3000.domain.viewmodel.CBViewModel
+import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * SettingsScreen allows users to configure application-wide settings.
@@ -36,6 +39,9 @@ import no.usn.mob3000.ui.CBViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
+    onLogoutClick: () -> Unit,
+    onLoginClick: () -> Unit,
+    onAdminDashboardClick: () -> Unit,
     selectedTheme: String,
     selectedLanguage: String,
     onThemeChange: (String) -> Unit,
@@ -52,8 +58,61 @@ fun SettingsScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
+            // TODO: Only show if user is admin.
             Text(
-                stringResource(R.string.settings_language),
+                "[ " + stringResource(R.string.settings_section_admin_subtitle) + " ]",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+
+            Button(
+                onClick = onAdminDashboardClick,
+                colors = ButtonDefaults.buttonColors(DefaultButton),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            ) { Text(stringResource(R.string.settings_section_admin_button_admin)) }
+
+            Text(
+                "[ " + stringResource(R.string.settings_section_user_subtitle) + " ]",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+
+            Button(
+                onClick = onLoginClick,
+                colors = ButtonDefaults.buttonColors(DefaultButton),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            ) { Text(stringResource(R.string.settings_section_user_button_login)) }
+
+            /* TODO: Add indication that user has been successfully logged out. */
+            Button(
+                onClick = onLogoutClick,
+                colors = ButtonDefaults.buttonColors(Color.Red),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            ) { Text(stringResource(R.string.settings_section_user_button_logout)) }
+
+            Text(
+                "[ " + stringResource(R.string.settings_section_app_subtitle) + " ]",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+
+            Text(
+                stringResource(R.string.settings_section_app_language),
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -75,14 +134,14 @@ fun SettingsScreen(
                     onDismissRequest = { languageExpanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_language_enus)) },
+                        text = { Text(stringResource(R.string.settings_section_app_language_enus)) },
                         onClick = {
                             onLanguageChange("English")
                             languageExpanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_language_nonb)) },
+                        text = { Text(stringResource(R.string.settings_section_app_language_nonb)) },
                         onClick = {
                             onLanguageChange("Norwegian bokmål")
                             languageExpanded = false
@@ -92,7 +151,7 @@ fun SettingsScreen(
             }
 
             Text(
-                stringResource(R.string.settings_theme),
+                stringResource(R.string.settings_section_app_theme),
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -114,14 +173,14 @@ fun SettingsScreen(
                     onDismissRequest = { themeExpanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_theme_light)) },
+                        text = { Text(stringResource(R.string.settings_section_app_theme_light)) },
                         onClick = {
                             onThemeChange("Default - light")
                             themeExpanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_theme_dark)) },
+                        text = { Text(stringResource(R.string.settings_section_app_theme_dark)) },
                         onClick = {
                             onThemeChange("Default - dark")
                             themeExpanded = false

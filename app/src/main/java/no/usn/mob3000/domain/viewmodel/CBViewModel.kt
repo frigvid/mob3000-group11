@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui
+package no.usn.mob3000.domain.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

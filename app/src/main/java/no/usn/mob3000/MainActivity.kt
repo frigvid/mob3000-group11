@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import no.usn.mob3000.ui.theme.ChessbuddyTheme
 import no.usn.mob3000.data.SecureEnvManager
-import no.usn.mob3000.data.SupabaseClientWrapper
+import no.usn.mob3000.data.network.SupabaseClientWrapper
 
 /**
  * @author frigvid
