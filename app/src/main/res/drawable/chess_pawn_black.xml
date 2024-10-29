@@ -1,0 +1,23 @@
+<!--
+    Source: https://commons.wikimedia.org/wiki/File:Chess_pdt45.svg.
+    Author: https://commons.wikimedia.org/wiki/User:Cburnett
+    Contributors: Antonsusi, TomFryers
+    Date: 2006-12-27
+    License: CC BY-SA 3.0.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="45dp"
+    android:height="45dp"
+    android:viewportWidth="45"
+    android:viewportHeight="45">
+    <group android:translateY="0.3">
+        <path
+            android:fillColor="#000000"
+            android:pathData="M22.5,9c-2.21,0 -4,1.79 -4,4c0,0.89 0.29,1.71 0.78,2.38C17.33,16.5 16,18.59 16,21c0,2.03 0.94,3.84 2.41,5.03C15.41,27.09 11,31.58 11,39.5H34C34,31.58 29.59,27.09 26.59,26.03C28.06,24.84 29,23.03 29,21c0,-2.41 -1.33,-4.5 -3.28,-5.62C26.21,14.71 26.5,13.89 26.5,13c0,-2.21 -1.79,-4 -4,-4z"
+            android:strokeWidth="1.5"
+            android:strokeColor="#000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="miter"
+            android:strokeMiterLimit="4" />
+    </group>
+</vector>
