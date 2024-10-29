@@ -210,7 +210,8 @@ fun App(
             composable(route = Destination.NEWS_DETAILS.name) {
                 NewsDetailsScreen(
                     selectedNews = viewModel.selectedNews.value,
-                    onEditClick = { navController.navigate(Destination.NEWS_CREATE.name) }
+                    onEditClick = { navController.navigate(Destination.NEWS_CREATE.name) },
+                    onDeleteClick = { navController.navigate(Destination.NEWS.name) }
                 )
             }
             composable(route = Destination.NEWS_CREATE.name) {

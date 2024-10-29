@@ -10,22 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import io.github.jan.supabase.postgrest.from
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.Serializable
 import no.usn.mob3000.data.model.content.NewsDto
-import no.usn.mob3000.data.network.SupabaseClientWrapper
+import no.usn.mob3000.data.network.DbUtilities
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
@@ -42,14 +36,13 @@ fun NewsScreen(
 ) {
     LaunchedEffect(Unit) {
         clearSelectedNews()
+        val dbUtilities = DbUtilities()
 
         try {
-            val result = withContext(Dispatchers.IO) {
-                val supabase = SupabaseClientWrapper.getClient()
-                supabase.from("public", "news").select().decodeList<NewsDto>()
+            val result = dbUtilities.fetchItems("news", NewsDto.serializer())
+            result.onSuccess { items ->
+                setNewsList(items)
             }
-            Log.d("News", "Fetched news: $result")
-            setNewsList(result)
         } catch (e: Exception) {
             Log.e("News", "Error fetching news articles", e)
         }

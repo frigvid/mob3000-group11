@@ -14,6 +14,7 @@ import kotlinx.datetime.Clock
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.model.content.NewsDto
+import no.usn.mob3000.data.network.DbUtilities
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
 
@@ -105,7 +106,7 @@ fun CreateNewsScreen(
                                 isPublished = isPublished
                             )
 
-                            val result = SupabaseClientWrapper.insertItem("news", newsItem, NewsDto.serializer())
+                            val result = DbUtilities().insertItem("news", newsItem, NewsDto.serializer())
                             if (result.isSuccess) {
                                 println("Fantastisk")
                                 onSaveNewsClick()

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,8 +20,6 @@ import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.model.content.NewsDto
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Screen to display full details about some documentation.
@@ -36,16 +35,26 @@ import java.util.*
  */
 @Composable
 fun NewsDetailsScreen(
-    selectedNews: NewsDto?, // Endret fra News til NewsDto
-    onEditClick: () -> Unit
+    selectedNews: NewsDto?,
+    modifier: Modifier = Modifier,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
     Viewport(
         topBarActions = {
-            IconButton(onClick = onEditClick) {
-                Icon(
-                    Icons.Default.Edit,
-                    contentDescription = "Edit News"
-                )
+            Row {
+                IconButton(onClick = onEditClick) {
+                    Icon(
+                        Icons.Default.Edit,
+                        contentDescription = "Edit News"
+                    )
+                }
+                IconButton(onClick = onDeleteClick) {
+                    Icon(
+                        Icons.Default.Delete,
+                        contentDescription = "Delete News"
+                    )
+                }
             }
         }
     ) { innerPadding ->
