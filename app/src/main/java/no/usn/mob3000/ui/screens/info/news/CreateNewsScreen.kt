@@ -15,7 +15,6 @@ import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.model.content.NewsDto
 import no.usn.mob3000.data.network.DbUtilities
-import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -92,7 +91,7 @@ fun CreateNewsScreen(
             Button(
                 onClick = {
                     scope.launch {
-                        val currentUserId = SupabaseClientWrapper.getCurrentUserId()
+                        val currentUserId = DbUtilities().getCurrentUserId()
 
                         if (currentUserId != null) {
                             val newsItem = NewsDto(

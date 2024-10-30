@@ -1,12 +1,10 @@
 package no.usn.mob3000.data.network
 
-
 import android.content.Context
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.functions.Functions
 import io.github.jan.supabase.gotrue.Auth
-import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.realtime.Realtime
 import no.usn.mob3000.MainActivity
@@ -76,19 +74,4 @@ object SupabaseClientWrapper {
 
         return supabaseClient
     }
-
-    /**
-     * Retrieves the current user's ID.
-     * @return The ID of the current user.
-     * @author Eirik
-     * @created 2024-10-28
-     */
-    fun getCurrentUserId(): String? {
-
-        val client = getClient()
-        val userId = client.auth.currentSessionOrNull()?.user?.id ?: "user-id"
-        return userId
-    }
-
-
 }

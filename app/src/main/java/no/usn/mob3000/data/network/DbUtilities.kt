@@ -1,5 +1,6 @@
 package no.usn.mob3000.data.network
 
+import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.Dispatchers
@@ -7,6 +8,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import no.usn.mob3000.data.network.SupabaseClientWrapper.getClient
 
 /**
  * A utility class for performing database operations.
@@ -104,6 +106,12 @@ class DbUtilities {
         }
     }
 
+    fun getCurrentUserId(): String? {
+
+        val client = getClient()
+        val userId = client.auth.currentSessionOrNull()?.user?.id ?: "user-id"
+        return userId
+    }
 
 
 
