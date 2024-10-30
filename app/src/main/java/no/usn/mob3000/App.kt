@@ -64,6 +64,7 @@ import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
+import no.usn.mob3000.ui.screens.info.news.UpdateNewsScreen
 import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
 import no.usn.mob3000.ui.screens.user.ProfileEditScreen
 import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
@@ -210,7 +211,7 @@ fun App(
             composable(route = Destination.NEWS_DETAILS.name) {
                 NewsDetailsScreen(
                     selectedNews = viewModel.selectedNews.value,
-                    onEditClick = { navController.navigate(Destination.NEWS_CREATE.name) },
+                    onEditClick = { navController.navigate(Destination.NEWS_UPDATE.name) },
                     onDeleteClick = { navController.navigate(Destination.NEWS.name) }
                 )
             }
@@ -218,6 +219,12 @@ fun App(
                 CreateNewsScreen(
                     selectedNews = viewModel.selectedNews.value,
                     onSaveNewsClick = { navController.navigateUp() }
+                )
+            }
+            composable(route = Destination.NEWS_UPDATE.name) { // TODO: FFFFFFFFFFFFFFFFFFFFFFFFF
+                UpdateNewsScreen(
+                    selectedNews = viewModel.selectedNews.value,
+                    onSaveNewsClick = { navController.navigate(Destination.NEWS.name) }
                 )
             }
             composable(route = Destination.HOME.name) {
@@ -495,6 +502,7 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     NEWS_DETAILS(title = R.string.news_title),
     NEWS_CREATE(title = R.string.news_create_title),
+    NEWS_UPDATE(title = R.string.news_update_title),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
     PROFILE_EDIT_PROFILE(title = R.string.profile_edit_profile_title),

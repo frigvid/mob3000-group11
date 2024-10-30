@@ -95,6 +95,10 @@
     <string name="news_create_save_news">Lagre nyhet</string>
     <string name="news_create_save_changes">Lagre endringer</string>
 
+    <!-- News update page. -->
+    <string name="news_update_title">Oppdater nyhet</string>
+
+
     <!-- Home page. -->
     <string name="home_title">Hjem</string>
     <string name="home_train_title">Tren Åpninger</string>

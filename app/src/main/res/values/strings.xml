@@ -94,6 +94,9 @@
     <string name="news_create_save_news">Save News</string>
     <string name="news_create_save_changes">Save Changes</string>
 
+    <!-- News update page. -->
+    <string name="news_update_title">Update news</string>
+
     <!-- Home page. -->
     <string name="home_title">Home Page</string>
     <string name="home_train_title">Train Openings</string>

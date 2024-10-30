@@ -81,6 +81,29 @@ class DbUtilities {
         }
     }
 
+    /**
+     * Updates an item in a database table.
+     *
+     * @param table The name of the database table.
+     * @param itemId The ID of the item to update.
+     * @param item The updated item.
+     * @param serializer The serializer for the item type.
+     * @return A [Result] indicating the success or failure of the operation.
+     * @author Eirik
+     * @created 2024-10-28
+     */
+    suspend fun <T> updateItem(table: String, itemId: String, item: T, serializer: KSerializer<T>): Result<Unit> {
+        return try {
+            val jsonElement: JsonElement = Json.encodeToJsonElement(serializer, item)
+            SupabaseClientWrapper.getClient().postgrest.from(table).update(jsonElement) {
+                filter { eq("id", itemId) }
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 
 
 
