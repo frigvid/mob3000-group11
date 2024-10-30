@@ -34,7 +34,9 @@ fun NewsScreen(
     setSelectedNews: (NewsDto) -> Unit,
     clearSelectedNews: () -> Unit
 ) {
-    LaunchedEffect(Unit) {
+    var refreshTrigger by remember { mutableStateOf(0) }
+
+    LaunchedEffect(refreshTrigger) {
         clearSelectedNews()
         val dbUtilities = DbUtilities()
 
@@ -101,7 +103,7 @@ fun NewsItem(
                 .fillMaxWidth()
         ) {
             Text(
-                text = news.title ?: "", // Nullsjekk for title
+                text = news.title ?: "",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )

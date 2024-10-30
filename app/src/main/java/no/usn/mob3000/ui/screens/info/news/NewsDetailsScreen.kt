@@ -1,5 +1,7 @@
 package no.usn.mob3000.ui.screens.info.news
 
+
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,6 +11,12 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,9 +25,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.model.content.NewsDto
+import no.usn.mob3000.data.network.DbUtilities
+
 
 /**
  * Screen to display full details about some documentation.
@@ -40,20 +51,46 @@ fun NewsDetailsScreen(
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
+
+    val dbUtilities = DbUtilities()
+    val coroutineScope = rememberCoroutineScope()
+    var showConfirmationDialog by remember { mutableStateOf(false) }
+
+    if (showConfirmationDialog) {
+        AlertDialog(
+            onDismissRequest = { showConfirmationDialog = false },
+            title = { Text(stringResource(R.string.news_details_confirm))},
+            text = { Text(stringResource(R.string.news_details_delete_text)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    selectedNews?.newsId?.let { newsId ->
+                        coroutineScope.launch {
+                            val result = dbUtilities.deleteItem("news", "id", newsId)
+                            result.onSuccess { onDeleteClick() }
+                                .onFailure { error -> Log.e("DeleteNews", "Failed to delete news item", error) }
+                        }
+                    }
+                    showConfirmationDialog = false
+                }) {
+                    Text(stringResource(R.string.news_details_delete_confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showConfirmationDialog = false }) {
+                    Text(stringResource(R.string.news_details_delete_cancel))
+                }
+            }
+        )
+    }
+
     Viewport(
         topBarActions = {
             Row {
                 IconButton(onClick = onEditClick) {
-                    Icon(
-                        Icons.Default.Edit,
-                        contentDescription = "Edit News"
-                    )
+                    Icon(Icons.Default.Edit, contentDescription = "Edit News")
                 }
-                IconButton(onClick = onDeleteClick) {
-                    Icon(
-                        Icons.Default.Delete,
-                        contentDescription = "Delete News"
-                    )
+                IconButton(onClick = { showConfirmationDialog = true }) {
+                    Icon(Icons.Default.Delete, contentDescription = "Delete News")
                 }
             }
         }
@@ -130,4 +167,6 @@ fun NewsDetailsScreen(
             Text(stringResource(R.string.news_details_not_found))
         }
     }
+
+
 }

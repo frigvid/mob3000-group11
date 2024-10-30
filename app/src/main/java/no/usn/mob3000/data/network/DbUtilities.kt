@@ -60,4 +60,28 @@ class DbUtilities {
         }
     }
 
+    /**
+     * Deletes an item in a database table.
+     *
+     * @param table The name of the database table.
+     * @param fieldName The name of the field to filter by.
+     * @param fieldValue The value to filter by.
+     * @return A [Result] indicating the success or failure of the operation.
+     * @author Eirik
+     * @created 2024-10-28
+     */
+    suspend fun deleteItem(table: String, fieldName: String, fieldValue: String): Result<Unit> {
+        return try {
+            SupabaseClientWrapper.getClient().postgrest.from(table).delete {
+                filter { eq(fieldName, fieldValue) }
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+
 }

@@ -70,6 +70,7 @@
     <string name="news_date_prefix">Dato</string>
     <string name="news_date_pattern">yyyy/MM/dd HH:mm</string>
 
+
     <!-- News details page. -->
     <string name="news_details_created_date_prefix">Opprettet</string>
     <string name="news_details_modified_date_prefix">Endret</string>
@@ -79,6 +80,10 @@
     <string name="news_details_not_found">Nyhet ikke funnet</string>
     <string name="news_details_created_date_pattern">yyyy/MM/dd HH:mm</string>
     <string name="news_details_modified_date_pattern">yyyy/MM/dd HH:mm</string>
+    <string name="news_details_confirm">Bekreft Sletting</string>
+    <string name="news_details_delete_text">Er du sikker på at du vil slette denne nyheten? Det vil ikke være mulig å gjennoprette den senere.</string>
+    <string name="news_details_delete_cancel">Avbryt</string>
+    <string name="news_details_delete_confirm">Slett</string>
 
     <!-- News creation page. -->
     <string name="news_create_title">Oprett nyhet</string>
