@@ -32,12 +32,12 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * @param onSignUpClick Function to handle signing up a new account.
  * @param onReturnToLoginClick Callback function to navigate to [LoginScreen].
  * @author Markus
- * @contributor frigvid
+ * @contributor frigvid, Anarox
  * @created 2024-09-24
  */
 @Composable
 fun CreateUserScreen(
-    onSignUpClick: () -> Unit,
+    onSignUpClick: (String, String) -> Unit,
     onReturnToLoginClick: () -> Unit
 ) {
     var mail by remember { mutableStateOf("") }
@@ -85,7 +85,7 @@ fun CreateUserScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = { onSignUpClick() },
+                    onClick = { onSignUpClick(mail, password) },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) { Text(stringResource(R.string.auth_create_user_sign_up)) }

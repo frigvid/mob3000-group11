@@ -298,7 +298,7 @@ fun App(
             }
             composable(route = Destination.AUTH_CREATE.name) {
                 CreateUserScreen(
-                    onSignUpClick = { navController.navigate(Destination.HOME.name) },
+                    onSignUpClick = loginViewModel::register,
                     onReturnToLoginClick = { navController.navigate(Destination. AUTH_LOGIN.name) }
                 )
             }

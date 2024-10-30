@@ -12,17 +12,19 @@ import no.usn.mob3000.domain.model.AuthError
 import no.usn.mob3000.domain.model.User
 import no.usn.mob3000.domain.usecase.auth.LoginUseCase
 import no.usn.mob3000.domain.usecase.auth.LogoutUseCase
+import no.usn.mob3000.domain.usecase.auth.RegisterUseCase
 
 /**
  * ViewModel to user state and, if necessary, authentication state.
  *
  * @property loginUseCase The Android Use Case handling login business logic.
- * @author frigvid
+ * @author frigvid, Anarox
  * @created 2024-10-21
  */
 class LoginViewModel(
     private val loginUseCase: LoginUseCase = LoginUseCase(),
-    private val logoutUseCase: LogoutUseCase = LogoutUseCase()
+    private val logoutUseCase: LogoutUseCase = LogoutUseCase(),
+    private val registerUseCase: RegisterUseCase = RegisterUseCase()
 ) : ViewModel() {
     /**
      * The current [LoginState].
@@ -90,7 +92,38 @@ class LoginViewModel(
             logoutUseCase()
         }
     }
+
+    /**
+     * Initiates the registration process with the provided credentials.
+     *
+     * @param email The user's e-mail address.
+     * @param password The user's password.
+     * @author Anarox
+     * @created 2024-10-30
+     */
+
+    fun register(email: String, password: String) {
+        viewModelScope.launch {
+            _authenticatedUser.value = null
+            _loginState.value = LoginState.Loading
+            registerUseCase(email, password).fold(
+                onSuccess = { user ->
+                    _authenticatedUser.value = user
+                    _loginState.value = LoginState.Success(user)
+                },
+                onFailure = { error ->
+                    val authError = when (error) {
+                        is AuthRestException -> AuthError.fromException(error)
+                        else -> AuthError.Unknown(error.message ?: "Unknown error occurred")
+                    }
+
+                    _loginState.value = LoginState.Error(authError)
+                }
+            )
+        }
+    }
 }
+
 
 /**
  * Sealed class representing the possible states of the login process.

@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.androidx.security.crypto)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // Supabase package/modules.
     // See: https://supabase.com/docs/reference/kotlin/installing
