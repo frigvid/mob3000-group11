@@ -1,4 +1,4 @@
-package no.usn.mob3000.data.network
+package no.usn.mob3000.data.repository.content
 
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.postgrest.from
@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.network.SupabaseClientWrapper.getClient
 
 /**

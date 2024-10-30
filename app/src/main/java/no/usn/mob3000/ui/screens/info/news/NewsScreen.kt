@@ -19,7 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.data.model.content.NewsDto
-import no.usn.mob3000.data.network.DbUtilities
+import no.usn.mob3000.data.repository.content.DbUtilities
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**

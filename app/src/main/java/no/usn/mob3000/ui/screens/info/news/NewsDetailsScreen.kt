@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +28,7 @@ import kotlinx.coroutines.launch
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.model.content.NewsDto
-import no.usn.mob3000.data.network.DbUtilities
+import no.usn.mob3000.data.repository.content.DbUtilities
 
 
 /**
