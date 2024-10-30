@@ -10,7 +10,7 @@
     android:height="45dp"
     android:viewportWidth="45"
     android:viewportHeight="45">
-    <group android:translateY="0.6">
+    <group android:name="shape">
         <path
             android:fillColor="#fff"
             android:fillType="evenOdd"
@@ -35,6 +35,8 @@
             android:strokeColor="#000"
             android:strokeLineCap="butt"
             android:strokeLineJoin="round" />
+    </group>
+    <group android:name="lines">
         <path
             android:fillColor="#000"
             android:fillType="evenOdd"

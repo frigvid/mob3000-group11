@@ -10,7 +10,7 @@
     android:height="45dp"
     android:viewportWidth="45"
     android:viewportHeight="45">
-    <group android:translateY="0.3">
+    <group android:name="shape">
         <path
             android:fillColor="#000000"
             android:pathData="M22,10C32.5,11 38.5,18 38,39L15,39C15,30 25,32.5 23,18"
@@ -25,6 +25,8 @@
             android:strokeColor="#000000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round" />
+    </group>
+    <group android:name="lines">
         <path
             android:fillColor="#FFFFFF"
             android:pathData="M9.5,25.5A0.5,0.5 0 1,1 8.5,25.5A0.5,0.5 0 1,1 9.5,25.5z"

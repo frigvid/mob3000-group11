@@ -10,7 +10,7 @@
     android:height="45dp"
     android:viewportWidth="45"
     android:viewportHeight="45">
-    <group android:translateY="0.6">
+    <group android:name="shape">
         <path
             android:fillColor="#000000"
             android:fillType="evenOdd"
