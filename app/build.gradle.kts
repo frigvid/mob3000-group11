@@ -83,6 +83,9 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.github.jan-tennert.supabase:functions-kt")
     implementation("io.ktor:ktor-client-android:2.3.12")
+    implementation(libs.chesslib)
+    // This has the same problem. Even adding this via the IntelliJ/Android Studio GUI still
+    // doesn't let it get resolved. Truly, what a sad day.
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
