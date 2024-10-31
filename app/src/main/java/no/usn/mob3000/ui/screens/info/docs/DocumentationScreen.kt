@@ -1,5 +1,6 @@
 package no.usn.mob3000.ui.screens.info.docs
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -19,6 +20,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import no.usn.mob3000.data.model.content.DocsDto
+import no.usn.mob3000.data.model.content.NewsDto
+import no.usn.mob3000.data.repository.content.DbUtilities
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
@@ -42,51 +46,27 @@ import java.util.*
  */
 @Composable
 fun DocumentationScreen(
-    documentations: List<Documentation>,
-    onDocumentationClick: (Documentation) -> Unit,
+    documentations: List<DocsDto>,
+    onDocumentationClick: (DocsDto) -> Unit,
     onCreateDocumentationClick: () -> Unit,
-    setDocumentationList: (List<Documentation>) -> Unit,
-    setSelectedDocumentation: (Documentation) -> Unit,
+    setDocumentationList: (List<DocsDto>) -> Unit,
+    setSelectedDocumentation: (DocsDto) -> Unit,
     clearSelectedDocumentation: () -> Unit
 ) {
-    /* TODO: Replace dummy data with data fetched from back-end. */
-    LaunchedEffect(Unit) {
+    var refreshTrigger by remember { mutableStateOf(0) }
+
+    LaunchedEffect(refreshTrigger) {
         clearSelectedDocumentation()
+        val dbUtilities = DbUtilities()
 
-        val dummyDocumentations = listOf(
-            Documentation(
-                "1",
-                Date(),
-                Date(),
-                "User1",
-                "Getting Started",
-                "A guide for beginners",
-                "Content here",
-                true
-            ),
-            Documentation(
-                "2",
-                Date(),
-                Date(),
-                "User2",
-                "Advanced Techniques",
-                "For experienced users",
-                "More content",
-                false
-            ),
-            Documentation(
-                "3",
-                Date(),
-                Date(),
-                "User3",
-                "Troubleshooting",
-                "Common issues and solutions",
-                "Even more content",
-                true
-            )
-        )
-
-        setDocumentationList(dummyDocumentations)
+        try {
+            val result = dbUtilities.fetchItems("docs", DocsDto.serializer())
+            result.onSuccess { items ->
+                setDocumentationList(items)
+            }
+        } catch (e: Exception) {
+            Log.e("News", "Error fetching documentation", e)
+        }
     }
 
     Viewport(
@@ -95,10 +75,7 @@ fun DocumentationScreen(
                 onClick = onCreateDocumentationClick,
                 containerColor = DefaultButton
             ) {
-                Icon(
-                    Icons.Filled.Add,
-                    contentDescription = "Create Documentation"
-                )
+                Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
             }
         }
     ) { innerPadding ->
@@ -109,12 +86,12 @@ fun DocumentationScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(documentations) { documentation ->
-                DocumentationItem(
-                    documentation = documentation,
+            items(documentations) { docsItem ->
+                DocsItem(
+                    documentations = docsItem,
                     onClick = {
-                        setSelectedDocumentation(documentation)
-                        onDocumentationClick(documentation)
+                        setSelectedDocumentation(docsItem)
+                        onDocumentationClick(docsItem)
                     }
                 )
             }
@@ -123,26 +100,18 @@ fun DocumentationScreen(
 }
 
 /**
- * Composable function to display individual documentation items.
- *
- * @param documentation The [Documentation] object.
- * @param onClick Callback function to navigate to the [Documentation] object's [DocumentationDetailsScreen].
- * @author frigvid, 258030 (Eirik)
- * @created 2024-10-12
+ * Composable function to display individual news items.
  */
 @Composable
-fun DocumentationItem(
-    documentation: Documentation,
+fun DocsItem(
+    documentations: DocsDto,
     onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
-        border =
-            if (documentation.isPublished) null
-            else BorderStroke(width = 2.dp, color = Color(0xFFFF0000))
+        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
     ) {
         Column(
             modifier = Modifier
@@ -150,38 +119,20 @@ fun DocumentationItem(
                 .fillMaxWidth()
         ) {
             Text(
-                text = documentation.title,
+                text = documentations.title ?: "",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            documentation.summary?.let {
+            documentations.summary?.let {
                 Text(
                     text = it,
                     fontSize = 14.sp
                 )
-
                 Spacer(modifier = Modifier.height(4.dp))
             }
-
-            Text(
-                text = stringResource(R.string.documentation_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.documentation_date_pattern), Locale.getDefault()).format(documentation.createdAt)}",
-                fontSize = 12.sp
-            )
         }
     }
 }
-
-/* TODO: Extract to data layer and fix for use with fetched data. */
-data class Documentation(
-    val id: String,
-    val createdAt: Date,
-    val modifiedAt: Date,
-    val createdBy: String,
-    val title: String,
-    val summary: String?,
-    val content: String?,
-    val isPublished: Boolean
-)

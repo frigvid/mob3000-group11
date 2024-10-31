@@ -59,8 +59,11 @@ import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.docs.DocumentationDetailsScreen
 import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
+import no.usn.mob3000.ui.screens.info.docs.UpdateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.faq.CreateFAQScreen
+import no.usn.mob3000.ui.screens.info.faq.FAQDetailsScreen
 import no.usn.mob3000.ui.screens.info.faq.FAQScreen
+import no.usn.mob3000.ui.screens.info.faq.UpdateFAQScreen
 import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
@@ -171,7 +174,8 @@ fun App(
             composable(route = Destination.DOCUMENTATION_DETAILS.name) {
                 DocumentationDetailsScreen(
                     selectedDocumentation = viewModel.selectedDocumentation.value,
-                    onEditClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) }
+                    onEditClick = { navController.navigate(Destination.DOCUMENTATION_UPDATE.name) },
+                    onDeleteClick = { navController.navigate(Destination.DOCUMENTATION.name) }
                 )
             }
             composable(route = Destination.DOCUMENTATION_CREATE.name) {
@@ -180,10 +184,16 @@ fun App(
                     onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
                 )
             }
+            composable(route = Destination.DOCUMENTATION_UPDATE.name) {
+                UpdateDocumentationScreen(
+                    selectedDocumentation = viewModel.selectedDocumentation.value,
+                    onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
+                )
+            }
             composable(route = Destination.FAQ.name) {
                 FAQScreen(
                     faqList = viewModel.faqs.value,
-                    onFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
+                    onFAQClick = { navController.navigate(Destination.FAQ_DETAILS.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
                     setFAQList = viewModel::setFAQs,
                     setSelectedFAQ = viewModel::setSelectedFAQ,
@@ -193,8 +203,20 @@ fun App(
             composable(route = Destination.FAQ_CREATE.name) {
                 CreateFAQScreen(
                     selectedFAQ = viewModel.selectedFAQ.value,
-                    onSaveFAQClick = { navController.navigate(Destination.FAQ.name) },
-                    onDeleteFAQClick = { navController.navigate(Destination.FAQ.name) }
+                    onSaveFAQClick = { navController.navigate(Destination.FAQ.name) }
+                )
+            }
+            composable(route = Destination.FAQ_DETAILS.name) {
+                FAQDetailsScreen(
+                    selectedFAQ = viewModel.selectedFAQ.value,
+                    onEditClick = { navController.navigate(Destination.FAQ_UPDATE.name) },
+                    onDeleteClick = { navController.navigate(Destination.FAQ.name) }
+                )
+            }
+            composable(route = Destination.FAQ_UPDATE.name) {
+                UpdateFAQScreen(
+                    selectedFAQ = viewModel.selectedFAQ.value,
+                    onSaveFAQClick = { navController.navigate(Destination.FAQ.name) }
                 )
             }
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
@@ -221,7 +243,7 @@ fun App(
                     onSaveNewsClick = { navController.navigateUp() }
                 )
             }
-            composable(route = Destination.NEWS_UPDATE.name) { // TODO: FFFFFFFFFFFFFFFFFFFFFFFFF
+            composable(route = Destination.NEWS_UPDATE.name) {
                 UpdateNewsScreen(
                     selectedNews = viewModel.selectedNews.value,
                     onSaveNewsClick = { navController.navigate(Destination.NEWS.name) }
@@ -496,8 +518,11 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     DOCUMENTATION(title = R.string.documentation_title),
     DOCUMENTATION_CREATE(title = R.string.documentation_create_title),
     DOCUMENTATION_DETAILS(title = R.string.documentation_details_title),
+    DOCUMENTATION_UPDATE(title = R.string.documentation_update_title),
     FAQ(title = R.string.faq_title),
     FAQ_CREATE(title = R.string.faq_create_title),
+    FAQ_DETAILS(title = R.string.faq_details_title),
+    FAQ_UPDATE(title = R.string.faq_update_title),
     ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     NEWS_DETAILS(title = R.string.news_title),

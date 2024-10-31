@@ -9,8 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.data.model.content.DocsDto
+import no.usn.mob3000.data.repository.content.DbUtilities
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -25,13 +29,15 @@ import no.usn.mob3000.ui.theme.DefaultButton
  */
 @Composable
 fun CreateDocumentationScreen(
-    selectedDocumentation: Documentation?,
+    selectedDocumentation: DocsDto?,
     onSaveDocumentationClick: () -> Unit
 ) {
     var title by remember { mutableStateOf(selectedDocumentation?.title ?: "") }
     var summary by remember { mutableStateOf(selectedDocumentation?.summary ?: "") }
     var content by remember { mutableStateOf(selectedDocumentation?.content ?: "") }
     var isPublished by remember { mutableStateOf(selectedDocumentation?.isPublished ?: true) }
+
+    val scope = rememberCoroutineScope()
 
     Viewport { innerPadding ->
         Column(
@@ -84,7 +90,34 @@ fun CreateDocumentationScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             Button(
-                onClick = onSaveDocumentationClick,
+                onClick = {
+                    scope.launch {
+                        val currentUserId = DbUtilities().getCurrentUserId()
+
+                        if (currentUserId != null) {
+                            val docsItem = DocsDto(
+                                docId = null,
+                                createdAt = Clock.System.now(),
+                                modifiedAt = Clock.System.now(),
+                                createdByUser = currentUserId,
+                                title = title,
+                                summary = summary,
+                                content = content,
+                                isPublished = isPublished
+                            )
+
+                            val result = DbUtilities().insertItem("docs", docsItem, DocsDto.serializer())
+                            if (result.isSuccess) {
+                                println("Fantastisk")
+                                onSaveDocumentationClick()
+                            } else {
+                                println("Error publishing the documentation: ${result.exceptionOrNull()?.message}")
+                            }
+                        } else {
+                            println("Error: Current user ID is null.")
+                        }
+                    }
+                },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(DefaultButton)
             ) {

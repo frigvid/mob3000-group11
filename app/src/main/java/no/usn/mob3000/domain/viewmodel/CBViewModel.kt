@@ -3,9 +3,9 @@ package no.usn.mob3000.domain.viewmodel
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import no.usn.mob3000.data.model.content.DocsDto
+import no.usn.mob3000.data.model.content.FaqDto
 import no.usn.mob3000.ui.screens.chess.train.opening.Opening
-import no.usn.mob3000.ui.screens.info.docs.Documentation
-import no.usn.mob3000.ui.screens.info.faq.FAQ
 import no.usn.mob3000.data.model.content.NewsDto
 
 /**
@@ -47,17 +47,17 @@ class CBViewModel : ViewModel() {
     }
 
     /* News. */
-    private val _news = mutableStateOf<List<NewsDto>>(emptyList()) // Endret fra News til NewsDto
+    private val _news = mutableStateOf<List<NewsDto>>(emptyList())
     val news: State<List<NewsDto>> = _news
 
-    private val _selectedNews = mutableStateOf<NewsDto?>(null) // Endret fra News til NewsDto
+    private val _selectedNews = mutableStateOf<NewsDto?>(null)
     val selectedNews: State<NewsDto?> = _selectedNews
 
-    fun setNews(news: List<NewsDto>) { // Endret fra List<News> til List<NewsDto>
+    fun setNews(news: List<NewsDto>) {
         _news.value = news
     }
 
-    fun setSelectedNews(news: NewsDto) { // Endret fra News til NewsDto
+    fun setSelectedNews(news: NewsDto) {
         _selectedNews.value = news
     }
 
@@ -65,22 +65,22 @@ class CBViewModel : ViewModel() {
         _selectedNews.value = null
     }
 
-    fun getNewsById(id: String): NewsDto? { // Endret fra News til NewsDto
+    fun getNewsById(id: String): NewsDto? {
         return _news.value.find { it.newsId == id }
     }
 
     /* Documentation. */
-    private val _documentations = mutableStateOf<List<Documentation>>(emptyList())
-    val documentations: State<List<Documentation>> = _documentations
+    private val _documentations = mutableStateOf<List<DocsDto>>(emptyList())
+    val documentations: State<List<DocsDto>> = _documentations
 
-    private val _selectedDocumentation = mutableStateOf<Documentation?>(null)
-    val selectedDocumentation: State<Documentation?> = _selectedDocumentation
+    private val _selectedDocumentation = mutableStateOf<DocsDto?>(null)
+    val selectedDocumentation: State<DocsDto?> = _selectedDocumentation
 
-    fun setDocumentations(documentations: List<Documentation>) {
+    fun setDocumentations(documentations: List<DocsDto>) {
         _documentations.value = documentations
     }
 
-    fun setSelectedDocumentation(documentation: Documentation) {
+    fun setSelectedDocumentation(documentation: DocsDto) {
         _selectedDocumentation.value = documentation
     }
 
@@ -89,17 +89,17 @@ class CBViewModel : ViewModel() {
     }
 
     /* FAQ */
-    private val _faqs = mutableStateOf<List<FAQ>>(emptyList())
-    val faqs: State<List<FAQ>> = _faqs
+    private val _faqs = mutableStateOf<List<FaqDto>>(emptyList())
+    val faqs: State<List<FaqDto>> = _faqs
 
-    private val _selectedFAQ = mutableStateOf<FAQ?>(null)
-    val selectedFAQ: State<FAQ?> = _selectedFAQ
+    private val _selectedFAQ = mutableStateOf<FaqDto?>(null)
+    val selectedFAQ: State<FaqDto?> = _selectedFAQ
 
-    fun setFAQs(faqs: List<FAQ>) {
+    fun setFAQs(faqs: List<FaqDto>) {
         _faqs.value = faqs
     }
 
-    fun setSelectedFAQ(faq: FAQ) {
+    fun setSelectedFAQ(faq: FaqDto) {
         _selectedFAQ.value = faq
     }
 

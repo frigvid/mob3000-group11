@@ -10,8 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.data.model.content.DocsDto
+import no.usn.mob3000.data.model.content.FaqDto
+import no.usn.mob3000.data.repository.content.DbUtilities
 import no.usn.mob3000.ui.theme.DefaultButton
 import java.util.Date
 
@@ -26,14 +31,16 @@ import java.util.Date
  */
 @Composable
 fun CreateFAQScreen(
-    selectedFAQ: FAQ?,
-    onSaveFAQClick: (FAQ) -> Unit,
-    onDeleteFAQClick: (String) -> Unit
+    selectedFAQ: FaqDto?,
+    onSaveFAQClick: () -> Unit
+
 ) {
     var title by remember { mutableStateOf(selectedFAQ?.title ?: "") }
-    var subtitle by remember { mutableStateOf(selectedFAQ?.subtitle ?: "") }
+    var summary by remember { mutableStateOf(selectedFAQ?.summary ?: "") }
     var content by remember { mutableStateOf(selectedFAQ?.content ?: "") }
     var isPublished by remember { mutableStateOf(selectedFAQ?.isPublished ?: true) }
+
+    val scope = rememberCoroutineScope()
 
     Viewport { innerPadding ->
         Column(
@@ -52,11 +59,11 @@ fun CreateFAQScreen(
             )
 
             OutlinedTextField(
-                value = subtitle,
-                onValueChange = { subtitle = it },
+                value = summary,
+                onValueChange = { summary = it },
                 label = { Text(stringResource(R.string.faq_create_label_subtitle)) },
                 modifier = Modifier.fillMaxWidth(),
-                minLines = 2
+                minLines = 3
             )
 
             OutlinedTextField(
@@ -64,7 +71,7 @@ fun CreateFAQScreen(
                 onValueChange = { content = it },
                 label = { Text(stringResource(R.string.faq_create_label_content)) },
                 modifier = Modifier.fillMaxWidth(),
-                minLines = 5
+                minLines = 14
             )
 
             Row(
@@ -75,48 +82,52 @@ fun CreateFAQScreen(
                     onCheckedChange = { isPublished = it }
                 )
 
-                Text(
-                    if (selectedFAQ == null) stringResource(R.string.faq_create_check_publish)
-                    else stringResource(R.string.faq_create_check_unpublish)
-                )
+                /* TODO: Implement functionality that actually allows this. */
+                if (selectedFAQ == null) {
+                    Text(stringResource(R.string.faq_create_check_publish))
+                } else {
+                    Text(stringResource(R.string.faq_create_check_unpublish) + "?")
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    onClick = {
-                        val newFAQ = FAQ(
-                            id = selectedFAQ?.id ?: "",
-                            createdAt = selectedFAQ?.createdAt ?: Date(),
-                            modifiedAt = Date(),
-                            createdBy = selectedFAQ?.createdBy ?: "",
-                            title = title,
-                            subtitle = subtitle,
-                            content = content,
-                            isPublished = isPublished
-                        )
-                        onSaveFAQClick(newFAQ)
-                    },
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(DefaultButton)
-                ) {
-                    Text(
-                        if (selectedFAQ == null) stringResource(R.string.faq_create_save_faq)
-                        else stringResource(R.string.faq_create_save_changes)
-                    )
-                }
+            Button(
+                onClick = {
+                    scope.launch {
+                        val currentUserId = DbUtilities().getCurrentUserId()
 
-                if (selectedFAQ != null) {
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Button(
-                        onClick = { onDeleteFAQClick(selectedFAQ.id) },
-                        modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                    ) { Text(stringResource(R.string.faq_create_delete_faq)) }
+                        if (currentUserId != null) {
+                            val faqItem = FaqDto(
+                                faqId = null,
+                                createdAt = Clock.System.now(),
+                                modifiedAt = Clock.System.now(),
+                                createdByUser = currentUserId,
+                                title = title,
+                                summary = summary,
+                                content = content,
+                                isPublished = isPublished
+                            )
+
+                            val result = DbUtilities().insertItem("faq", faqItem, FaqDto.serializer())
+                            if (result.isSuccess) {
+                                println("Fantastisk")
+                                onSaveFAQClick()
+                            } else {
+                                println("Error publishing the FAQ: ${result.exceptionOrNull()?.message}")
+                            }
+                        } else {
+                            println("Error: Current user ID is null.")
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(DefaultButton)
+            ) {
+                if (selectedFAQ == null) {
+                    Text(stringResource(R.string.faq_create_save_changes))
+                } else {
+                    Text(stringResource(R.string.faq_create_delete_faq))
                 }
             }
         }
