@@ -83,6 +83,8 @@ class LoginViewModel(
         _loginState.value = LoginState.Idle
     }
 
+    // TODO: Extract to its own view model.
+    //       Needs its own SignOutState and SignOutError classes.
     fun logout() {
         viewModelScope.launch {
             _authenticatedUser.value = null
