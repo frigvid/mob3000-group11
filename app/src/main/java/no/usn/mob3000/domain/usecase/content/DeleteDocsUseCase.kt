@@ -1,0 +1,14 @@
+package no.usn.mob3000.domain.usecase.content
+
+import no.usn.mob3000.data.repository.content.DocsRepository
+import no.usn.mob3000.data.repository.content.NewsRepository
+import no.usn.mob3000.domain.repository.IDocsRepository
+import no.usn.mob3000.domain.repository.INewsRepository
+
+class DeleteDocsUseCase(
+    private val docsRepository: IDocsRepository = DocsRepository()
+) {
+    suspend fun deleteDocs(docsId: String): Result<Unit> {
+        return docsRepository.deleteDocs(docsId)
+    }
+}

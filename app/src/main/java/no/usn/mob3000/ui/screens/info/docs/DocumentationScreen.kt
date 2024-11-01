@@ -1,32 +1,20 @@
 package no.usn.mob3000.ui.screens.info.docs
 
-import android.util.Log
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import no.usn.mob3000.data.model.content.DocsDto
-import no.usn.mob3000.data.model.content.NewsDto
-import no.usn.mob3000.data.repository.content.DbUtilities
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
+import no.usn.mob3000.domain.model.DocsData
+import no.usn.mob3000.domain.viewmodel.ContentViewModel
+import no.usn.mob3000.ui.components.info.ContentItem
+import no.usn.mob3000.ui.components.info.PaddedLazyColumn
 import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -46,29 +34,21 @@ import java.util.*
  */
 @Composable
 fun DocumentationScreen(
-    documentations: List<DocsDto>,
-    onDocumentationClick: (DocsDto) -> Unit,
+    docsViewModel: ContentViewModel,
+    onDocumentationClick: (DocsData) -> Unit,
     onCreateDocumentationClick: () -> Unit,
-    setDocumentationList: (List<DocsDto>) -> Unit,
-    setSelectedDocumentation: (DocsDto) -> Unit,
+    setSelectedDocumentation: (DocsData) -> Unit,
     clearSelectedDocumentation: () -> Unit
 ) {
-    var refreshTrigger by remember { mutableStateOf(0) }
+    val documentationResult by docsViewModel.documentations.collectAsState()
 
-    LaunchedEffect(refreshTrigger) {
+    LaunchedEffect(Unit) {
         clearSelectedDocumentation()
-        val dbUtilities = DbUtilities()
-
-        try {
-            val result = dbUtilities.fetchItems("docs", DocsDto.serializer())
-            result.onSuccess { items ->
-                setDocumentationList(items)
-            }
-        } catch (e: Exception) {
-            Log.e("News", "Error fetching documentation", e)
-        }
+        docsViewModel.fetchDocumentations()
     }
-
+    /**
+     * Using the FAB to create a new news article. Clicking will navigate to the [CreateDocumentationScreen].
+     */
     Viewport(
         floatingActionButton = {
             FloatingActionButton(
@@ -78,61 +58,28 @@ fun DocumentationScreen(
                 Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
             }
         }
+        /**
+         * Lazy column to display the list of news articles. The column padding is the same for all info-main screens. Abstracted to reduce
+         * redundancy.
+         */
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(documentations) { docsItem ->
-                DocsItem(
-                    documentations = docsItem,
-                    onClick = {
-                        setSelectedDocumentation(docsItem)
-                        onDocumentationClick(docsItem)
-                    }
-                )
-            }
-        }
+        PaddedLazyColumn(innerPadding = innerPadding)
+         {
+             /**
+              * Generating the list of documentation. ContentItem is called from [MainScreenUtil].
+              */
+             items(documentationResult.getOrThrow()) { docsItem ->
+                 ContentItem(
+                     title = docsItem.title ?: "",
+                     summary = docsItem.summary,
+                     isPublished = docsItem.isPublished,
+                     onClick = {
+                         setSelectedDocumentation(docsItem)
+                         onDocumentationClick(docsItem) }
+                 )
+             }
+         }
     }
 }
 
-/**
- * Composable function to display individual news items.
- */
-@Composable
-fun DocsItem(
-    documentations: DocsDto,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = documentations.title ?: "",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
 
-            Spacer(modifier = Modifier.height(4.dp))
-
-            documentations.summary?.let {
-                Text(
-                    text = it,
-                    fontSize = 14.sp
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-            }
-        }
-    }
-}

@@ -81,6 +81,12 @@
     <string name="about_us_vision_title">Vår visjon</string>
     <string name="about_us_vision">Vår visjon er å fremme sjakkundervisning ved å fokusere på åpningsstrategier. Med Chess Buddy strever vi etter å utruste sjakkentusiaster med kunnskapen og ferdighetene de trenger for å heve spillet sitt. Vi er stolte over å bidra til å bygge et samfunn hvor spillere kan dele, utforske, og vokse sammen. Bli med oss på denne reisen for å utforske sjakkens verden og ta dine ferdigheter til nye høyder.</string>
 
+    <!-- Confirmation dialog -->
+    <string name="confirmation_dialog_confirm">Slettebekreftelse</string>
+    <string name="confirmation_dialog_cancel">Avbryt</string>
+    <string name="confirmation_dialog_delete_text">Er du sikker på at du ønsker å slette dette?</string>
+    <string name="confirmation_dialog_delete_confirm">Slett</string>
+
     <!-- News page. -->
     <string name="news_title">Nyheter</string>
     <string name="subtitle">Undertittel</string>

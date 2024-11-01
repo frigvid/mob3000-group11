@@ -66,6 +66,12 @@
     <!-- FAQ update page. -->
     <string name="faq_update_title">Update FAQ</string>
 
+    <!-- Confirmation dialog -->
+    <string name="confirmation_dialog_confirm">Confirm deletion</string>
+    <string name="confirmation_dialog_cancel">Cancel</string>
+    <string name="confirmation_dialog_delete_text">Are you sure you want to delete this?</string>
+    <string name="confirmation_dialog_delete_confirm">Delete</string>
+
     <!-- About us page. -->
     <string name="about_us_title">About us</string>
     <string name="about_us_preamble1">Chess Buddy is an innovative web application designed to strengthen your chess openings and improve your overall game.</string>

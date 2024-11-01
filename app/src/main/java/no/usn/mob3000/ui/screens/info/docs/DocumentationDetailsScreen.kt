@@ -1,5 +1,6 @@
 package no.usn.mob3000.ui.screens.info.docs
 
+import ConfirmationDialog
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,8 @@ import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.model.content.DocsDto
 import no.usn.mob3000.data.repository.content.DbUtilities
+import no.usn.mob3000.domain.viewmodel.ContentViewModel
+import no.usn.mob3000.ui.components.info.ContentDisplay
 import java.util.*
 
 /**
@@ -40,40 +43,17 @@ import java.util.*
  */
 @Composable
 fun DocumentationDetailsScreen(
-    selectedDocumentation: DocsDto?,
+    docsViewModel: ContentViewModel,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
-    val dbUtilities = DbUtilities()
-    val coroutineScope = rememberCoroutineScope()
-    var showConfirmationDialog by remember { mutableStateOf(false) }
+    val selectedDocumentation by docsViewModel.selectedDocumentation
+    var showConfirmationDialog = remember { mutableStateOf(false) }
 
-    if (showConfirmationDialog) {
-        AlertDialog(
-            onDismissRequest = { showConfirmationDialog = false },
-            title = { Text(stringResource(R.string.documentation_details_confirm))},
-            text = { Text(stringResource(R.string.documentation_details_delete_text)) },
-            confirmButton = {
-                TextButton(onClick = {
-                    selectedDocumentation?.docId?.let { docId ->
-                        coroutineScope.launch {
-                            val result = dbUtilities.deleteItem("docs", "id", docId)
-                            result.onSuccess { onDeleteClick() }
-                                .onFailure { error -> Log.e("DeleteDocs", "Failed to delete documentation", error) }
-                        }
-                    }
-                    showConfirmationDialog = false
-                }) {
-                    Text(stringResource(R.string.documentation_details_delete_confirm))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showConfirmationDialog = false }) {
-                    Text(stringResource(R.string.documentation_details_delete_cancel))
-                }
-            }
-        )
-    }
+    ConfirmationDialog(
+        showDialog = showConfirmationDialog,
+        onConfirm = onDeleteClick
+    )
 
     Viewport(
         topBarActions = {
@@ -81,57 +61,19 @@ fun DocumentationDetailsScreen(
             IconButton(onClick = onEditClick) {
                 Icon(Icons.Default.Edit, contentDescription = "Edit Documentation")
             }
-                IconButton(onClick = { showConfirmationDialog = true }) {
+                IconButton(onClick = { showConfirmationDialog.value = true }) {
                     Icon(Icons.Default.Delete, contentDescription = "Delete Documentation")
                 }
             }
         }
     ) { innerPadding ->
         if (selectedDocumentation != null) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Text(
-                        text = selectedDocumentation.title!!,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-
-                    selectedDocumentation.summary?.let {
-                        Text(
-                            text = it,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            fontStyle = FontStyle.Italic,
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
-                    }
-
-                    selectedDocumentation.content?.let {
-                        Text(
-                            text = it,
-                            fontSize = 14.sp,
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
-                    }
-                }
-
-                Column(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .background(Color(0xFFEFEBE9))
-                        .padding(16.dp)
-                ) {
+            ContentDisplay(
+                title = selectedDocumentation!!.title ?: "",
+                summary = selectedDocumentation!!.summary,
+                content = selectedDocumentation!!.content,
+                modifier = Modifier.padding(innerPadding)
+            )
                    // Text(
                     //    text = stringResource(R.string.documentation_details_created_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.documentation_details_created_date_pattern), Locale.getDefault()).format(selectedDocumentation.createdAt)}",
                       //  fontSize = 12.sp,
@@ -149,8 +91,8 @@ fun DocumentationDetailsScreen(
                     //    text = stringResource(R.string.documentation_details_status_prefix) + "Status: ${if (selectedDocumentation.isPublished) stringResource(R.string.documentation_details_status_published) else stringResource(R.string.documentation_details_status_draft)}",
                       //  fontSize = 12.sp
                  //   )
-                }
-            }
+
+
         } else {
             Text(stringResource(R.string.documentation_details_not_found))
         }
