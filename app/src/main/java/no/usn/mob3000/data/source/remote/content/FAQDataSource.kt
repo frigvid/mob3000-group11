@@ -49,6 +49,16 @@ class FAQDataSource(
             }
         }
 
+    suspend fun insertFAQ(faqItem: FaqDto, serializer: KSerializer<FaqDto>): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            supabaseClient.from("faq").insert(faqItem)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    }
 
-}
+
+
 

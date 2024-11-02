@@ -185,15 +185,24 @@ fun App(
             }
             composable(route = Destination.DOCUMENTATION_CREATE.name) {
                 CreateDocumentationScreen(
-                    selectedDocumentation = viewModel.selectedDocumentation.value,
+                    viewModel = contentViewModel,
                     onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
                 )
             }
             composable(route = Destination.DOCUMENTATION_UPDATE.name) {
-                UpdateDocumentationScreen(
-                    selectedDocumentation = viewModel.selectedDocumentation.value,
-                    onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
-                )
+                contentViewModel.selectedDocumentation.value?.let { docs ->
+                    UpdateDocumentationScreen(
+                        viewModel = contentViewModel,
+                        onSaveDocumentationClick = {
+                            contentViewModel.saveDocumentationChanges(
+                                title = docs.title,
+                                summary = docs.summary,
+                                content = docs.content,
+                                isPublished = docs.isPublished
+                            )
+                            navController.navigate(Destination.DOCUMENTATION.name) }
+                    )
+                }
             }
             composable(route = Destination.FAQ.name) {
                 FAQScreen(
@@ -206,7 +215,7 @@ fun App(
             }
             composable(route = Destination.FAQ_CREATE.name) {
                 CreateFAQScreen(
-                    selectedFAQ = viewModel.selectedFAQ.value,
+                    viewModel = contentViewModel,
                     onSaveFAQClick = { navController.navigate(Destination.FAQ.name) }
                 )
             }
@@ -261,7 +270,7 @@ fun App(
             }
             composable(route = Destination.NEWS_CREATE.name) {
                 CreateNewsScreen(
-                    selectedNews = viewModel.selectedNews.value,
+                    viewModel = contentViewModel,
                     onSaveNewsClick = { navController.navigateUp() }
                 )
             }

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import no.usn.mob3000.data.repository.content.DocsRepository
 import no.usn.mob3000.data.repository.content.FAQRepository
 import no.usn.mob3000.data.repository.content.NewsRepository
 import no.usn.mob3000.domain.model.DocsData
@@ -20,6 +21,10 @@ import no.usn.mob3000.domain.usecase.content.DeleteNewsUseCase
 import no.usn.mob3000.domain.usecase.content.FetchDocUseCase
 import no.usn.mob3000.domain.usecase.content.FetchFAQUseCase
 import no.usn.mob3000.domain.usecase.content.FetchNewsUseCase
+import no.usn.mob3000.domain.usecase.content.InsertDocsUseCase
+import no.usn.mob3000.domain.usecase.content.InsertFAQUseCase
+import no.usn.mob3000.domain.usecase.content.InsertNewsUseCase
+import no.usn.mob3000.domain.usecase.content.UpdateDocsUseCase
 import no.usn.mob3000.domain.usecase.content.UpdateFAQUseCase
 import no.usn.mob3000.domain.usecase.content.UpdateNewsUseCase
 
@@ -31,10 +36,15 @@ class ContentViewModel(
     private val deleteFAQUseCase: DeleteFAQUseCase = DeleteFAQUseCase(),
     private val deleteDocsUseCase: DeleteDocsUseCase = DeleteDocsUseCase(),
     private val updateNewsUseCase: UpdateNewsUseCase = UpdateNewsUseCase(NewsRepository()),
-    private val updateFAQUseCase: UpdateFAQUseCase = UpdateFAQUseCase(FAQRepository())
+    private val updateFAQUseCase: UpdateFAQUseCase = UpdateFAQUseCase(FAQRepository()),
+    private val updateDocsUseCase: UpdateDocsUseCase = UpdateDocsUseCase(DocsRepository()),
+    private val insertNewsUseCase: InsertNewsUseCase = InsertNewsUseCase(NewsRepository()),
+    private val insertDocsUseCase: InsertDocsUseCase = InsertDocsUseCase(DocsRepository()),
+    private val insertFAQUseCase: InsertFAQUseCase = InsertFAQUseCase(FAQRepository())
 ) : ViewModel() {
 
-    private val _documentations = MutableStateFlow<Result<List<DocsData>>>(Result.success(emptyList()))
+    private val _documentations =
+        MutableStateFlow<Result<List<DocsData>>>(Result.success(emptyList()))
     val documentations: StateFlow<Result<List<DocsData>>> = _documentations
     private val _selectedDocumentation = mutableStateOf<DocsData?>(null)
     val selectedDocumentation: State<DocsData?> = _selectedDocumentation
@@ -56,6 +66,7 @@ class ContentViewModel(
             _documentations.value = fetchDocUseCase.fetchDocumentations()
         }
     }
+
     fun deleteDocs(docsId: String) {
         viewModelScope.launch {
             deleteDocsUseCase.deleteDocs(docsId)
@@ -114,13 +125,14 @@ class ContentViewModel(
             _faq.value = fetchFAQUseCase.fetchFAQ()
         }
     }
+
     fun deleteFAQ(faqId: String) {
         viewModelScope.launch {
             deleteFAQUseCase.deleteFAQ(faqId)
         }
     }
 
-    fun saveFAQChanges (
+    fun saveFAQChanges(
         title: String,
         summary: String,
         content: String,
@@ -155,41 +167,129 @@ class ContentViewModel(
         }
     }
 
-
-
-    // *******************DOC*********************
-
-    fun setSelectedDocumentation(documentation: DocsData) {
-        _selectedDocumentation.value = documentation
+    fun saveDocumentationChanges(
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean
+    ) {
+        _selectedDocumentation.value?.let { documentation ->
+            val updatedDocumentation = documentation.copy(
+                title = title,
+                summary = summary,
+                content = content,
+                isPublished = isPublished
+            )
+            updateDocumentationInDb(updatedDocumentation)
+        }
     }
 
-    fun clearSelectedDocumentation() {
-        _selectedDocumentation.value = null
+    private fun updateDocumentationInDb(documentation: DocsData) {
+        viewModelScope.launch {
+            val result = updateDocsUseCase.execute(
+                docsId = documentation.docsId,
+                title = documentation.title,
+                summary = documentation.summary,
+                content = documentation.content,
+                isPublished = documentation.isPublished
+            )
+            if (result.isSuccess) {
+                Log.d(
+                    "ContentViewModel",
+                    "Update successful for documentation with ID: ${documentation.docsId}"
+                )
+            } else {
+                Log.e(
+                    "ContentViewModel",
+                    "Update failed for documentation with ID: ${documentation.docsId}"
+                )
+            }
+
+        }
     }
-    // *******************NEWS*********************
 
-    fun setSelectedNews(news: NewsData) {
-        _selectedNews.value = news
+    fun insertNews(
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean,
+        userId: String? = null
+    ) {
+        viewModelScope.launch {
+            val result = insertNewsUseCase.execute(title, summary, content, isPublished, userId)
+            if (result.isSuccess) {
+                // TODO: Handle success
+            } else {
+                // TODO: Handle error
+            }
+        }
     }
 
-    fun clearSelectedNews() {
-        _selectedNews.value = null
+    fun insertDocs(
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean,
+        userId: String? = null
+    ) {
+        viewModelScope.launch {
+            val result = insertDocsUseCase.execute(title, summary, content, isPublished, userId)
+            if (result.isSuccess) {
+                // TODO: Handle success
+            } else {
+                // TODO: Handle error
+            }
+        }
+    }
+    fun insertFAQ(
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean,
+        userId: String? = null
+    ) {
+        viewModelScope.launch {
+            val result = insertFAQUseCase.execute(title, summary, content, isPublished, userId)
+            if (result.isSuccess) {
+                // TODO: Handle success
+            } else {
+                // TODO: Handle error
+            }
+            }
     }
 
 
+            // *******************DOC*********************
 
-    // *******************FAQ*********************
+            fun setSelectedDocumentation(documentation: DocsData) {
+                _selectedDocumentation.value = documentation
+            }
 
-    fun setSelectedFAQ(faq: FAQData) {
-        _selectedFAQ.value = faq
-    }
+            fun clearSelectedDocumentation() {
+                _selectedDocumentation.value = null
+            }
+            // *******************NEWS*********************
 
-    fun clearSelectedFAQ() {
-        _selectedFAQ.value = null
-    }
+            fun setSelectedNews(news: NewsData) {
+                _selectedNews.value = news
+            }
+
+            fun clearSelectedNews() {
+                _selectedNews.value = null
+            }
 
 
+            // *******************FAQ*********************
+
+            fun setSelectedFAQ(faq: FAQData) {
+                _selectedFAQ.value = faq
+            }
+
+            fun clearSelectedFAQ() {
+                _selectedFAQ.value = null
+            }
 
 
+        }
 
-}
+

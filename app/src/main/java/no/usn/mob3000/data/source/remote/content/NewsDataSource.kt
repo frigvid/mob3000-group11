@@ -54,6 +54,16 @@ class NewsDataSource(
         }
     }
 
+    suspend fun insertNews(newsItem: NewsDto, serializer: KSerializer<NewsDto>): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            val jsonElement: JsonElement = Json.encodeToJsonElement(serializer, newsItem)
+            supabaseClient.from("news").insert(jsonElement)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 
 }
 

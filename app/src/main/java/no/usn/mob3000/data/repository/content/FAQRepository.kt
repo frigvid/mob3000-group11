@@ -57,6 +57,29 @@ class FAQRepository(
         }
     }
 
+    override suspend fun insertFAQ(
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean,
+        userId: String?
+    ): Result<Unit> {
+        val currentUserId = userId ?: "00ba54a6-c585-4871-905e-7d53262f05c1"
+        val faqItem = FaqDto(
+            faqId = null,
+            createdAt = Clock.System
+                .now(),
+            modifiedAt = Clock.System
+                .now(),
+            createdByUser = currentUserId,
+            title = title,
+            summary = summary,
+            content = content,
+            isPublished = isPublished
+        )
+        return faqDataSource.insertFAQ(faqItem, FaqDto.serializer())
+    }
+
     private fun FaqDto.toDomainModel(): FAQData {
         return FAQData(
             title = this.title ?: "",

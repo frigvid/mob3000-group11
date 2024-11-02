@@ -8,4 +8,11 @@ interface IFAQRepository {
     suspend fun fetchFAQById(faqId: String): Result<FAQData?>
     suspend fun deleteFAQ(faqId: String): Result<Unit>
     suspend fun updateFAQ(faqId: String, updatedData: FaqUpdateData): Result<Unit>
+    suspend fun insertFAQ(
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean,
+        userId: String?
+    ): Result<Unit>
 }

@@ -8,6 +8,13 @@ interface INewsRepository {
     suspend fun fetchNewsById(newsId: String): Result<NewsData?>
     suspend fun deleteNews(newsId: String): Result<Unit>
     suspend fun updateNews(newsId: String, updatedData: NewsUpdateData): Result<Unit>
+    suspend fun insertNews(
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean,
+        userId: String?
+    ): Result<Unit>
 }
 
 

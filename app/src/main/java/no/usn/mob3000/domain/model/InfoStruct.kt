@@ -50,3 +50,10 @@ data class FaqUpdateData(
     val isPublished: Boolean
 )
 
+data class DocsUpdateData(
+    val title: String,
+    val summary: String,
+    val content: String,
+    val isPublished: Boolean
+)
+

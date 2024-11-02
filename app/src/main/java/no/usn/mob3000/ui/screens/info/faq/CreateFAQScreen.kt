@@ -17,6 +17,8 @@ import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.model.content.DocsDto
 import no.usn.mob3000.data.model.content.FaqDto
 import no.usn.mob3000.data.repository.content.DbUtilities
+import no.usn.mob3000.domain.viewmodel.ContentViewModel
+import no.usn.mob3000.ui.components.info.ContentEditor
 import no.usn.mob3000.ui.theme.DefaultButton
 import java.util.Date
 
@@ -31,105 +33,27 @@ import java.util.Date
  */
 @Composable
 fun CreateFAQScreen(
-    selectedFAQ: FaqDto?,
+    viewModel: ContentViewModel,
     onSaveFAQClick: () -> Unit
 
 ) {
-    var title by remember { mutableStateOf(selectedFAQ?.title ?: "") }
-    var summary by remember { mutableStateOf(selectedFAQ?.summary ?: "") }
-    var content by remember { mutableStateOf(selectedFAQ?.content ?: "") }
-    var isPublished by remember { mutableStateOf(selectedFAQ?.isPublished ?: true) }
+    var title by remember { mutableStateOf("") }
+    var summary by remember { mutableStateOf("") }
+    var content by remember { mutableStateOf("") }
+    var isPublished by remember { mutableStateOf(true) }
 
-    val scope = rememberCoroutineScope()
-
-    Viewport { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
-                label = { Text(stringResource(R.string.faq_create_label_title)) },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = summary,
-                onValueChange = { summary = it },
-                label = { Text(stringResource(R.string.faq_create_label_subtitle)) },
-                modifier = Modifier.fillMaxWidth(),
-                minLines = 3
-            )
-
-            OutlinedTextField(
-                value = content,
-                onValueChange = { content = it },
-                label = { Text(stringResource(R.string.faq_create_label_content)) },
-                modifier = Modifier.fillMaxWidth(),
-                minLines = 14
-            )
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(
-                    checked = isPublished,
-                    onCheckedChange = { isPublished = it }
-                )
-
-                /* TODO: Implement functionality that actually allows this. */
-                if (selectedFAQ == null) {
-                    Text(stringResource(R.string.faq_create_check_publish))
-                } else {
-                    Text(stringResource(R.string.faq_create_check_unpublish) + "?")
-                }
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Button(
-                onClick = {
-                    scope.launch {
-                        val currentUserId = DbUtilities().getCurrentUserId()
-
-                        if (currentUserId != null) {
-                            val faqItem = FaqDto(
-                                faqId = null,
-                                createdAt = Clock.System.now(),
-                                modifiedAt = Clock.System.now(),
-                                createdByUser = currentUserId,
-                                title = title,
-                                summary = summary,
-                                content = content,
-                                isPublished = isPublished
-                            )
-
-                            val result = DbUtilities().insertItem("faq", faqItem, FaqDto.serializer())
-                            if (result.isSuccess) {
-                                println("Fantastisk")
-                                onSaveFAQClick()
-                            } else {
-                                println("Error publishing the FAQ: ${result.exceptionOrNull()?.message}")
-                            }
-                        } else {
-                            println("Error: Current user ID is null.")
-                        }
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(DefaultButton)
-            ) {
-                if (selectedFAQ == null) {
-                    Text(stringResource(R.string.faq_create_save_changes))
-                } else {
-                    Text(stringResource(R.string.faq_create_delete_faq))
-                }
-            }
+    ContentEditor(
+        title = title,
+        onTitleChange = { title = it },
+        summary = summary,
+        onSummaryChange = { summary = it },
+        content = content,
+        onContentChange = { content = it },
+        isPublished = isPublished,
+        onIsPublishedChange = { isPublished = it },
+        onSaveClick = {
+            viewModel.insertFAQ(title, summary, content, isPublished)
+            onSaveFAQClick()
         }
-    }
+    )
 }
