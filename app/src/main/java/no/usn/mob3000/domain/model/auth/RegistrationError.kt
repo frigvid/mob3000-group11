@@ -12,7 +12,7 @@ import no.usn.mob3000.R
  * user registration.
  *
  * @property messageRes The string resource ID for the error message.
- * @author Anarox, frigvid
+ * @author Anarox1111, frigvid
  * @created 2024-11-03
  */
 sealed class RegistrationError(

@@ -136,7 +136,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * @see ScreenIcon
  * @see Icon
  * @author frigvid
- * @contributors Routes: Anarox, Markus
+ * @contributors Routes: Anarox1111, Markus
  * @created 2024-09-24
  */
 @Composable

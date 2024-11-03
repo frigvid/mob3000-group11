@@ -77,7 +77,7 @@ class AuthRepository(
     /**
      * Performs user registration.
      *
-     * @author Anarox
+     * @author Anarox1111
      * @contributor frigvid
      * @created 2024-10-30
      */

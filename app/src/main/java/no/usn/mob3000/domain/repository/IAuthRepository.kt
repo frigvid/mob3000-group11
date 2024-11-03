@@ -6,7 +6,7 @@ import no.usn.mob3000.domain.model.User
  * Interface for authentication repository.
  *
  * @author frigvid
- * @contributor Anarox
+ * @contributor Anarox1111
  * @created 2024-10-25
  */
 interface IAuthRepository {
