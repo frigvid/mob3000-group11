@@ -17,6 +17,7 @@ import no.usn.mob3000.Viewport
 import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentDisplay
 
+
 /**
  * Screen to display full details about some documentation.
  *
@@ -54,25 +55,16 @@ fun FAQDetailsScreen(
                 title = selectedFAQ!!.title ?: "",
                 summary = selectedFAQ!!.summary,
                 content = selectedFAQ!!.content,
+                createdAt = selectedFAQ?.createdAt?.toEpochMilliseconds(),
+                modifiedAt = selectedFAQ?.modifiedAt?.toEpochMilliseconds(),
                 modifier = Modifier.padding(innerPadding)
             )
-                    // Text(
-                    //    text = stringResource(R.string.documentation_details_created_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.documentation_details_created_date_pattern), Locale.getDefault()).format(selectedDocumentation.createdAt)}",
-                    //  fontSize = 12.sp,
-                    // modifier = Modifier.padding(bottom = 4.dp)
-                    //)
-
-                    //Text(
-                    //  text = stringResource(R.string.documentation_details_modified_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.documentation_details_modified_date_pattern), Locale.getDefault()).format(selectedDocumentation.modifiedAt)}",
-                    // fontSize = 12.sp,
-                    //modifier = Modifier.padding(bottom = 4.dp)
-                    //)
-
-                    /* TODO: Only display this for admins. */
-                    //Text(
-                    //    text = stringResource(R.string.documentation_details_status_prefix) + "Status: ${if (selectedDocumentation.isPublished) stringResource(R.string.documentation_details_status_published) else stringResource(R.string.documentation_details_status_draft)}",
-                    //  fontSize = 12.sp
-                    //   )
+//
+//            /* TODO: Only display this for admins. */
+//                    Text(
+//                        text = stringResource(R.string.documentation_details_status_prefix) + "Status: ${if (selectedFAQ!!.isPublished) stringResource(R.string.documentation_details_status_published) else stringResource(R.string.documentation_details_status_draft)}",
+//                      fontSize = 12.sp
+//                      )
 
 
         } else {

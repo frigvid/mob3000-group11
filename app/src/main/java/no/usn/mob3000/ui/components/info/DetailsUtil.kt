@@ -16,6 +16,8 @@ fun ContentDisplay(
     title: String,
     summary: String?,
     content: String?,
+    createdAt: Long? = null,
+    modifiedAt: Long? = null,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -50,6 +52,22 @@ fun ContentDisplay(
                     text = it,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
+
+            createdAt?.let {
+                Text(
+                    text = formatInstant(it, isCreated = true),
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+            }
+
+            modifiedAt?.let {
+                Text(
+                    text = formatInstant(it, isCreated = false),
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
         }

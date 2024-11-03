@@ -72,26 +72,10 @@ fun DocumentationDetailsScreen(
                 title = selectedDocumentation!!.title ?: "",
                 summary = selectedDocumentation!!.summary,
                 content = selectedDocumentation!!.content,
+                createdAt = selectedDocumentation?.createdAt?.toEpochMilliseconds(),
+                modifiedAt = selectedDocumentation?.modifiedAt?.toEpochMilliseconds(),
                 modifier = Modifier.padding(innerPadding)
             )
-                   // Text(
-                    //    text = stringResource(R.string.documentation_details_created_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.documentation_details_created_date_pattern), Locale.getDefault()).format(selectedDocumentation.createdAt)}",
-                      //  fontSize = 12.sp,
-                       // modifier = Modifier.padding(bottom = 4.dp)
-                    //)
-
-                    //Text(
-                      //  text = stringResource(R.string.documentation_details_modified_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.documentation_details_modified_date_pattern), Locale.getDefault()).format(selectedDocumentation.modifiedAt)}",
-                       // fontSize = 12.sp,
-                        //modifier = Modifier.padding(bottom = 4.dp)
-                    //)
-
-                    /* TODO: Only display this for admins. */
-                    //Text(
-                    //    text = stringResource(R.string.documentation_details_status_prefix) + "Status: ${if (selectedDocumentation.isPublished) stringResource(R.string.documentation_details_status_published) else stringResource(R.string.documentation_details_status_draft)}",
-                      //  fontSize = 12.sp
-                 //   )
-
 
         } else {
             Text(stringResource(R.string.documentation_details_not_found))
