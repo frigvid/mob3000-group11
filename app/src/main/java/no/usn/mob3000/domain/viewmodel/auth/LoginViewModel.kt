@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 import no.usn.mob3000.domain.model.AuthError
 import no.usn.mob3000.domain.model.User
 import no.usn.mob3000.domain.usecase.auth.LoginUseCase
-import no.usn.mob3000.domain.usecase.auth.LogoutUseCase
 
 /**
  * ViewModel to user state and, if necessary, authentication state.
@@ -21,8 +20,7 @@ import no.usn.mob3000.domain.usecase.auth.LogoutUseCase
  * @created 2024-10-21
  */
 class LoginViewModel(
-    private val loginUseCase: LoginUseCase = LoginUseCase(),
-    private val logoutUseCase: LogoutUseCase = LogoutUseCase()
+    private val loginUseCase: LoginUseCase = LoginUseCase()
 ) : ViewModel() {
     /**
      * The current [LoginState].
@@ -81,16 +79,6 @@ class LoginViewModel(
 
     fun resetState() {
         _loginState.value = LoginState.Idle
-    }
-
-    // TODO: Extract to its own view model.
-    //       Needs its own SignOutState and SignOutError classes.
-    fun logout() {
-        viewModelScope.launch {
-            _authenticatedUser.value = null
-            _loginState.value = LoginState.Idle
-            logoutUseCase()
-        }
     }
 }
 
