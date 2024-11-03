@@ -75,7 +75,7 @@ class AuthRepository(
     override suspend fun logout() = supabase.auth.signOut()
 
     /**
-     * Registration with fetching of userdata.
+     * Performs user registration.
      *
      * @author Anarox
      * @contributor frigvid
