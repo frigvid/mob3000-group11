@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.domain.model.auth.state.DeleteAccountState
+import no.usn.mob3000.domain.model.auth.state.LogoutState
 import no.usn.mob3000.domain.viewmodel.CBViewModel
-import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountState
-import no.usn.mob3000.domain.viewmodel.auth.LogoutState
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error as ProgressError

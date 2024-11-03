@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.domain.model.auth.error.RegistrationError
-import no.usn.mob3000.domain.viewmodel.auth.RegistrationState
+import no.usn.mob3000.domain.model.auth.state.RegistrationState
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error
 import no.usn.mob3000.ui.theme.DefaultButton

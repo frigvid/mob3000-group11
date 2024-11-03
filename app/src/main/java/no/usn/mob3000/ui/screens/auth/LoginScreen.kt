@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.Destination
 import no.usn.mob3000.R
-import no.usn.mob3000.domain.viewmodel.auth.LoginState
+import no.usn.mob3000.domain.model.auth.state.LoginState
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error
 import no.usn.mob3000.ui.theme.DefaultButton
