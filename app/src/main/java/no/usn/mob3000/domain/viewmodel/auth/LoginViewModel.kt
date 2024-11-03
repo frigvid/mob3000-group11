@@ -1,4 +1,4 @@
-package no.usn.mob3000.domain.viewmodel
+package no.usn.mob3000.domain.viewmodel.auth
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -83,6 +83,7 @@ class LoginViewModel(
         _loginState.value = LoginState.Idle
     }
 
+    // TODO: Yeetus deletus.
     fun logout() {
         viewModelScope.launch {
             _authenticatedUser.value = null

@@ -74,8 +74,27 @@ class AuthRepository(
      */
     override suspend fun logout() = supabase.auth.signOut()
 
-    override suspend fun register() {
-        TODO("Registration not yet implemented")
+    /**
+     * Performs user registration.
+     *
+     * @author Anarox1111
+     * @contributor frigvid
+     * @created 2024-10-30
+     */
+    override suspend fun register(
+        email: String,
+        password: String
+    ): Result<Unit> {
+        return try {
+            supabase.auth.signUpWith(Email) {
+                this.email = email
+                this.password = password
+            }
+
+            Result.success(Unit)
+        } catch (error: Exception) {
+            Result.failure(error)
+        }
     }
 
     override suspend fun changePassword() {

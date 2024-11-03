@@ -13,6 +13,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,8 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.domain.model.auth.RegistrationError
+import no.usn.mob3000.domain.viewmodel.auth.RegistrationState
+import no.usn.mob3000.ui.components.Loading
+import no.usn.mob3000.ui.components.auth.Error
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -31,15 +37,19 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * @param onSignUpClick Function to handle signing up a new account.
  * @param onReturnToLoginClick Callback function to navigate to [LoginScreen].
- * @author Markus
- * @contributor frigvid
+ * @author Markus, frigvid, Anarox1111
  * @created 2024-09-24
  */
 @Composable
 fun CreateUserScreen(
-    onSignUpClick: () -> Unit,
+    registrationState: Flow<RegistrationState>,
+    registrationStateUpdate: (RegistrationState) -> Unit,
+    registrationStateReset: () -> Unit,
+    onSignUpClick: (String, String) -> Unit,
     onReturnToLoginClick: () -> Unit
 ) {
+    val state by registrationState.collectAsState(initial = RegistrationState.Idle)
+
     var mail by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -85,7 +95,15 @@ fun CreateUserScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = { onSignUpClick() },
+                    onClick = {
+                        if (password == confirmPassword) {
+                            onSignUpClick(mail, password)
+                        } else {
+                            registrationStateUpdate(
+                                RegistrationState.Error(RegistrationError.PasswordsMustMatch)
+                            )
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) { Text(stringResource(R.string.auth_create_user_sign_up)) }
@@ -95,6 +113,31 @@ fun CreateUserScreen(
                 OutlinedButton(
                     onClick = onReturnToLoginClick
                 ) { Text(stringResource(R.string.auth_create_user_return_to_login)) }
+
+                when (state) {
+                    is RegistrationState.Success -> {
+                        /* NOTE: State must be reset here, otherwise it will attempt
+                         *       to navigate to the new destination multiple times.
+                         */
+                        registrationStateReset()
+
+                        // TODO: Create a green "error" dialogue on the login screen
+                        //       informing the user that they can log in now.
+                        onReturnToLoginClick()
+                    }
+
+                    is RegistrationState.Error -> {
+                        Error(text =
+                            stringResource((state as RegistrationState.Error).error.messageRes)
+                                + "\n"
+                                + (state as RegistrationState.Error).error
+                        )
+                    }
+
+                    is RegistrationState.Loading -> Loading()
+
+                    else -> {  }
+                }
             }
         }
     }

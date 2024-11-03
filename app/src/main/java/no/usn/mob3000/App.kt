@@ -42,7 +42,8 @@ import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
-import no.usn.mob3000.domain.viewmodel.LoginViewModel
+import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
+import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
@@ -135,13 +136,14 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * @see ScreenIcon
  * @see Icon
  * @author frigvid
- * @contributors Routes: Anarox, Markus
+ * @contributors Routes: Anarox1111, Markus
  * @created 2024-09-24
  */
 @Composable
 fun App(
     viewModel: CBViewModel = viewModel(),
     loginViewModel: LoginViewModel = viewModel(),
+    registrationViewModel: RegistrationViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -298,7 +300,10 @@ fun App(
             }
             composable(route = Destination.AUTH_CREATE.name) {
                 CreateUserScreen(
-                    onSignUpClick = { navController.navigate(Destination.HOME.name) },
+                    registrationState = registrationViewModel.registrationState,
+                    registrationStateUpdate = registrationViewModel::updateState,
+                    registrationStateReset = registrationViewModel::resetState,
+                    onSignUpClick = registrationViewModel::register,
                     onReturnToLoginClick = { navController.navigate(Destination. AUTH_LOGIN.name) }
                 )
             }
