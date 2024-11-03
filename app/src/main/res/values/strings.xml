@@ -38,7 +38,6 @@
     <string name="documentation_create_save_documentation">Save documentation</string>
     <string name="documentation_create_save_changes">Save changes</string>
 
-
     <!-- FAQ page. -->
     <string name="faq_title">FAQ</string>
     <string name="faq_create_title">Create FAQ</string>
@@ -65,12 +64,6 @@
 
     <!-- FAQ update page. -->
     <string name="faq_update_title">Update FAQ</string>
-
-    <!-- Confirmation dialog -->
-    <string name="confirmation_dialog_confirm">Confirm deletion</string>
-    <string name="confirmation_dialog_cancel">Cancel</string>
-    <string name="confirmation_dialog_delete_text">Are you sure you want to delete this?</string>
-    <string name="confirmation_dialog_delete_confirm">Delete</string>
 
     <!-- About us page. -->
     <string name="about_us_title">About us</string>
@@ -275,4 +268,11 @@
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">You will not be able to see your own account here.</string>
+
+    <!-- Components. -->
+    <!-- Confirmation dialog -->
+    <string name="confirmation_dialog_confirm">Confirm deletion</string>
+    <string name="confirmation_dialog_cancel">Cancel</string>
+    <string name="confirmation_dialog_delete_text">Are you sure you want to delete this?</string>
+    <string name="confirmation_dialog_delete_confirm">Delete</string>
 </resources>
