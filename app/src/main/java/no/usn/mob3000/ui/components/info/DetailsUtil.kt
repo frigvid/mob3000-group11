@@ -19,12 +19,12 @@ import androidx.compose.ui.unit.sp
  */
 @Composable
 fun ContentDisplay(
+    modifier: Modifier = Modifier,
     title: String,
     summary: String?,
     content: String?,
     createdAt: Long? = null,
-    modifiedAt: Long? = null,
-    modifier: Modifier = Modifier
+    modifiedAt: Long? = null
 ) {
     Box(
         modifier = modifier
