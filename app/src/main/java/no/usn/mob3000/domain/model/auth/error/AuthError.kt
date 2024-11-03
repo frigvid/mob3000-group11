@@ -1,4 +1,4 @@
-package no.usn.mob3000.domain.model
+package no.usn.mob3000.domain.model.auth.error
 
 import androidx.annotation.StringRes
 import io.github.jan.supabase.gotrue.exception.AuthRestException

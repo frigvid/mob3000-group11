@@ -15,14 +15,14 @@ import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
-import no.usn.mob3000.domain.model.Friend as DomainFriend
-import no.usn.mob3000.domain.model.FriendRequest as DomainFriendRequest
-import no.usn.mob3000.domain.model.UserGameStats as DomainUserGameStats
-import no.usn.mob3000.domain.model.UserMetadata as DomainUserMetadata
-import no.usn.mob3000.domain.model.UserGameStats as DomainUserStats
-import no.usn.mob3000.domain.model.UserProfile as DomainUserProfile
-import no.usn.mob3000.domain.model.UserSocial as DomainUserSocial
-import no.usn.mob3000.domain.model.User as DomainUser
+import no.usn.mob3000.domain.model.auth.Friend as DomainFriend
+import no.usn.mob3000.domain.model.auth.FriendRequest as DomainFriendRequest
+import no.usn.mob3000.domain.model.auth.UserGameStats as DomainUserGameStats
+import no.usn.mob3000.domain.model.auth.UserMetadata as DomainUserMetadata
+import no.usn.mob3000.domain.model.auth.UserGameStats as DomainUserStats
+import no.usn.mob3000.domain.model.auth.UserProfile as DomainUserProfile
+import no.usn.mob3000.domain.model.auth.UserSocial as DomainUserSocial
+import no.usn.mob3000.domain.model.auth.User as DomainUser
 import no.usn.mob3000.domain.repository.IAuthRepository
 
 /**
