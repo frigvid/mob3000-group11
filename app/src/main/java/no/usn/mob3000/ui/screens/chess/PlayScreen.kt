@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.screens.chess.game.Chessboard
+import no.usn.mob3000.ui.screens.chess.game.ChessBoard
 import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
@@ -89,18 +89,11 @@ fun PlayScreen() {
                 }
             }
 
-            /* TODO: Replace this with an actual chess board and not a place holder image. */
-            //Image(
-            //    painter = painterResource(id = R.drawable.placeholder_chess),
-            //    contentDescription = "Chess Board",
-            //    modifier = Modifier
-            //        .fillMaxWidth()
-            //        .aspectRatio(1f)
-            //)
-            Chessboard(
+            ChessBoard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                startingPosition = "3qk3/7P/8/8/8/8/7p/3QK3 w - - 0 1"
             )
 
             Row(
