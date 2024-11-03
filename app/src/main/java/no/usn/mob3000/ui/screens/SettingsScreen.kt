@@ -8,9 +8,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.domain.viewmodel.CBViewModel
+import no.usn.mob3000.domain.viewmodel.auth.LoginState
+import no.usn.mob3000.domain.viewmodel.auth.LogoutState
+import no.usn.mob3000.ui.components.Loading
+import no.usn.mob3000.ui.components.auth.Error as ProgressError
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -39,6 +44,8 @@ import no.usn.mob3000.ui.theme.DefaultButton
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
+    logoutState: Flow<LogoutState>,
+    logoutStateReset: () -> Unit,
     onLogoutClick: () -> Unit,
     onLoginClick: () -> Unit,
     onAdminDashboardClick: () -> Unit,
@@ -47,8 +54,25 @@ fun SettingsScreen(
     onThemeChange: (String) -> Unit,
     onLanguageChange: (String) -> Unit
 ) {
+    val state by logoutState.collectAsState(initial = LogoutState.Idle)
+
     var themeExpanded by remember { mutableStateOf(false) }
     var languageExpanded by remember { mutableStateOf(false) }
+
+    /**
+     * This is sort of viscerally disgusting, but also somewhat necessary.
+     *
+     * Without this, any successes and error dialogues will be shown indefinitely,
+     * which *can* be handled with a timer or some such, but honestly? This is just
+     * much easier, and works practically just as well for less complexity.
+     *
+     * So as much as this disgusts me, it's here to stay.
+     *
+     * For now, at least.
+     *
+     * @author frigvid
+     */
+    logoutStateReset()
 
     Viewport { innerPadding ->
         Column(
@@ -93,7 +117,7 @@ fun SettingsScreen(
                     .padding(bottom = 8.dp)
             ) { Text(stringResource(R.string.settings_section_user_button_login)) }
 
-            /* TODO: Add indication that user has been successfully logged out. */
+            /* TODO: Only show this when the user is logged in. */
             Button(
                 onClick = onLogoutClick,
                 colors = ButtonDefaults.buttonColors(Color.Red),
@@ -101,6 +125,27 @@ fun SettingsScreen(
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
             ) { Text(stringResource(R.string.settings_section_user_button_logout)) }
+
+            when (state) {
+                is LogoutState.Success -> {
+                    ProgressError(
+                        text = stringResource(R.string.settings_section_user_button_logout_success),
+                        cardContainerColor = Color.Green
+                    )
+                }
+
+                is LogoutState.Error -> {
+                    ProgressError(
+                        text = "Given how logout works, this should never be shown. So, well, if you're seeing this ... take this star as a reward: \uD83C\uDF1F"
+                    )
+                }
+
+                is LogoutState.Loading -> Loading()
+
+                else -> {  }
+            }
+
+            /* TODO: Add button to delete user. */
 
             Text(
                 "[ " + stringResource(R.string.settings_section_app_subtitle) + " ]",

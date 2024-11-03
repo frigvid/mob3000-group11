@@ -139,6 +139,7 @@
     <string name="settings_section_user_subtitle">BRUKERKONTO</string>
     <string name="settings_section_user_button_login">Gå til innlogging</string>
     <string name="settings_section_user_button_logout">Logg ut</string>
+    <string name="settings_section_user_button_logout_success">Du har blitt logget ut.</string>
 
     <string name="settings_section_app_subtitle">APPLIKASJON</string>
     <string name="settings_section_app_language">Språk</string>

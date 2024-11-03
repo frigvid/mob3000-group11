@@ -13,5 +13,10 @@ import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 class LogoutUseCase(
     private val authRepository: AuthRepository = AuthRepository(AuthDataSource())
 ) {
-    suspend operator fun invoke(): Unit = authRepository.logout()
+    suspend operator fun invoke(): Result<Unit> = try {
+        authRepository.logout()
+        Result.success(Unit)
+    } catch (error: Exception) {
+        Result.failure(error)
+    }
 }

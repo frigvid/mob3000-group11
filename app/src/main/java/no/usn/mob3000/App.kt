@@ -43,6 +43,7 @@ import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
+import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
@@ -143,6 +144,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
 fun App(
     viewModel: CBViewModel = viewModel(),
     loginViewModel: LoginViewModel = viewModel(),
+    logoutViewModel: LogoutViewModel = viewModel(),
     registrationViewModel: RegistrationViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
@@ -279,7 +281,9 @@ fun App(
             composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
             composable(route = Destination.SETTINGS.name) {
                 SettingsScreen(
-                    onLogoutClick = loginViewModel::logout,
+                    logoutState = logoutViewModel.logoutState,
+                    logoutStateReset = logoutViewModel::resetState,
+                    onLogoutClick = logoutViewModel::logout,
                     onLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
                     onAdminDashboardClick = { navController.navigate(Destination.ADMIN_DASHBOARD.name) },
                     selectedTheme = viewModel.selectedTheme.value,

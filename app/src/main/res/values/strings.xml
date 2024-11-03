@@ -140,6 +140,7 @@
     <string name="settings_section_user_subtitle">USER</string>
     <string name="settings_section_user_button_login">Go to login</string>
     <string name="settings_section_user_button_logout">Log out</string>
+    <string name="settings_section_user_button_logout_success">You\'ve been logged out.</string>
 
     <string name="settings_section_app_subtitle">APPLICATION</string>
     <string name="settings_section_app_language">Language</string>
