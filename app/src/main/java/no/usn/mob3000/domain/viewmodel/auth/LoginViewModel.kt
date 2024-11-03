@@ -17,7 +17,7 @@ import no.usn.mob3000.domain.usecase.auth.LogoutUseCase
  * ViewModel to user state and, if necessary, authentication state.
  *
  * @property loginUseCase The Android Use Case handling login business logic.
- * @author Anarox
+ * @author frigvid
  * @created 2024-10-21
  */
 class LoginViewModel(
