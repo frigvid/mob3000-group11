@@ -78,18 +78,20 @@ class AuthRepository(
      * Registration with fetching of userdata.
      *
      * @author Anarox
+     * @contributor frigvid
      * @created 2024-10-30
      */
-    override suspend fun register(email: String, password: String): Result<DomainUser> {
+    override suspend fun register(
+        email: String,
+        password: String
+    ): Result<Unit> {
         return try {
             supabase.auth.signUpWith(Email) {
                 this.email = email
                 this.password = password
             }
 
-            currentUserId = authDataSource.getCurrentUserId()
-
-            Result.success(fetchUserData())
+            Result.success(Unit)
         } catch (error: Exception) {
             Result.failure(error)
         }
