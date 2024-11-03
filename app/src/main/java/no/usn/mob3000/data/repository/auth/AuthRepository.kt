@@ -5,6 +5,8 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.github.jan.supabase.gotrue.user.UserInfo
+import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.rpc
 import kotlinx.datetime.Instant
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
@@ -105,8 +107,23 @@ class AuthRepository(
         TODO("E-mail change not yet implemented")
     }
 
+    /**
+     * Deletes the authenticated user via an RPC function.
+     *
+     * ## References
+     *
+     * Web application's SQL [pre-requisites](https://github.com/frigvid/app2000-gruppe11/blob/master/PREREQUISITES.sql#L868) on line 868.
+     *
+     * @author frigvid
+     * @created 2024-11-03
+     */
     override suspend fun delete() {
-        TODO("Account deletion not yet implemented")
+        try {
+            val result = supabase.postgrest.rpc(function = "user_delete")
+            Log.d("AuthRepository", "RPC function user_delete result: ${result.data}")
+        } catch (error: Exception) {
+            throw Exception("Failed to delete authenticated user's account: ${error.message}", error)
+        }
     }
 
     /**

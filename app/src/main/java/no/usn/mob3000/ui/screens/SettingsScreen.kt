@@ -1,6 +1,8 @@
 package no.usn.mob3000.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -12,8 +14,9 @@ import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.domain.viewmodel.CBViewModel
-import no.usn.mob3000.domain.viewmodel.auth.LoginState
+import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountState
 import no.usn.mob3000.domain.viewmodel.auth.LogoutState
+import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error as ProgressError
 import no.usn.mob3000.ui.theme.DefaultButton
@@ -48,13 +51,19 @@ fun SettingsScreen(
     logoutStateReset: () -> Unit,
     onLogoutClick: () -> Unit,
     onLoginClick: () -> Unit,
+    accountDeleteState: Flow<DeleteAccountState>,
+    accountDeleteStateReset: () -> Unit,
+    onDeleteAccountClick: () -> Unit,
     onAdminDashboardClick: () -> Unit,
     selectedTheme: String,
     selectedLanguage: String,
     onThemeChange: (String) -> Unit,
     onLanguageChange: (String) -> Unit
 ) {
-    val state by logoutState.collectAsState(initial = LogoutState.Idle)
+    val stateLogout by logoutState.collectAsState(initial = LogoutState.Idle)
+    var showLogoutConfirmation by remember { mutableStateOf(false) }
+    val stateAccountDeletion by accountDeleteState.collectAsState(initial = DeleteAccountState.Idle)
+    var showAccountDeletionConfirmation by remember { mutableStateOf(false) }
 
     var themeExpanded by remember { mutableStateOf(false) }
     var languageExpanded by remember { mutableStateOf(false) }
@@ -73,13 +82,37 @@ fun SettingsScreen(
      * @author frigvid
      */
     logoutStateReset()
+    accountDeleteStateReset()
+
+    if (showAccountDeletionConfirmation) {
+        DangerousActionDialogue(
+            title = stringResource(R.string.settings_section_user_popup_delete_title),
+            onConfirm = {
+                showAccountDeletionConfirmation = false
+                onDeleteAccountClick()
+            },
+            onDismiss = { showAccountDeletionConfirmation = false }
+        )
+    }
+
+    if (showLogoutConfirmation) {
+        DangerousActionDialogue(
+            title = stringResource(R.string.settings_section_user_popup_logout_title),
+            onConfirm = {
+                showLogoutConfirmation = false
+                onLogoutClick()
+            },
+            onDismiss = { showLogoutConfirmation = false }
+        )
+    }
 
     Viewport { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             // TODO: Only show if user is admin.
@@ -118,18 +151,17 @@ fun SettingsScreen(
             ) { Text(stringResource(R.string.settings_section_user_button_login)) }
 
             /* TODO: Only show this when the user is logged in. */
-            Button(
-                onClick = onLogoutClick,
-                colors = ButtonDefaults.buttonColors(Color.Red),
+            OutlinedButton(
+                onClick = { showLogoutConfirmation = true },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
-            ) { Text(stringResource(R.string.settings_section_user_button_logout)) }
+            ) { Text(stringResource(R.string.settings_section_user_button_logout) + "?") }
 
-            when (state) {
+            when (stateLogout) {
                 is LogoutState.Success -> {
                     ProgressError(
-                        text = stringResource(R.string.settings_section_user_button_logout_success),
+                        text = stringResource(R.string.settings_section_user_state_logout_success),
                         cardContainerColor = Color.Green
                     )
                 }
@@ -146,6 +178,35 @@ fun SettingsScreen(
             }
 
             /* TODO: Add button to delete user. */
+            Text(
+                "Once pressed, this will open a dialogue to ensure you wanted this. If you accept that, it's an immediate, unrecoverable deletion."
+            )
+            Button(
+                onClick = { showAccountDeletionConfirmation = true },
+                colors = ButtonDefaults.buttonColors(Color.Red),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            ) { Text(stringResource(R.string.settings_section_user_button_delete)) }
+
+            when (stateAccountDeletion) {
+                is DeleteAccountState.Success -> {
+                    ProgressError(
+                        text = stringResource(R.string.settings_section_user_state_delete_success),
+                        cardContainerColor = Color.Green
+                    )
+                }
+
+                is DeleteAccountState.Error -> {
+                    ProgressError(
+                        text = stringResource(R.string.settings_section_user_state_delete_error)
+                    )
+                }
+
+                is DeleteAccountState.Loading -> Loading()
+
+                else -> {  }
+            }
 
             Text(
                 "[ " + stringResource(R.string.settings_section_app_subtitle) + " ]",

@@ -39,6 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.domain.viewmodel.CBViewModel
+import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
@@ -146,6 +147,7 @@ fun App(
     loginViewModel: LoginViewModel = viewModel(),
     logoutViewModel: LogoutViewModel = viewModel(),
     registrationViewModel: RegistrationViewModel = viewModel(),
+    deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -285,6 +287,9 @@ fun App(
                     logoutStateReset = logoutViewModel::resetState,
                     onLogoutClick = logoutViewModel::logout,
                     onLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
+                    accountDeleteState = deleteAccountViewModel.deleteAccountState,
+                    accountDeleteStateReset = deleteAccountViewModel::resetState,
+                    onDeleteAccountClick = deleteAccountViewModel::deleteAccount,
                     onAdminDashboardClick = { navController.navigate(Destination.ADMIN_DASHBOARD.name) },
                     selectedTheme = viewModel.selectedTheme.value,
                     selectedLanguage = viewModel.selectedLanguage.value,

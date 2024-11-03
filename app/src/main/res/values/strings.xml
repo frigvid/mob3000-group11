@@ -140,7 +140,12 @@
     <string name="settings_section_user_subtitle">USER</string>
     <string name="settings_section_user_button_login">Go to login</string>
     <string name="settings_section_user_button_logout">Log out</string>
-    <string name="settings_section_user_button_logout_success">You\'ve been logged out.</string>
+    <string name="settings_section_user_popup_logout_title">Are you sure you want to log out?</string>
+    <string name="settings_section_user_state_logout_success">You\'ve been logged out.</string>
+    <string name="settings_section_user_button_delete">Delete account?</string>
+    <string name="settings_section_user_popup_delete_title">Are you sure you want to delete your account?</string>
+    <string name="settings_section_user_state_delete_success">Your account has been deleted.</string>
+    <string name="settings_section_user_state_delete_error">Something went wrong.</string>
 
     <string name="settings_section_app_subtitle">APPLICATION</string>
     <string name="settings_section_app_language">Language</string>
@@ -248,4 +253,9 @@
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">You will not be able to see your own account here.</string>
+
+    <!-- Components. -->
+    <!-- Dangerous Action Dialogue. -->
+    <string name="component_dialogue_dangerous_action_button_confirm">Yes</string>
+    <string name="component_dialogue_dangerous_action_button_dismiss">No</string>
 </resources>
