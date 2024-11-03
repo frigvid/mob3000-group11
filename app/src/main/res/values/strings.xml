@@ -244,4 +244,11 @@
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">You will not be able to see your own account here.</string>
+
+    <!-- Registration Error Messages. -->
+    <string name="error_email_already_exists">This email is already registered. Please use a different email.</string>
+    <string name="error_weak_password">Your password must be at least 8 characters long and contain a mix of letters and numbers.</string>
+    <string name="error_invalid_email_format">Please enter a valid email address.</string>
+    <string name="error_unknown">An unknown error occurred. Please try again later.</string>
+
 </resources>
