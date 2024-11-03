@@ -42,7 +42,7 @@ import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
-import no.usn.mob3000.domain.viewmodel.LoginViewModel
+import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
