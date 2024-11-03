@@ -22,20 +22,19 @@ import androidx.compose.ui.unit.dp
 fun Error(
     cardClickable: () -> Unit = {  },
     text: String,
-    color: Color = MaterialTheme.colorScheme.onErrorContainer
+    textColor: Color = MaterialTheme.colorScheme.onErrorContainer,
+    cardContainerColor: Color = MaterialTheme.colorScheme.errorContainer
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .clickable { cardClickable() },
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer
-        )
+        colors = CardDefaults.cardColors(cardContainerColor)
     ) {
         Text(
             text = text,
-            color = color,
+            color = textColor,
             modifier = Modifier.padding(16.dp)
         )
     }
