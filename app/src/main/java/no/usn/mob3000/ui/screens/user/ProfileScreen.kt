@@ -19,12 +19,19 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import no.usn.mob3000.Viewport
+import no.usn.mob3000.domain.model.Friend
 import no.usn.mob3000.ui.theme.ProfileUserBackground
 import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
+import no.usn.mob3000.domain.usecase.social.FetchFriendsUseCase
+import no.usn.mob3000.domain.viewmodel.ProfileViewModel
 
 /**
  * The profile screen.
@@ -42,8 +49,11 @@ import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 fun ProfileScreen(
     onProfileEditClick: () -> Unit,
     onProfileAddFriendsClick: () -> Unit,
-    onProfileFriendRequestsClick: () -> Unit
+    onProfileFriendRequestsClick: () -> Unit,
+    viewModel: ProfileViewModel = ProfileViewModel()
 ) {
+    val friends = viewModel.friends.collectAsState().value
+
     Viewport(
         topBarActions = {
             IconButton(onClick = onProfileEditClick) {
@@ -82,7 +92,7 @@ fun ProfileScreen(
             ProfileHeader()
             ProfileStats()
             AboutSection()
-            FriendsSection()
+            FriendsSection(friends)
         }
     }
 }
@@ -198,6 +208,34 @@ fun AboutSection() {
     }
 }
 
+@Composable
+fun FriendItem(friend: Friend) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable { /* Optional: Handle friend click, like navigating to friend’s profile */ }
+    ) {
+        Image(
+            painter = painterResource(R.drawable.profile_icon), // Replace this with friend.avatarUrl when using a real image URL
+            contentDescription = "Friend Avatar",
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
+                .border(1.dp, Color.Gray, CircleShape)
+        )
+
+        Text(
+            text = friend.displayName,
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(top = 4.dp),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+
 /**
  * Composable function that displays the friends section of the profile screen.
  *
@@ -207,7 +245,7 @@ fun AboutSection() {
  * @created 2024-10-11
  */
 @Composable
-fun FriendsSection() {
+fun FriendsSection(friends: List<Friend>) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
             text = stringResource(R.string.profile_friends),
@@ -216,28 +254,24 @@ fun FriendsSection() {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .clickable {  }
-        ) {
-            /* TODO: Get user icon and display name from data layer by querying the user's friends. */
-            Image(
-                painter = painterResource(R.drawable.profile_icon),
-                contentDescription = "Friend Icon",
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .border(1.dp, Color.Gray, CircleShape)
-            )
-
+        if (friends.isEmpty()) {
             Text(
-                text = "Example user name",
-                modifier = Modifier.padding(start = 8.dp),
-                style = MaterialTheme.typography.bodyMedium
+                text = "no friends",
+                color = Color.Gray,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
             )
+        } else {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(vertical = 8.dp)
+            ) {
+                items(friends) { friend ->
+                    FriendItem(friend)
+                }
+            }
         }
     }
 }
+
