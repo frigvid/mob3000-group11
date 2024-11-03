@@ -11,6 +11,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
+/**
+ * Component that displays a loading circle overlay.
+ *
+ * @author frigvid
+ * @created 2024-11-03
+ */
 @Composable
 fun Loading(
     onDismissRequest: () -> Unit = {  },

@@ -12,6 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+/**
+ * Component that displays a small error card.
+ *
+ * @author frigvid
+ * @created 2024-11-03
+ */
 @Composable
 fun Error(
     cardClickable: () -> Unit = {  },

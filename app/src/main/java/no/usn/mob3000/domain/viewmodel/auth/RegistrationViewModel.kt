@@ -73,7 +73,6 @@ class RegistrationViewModel(
     }
 }
 
-
 /**
  * Sealed class representing the possible states of the registration process.
  *
