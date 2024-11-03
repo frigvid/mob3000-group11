@@ -3,6 +3,12 @@ package no.usn.mob3000.domain.usecase.content
 import no.usn.mob3000.domain.model.DocsUpdateData
 import no.usn.mob3000.domain.repository.IDocsRepository
 
+/**
+ * Use case for updating docs.
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
 class UpdateDocsUseCase (
     private val docsRepository: IDocsRepository
 ) {

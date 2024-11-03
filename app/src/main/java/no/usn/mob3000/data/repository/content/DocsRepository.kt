@@ -7,10 +7,20 @@ import no.usn.mob3000.data.model.content.DocsDto
 import no.usn.mob3000.domain.model.DocsUpdateData
 import no.usn.mob3000.domain.repository.IDocsRepository
 
+/**
+ * Repository class responsible for managing document-related operations.
+ *
+ * @param docsDataSource The data source for document-related operations.
+ * @author 258030
+ * @created 2024-10-30
+ */
 class DocsRepository(
     private val docsDataSource: DocsDataSource = DocsDataSource()
 ) : IDocsRepository {
 
+    /**
+     * Fetches a list of all documents.
+     */
     override suspend fun fetchDocuments(): Result<List<DocsData>> {
         return try {
             val docsDtoList = docsDataSource.fetchAllDocs()
@@ -20,6 +30,9 @@ class DocsRepository(
         }
     }
 
+    /**
+     * Deletes a document by its ID.
+     */
     override suspend fun deleteDocs(docsId: String): Result<Unit> {
         return try {
             docsDataSource.deleteDocsById(docsId)
@@ -29,8 +42,10 @@ class DocsRepository(
         }
     }
 
-
-override suspend fun updateDocs(docsId: String, updatedData: DocsUpdateData): Result<Unit> {
+    /**
+     * Updates a chosen document by its ID.
+     */
+    override suspend fun updateDocs(docsId: String, updatedData: DocsUpdateData): Result<Unit> {
     val originalDocs = docsDataSource.fetchDocsById(docsId)
     if (originalDocs != null) {
         val updatedDocsDto = DocsDto(
@@ -48,7 +63,9 @@ override suspend fun updateDocs(docsId: String, updatedData: DocsUpdateData): Re
         return Result.failure(Exception("Original docs data not found"))
     }
 }
-
+    /**
+     * Fetches a document by its ID.
+     */
 override suspend fun fetchDocsById(docsId: String): Result<DocsData?> {
     return try {
         val docsDto = docsDataSource.fetchDocsById(docsId)
@@ -58,7 +75,9 @@ override suspend fun fetchDocsById(docsId: String): Result<DocsData?> {
     }
 }
 
-
+    /**
+     * Inserts a new document.
+     */
     override suspend fun insertDocs(
         title: String,
         summary: String,
@@ -66,7 +85,7 @@ override suspend fun fetchDocsById(docsId: String): Result<DocsData?> {
         isPublished: Boolean,
         userId: String?
     ): Result<Unit> {
-        val currentUserId = userId ?: "00ba54a6-c585-4871-905e-7d53262f05c1"
+        val currentUserId = getUserId()
         val docsItem = DocsDto(
             docId = null,
             createdAt = Clock.System
@@ -83,8 +102,10 @@ override suspend fun fetchDocsById(docsId: String): Result<DocsData?> {
 
     }
 
-
-private fun DocsDto.toDomainModel(): DocsData {
+    /**
+     * Maps a DocsDto to a DocsData. For usage in the domain layer.
+     */
+    private fun DocsDto.toDomainModel(): DocsData {
     return DocsData(
         title = this.title ?: "",
         summary = this.summary ?: "",

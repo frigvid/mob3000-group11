@@ -11,10 +11,20 @@ import kotlinx.serialization.json.JsonElement
 import no.usn.mob3000.data.model.content.DocsDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 
+/**
+ * Data source class responsible for managing document-related operations.
+ *
+ * @param supabaseClient The Supabase client for making API requests.
+ * @author 258030
+ * @created 2024-10-30
+ */
 class DocsDataSource(
     private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()
 ) {
 
+    /**
+     * Fetches a list of all documents.
+     */
     suspend fun fetchAllDocs(): List<DocsDto> = withContext(Dispatchers.IO) {
         supabaseClient
             .from("docs")
@@ -22,6 +32,9 @@ class DocsDataSource(
             .decodeList()
     }
 
+    /**
+     * Deletes a document by its ID.
+     */
     suspend fun deleteDocsById(docsId: String): PostgrestResult = withContext(Dispatchers.IO) {
         supabaseClient
             .from("docs")
@@ -29,6 +42,9 @@ class DocsDataSource(
 
     }
 
+    /**
+     * Fetches a document by its ID.
+     */
     suspend fun fetchDocsById(docsId: String): DocsDto? = withContext(Dispatchers.IO) {
         supabaseClient
             .from("docs")
@@ -37,6 +53,9 @@ class DocsDataSource(
             .decodeSingleOrNull()
     }
 
+    /**
+     * Updates a chosen document by its ID.
+     */
     suspend fun updateDocs(
         docsId: String,
         updatedData: DocsDto,
@@ -55,6 +74,9 @@ class DocsDataSource(
         }
     }
 
+    /**
+     * Inserts a new document.
+     */
     suspend fun insertDocs(docsItem: DocsDto, serializer: KSerializer<DocsDto>): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             val jsonElement: JsonElement = Json.encodeToJsonElement(serializer, docsItem)

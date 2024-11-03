@@ -1,23 +1,10 @@
 package no.usn.mob3000.ui.screens.info.news
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
-import no.usn.mob3000.data.model.content.NewsDto
-import no.usn.mob3000.data.repository.content.DbUtilities
 import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentEditor
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen to create or modify documentation.

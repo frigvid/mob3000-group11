@@ -6,6 +6,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 
+/**
+ * Confirmation dialog for deleting items, used for several screens
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
 @Composable
 fun ConfirmationDialog(
     showDialog: MutableState<Boolean>,

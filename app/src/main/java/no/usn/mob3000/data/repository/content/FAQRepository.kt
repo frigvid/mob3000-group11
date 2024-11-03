@@ -7,10 +7,20 @@ import no.usn.mob3000.domain.model.FAQData
 import no.usn.mob3000.domain.model.FaqUpdateData
 import no.usn.mob3000.domain.repository.IFAQRepository
 
+/**
+ * Repository class responsible for managing FAQ-related operations.
+ *
+ * @param faqDataSource The data source for FAQ-related operations.
+ * @author 258030
+ * @created 2024-10-30
+ */
 class FAQRepository(
     private val faqDataSource: FAQDataSource = FAQDataSource()
 ) : IFAQRepository {
 
+    /**
+     * Fetches a list of all FAQ.
+     */
     override suspend fun fetchFAQ(): Result<List<FAQData>> {
         return try {
             val faqDtoList = faqDataSource.fetchAllFAQ()
@@ -20,6 +30,9 @@ class FAQRepository(
         }
     }
 
+    /**
+     * Deletes a FAQ by its ID.
+     */
     override suspend fun deleteFAQ(faqId: String): Result<Unit> {
         return try {
             faqDataSource.deleteFAQById(faqId)
@@ -29,6 +42,9 @@ class FAQRepository(
         }
     }
 
+    /**
+     * Updates a chosen FAQ by its ID.
+     */
     override suspend fun updateFAQ(faqId: String, updatedData: FaqUpdateData): Result<Unit> {
         val originalFAQ = faqDataSource.fetchFAQById(faqId)
         return if (originalFAQ != null) {
@@ -48,6 +64,9 @@ class FAQRepository(
         }
     }
 
+    /**
+     * Fetches a FAQ by its ID.
+     */
     override suspend fun fetchFAQById(faqId: String): Result<FAQData?> {
         return try {
             val faqDto = faqDataSource.fetchFAQById(faqId)
@@ -57,6 +76,9 @@ class FAQRepository(
         }
     }
 
+    /**
+     * Inserts a new FAQ.
+     */
     override suspend fun insertFAQ(
         title: String,
         summary: String,
@@ -64,7 +86,7 @@ class FAQRepository(
         isPublished: Boolean,
         userId: String?
     ): Result<Unit> {
-        val currentUserId = userId ?: "00ba54a6-c585-4871-905e-7d53262f05c1"
+        val currentUserId = getUserId()
         val faqItem = FaqDto(
             faqId = null,
             createdAt = Clock.System
@@ -80,6 +102,9 @@ class FAQRepository(
         return faqDataSource.insertFAQ(faqItem, FaqDto.serializer())
     }
 
+    /**
+     * Maps a FaqDto to a FAQData. For usage in the domain layer.
+     */
     private fun FaqDto.toDomainModel(): FAQData {
         return FAQData(
             title = this.title ?: "",

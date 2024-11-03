@@ -1,7 +1,16 @@
+/**
+ * These are document, news and faq related data needed for the UI layer.
+ *
+ * TODO: Abstraction, especially for "UpateData"
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
+
+
 package no.usn.mob3000.domain.model
 
 import kotlinx.datetime.Instant
-import kotlinx.serialization.Serializable
 
 data class NewsData(
     val newsId: String,

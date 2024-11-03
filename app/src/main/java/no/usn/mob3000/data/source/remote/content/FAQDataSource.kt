@@ -9,10 +9,20 @@ import kotlinx.serialization.KSerializer
 import no.usn.mob3000.data.model.content.FaqDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 
+/**
+ * Data source class responsible for managing FAQ-related operations.
+ *
+ * @param supabaseClient The Supabase client for making API requests.
+ * @author 258030
+ * @created 2024-10-30
+ */
 class FAQDataSource(
     private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()
 ) {
 
+    /**
+     * Fetches a list of all FAQ.
+     */
     suspend fun fetchAllFAQ(): List<FaqDto> = withContext(Dispatchers.IO) {
         supabaseClient
             .from("faq")
@@ -20,6 +30,9 @@ class FAQDataSource(
             .decodeList()
     }
 
+    /**
+     * Deletes a FAQ by its ID.
+     */
     suspend fun deleteFAQById(faqId: String): PostgrestResult = withContext(Dispatchers.IO) {
         supabaseClient
             .from("faq")
@@ -27,6 +40,9 @@ class FAQDataSource(
 
     }
 
+    /**
+     * Fetches a FAQ by its ID.
+     */
     suspend fun fetchFAQById(faqId: String): FaqDto? = withContext(Dispatchers.IO) {
         supabaseClient
             .from("faq")
@@ -35,6 +51,9 @@ class FAQDataSource(
             .decodeSingleOrNull()
     }
 
+    /**
+     * Updates a chosen FAQ by its ID.
+     */
     suspend fun updateFAQ(faqId: String, updatedData: FaqDto, serializer: KSerializer<FaqDto>): Result<Unit> =
         withContext(Dispatchers.IO) {
             try {
@@ -49,6 +68,9 @@ class FAQDataSource(
             }
         }
 
+    /**
+     * Inserts a new FAQ.
+     */
     suspend fun insertFAQ(faqItem: FaqDto, serializer: KSerializer<FaqDto>): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             supabaseClient.from("faq").insert(faqItem)

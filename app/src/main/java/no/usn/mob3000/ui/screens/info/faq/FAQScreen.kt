@@ -12,15 +12,9 @@ import no.usn.mob3000.domain.model.FAQData
 import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
-import no.usn.mob3000.ui.screens.info.news.NewsScreen
-
 
 /**
- * Screen for the documentation page.
- *
- * TODO: This, [FAQScreen] and [NewsScreen] can probably be made more generic, so they depend
- *       on fellow components similar to the web-version.
- *
+ * Screen for the FAQ page, with a list of FAQ articles.
  *
  * @author frigvid, 258030 (Eirik)
  * @created 2024-09-23

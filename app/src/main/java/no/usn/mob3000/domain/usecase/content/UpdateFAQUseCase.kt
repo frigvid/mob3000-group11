@@ -3,6 +3,12 @@ package no.usn.mob3000.domain.usecase.content
 import no.usn.mob3000.domain.model.FaqUpdateData
 import no.usn.mob3000.domain.repository.IFAQRepository
 
+/**
+ * Use case for updating FAQ.
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
 class UpdateFAQUseCase(
     private val faqRepository: IFAQRepository
 ) {

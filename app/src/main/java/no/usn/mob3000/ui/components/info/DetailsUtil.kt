@@ -11,6 +11,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * Content display for news, documentation and faq.
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
 @Composable
 fun ContentDisplay(
     title: String,

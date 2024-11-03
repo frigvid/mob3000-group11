@@ -21,7 +21,7 @@ import no.usn.mob3000.ui.components.info.ContentDisplay
 /**
  * Screen to display full details about some documentation.
  *
- * @author frigvid
+ * @author frigvid, 258030
  * @created 2024-10-12
  */
 @Composable

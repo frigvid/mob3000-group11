@@ -3,6 +3,12 @@ package no.usn.mob3000.domain.repository
 import no.usn.mob3000.domain.model.NewsData
 import no.usn.mob3000.domain.model.NewsUpdateData
 
+/**
+ * Interface for news repository.
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
 interface INewsRepository {
     suspend fun fetchNews(): Result<List<NewsData>>
     suspend fun fetchNewsById(newsId: String): Result<NewsData?>

@@ -14,7 +14,6 @@ import no.usn.mob3000.data.repository.content.NewsRepository
 import no.usn.mob3000.domain.model.DocsData
 import no.usn.mob3000.domain.model.FAQData
 import no.usn.mob3000.domain.model.NewsData
-import no.usn.mob3000.domain.model.NewsUpdateData
 import no.usn.mob3000.domain.usecase.content.DeleteDocsUseCase
 import no.usn.mob3000.domain.usecase.content.DeleteFAQUseCase
 import no.usn.mob3000.domain.usecase.content.DeleteNewsUseCase
@@ -28,6 +27,12 @@ import no.usn.mob3000.domain.usecase.content.UpdateDocsUseCase
 import no.usn.mob3000.domain.usecase.content.UpdateFAQUseCase
 import no.usn.mob3000.domain.usecase.content.UpdateNewsUseCase
 
+/**
+ * View model for content.
+ *
+ * @author 258030
+ * @created 258030
+ */
 class ContentViewModel(
     private val fetchDocUseCase: FetchDocUseCase = FetchDocUseCase(),
     private val fetchNewsUseCase: FetchNewsUseCase = FetchNewsUseCase(),

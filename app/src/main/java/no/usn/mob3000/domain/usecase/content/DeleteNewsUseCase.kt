@@ -3,6 +3,12 @@ package no.usn.mob3000.domain.usecase.content
 import no.usn.mob3000.data.repository.content.NewsRepository
 import no.usn.mob3000.domain.repository.INewsRepository
 
+/**
+ * Use case for deleting news.
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
 class DeleteNewsUseCase(
     private val newsRepository: INewsRepository = NewsRepository()
 ) {

@@ -13,23 +13,18 @@ import no.usn.mob3000.domain.model.DocsData
 import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
-import no.usn.mob3000.ui.screens.info.faq.FAQScreen
-import no.usn.mob3000.ui.screens.info.news.NewsScreen
 import java.util.*
 
 /**
  * Screen for the documentation page.
- *
- * TODO: This, [FAQScreen] and [NewsScreen] can probably be made more generic, so they depend
- *       on fellow components similar to the web-version.
- *
+
  * @param documentations The list of documentation stored in the ViewModel's state.
  * @param onDocumentationClick Callback function to navigate to the [Documentation] object's [DocumentationDetailsScreen].
  * @param onCreateDocumentationClick Callback function to navigate to [CreateDocumentationScreen].
  * @param setDocumentationList ViewModel function to store the list of [Documentation] objects in state.
  * @param setSelectedDocumentation ViewModel function to store a specific [Documentation] object in state.
  * @param clearSelectedDocumentation ViewModel function to clear the stored state documentation object.
- * @author frigvid, 258030 (Eirik)
+ * @author frigvid, 258030
  * @created 2024-09-23
  */
 @Composable

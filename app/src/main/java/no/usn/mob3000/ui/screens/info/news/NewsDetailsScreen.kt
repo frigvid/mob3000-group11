@@ -28,7 +28,7 @@ import no.usn.mob3000.ui.components.info.ContentDisplay
  *
  * @param selectedNews The [NewsDto] object to display.
  * @param onEditClick Callback function to navigate to the edit screen.
- * @author frigvid, 258030 (Eirik)
+ * @author frigvid, 258030
  * @created 2024-10-12
  */
 @Composable

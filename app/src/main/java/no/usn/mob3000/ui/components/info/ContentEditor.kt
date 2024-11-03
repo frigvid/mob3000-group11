@@ -12,6 +12,12 @@ import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 
+/**
+ * Content editor for news, documentation and faq.
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
 @Composable
 fun ContentEditor(
     title: String,

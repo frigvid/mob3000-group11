@@ -18,6 +18,14 @@ import no.usn.mob3000.ui.components.info.PaddedLazyColumn
 
 /**
  * Screen for displaying a list of news articles.
+ *
+ * @param newsViewModel The [ContentViewModel] instance to fetch news data.
+ * @param onNewsClick Callback function to handle news item clicks.
+ * @param onCreateNewsClick Callback function to handle the creation of a new news article.
+ * @param setSelectedNews Callback function to set the selected news item.
+ * @param clearSelectedNews Callback function to clear the selected news item.
+ * @author frigvid, 258030
+ * @created 2024-10-12
  */
 @Composable
 fun NewsScreen(

@@ -4,6 +4,15 @@ import androidx.compose.runtime.*
 import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentEditor
 
+/**
+ * Screen to update documentation.
+ *
+ * @param selectedNews The [News] object to display for editing, if any.
+ * @param onSaveNewsClick Callback function to handle saving the news article.
+ * @author 258030
+ * @created 2024-10-30
+ *
+ */
 @Composable
 fun UpdateNewsScreen(
     viewModel: ContentViewModel,

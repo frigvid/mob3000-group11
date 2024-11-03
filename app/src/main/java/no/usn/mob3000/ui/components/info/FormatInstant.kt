@@ -7,6 +7,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 
+/**
+ * Formats a timestamp into a readable date string with a prefix indicating whether it's a creation or modification date.
+ * Might be overkill to have this as its own class
+ *
+ * TODO: Consider moving this to an abstract util class
+ *
+ * @param timestamp The timestamp to format.
+ * @param isCreated A boolean indicating whether the timestamp is a creation date or not.
+ *
+ * @author 258030
+ * @created 2024-10-30
+ */
 @Composable
 fun formatInstant(timestamp: Long?, isCreated: Boolean): String {
     if (timestamp == null) return ""
