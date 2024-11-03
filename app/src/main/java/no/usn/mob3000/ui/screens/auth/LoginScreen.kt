@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.auth
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,12 +27,12 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.Destination
 import no.usn.mob3000.R
-import no.usn.mob3000.domain.viewmodel.LoginState
+import no.usn.mob3000.domain.viewmodel.auth.LoginState
+import no.usn.mob3000.ui.components.Loading
+import no.usn.mob3000.ui.components.auth.Error
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -51,7 +50,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *                              text to navigate to the password recovery screen.
  * @param onCreateUserClick Callback triggered when the user clicks the "Or sign in"
  *                          text to navigate to the user creation screen.
- * @author frigvid, Anarox
+ * @author frigvid, Anarox1111
  * @contributor Markus
  * @created 2024-09-30
  */
@@ -168,44 +167,16 @@ fun LoginScreen(
                     }
 
                     is LoginState.Error -> {
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                                .clickable { loginStateReset() },
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.errorContainer
-                            )
-                        ) {
-                            Text(
-                                text =
-                                    stringResource((state as LoginState.Error).error.messageRes)
-                                    + "\n"
-                                    + (state as LoginState.Error).error,
-                                color = MaterialTheme.colorScheme.onErrorContainer,
-                                modifier = Modifier.padding(16.dp)
-                            )
-                        }
+                        Error(text =
+                            stringResource((state as LoginState.Error).error.messageRes)
+                                + "\n"
+                                + (state as LoginState.Error).error
+                        )
                     }
 
-                    is LoginState.Loading -> {
-                        Dialog(
-                            onDismissRequest = { },
-                            properties = DialogProperties(
-                                dismissOnBackPress = false,
-                                dismissOnClickOutside = false
-                            )
-                        ) {
-                            Box(
-                                contentAlignment = Alignment.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(all = 16.dp)
-                            ) { CircularProgressIndicator() }
-                        }
-                    }
+                    is LoginState.Loading -> Loading()
 
-                    else -> {}
+                    else -> {  }
                 }
             }
         }

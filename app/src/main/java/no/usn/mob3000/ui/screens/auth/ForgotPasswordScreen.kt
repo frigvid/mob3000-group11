@@ -32,7 +32,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * @param onResetPasswordClick Callback triggered when the user presses the "Reset
  *                             password" button to initiate the password reset process.
- * @author Anarox
+ * @author Anarox1111
  * @Contributor Markus, frigvid
  * @created 2024-09-24
  */

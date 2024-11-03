@@ -1,4 +1,4 @@
-package no.usn.mob3000.domain.viewmodel
+package no.usn.mob3000.domain.viewmodel.auth
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

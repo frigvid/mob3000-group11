@@ -232,9 +232,12 @@
     <!-- Authentication Error Messages. -->
     <string name="auth_error_email_exists">Email address already exists.</string>
     <string name="auth_error_signup_disabled">Sign-up is disabled.</string>
+    <string name="auth_error_passwords_must_match">Passwords must match!</string>
+    <string name="auth_error_weak_password">Your password must be at least 8 characters long and contain a mix of letters and numbers.</string>
     <string name="auth_error_not_admin">The user is not an administrator.</string>
 
     <string name="auth_error_email_not_confirmed">Please confirm your email address.</string>
+    <string name="auth_error_invalid_email_format">Please enter a valid email address.</string>
     <string name="auth_error_invalid_credentials">Invalid email or password.</string>
     <string name="auth_error_user_not_found">User not found</string>
     <string name="auth_error_user_banned">This user is banned.</string>
