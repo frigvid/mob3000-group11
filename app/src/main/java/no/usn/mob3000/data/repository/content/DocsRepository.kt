@@ -4,6 +4,8 @@ import kotlinx.datetime.Clock
 import no.usn.mob3000.data.source.remote.docs.DocsDataSource
 import no.usn.mob3000.domain.model.DocsData
 import no.usn.mob3000.data.model.content.DocsDto
+import no.usn.mob3000.data.repository.auth.AuthRepository
+import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.domain.model.DocsUpdateData
 import no.usn.mob3000.domain.repository.IDocsRepository
 
@@ -12,12 +14,13 @@ import no.usn.mob3000.domain.repository.IDocsRepository
  *
  * @param docsDataSource The data source for document-related operations.
  * @author 258030
+ * @contributor frigvid
  * @created 2024-10-30
  */
 class DocsRepository(
+    private val authDataSource: AuthDataSource = AuthDataSource(),
     private val docsDataSource: DocsDataSource = DocsDataSource()
 ) : IDocsRepository {
-
     /**
      * Fetches a list of all documents.
      */
@@ -46,34 +49,34 @@ class DocsRepository(
      * Updates a chosen document by its ID.
      */
     override suspend fun updateDocs(docsId: String, updatedData: DocsUpdateData): Result<Unit> {
-    val originalDocs = docsDataSource.fetchDocsById(docsId)
-    if (originalDocs != null) {
-        val updatedDocsDto = DocsDto(
-            docId = docsId,
-            createdAt = originalDocs.createdAt,
-            modifiedAt = Clock.System.now(),
-            createdByUser = originalDocs.createdByUser,
-            title = updatedData.title,
-            summary = updatedData.summary,
-            content = updatedData.content,
-            isPublished = updatedData.isPublished
-        )
-        return docsDataSource.updateDocs(docsId, updatedDocsDto, DocsDto.serializer())
-    } else {
-        return Result.failure(Exception("Original docs data not found"))
+        val originalDocs = docsDataSource.fetchDocsById(docsId)
+        if (originalDocs != null) {
+            val updatedDocsDto = DocsDto(
+                docId = docsId,
+                createdAt = originalDocs.createdAt,
+                modifiedAt = Clock.System.now(),
+                createdByUser = originalDocs.createdByUser,
+                title = updatedData.title,
+                summary = updatedData.summary,
+                content = updatedData.content,
+                isPublished = updatedData.isPublished
+            )
+            return docsDataSource.updateDocs(docsId, updatedDocsDto, DocsDto.serializer())
+        } else {
+            return Result.failure(Exception("Original docs data not found"))
+        }
     }
-}
     /**
      * Fetches a document by its ID.
      */
-override suspend fun fetchDocsById(docsId: String): Result<DocsData?> {
-    return try {
-        val docsDto = docsDataSource.fetchDocsById(docsId)
-        Result.success(docsDto?.toDomainModel())
-    } catch (e: Exception) {
-        Result.failure(e)
+    override suspend fun fetchDocsById(docsId: String): Result<DocsData?> {
+        return try {
+            val docsDto = docsDataSource.fetchDocsById(docsId)
+            Result.success(docsDto?.toDomainModel())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
-}
 
     /**
      * Inserts a new document.
@@ -85,14 +88,13 @@ override suspend fun fetchDocsById(docsId: String): Result<DocsData?> {
         isPublished: Boolean,
         userId: String?
     ): Result<Unit> {
-        val currentUserId = getUserId()
         val docsItem = DocsDto(
             docId = null,
             createdAt = Clock.System
                 .now(),
             modifiedAt = Clock.System
                 .now(),
-            createdByUser = currentUserId,
+            createdByUser = authDataSource.getCurrentUserId(),
             title = title,
             summary = summary,
             content = content,

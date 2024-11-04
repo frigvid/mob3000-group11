@@ -2,6 +2,7 @@ package no.usn.mob3000.data.repository.content
 
 import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.content.FaqDto
+import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.docs.FAQDataSource
 import no.usn.mob3000.domain.model.FAQData
 import no.usn.mob3000.domain.model.FaqUpdateData
@@ -12,9 +13,11 @@ import no.usn.mob3000.domain.repository.IFAQRepository
  *
  * @param faqDataSource The data source for FAQ-related operations.
  * @author 258030
+ * @contributor frigvid
  * @created 2024-10-30
  */
 class FAQRepository(
+    private val authDataSource: AuthDataSource = AuthDataSource(),
     private val faqDataSource: FAQDataSource = FAQDataSource()
 ) : IFAQRepository {
 
@@ -86,14 +89,13 @@ class FAQRepository(
         isPublished: Boolean,
         userId: String?
     ): Result<Unit> {
-        val currentUserId = getUserId()
         val faqItem = FaqDto(
             faqId = null,
             createdAt = Clock.System
                 .now(),
             modifiedAt = Clock.System
                 .now(),
-            createdByUser = currentUserId,
+            createdByUser = authDataSource.getCurrentUserId(),
             title = title,
             summary = summary,
             content = content,

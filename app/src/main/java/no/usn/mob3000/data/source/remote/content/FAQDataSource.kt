@@ -19,7 +19,6 @@ import no.usn.mob3000.data.network.SupabaseClientWrapper
 class FAQDataSource(
     private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()
 ) {
-
     /**
      * Fetches a list of all FAQ.
      */
@@ -37,7 +36,6 @@ class FAQDataSource(
         supabaseClient
             .from("faq")
             .delete { filter { eq("id", faqId) } }
-
     }
 
     /**
@@ -79,8 +77,4 @@ class FAQDataSource(
             Result.failure(e)
         }
     }
-    }
-
-
-
-
+}

@@ -21,7 +21,6 @@ import no.usn.mob3000.data.network.SupabaseClientWrapper
 class NewsDataSource(
     private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()
 ) {
-
     /**
      * Fetches a list of all news.
      */
@@ -39,7 +38,6 @@ class NewsDataSource(
         supabaseClient
             .from("news")
             .delete { filter { eq("id", newsId) } }
-
     }
 
     /**
@@ -82,8 +80,4 @@ class NewsDataSource(
             Result.failure(e)
         }
     }
-
-
 }
-
-

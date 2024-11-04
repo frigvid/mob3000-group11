@@ -2,6 +2,7 @@ package no.usn.mob3000.data.repository.content
 
 import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.content.NewsDto
+import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.content.NewsDataSource
 import no.usn.mob3000.domain.model.NewsData
 import no.usn.mob3000.domain.model.NewsUpdateData
@@ -15,6 +16,7 @@ import no.usn.mob3000.domain.repository.INewsRepository
  * @created 2024-10-30
  */
 class NewsRepository(
+    private val authDataSource: AuthDataSource = AuthDataSource(),
     private val newsDataSource: NewsDataSource = NewsDataSource()
 ) : INewsRepository {
 
@@ -86,12 +88,11 @@ class NewsRepository(
         isPublished: Boolean,
         userId: String?
     ): Result<Unit> {
-        val currentUserId = getUserId()
         val newsItem = NewsDto(
             newsId = null,
             createdAt = Clock.System.now(),
             modifiedAt = Clock.System.now(),
-            createdByUser = currentUserId,
+            createdByUser = authDataSource.getCurrentUserId(),
             title = title,
             summary = summary,
             content = content,

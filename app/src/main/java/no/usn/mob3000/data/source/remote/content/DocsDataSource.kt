@@ -21,7 +21,6 @@ import no.usn.mob3000.data.network.SupabaseClientWrapper
 class DocsDataSource(
     private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()
 ) {
-
     /**
      * Fetches a list of all documents.
      */
@@ -39,7 +38,6 @@ class DocsDataSource(
         supabaseClient
             .from("docs")
             .delete { filter { eq("id", docsId) } }
-
     }
 
     /**
