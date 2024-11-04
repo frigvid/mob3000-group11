@@ -7,10 +7,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import no.usn.mob3000.R
 
 /**
  * Content display for news, documentation and faq.
@@ -26,7 +28,8 @@ fun ContentDisplay(
     summary: String?,
     content: String?,
     createdAt: Long? = null,
-    modifiedAt: Long? = null
+    modifiedAt: Long? = null,
+    isPublished: Boolean = false
 ) {
     Box(
         modifier = modifier
@@ -85,6 +88,18 @@ fun ContentDisplay(
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
+
+            Text(
+                text = stringResource(R.string.info_item_details_status_prefix) +
+                    ": ${
+                        if (isPublished) {
+                            stringResource(R.string.info_item_details_status_published)
+                        } else {
+                            stringResource(R.string.info_item_details_status_draft)
+                        }
+                    }",
+                fontSize = 12.sp,
+            )
         }
     }
 }
