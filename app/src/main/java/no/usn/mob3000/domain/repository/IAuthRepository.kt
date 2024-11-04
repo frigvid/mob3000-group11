@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.repository
 
-import no.usn.mob3000.domain.model.User
+import no.usn.mob3000.domain.model.auth.User
 
 /**
  * Interface for authentication repository.

@@ -3,7 +3,7 @@ package no.usn.mob3000.domain.usecase.auth
 import no.usn.mob3000.data.repository.auth.AuthRepository
 import no.usn.mob3000.data.model.auth.UserDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
-import no.usn.mob3000.domain.model.User
+import no.usn.mob3000.domain.model.auth.User
 
 /**
  * Android Use Case for handling login operations.
