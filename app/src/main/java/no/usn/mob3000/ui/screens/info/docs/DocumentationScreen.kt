@@ -67,7 +67,7 @@ fun DocumentationScreen(
               */
              items(documentationResult.getOrThrow()) { docsItem ->
                  ContentItem(
-                     title = docsItem.title ?: "",
+                     title = docsItem.title,
                      summary = docsItem.summary,
                      isPublished = docsItem.isPublished,
                      onClick = {
@@ -78,5 +78,3 @@ fun DocumentationScreen(
          }
     }
 }
-
-
