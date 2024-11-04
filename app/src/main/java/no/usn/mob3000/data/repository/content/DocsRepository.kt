@@ -107,16 +107,15 @@ class DocsRepository(
      * Maps a DocsDto to a DocsData. For usage in the domain layer.
      */
     private fun DocsDto.toDomainModel(): DocsData {
-    return DocsData(
-        title = this.title ?: "",
-        summary = this.summary ?: "",
-        content = this.content ?: "",
-        isPublished = this.isPublished ?: false,
-        createdAt = this.createdAt,
-        modifiedAt = this.modifiedAt,
-        createdByUser = this.createdByUser ?: "",
-        docsId = this.docId ?: ""
-    )
-}
-
+        return DocsData(
+            title = this.title ?: "",
+            summary = this.summary ?: "",
+            content = this.content ?: "",
+            isPublished = this.isPublished,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser ?: "",
+            docsId = this.docId ?: ""
+        )
+    }
 }

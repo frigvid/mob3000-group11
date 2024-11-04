@@ -19,7 +19,6 @@ class NewsRepository(
     private val authDataSource: AuthDataSource = AuthDataSource(),
     private val newsDataSource: NewsDataSource = NewsDataSource()
 ) : INewsRepository {
-
     /**
      * Fetches a list of all news.
      */
@@ -101,7 +100,6 @@ class NewsRepository(
         return newsDataSource.insertNews(newsItem, NewsDto.serializer())
     }
 
-
     /**
      * Maps a NewsDto to a NewsData. For usage in the domain layer.
      */
@@ -110,7 +108,7 @@ class NewsRepository(
         title = this.title ?: "",
         summary = this.summary ?: "",
         content = this.content ?: "",
-        isPublished = this.isPublished ?: false,
+        isPublished = this.isPublished,
         createdAt = this.createdAt,
         modifiedAt = this.modifiedAt,
         createdByUser = this.createdByUser ?: "",
@@ -118,7 +116,3 @@ class NewsRepository(
         )
     }
 }
-
-
-
-

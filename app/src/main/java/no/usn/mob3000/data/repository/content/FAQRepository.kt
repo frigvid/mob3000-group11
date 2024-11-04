@@ -111,7 +111,7 @@ class FAQRepository(
             title = this.title ?: "",
             summary = this.summary ?: "",
             content = this.content ?: "",
-            isPublished = this.isPublished ?: false,
+            isPublished = this.isPublished,
             createdAt = this.createdAt,
             modifiedAt = this.modifiedAt,
             createdByUser = this.createdByUser ?: "",
