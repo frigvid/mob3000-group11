@@ -25,6 +25,7 @@ output.json
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /.idea/studiobot.xml
+/.idea/deploymentTargetSelector.xml
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
