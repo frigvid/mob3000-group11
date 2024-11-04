@@ -3,7 +3,6 @@ package no.usn.mob3000.ui.screens.info.docs
 import androidx.compose.runtime.*
 import no.usn.mob3000.domain.model.DocsData
 import no.usn.mob3000.domain.model.FAQData
-import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentEditor
 
 /**

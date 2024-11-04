@@ -39,11 +39,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.domain.viewmodel.CBViewModel
-import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.domain.viewmodel.LoginViewModel
+import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
+import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
+import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
@@ -147,7 +149,9 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
 fun App(
     viewModel: CBViewModel = viewModel(),
     loginViewModel: LoginViewModel = viewModel(),
-    contentViewModel: ContentViewModel = viewModel(),
+    documentationViewModel: DocumentationViewModel = viewModel(),
+    faqViewModel: FAQViewModel = viewModel(),
+    newsViewModel: NewsViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -165,98 +169,98 @@ fun App(
             }
             composable(route = Destination.DOCUMENTATION.name) {
                 DocumentationScreen(
-                    docsState = contentViewModel.documentations,
-                    fetchDocs = contentViewModel::fetchDocumentations,
+                    docsState = documentationViewModel.documentations,
+                    fetchDocs = documentationViewModel::fetchDocumentations,
                     navigateToDocumentationDetails = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
                     onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
-                    setSelectedDocumentation = contentViewModel::setSelectedDocumentation,
-                    clearSelectedDocumentation = contentViewModel::clearSelectedDocumentation
+                    setSelectedDocumentation = documentationViewModel::setSelectedDocumentation,
+                    clearSelectedDocumentation = documentationViewModel::clearSelectedDocumentation
                 )
             }
             composable(route = Destination.DOCUMENTATION_DETAILS.name) {
                 DocumentationDetailsScreen(
-                    setSelectedDoc = contentViewModel::setSelectedDocumentation,
-                    deleteDocItem = contentViewModel::deleteDocs,
-                    selectedDoc = contentViewModel.selectedDocumentation.value,
+                    setSelectedDoc = documentationViewModel::setSelectedDocumentation,
+                    deleteDocItem = documentationViewModel::deleteDocs,
+                    selectedDoc = documentationViewModel.selectedDocumentation.value,
                     navigateToDocumentationUpdate = { navController.navigate(Destination.DOCUMENTATION_UPDATE.name) },
                     popNavigationBackStack = navController::popBackStack
                 )
             }
             composable(route = Destination.DOCUMENTATION_CREATE.name) {
                 CreateDocumentationScreen(
-                    insertDocumentation = contentViewModel::insertDocs,
+                    insertDocumentation = documentationViewModel::insertDocs,
                     navControllerNavigateUp = { navController.navigateUp() }
                 )
             }
             composable(route = Destination.DOCUMENTATION_UPDATE.name) {
                 UpdateDocumentationScreen(
-                    selectedDoc = contentViewModel.selectedDocumentation.value,
-                    saveDocChanges = contentViewModel::saveDocumentationChanges,
+                    selectedDoc = documentationViewModel.selectedDocumentation.value,
+                    saveDocChanges = documentationViewModel::saveDocumentationChanges,
                     navigateToDocs = { navController.navigate(Destination.DOCUMENTATION.name) }
                 )
             }
             composable(route = Destination.FAQ.name) {
                 FAQScreen(
-                    faqState = contentViewModel.faq,
-                    fetchFaq = contentViewModel::fetchFAQ,
+                    faqState = faqViewModel.faq,
+                    fetchFaq = faqViewModel::fetchFAQ,
                     navigateToFaqDetails = { navController.navigate(Destination.FAQ_DETAILS.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
-                    setSelectedFAQ = contentViewModel::setSelectedFAQ,
-                    clearSelectedFAQ = contentViewModel::clearSelectedFAQ
+                    setSelectedFAQ = faqViewModel::setSelectedFAQ,
+                    clearSelectedFAQ = faqViewModel::clearSelectedFAQ
                 )
             }
             composable(route = Destination.FAQ_CREATE.name) {
                 CreateFAQScreen(
-                    insertFaq = contentViewModel::insertFAQ,
+                    insertFaq = faqViewModel::insertFAQ,
                     navControllerNavigateUp = { navController.navigateUp() }
                 )
             }
             composable(route = Destination.FAQ_DETAILS.name) {
                 FAQDetailsScreen(
-                    setSelectedFaq = contentViewModel::setSelectedFAQ,
-                    deleteFaqItem = contentViewModel::deleteFAQ,
-                    selectedFaq = contentViewModel.selectedFAQ.value,
+                    setSelectedFaq = faqViewModel::setSelectedFAQ,
+                    deleteFaqItem = faqViewModel::deleteFAQ,
+                    selectedFaq = faqViewModel.selectedFAQ.value,
                     navigateToFaqUpdate = { navController.navigate(Destination.FAQ_UPDATE.name) },
                     popNavigationBackStack = navController::popBackStack
                 )
             }
             composable(route = Destination.FAQ_UPDATE.name) {
                 UpdateFAQScreen(
-                    selectedFaq = contentViewModel.selectedFAQ.value,
-                    saveFaqChanges = contentViewModel::saveFAQChanges,
+                    selectedFaq = faqViewModel.selectedFAQ.value,
+                    saveFaqChanges = faqViewModel::saveFAQChanges,
                     navigateToFaq = { navController.navigate(Destination.FAQ.name) }
                 )
             }
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
-                    newsState = contentViewModel.news,
-                    fetchNews = contentViewModel::fetchNews,
+                    newsState = newsViewModel.news,
+                    fetchNews = newsViewModel::fetchNews,
                     onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
                     onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
-                    setSelectedNews = contentViewModel::setSelectedNews,
-                    clearSelectedNews = contentViewModel::clearSelectedNews
+                    setSelectedNews = newsViewModel::setSelectedNews,
+                    clearSelectedNews = newsViewModel::clearSelectedNews
                 )
             }
             composable(route = Destination.NEWS_DETAILS.name) {
                 NewsDetailsScreen(
-                    setSelectedNews = contentViewModel::setSelectedNews,
-                    deleteNewsItem = contentViewModel::deleteNews,
-                    selectedNews = contentViewModel.selectedNews.value,
+                    setSelectedNews = newsViewModel::setSelectedNews,
+                    deleteNewsItem = newsViewModel::deleteNews,
+                    selectedNews = newsViewModel.selectedNews.value,
                     navigateToNewsUpdate = { navController.navigate(Destination.NEWS_UPDATE.name) },
                     navControllerPopBackStack = navController::popBackStack
                 )
             }
             composable(route = Destination.NEWS_CREATE.name) {
                 CreateNewsScreen(
-                    insertNews = contentViewModel::insertNews,
+                    insertNews = newsViewModel::insertNews,
                     navControllerNavigateUp = { navController.navigateUp() }
                 )
             }
             composable(route = Destination.NEWS_UPDATE.name) {
                 UpdateNewsScreen(
-                    selectedNews = contentViewModel.selectedNews.value,
-                    saveNewsChanges = contentViewModel::saveNewsChanges,
+                    selectedNews = newsViewModel.selectedNews.value,
+                    saveNewsChanges = newsViewModel::saveNewsChanges,
                     navigateToNews = { navController.navigate(Destination.NEWS.name) },
                 )
             }
