@@ -256,17 +256,13 @@ fun App(
                 )
             }
             composable(route = Destination.NEWS_DETAILS.name) {
-                contentViewModel.selectedNews.value?.let { news ->
-                    NewsDetailsScreen(
-                        newsViewModel = contentViewModel,
-                        newsId = news.newsId,
-                        onEditClick = { navController.navigate(Destination.NEWS_UPDATE.name) },
-                        onDeleteClick = {
-                            contentViewModel.deleteNews(news.newsId)
-                            navController.popBackStack()
-                        }
-                    )
-                }
+                NewsDetailsScreen(
+                    setSelectedNews = contentViewModel::setSelectedNews,
+                    deleteNewsItem = contentViewModel::deleteNews,
+                    selectedNews = contentViewModel.selectedNews.value,
+                    onEditClick = { navController.navigate(Destination.NEWS_UPDATE.name) },
+                    onDeleteClick = navController::popBackStack
+                )
             }
             composable(route = Destination.NEWS_CREATE.name) {
                 CreateNewsScreen(
@@ -290,7 +286,6 @@ fun App(
                     )
                 }
             }
-
 
             composable(route = Destination.HOME.name) {
                 HomeScreen(
