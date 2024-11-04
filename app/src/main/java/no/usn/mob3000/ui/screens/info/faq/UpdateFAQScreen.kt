@@ -1,6 +1,8 @@
 package no.usn.mob3000.ui.screens.info.faq
 
 import androidx.compose.runtime.*
+import no.usn.mob3000.Destination
+import no.usn.mob3000.domain.model.FAQData
 import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentEditor
 
@@ -12,14 +14,14 @@ import no.usn.mob3000.ui.components.info.ContentEditor
  */
 @Composable
 fun UpdateFAQScreen(
-    viewModel: ContentViewModel,
-    onSaveFAQClick: () -> Unit
+    selectedFaq: FAQData? = null,
+    saveFaqChanges: (String, String, String, Boolean) -> Unit,
+    navigateToFaq: () -> Unit
 ) {
-    val selectedFAQ = viewModel.selectedFAQ.value
-    var title by remember { mutableStateOf(selectedFAQ?.title ?: "") }
-    var summary by remember { mutableStateOf(selectedFAQ?.summary ?: "") }
-    var content by remember { mutableStateOf(selectedFAQ?.content ?: "") }
-    var isPublished by remember { mutableStateOf(selectedFAQ?.isPublished ?: true) }
+    var title by remember { mutableStateOf(selectedFaq?.title ?: "") }
+    var summary by remember { mutableStateOf(selectedFaq?.summary ?: "") }
+    var content by remember { mutableStateOf(selectedFaq?.content ?: "") }
+    var isPublished by remember { mutableStateOf(selectedFaq?.isPublished ?: true) }
 
     ContentEditor(
         title = title,
@@ -31,8 +33,8 @@ fun UpdateFAQScreen(
         isPublished = isPublished,
         onIsPublishedChange = { isPublished = it },
         onSaveClick = {
-            viewModel.saveFAQChanges(title, summary, content, isPublished)
-            onSaveFAQClick()
+            saveFaqChanges(title, summary, content, isPublished)
+            navigateToFaq()
         }
     )
 }

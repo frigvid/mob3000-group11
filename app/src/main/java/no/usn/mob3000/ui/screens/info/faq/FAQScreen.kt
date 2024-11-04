@@ -8,8 +8,8 @@ import no.usn.mob3000.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.domain.model.FAQData
-import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
 
@@ -21,17 +21,18 @@ import no.usn.mob3000.ui.components.info.PaddedLazyColumn
  */
 @Composable
 fun FAQScreen(
-    faqViewModel: ContentViewModel,
-    onFAQClick: (FAQData) -> Unit,
+    faqState: StateFlow<Result<List<FAQData>>>,
+    fetchFaq: () -> Unit,
+    navigateToFaqDetails: (FAQData) -> Unit,
     onCreateFAQClick: () -> Unit,
     setSelectedFAQ: (FAQData) -> Unit,
     clearSelectedFAQ: () -> Unit
 ) {
-    val faqResult by faqViewModel.faq.collectAsState()
+    val faqResult by faqState.collectAsState()
 
     LaunchedEffect(Unit) {
         clearSelectedFAQ()
-        faqViewModel.fetchFAQ()
+        fetchFaq()
     }
 
     Viewport(
@@ -45,15 +46,14 @@ fun FAQScreen(
         }
     ) { innerPadding ->
         PaddedLazyColumn(innerPadding = innerPadding) {
-
             items(faqResult.getOrThrow()) { faqItem ->
                 ContentItem(
-                    title = faqItem.title ?: "",
+                    title = faqItem.title,
                     summary = faqItem.summary,
                     isPublished = faqItem.isPublished,
                     onClick = {
                         setSelectedFAQ(faqItem)
-                        onFAQClick(faqItem) }
+                        navigateToFaqDetails(faqItem) }
                 )
             }
         }

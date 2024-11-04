@@ -17,9 +17,8 @@ import no.usn.mob3000.ui.components.info.ContentEditor
  */
 @Composable
 fun CreateFAQScreen(
-    viewModel: ContentViewModel,
-    onSaveFAQClick: () -> Unit
-
+    insertFaq: (String, String, String, Boolean) -> Unit,
+    navControllerNavigateUp: () -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var summary by remember { mutableStateOf("") }
@@ -36,8 +35,8 @@ fun CreateFAQScreen(
         isPublished = isPublished,
         onIsPublishedChange = { isPublished = it },
         onSaveClick = {
-            viewModel.insertFAQ(title, summary, content, isPublished)
-            onSaveFAQClick()
+            insertFaq(title, summary, content, isPublished)
+            navControllerNavigateUp()
         }
     )
 }

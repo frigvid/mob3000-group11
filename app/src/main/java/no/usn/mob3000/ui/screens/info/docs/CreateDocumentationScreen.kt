@@ -3,7 +3,6 @@ package no.usn.mob3000.ui.screens.info.docs
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentEditor
 
 /**
@@ -17,8 +16,8 @@ import no.usn.mob3000.ui.components.info.ContentEditor
  */
 @Composable
 fun CreateDocumentationScreen(
-    viewModel: ContentViewModel,
-    onSaveDocumentationClick: () -> Unit
+    insertDocumentation: (String, String, String, Boolean) -> Unit,
+    navControllerNavigateUp: () -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var summary by remember { mutableStateOf("") }
@@ -36,8 +35,8 @@ fun CreateDocumentationScreen(
         isPublished = isPublished,
         onIsPublishedChange = { isPublished = it },
         onSaveClick = {
-            viewModel.insertDocs(title, summary, content, isPublished)
-            onSaveDocumentationClick()
+            insertDocumentation(title, summary, content, isPublished)
+            navControllerNavigateUp()
         }
     )
 }

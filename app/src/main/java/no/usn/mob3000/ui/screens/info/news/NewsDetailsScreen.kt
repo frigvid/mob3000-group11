@@ -25,7 +25,7 @@ import no.usn.mob3000.ui.components.info.ContentDisplay
  * authorized users.
  *
  * @param selectedNews The [NewsData] object to display.
- * @param onEditClick Callback function to navigate to the edit screen.
+ * @param navigateToNewsUpdate Callback function to navigate to the edit screen.
  * @author frigvid, 258030
  * @created 2024-10-12
  */
@@ -34,8 +34,8 @@ fun NewsDetailsScreen(
     setSelectedNews: (NewsData) -> Unit,
     deleteNewsItem: (String) -> Unit,
     selectedNews: NewsData? = null,
-    onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    navigateToNewsUpdate: () -> Unit,
+    navControllerPopBackStack: () -> Unit
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
 
@@ -44,7 +44,7 @@ fun NewsDetailsScreen(
         onConfirm = {
             if (selectedNews != null) {
                 deleteNewsItem(selectedNews.newsId)
-                onDeleteClick()
+                navControllerPopBackStack()
             }
         }
     )
@@ -55,7 +55,7 @@ fun NewsDetailsScreen(
                 IconButton(onClick = {
                     selectedNews?.let {
                         setSelectedNews(it)
-                        onEditClick()
+                        navigateToNewsUpdate()
                     }
                 }) {
                     Icon(

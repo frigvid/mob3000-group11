@@ -1,6 +1,8 @@
 package no.usn.mob3000.ui.screens.info.docs
 
 import androidx.compose.runtime.*
+import no.usn.mob3000.domain.model.DocsData
+import no.usn.mob3000.domain.model.FAQData
 import no.usn.mob3000.domain.viewmodel.ContentViewModel
 import no.usn.mob3000.ui.components.info.ContentEditor
 
@@ -12,15 +14,14 @@ import no.usn.mob3000.ui.components.info.ContentEditor
  */
 @Composable
 fun UpdateDocumentationScreen(
-
-    viewModel: ContentViewModel,
-    onSaveDocumentationClick: () -> Unit
+    selectedDoc: DocsData? = null,
+    saveDocChanges: (String, String, String, Boolean) -> Unit,
+    navigateToDocs: () -> Unit
 ) {
-    val selectedDocumentation = viewModel.selectedDocumentation.value
-    var title by remember { mutableStateOf(selectedDocumentation?.title ?: "") }
-    var summary by remember { mutableStateOf(selectedDocumentation?.summary ?: "") }
-    var content by remember { mutableStateOf(selectedDocumentation?.content ?: "") }
-    var isPublished by remember { mutableStateOf(selectedDocumentation?.isPublished ?: true) }
+    var title by remember { mutableStateOf(selectedDoc?.title ?: "") }
+    var summary by remember { mutableStateOf(selectedDoc?.summary ?: "") }
+    var content by remember { mutableStateOf(selectedDoc?.content ?: "") }
+    var isPublished by remember { mutableStateOf(selectedDoc?.isPublished ?: true) }
 
     ContentEditor(
         title = title,
@@ -32,8 +33,8 @@ fun UpdateDocumentationScreen(
         isPublished = isPublished,
         onIsPublishedChange = { isPublished = it },
         onSaveClick = {
-            viewModel.saveDocumentationChanges(title, summary, content, isPublished)
-            onSaveDocumentationClick()
+            saveDocChanges(title, summary, content, isPublished)
+            navigateToDocs()
         }
     )
 }
