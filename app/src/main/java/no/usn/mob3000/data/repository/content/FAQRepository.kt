@@ -6,7 +6,7 @@ import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.docs.FAQDataSource
 import no.usn.mob3000.domain.model.content.FAQData
 import no.usn.mob3000.domain.model.content.FaqUpdateData
-import no.usn.mob3000.domain.repository.IFAQRepository
+import no.usn.mob3000.domain.repository.content.IFAQRepository
 
 /**
  * Repository class responsible for managing FAQ-related operations.

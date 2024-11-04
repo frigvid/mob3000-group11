@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.usecase.content.news
 
-import no.usn.mob3000.domain.repository.INewsRepository
+import no.usn.mob3000.domain.repository.content.INewsRepository
 
 /**
  * Use case for inserting news.

@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.usecase.content.faq
 
-import no.usn.mob3000.domain.repository.IFAQRepository
+import no.usn.mob3000.domain.repository.content.IFAQRepository
 
 /**
  * Use case for inserting FAQ.

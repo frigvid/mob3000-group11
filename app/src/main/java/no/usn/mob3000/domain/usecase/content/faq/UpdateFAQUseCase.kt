@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.usecase.content.faq
 
 import no.usn.mob3000.domain.model.content.FaqUpdateData
-import no.usn.mob3000.domain.repository.IFAQRepository
+import no.usn.mob3000.domain.repository.content.IFAQRepository
 
 /**
  * Use case for updating FAQ.

@@ -6,7 +6,7 @@ import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.data.model.content.DocsDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.domain.model.content.DocsUpdateData
-import no.usn.mob3000.domain.repository.IDocsRepository
+import no.usn.mob3000.domain.repository.content.IDocsRepository
 
 /**
  * Repository class responsible for managing document-related operations.
