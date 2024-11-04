@@ -32,6 +32,3 @@ fun formatInstant(timestamp: Long?, isCreated: Boolean): String {
     val formatter = SimpleDateFormat(stringResource(patternRes), Locale.getDefault())
     return "${stringResource(prefixRes)}: ${formatter.format(Date(timestamp))}"
 }
-
-
-
