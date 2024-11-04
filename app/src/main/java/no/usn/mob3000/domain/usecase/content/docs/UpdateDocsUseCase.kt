@@ -28,4 +28,3 @@ class UpdateDocsUseCase (
     return docsRepository.updateDocs(docsId, updatedData)
     }
 }
-

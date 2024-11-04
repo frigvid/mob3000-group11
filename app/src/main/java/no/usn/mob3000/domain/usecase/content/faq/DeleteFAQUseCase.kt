@@ -15,6 +15,4 @@ class DeleteFAQUseCase(
     suspend fun deleteFAQ(faqId: String): Result<Unit> {
         return faqRepository.deleteFAQ(faqId)
     }
-
-
 }

@@ -16,5 +16,3 @@ class FetchDocUseCase(
         return fetchRepository.fetchDocuments()
     }
 }
-
-
