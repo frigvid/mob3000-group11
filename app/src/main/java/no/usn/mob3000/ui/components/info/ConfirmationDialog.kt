@@ -1,3 +1,5 @@
+package no.usn.mob3000.ui.components.info
+
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton

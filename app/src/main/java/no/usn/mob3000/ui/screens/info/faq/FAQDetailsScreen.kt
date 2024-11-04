@@ -1,6 +1,6 @@
 package no.usn.mob3000.ui.screens.info.faq
 
-import ConfirmationDialog
+import no.usn.mob3000.ui.components.info.ConfirmationDialog
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
