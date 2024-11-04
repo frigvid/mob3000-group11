@@ -5,12 +5,13 @@ import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.result.PostgrestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.KSerializer
 import no.usn.mob3000.data.model.content.FaqDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 
 /**
- * Data source class responsible for managing FAQ-related operations.
+ * Data source class responsible for the database communication. All database
+ * interactions are executed on the IO dispatcher to ensure optimal performance for
+ * network-bound operations.
  *
  * @param supabaseClient The Supabase client for making API requests.
  * @author 258030
@@ -20,7 +21,9 @@ class FAQDataSource(
     private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()
 ) {
     /**
-     * Fetches a list of all FAQ.
+     * Fetches all rows from the faq table
+     *
+     * @return A list of FaqDto objects representing the fetched rows.
      */
     suspend fun fetchAllFAQ(): List<FaqDto> = withContext(Dispatchers.IO) {
         supabaseClient
@@ -31,6 +34,8 @@ class FAQDataSource(
 
     /**
      * Deletes a FAQ by its ID.
+     *
+     * @param faqId The ID of the FAQ to be deleted.
      */
     suspend fun deleteFAQById(faqId: String): PostgrestResult = withContext(Dispatchers.IO) {
         supabaseClient
@@ -40,6 +45,8 @@ class FAQDataSource(
 
     /**
      * Fetches a FAQ by its ID.
+     *
+     * @param faqId The ID of the FAQ to be fetched.
      */
     suspend fun fetchFAQById(faqId: String): FaqDto? = withContext(Dispatchers.IO) {
         supabaseClient
@@ -50,10 +57,13 @@ class FAQDataSource(
     }
 
     /**
-     * Updates a chosen FAQ by its ID.
+     * Updates an existing FAQ by its ID with new data.
+     *
+     * @param faqId The ID of the FAQ to be updated.
+     * @param updatedData The new data for the FAQ.
+     * @throws Exception If an error occurs during the update operation.
      */
-    suspend fun updateFAQ(faqId: String, updatedData: FaqDto, serializer: KSerializer<FaqDto>): Result<Unit> =
-        withContext(Dispatchers.IO) {
+    suspend fun updateFAQ(faqId: String, updatedData: FaqDto): Result<Unit> = withContext(Dispatchers.IO) {
             try {
                 supabaseClient
                     .from("faq")
@@ -67,10 +77,14 @@ class FAQDataSource(
         }
 
     /**
-     * Inserts a new FAQ.
+     * Inserts a new row into the faq table.
+     *
+     * @param faqItem The FaqDto object representing the new row to be inserted.
+     * @return A result indicating the success or failure of the insertion operation.
+     * @throws Exception If an error occurs during the insertion process.
      */
-    suspend fun insertFAQ(faqItem: FaqDto, serializer: KSerializer<FaqDto>): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
+    suspend fun insertFAQ(faqItem: FaqDto): Result<Unit> = withContext(Dispatchers.IO) {
+       try {
             supabaseClient.from("faq").insert(faqItem)
             Result.success(Unit)
         } catch (e: Exception) {

@@ -43,14 +43,14 @@ fun ContentEditor(
             OutlinedTextField(
                 value = title,
                 onValueChange = onTitleChange,
-                label = { Text(stringResource(R.string.news_update_title)) },
+                label = { Text(stringResource(R.string.info_item_content_title)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = summary,
                 onValueChange = onSummaryChange,
-                label = { Text(stringResource(R.string.news_create_label_summary)) },
+                label = { Text(stringResource(R.string.info_item_content_summary)) },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3
             )
@@ -58,7 +58,7 @@ fun ContentEditor(
             OutlinedTextField(
                 value = content,
                 onValueChange = onContentChange,
-                label = { Text(stringResource(R.string.news_create_label_content)) },
+                label = { Text(stringResource(R.string.info_item_content_content)) },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 14
             )
@@ -68,7 +68,7 @@ fun ContentEditor(
                     checked = isPublished,
                     onCheckedChange = onIsPublishedChange
                 )
-                Text(stringResource(R.string.news_create_check_publish))
+                Text(stringResource(R.string.info_item_content_publish))
             }
 
             Spacer(modifier = Modifier.weight(1f))
@@ -78,7 +78,7 @@ fun ContentEditor(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
             ) {
-                Text(stringResource(R.string.news_create_save_changes))
+                Text(stringResource(R.string.info_item_content_save))
             }
         }
     }

@@ -9,6 +9,12 @@
     <string name="info_item_details_status_prefix">Status</string>
     <string name="info_item_details_status_published">Published</string>
     <string name="info_item_details_status_draft">Draft</string>
+    <string name="info_item_content_title">Title</string>
+    <string name="info_item_content_summary">Summary</string>
+    <string name="info_item_content_content">Content</string>
+    <string name="info_item_content_publish">Publish</string>
+    <string name="info_item_content_unpublish">Unpublish</string>
+    <string name="info_item_content_save">Save</string>
 
     <!-- Documentation related pages. -->
     <string name="info_title">Information</string>

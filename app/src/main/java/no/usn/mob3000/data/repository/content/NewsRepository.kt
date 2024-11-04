@@ -5,13 +5,16 @@ import no.usn.mob3000.data.model.content.NewsDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.content.NewsDataSource
 import no.usn.mob3000.domain.model.content.NewsData
-import no.usn.mob3000.domain.model.content.NewsUpdateData
 import no.usn.mob3000.domain.repository.content.INewsRepository
+import java.util.UUID
 
 /**
- * Repository class responsible for managing news-related operations.
+ * Repository class responsible for managing operations related to the docs table. It uses [NewsDataSource] for fetching and handling
+ * database actions. Via [INewsRepository] it makes a possible communication route with the UI domain layer, without the domain layer getting accidental access
+ * to parts of the code it never was suppose to have. It also helps the application run smoother, as there are less dependencies between layers.
  *
  * @param newsDataSource The data source for news-related operations.
+ * @param authDataSource The data source for authentication-related operations.
  * @author 258030
  * @created 2024-10-30
  */
@@ -20,7 +23,10 @@ class NewsRepository(
     private val newsDataSource: NewsDataSource = NewsDataSource()
 ) : INewsRepository {
     /**
-     * Fetches a list of all news.
+     * Fetches a list of all news to later be used for generating news-cards in the UI. It maps the fetched data to a domain model, so it can be used in the UI.
+     *
+     * @return a result containing a list of news.
+     * @throws Exception if an error occurs during the fetching process.
      */
     override suspend fun fetchNews(): Result<List<NewsData>> {
         return try {
@@ -32,7 +38,11 @@ class NewsRepository(
     }
 
     /**
-     * Deletes a news by its ID.
+     * Deletes a news by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
+     * [NewsScreen] -> [NewsDetailsScreen]
+     *
+     * @return A result indicating the success or failure of the deletion operation.
+     * @throws Exception If an error occurs during the deletion process.
      */
     override suspend fun deleteNews(newsId: String): Result<Unit> {
         return try {
@@ -44,9 +54,20 @@ class NewsRepository(
     }
 
     /**
-     * Updates a chosen news by its ID.
-     */
-    override suspend fun updateNews(newsId: String, updatedData: NewsUpdateData): Result<Unit> {
+     * Updates a chosen news by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
+     * [NewsScreen] -> [NewsDetailsScreen]. As long as the ewsId exist, the update instance starts. Without an actual UUID for the news
+     * the update operation would fail, but to prevent unnecessary API-calls we use a validator here. There is a throw in [NewsDataSource],
+     * but the validator also make us aware if the method for fetching the ID fails.
+     *
+     * @return A result indicating the success or failure of the update operation.
+     * */
+    override suspend fun updateNews(
+        newsId: String,
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean
+    ): Result<Unit> {
         val originalNews = newsDataSource.fetchNewsById(newsId)
         if (originalNews != null) {
             val updatedNewsDto = NewsDto(
@@ -54,19 +75,22 @@ class NewsRepository(
                 createdAt = originalNews.createdAt,
                 modifiedAt = Clock.System.now(),
                 createdByUser = originalNews.createdByUser,
-                title = updatedData.title,
-                summary = updatedData.summary,
-                content = updatedData.content,
-                isPublished = updatedData.isPublished
+                title = title,
+                summary = summary,
+                content = content,
+                isPublished = isPublished
             )
-            return newsDataSource.updateNews(newsId, updatedNewsDto, NewsDto.serializer())
+            return newsDataSource.updateNews(newsId, updatedNewsDto)
         } else {
             return Result.failure(Exception("Original news data not found"))
         }
     }
 
     /**
-     * Fetches a news by its ID.
+     * Fetches a news by its ID. Used for populating the update screen and identify what row we are working with.
+     *
+     * @return A result containing the fetched news.
+     * @throws Exception If an error occurs during the fetching process.
      */
     override suspend fun fetchNewsById(newsId: String): Result<NewsData?> {
         return try {
@@ -78,17 +102,20 @@ class NewsRepository(
     }
 
     /**
-     * Inserts a new news.
+     * Inserts a new news.The database has an auto generated UUID for new rows, but we call it here for good measure. Not passing the value seems
+     * to interfere with the null exception. It displays the time of creation using [kotlinx.datetime.Clock] and tracks what user made the row.
+     *
+     * @return A result indicating the success or failure of the insertion operation.
+     * @throws Exception If an error occurs during the insertion process.
      */
     override suspend fun insertNews(
         title: String,
         summary: String,
         content: String,
         isPublished: Boolean,
-        userId: String?
     ): Result<Unit> {
         val newsItem = NewsDto(
-            newsId = null,
+            newsId = UUID.randomUUID().toString(),
             createdAt = Clock.System.now(),
             modifiedAt = Clock.System.now(),
             createdByUser = authDataSource.getCurrentUserId(),
@@ -97,11 +124,11 @@ class NewsRepository(
             content = content,
             isPublished = isPublished
         )
-        return newsDataSource.insertNews(newsItem, NewsDto.serializer())
+        return newsDataSource.insertNews(newsItem)
     }
 
     /**
-     * Maps a NewsDto to a NewsData. For usage in the domain layer.
+     * Maps a NewsDto to a NewsData. For usage in the domain layer. Might be moved if repository are made abstract.
      */
     private fun NewsDto.toDomainModel(): NewsData {
     return NewsData(

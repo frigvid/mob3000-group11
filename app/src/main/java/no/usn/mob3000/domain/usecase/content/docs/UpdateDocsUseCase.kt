@@ -1,11 +1,12 @@
 package no.usn.mob3000.domain.usecase.content.docs
 
-import no.usn.mob3000.domain.model.content.DocsUpdateData
 import no.usn.mob3000.domain.repository.content.IDocsRepository
 
 /**
- * Use case for updating docs.
+ * Use case for updating docs. Functions as a bridge between the UI and Data layers.
  *
+ * @param docsRepository The repository handling docs operations.
+ * @return Result<Unit>
  * @author 258030
  * @created 2024-10-30
  */
@@ -19,12 +20,6 @@ class UpdateDocsUseCase (
         content: String,
         isPublished: Boolean
     ): Result<Unit> {
-        val updatedData = DocsUpdateData(
-            title = title,
-            summary = summary,
-            content = content,
-            isPublished = isPublished
-        )
-    return docsRepository.updateDocs(docsId, updatedData)
+    return docsRepository.updateDocs(docsId, title, summary, content, isPublished)
     }
 }

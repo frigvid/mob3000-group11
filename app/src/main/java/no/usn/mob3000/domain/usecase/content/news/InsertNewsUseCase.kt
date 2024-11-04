@@ -15,9 +15,8 @@ class InsertNewsUseCase(
         title: String,
         summary: String,
         content: String,
-        isPublished: Boolean,
-        userId: String? = null
+        isPublished: Boolean
     ): Result<Unit> {
-        return newsRepository.insertNews(title, summary, content, isPublished, userId)
+        return newsRepository.insertNews(title, summary, content, isPublished)
     }
 }

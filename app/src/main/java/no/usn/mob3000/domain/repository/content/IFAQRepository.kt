@@ -1,7 +1,6 @@
 package no.usn.mob3000.domain.repository.content
 
 import no.usn.mob3000.domain.model.content.FAQData
-import no.usn.mob3000.domain.model.content.FaqUpdateData
 
 /**
  * Interface for FAQ repository.
@@ -13,12 +12,17 @@ interface IFAQRepository {
     suspend fun fetchFAQ(): Result<List<FAQData>>
     suspend fun fetchFAQById(faqId: String): Result<FAQData?>
     suspend fun deleteFAQ(faqId: String): Result<Unit>
-    suspend fun updateFAQ(faqId: String, updatedData: FaqUpdateData): Result<Unit>
+    suspend fun updateFAQ(
+        faqId: String,
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean
+    ): Result<Unit>
     suspend fun insertFAQ(
         title: String,
         summary: String,
         content: String,
-        isPublished: Boolean,
-        userId: String?
+        isPublished: Boolean
     ): Result<Unit>
 }

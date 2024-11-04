@@ -15,7 +15,17 @@ import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 
 /**
- * Content display for news, documentation and faq.
+ * Generic composable for displaying individual rows from the database. Show the title, summary, main content, creation/modification and status.
+ * Since the screens are so similar, the only real difference is what data is being displayed. Because the data is needed for further navigation and editing,
+ * it has to be passed as parameters.
+ *
+ * @param modifier Modifier for the composable.
+ * @param title The title of the row.
+ * @param summary The summary of the row.
+ * @param content The main content of the row.
+ * @param createdAt The creation date of the row.
+ * @param modifiedAt The modification date of the row.
+ * @param isPublished Whether the row is published or not.
  *
  * @author 258030
  * @contributor frigvid

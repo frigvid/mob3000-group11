@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FaqDto(
     @SerialName("id")
-    val faqId: String? = null,
+    val faqId: String,
     @SerialName("created_at")
     val createdAt: Instant,
     @SerialName("modified_at")

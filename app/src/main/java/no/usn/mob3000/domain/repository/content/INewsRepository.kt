@@ -1,7 +1,6 @@
 package no.usn.mob3000.domain.repository.content
 
 import no.usn.mob3000.domain.model.content.NewsData
-import no.usn.mob3000.domain.model.content.NewsUpdateData
 
 /**
  * Interface for news repository.
@@ -13,13 +12,18 @@ interface INewsRepository {
     suspend fun fetchNews(): Result<List<NewsData>>
     suspend fun fetchNewsById(newsId: String): Result<NewsData?>
     suspend fun deleteNews(newsId: String): Result<Unit>
-    suspend fun updateNews(newsId: String, updatedData: NewsUpdateData): Result<Unit>
+    suspend fun updateNews(
+        newsId: String,
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean
+    ): Result<Unit>
     suspend fun insertNews(
         title: String,
         summary: String,
         content: String,
-        isPublished: Boolean,
-        userId: String?
+        isPublished: Boolean
     ): Result<Unit>
 }
 

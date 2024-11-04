@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NewsDto(
     @SerialName("id")
-    val newsId: String? = null,
+    val newsId: String,
     @SerialName("created_at")
     val createdAt: Instant,
     @SerialName("modified_at")

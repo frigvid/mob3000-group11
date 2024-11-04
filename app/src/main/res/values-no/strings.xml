@@ -8,6 +8,12 @@
     <string name="info_item_details_status_prefix">Status</string>
     <string name="info_item_details_status_published">Publisert</string>
     <string name="info_item_details_status_draft">Utkast</string>
+    <string name="info_item_content_title">Tittel</string>
+    <string name="info_item_content_summary">Sammendrag</string>
+    <string name="info_item_content_content">Innhold</string>
+    <string name="info_item_content_publish">Publiser</string>
+    <string name="info_item_content_unpublish">Fjern publisering</string>
+    <string name="info_item_content_save">Lagre</string>
 
     <!-- Documentation related pages. -->
     <string name="info_title">Informasjon</string>

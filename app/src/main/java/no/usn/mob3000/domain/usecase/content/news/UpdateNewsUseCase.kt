@@ -1,6 +1,5 @@
 package no.usn.mob3000.domain.usecase.content.news
 
-import no.usn.mob3000.domain.model.content.NewsUpdateData
 import no.usn.mob3000.domain.repository.content.INewsRepository
 
 /**
@@ -19,12 +18,6 @@ class UpdateNewsUseCase(
         content: String,
         isPublished: Boolean
     ): Result<Unit> {
-        val updatedData = NewsUpdateData(
-            title = title,
-            summary = summary,
-            content = content,
-            isPublished = isPublished
-        )
-        return newsRepository.updateNews(newsId, updatedData)
+        return newsRepository.updateNews(newsId, title, summary, content, isPublished)
     }
 }

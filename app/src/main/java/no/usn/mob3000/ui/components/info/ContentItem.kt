@@ -66,7 +66,10 @@ fun ContentItem(
 }
 
 /**
- * Generic lazy column with padding, same for every info screen.
+ * Generic lazy column with padding, intended to reduce redundancy in the compose screens as they all uses the same layout.
+ *
+ * @param innerPadding The padding to be applied to the content.
+ * @param content The content to be displayed in the lazy column.
  */
 @Composable
 fun PaddedLazyColumn(

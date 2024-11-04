@@ -1,7 +1,6 @@
 package no.usn.mob3000.domain.repository.content
 
 import no.usn.mob3000.domain.model.content.DocsData
-import no.usn.mob3000.domain.model.content.DocsUpdateData
 
 /**
  * Interface for document repository.
@@ -13,12 +12,17 @@ interface IDocsRepository {
     suspend fun fetchDocuments(): Result<List<DocsData>>
     suspend fun fetchDocsById(docsId: String): Result<DocsData?>
     suspend fun deleteDocs(docsId: String): Result<Unit>
-    suspend fun updateDocs(docsId: String, updatedData: DocsUpdateData): Result<Unit>
+    suspend fun updateDocs(
+        docsId: String,
+        title: String,
+        summary: String,
+        content: String,
+        isPublished: Boolean
+    ): Result<Unit>
     suspend fun insertDocs(
         title: String,
         summary: String,
         content: String,
-        isPublished: Boolean,
-        userId: String?
+        isPublished: Boolean
     ): Result<Unit>
 }

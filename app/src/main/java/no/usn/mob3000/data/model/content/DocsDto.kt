@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DocsDto(
     @SerialName("id")
-    val docId: String? = null,
+    val docId: String,
     @SerialName("created_at")
     val createdAt: Instant,
     @SerialName("modified_at")
