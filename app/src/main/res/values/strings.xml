@@ -1,6 +1,14 @@
 <resources>
     <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
+    <string name="ISO8601_yyyy_MM_dd_HH_mm" translatable="false">yyyy-MM-dd HH:mm</string>
+
+    <!-- Info item generics. News/Documentation/FAQ. -->
+    <string name="info_item_details_created_date_prefix">Created</string>
+    <string name="info_item_details_modified_date_prefix">Last modified</string>
+    <string name="info_item_details_status_prefix">Status</string>
+    <string name="info_item_details_status_published">Published</string>
+    <string name="info_item_details_status_draft">Draft</string>
 
     <!-- Documentation related pages. -->
     <string name="info_title">Information</string>
@@ -12,13 +20,6 @@
 
     <!-- Documentation details page. -->
     <string name="documentation_details_title">Documentation details</string>
-    <string name="documentation_details_created_date_prefix">Created</string>
-    <string name="documentation_details_created_date_pattern">yyyy-MM-dd HH:mm</string>
-    <string name="documentation_details_modified_date_prefix">Last modified</string>
-    <string name="documentation_details_modified_date_pattern">yyyy-MM-dd HH:mm</string>
-    <string name="documentation_details_status_prefix">Status</string>
-    <string name="documentation_details_status_published">Published</string>
-    <string name="documentation_details_status_draft">Draft</string>
     <string name="documentation_details_not_found">Not found</string>
     <string name="documentation_details_confirm">Confirm deletion</string>
     <string name="documentation_details_delete_text">Are you sure you want tot delete this documentation? It will be permanently removed and will not be recoverable.</string>
@@ -41,9 +42,6 @@
     <!-- FAQ page. -->
     <string name="faq_title">FAQ</string>
     <string name="faq_create_title">Create FAQ</string>
-    <string name="faq_created_at">Created</string>
-    <string name="faq_modified_at">Modified</string>
-    <string name="faq_date_pattern">yyyy-MM-dd HH:mm</string>
 
     <!-- FAQ creation page. -->
     <string name="faq_create_label_title">Question</string>
@@ -88,14 +86,7 @@
     <string name="news_date_pattern">yyyy-MM-dd HH:mm</string>
 
     <!-- News details page. -->
-    <string name="news_details_created_date_prefix">Created</string>
-    <string name="news_details_modified_date_prefix">Modified</string>
-    <string name="news_details_status_prefix">Status</string>
-    <string name="news_details_status_published">Published</string>
-    <string name="news_details_status_draft">Draft</string>
     <string name="news_details_not_found">News not found</string>
-    <string name="news_details_created_date_pattern">yyyy-MM-dd HH:mm</string>
-    <string name="news_details_modified_date_pattern">yyyy-MM-dd HH:mm</string>
     <string name="news_details_confirm">Confirm deletion</string>
     <string name="news_details_delete_text">Are you sure you want tot delete this news-article? It will be permanently removed and will not be recoverable.</string>
     <string name="news_details_delete_cancel">Cancel</string>

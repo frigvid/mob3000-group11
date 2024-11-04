@@ -24,9 +24,9 @@ fun formatInstant(timestamp: Long?, isCreated: Boolean): String {
     if (timestamp == null) return ""
 
     val (prefixRes, patternRes) = if (isCreated) {
-        R.string.documentation_details_created_date_prefix to R.string.documentation_details_created_date_pattern
+        R.string.info_item_details_created_date_prefix to R.string.ISO8601_yyyy_MM_dd_HH_mm
     } else {
-        R.string.documentation_details_modified_date_prefix to R.string.documentation_details_modified_date_pattern
+        R.string.info_item_details_modified_date_prefix to R.string.ISO8601_yyyy_MM_dd_HH_mm
     }
 
     val formatter = SimpleDateFormat(stringResource(patternRes), Locale.getDefault())
