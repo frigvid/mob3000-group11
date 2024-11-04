@@ -8,7 +8,6 @@ import no.usn.mob3000.ui.components.info.ContentEditor
 /**
  * Screen to create  documentation.
  *
- *
  * @param selectedDocumentation The [Documentation] object to display, if any.
  * @param onSaveDocumentationClick Fallback function to navigate to [DocumentationScreen].
  * @author frigvid, 258030

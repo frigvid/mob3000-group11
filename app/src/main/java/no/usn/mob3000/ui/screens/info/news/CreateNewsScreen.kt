@@ -8,7 +8,6 @@ import no.usn.mob3000.ui.components.info.ContentEditor
 /**
  * Screen to create or modify documentation.
  *
- *
  * @param selectedNews The [News] object to display for editing, if any.
  * @param navControllerNavigateUp Callback function to handle saving the news article.
  * @author frigvid, 258030 (Eirik)
@@ -39,5 +38,3 @@ fun CreateNewsScreen(
         }
     )
 }
-
-
