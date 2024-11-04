@@ -72,7 +72,6 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.kotlinx.serialization.json)
 
-
     // Supabase package/modules.
     // See: https://supabase.com/docs/reference/kotlin/installing
     // See: https://github.com/supabase-community/supabase-kt
@@ -84,8 +83,7 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.github.jan-tennert.supabase:functions-kt")
     implementation("io.ktor:ktor-client-android:2.3.12")
-
-
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
