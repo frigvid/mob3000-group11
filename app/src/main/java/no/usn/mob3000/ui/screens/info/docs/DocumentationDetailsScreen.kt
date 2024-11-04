@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.domain.model.DocsData
+import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.ui.components.info.ContentDisplay
 import java.util.*
 

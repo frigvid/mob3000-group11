@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.data.repository.content.DocsRepository
-import no.usn.mob3000.domain.model.DocsData
+import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.domain.usecase.content.docs.DeleteDocsUseCase
 import no.usn.mob3000.domain.usecase.content.docs.FetchDocUseCase
 import no.usn.mob3000.domain.usecase.content.docs.InsertDocsUseCase

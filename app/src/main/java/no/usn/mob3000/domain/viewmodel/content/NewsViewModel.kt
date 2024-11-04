@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.data.repository.content.NewsRepository
-import no.usn.mob3000.domain.model.NewsData
+import no.usn.mob3000.domain.model.content.NewsData
 import no.usn.mob3000.domain.usecase.content.news.DeleteNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.FetchNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.InsertNewsUseCase

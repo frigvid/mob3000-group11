@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.usecase.content.news
 
-import no.usn.mob3000.domain.model.NewsUpdateData
+import no.usn.mob3000.domain.model.content.NewsUpdateData
 import no.usn.mob3000.domain.repository.INewsRepository
 
 /**

@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.usecase.content.docs
 
 import no.usn.mob3000.data.repository.content.DocsRepository
-import no.usn.mob3000.domain.model.DocsData
+import no.usn.mob3000.domain.model.content.DocsData
 
 /**
  * Use case for fetching news.

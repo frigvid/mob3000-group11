@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.info.news
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
@@ -9,10 +8,8 @@ import no.usn.mob3000.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import no.usn.mob3000.domain.model.NewsData
-import no.usn.mob3000.domain.viewmodel.LoginState
+import no.usn.mob3000.domain.model.content.NewsData
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
 

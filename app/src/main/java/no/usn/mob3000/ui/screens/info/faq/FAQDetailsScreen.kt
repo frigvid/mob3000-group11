@@ -14,9 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.domain.model.FAQData
+import no.usn.mob3000.domain.model.content.FAQData
 import no.usn.mob3000.ui.components.info.ContentDisplay
-
 
 /**
  * Screen to display full details about some documentation.

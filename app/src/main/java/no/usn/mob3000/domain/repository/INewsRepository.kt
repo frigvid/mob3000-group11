@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.repository
 
-import no.usn.mob3000.domain.model.NewsData
-import no.usn.mob3000.domain.model.NewsUpdateData
+import no.usn.mob3000.domain.model.content.NewsData
+import no.usn.mob3000.domain.model.content.NewsUpdateData
 
 /**
  * Interface for news repository.

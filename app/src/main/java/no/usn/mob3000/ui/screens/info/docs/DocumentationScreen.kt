@@ -10,7 +10,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import kotlinx.coroutines.flow.StateFlow
-import no.usn.mob3000.domain.model.DocsData
+import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
 import java.util.*

@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.repository
 
-import no.usn.mob3000.domain.model.FAQData
-import no.usn.mob3000.domain.model.FaqUpdateData
+import no.usn.mob3000.domain.model.content.FAQData
+import no.usn.mob3000.domain.model.content.FaqUpdateData
 
 /**
  * Interface for FAQ repository.

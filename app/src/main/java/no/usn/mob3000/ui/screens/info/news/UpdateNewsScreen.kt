@@ -1,7 +1,7 @@
 package no.usn.mob3000.ui.screens.info.news
 
 import androidx.compose.runtime.*
-import no.usn.mob3000.domain.model.NewsData
+import no.usn.mob3000.domain.model.content.NewsData
 import no.usn.mob3000.ui.components.info.ContentEditor
 
 /**

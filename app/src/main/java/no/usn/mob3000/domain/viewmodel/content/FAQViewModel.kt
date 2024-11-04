@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.data.repository.content.FAQRepository
-import no.usn.mob3000.domain.model.FAQData
+import no.usn.mob3000.domain.model.content.FAQData
 import no.usn.mob3000.domain.usecase.content.faq.DeleteFAQUseCase
 import no.usn.mob3000.domain.usecase.content.faq.FetchFAQUseCase
 import no.usn.mob3000.domain.usecase.content.faq.InsertFAQUseCase

@@ -4,8 +4,8 @@ import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.content.NewsDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.content.NewsDataSource
-import no.usn.mob3000.domain.model.NewsData
-import no.usn.mob3000.domain.model.NewsUpdateData
+import no.usn.mob3000.domain.model.content.NewsData
+import no.usn.mob3000.domain.model.content.NewsUpdateData
 import no.usn.mob3000.domain.repository.INewsRepository
 
 /**

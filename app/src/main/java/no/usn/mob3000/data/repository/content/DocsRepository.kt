@@ -2,11 +2,10 @@ package no.usn.mob3000.data.repository.content
 
 import kotlinx.datetime.Clock
 import no.usn.mob3000.data.source.remote.docs.DocsDataSource
-import no.usn.mob3000.domain.model.DocsData
+import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.data.model.content.DocsDto
-import no.usn.mob3000.data.repository.auth.AuthRepository
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
-import no.usn.mob3000.domain.model.DocsUpdateData
+import no.usn.mob3000.domain.model.content.DocsUpdateData
 import no.usn.mob3000.domain.repository.IDocsRepository
 
 /**

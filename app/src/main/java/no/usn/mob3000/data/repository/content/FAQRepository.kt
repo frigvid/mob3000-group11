@@ -4,8 +4,8 @@ import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.content.FaqDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.docs.FAQDataSource
-import no.usn.mob3000.domain.model.FAQData
-import no.usn.mob3000.domain.model.FaqUpdateData
+import no.usn.mob3000.domain.model.content.FAQData
+import no.usn.mob3000.domain.model.content.FaqUpdateData
 import no.usn.mob3000.domain.repository.IFAQRepository
 
 /**
@@ -20,7 +20,6 @@ class FAQRepository(
     private val authDataSource: AuthDataSource = AuthDataSource(),
     private val faqDataSource: FAQDataSource = FAQDataSource()
 ) : IFAQRepository {
-
     /**
      * Fetches a list of all FAQ.
      */

@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.repository
 
-import no.usn.mob3000.domain.model.DocsData
-import no.usn.mob3000.domain.model.DocsUpdateData
+import no.usn.mob3000.domain.model.content.DocsData
+import no.usn.mob3000.domain.model.content.DocsUpdateData
 
 /**
  * Interface for document repository.

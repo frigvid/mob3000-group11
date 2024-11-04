@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.usecase.content.docs
 
-import no.usn.mob3000.domain.model.DocsUpdateData
+import no.usn.mob3000.domain.model.content.DocsUpdateData
 import no.usn.mob3000.domain.repository.IDocsRepository
 
 /**
