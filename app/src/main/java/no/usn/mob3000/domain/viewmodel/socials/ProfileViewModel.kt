@@ -10,6 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.domain.usecase.social.FetchFriendsUseCase
+/**
+* @author Hussein Abdul-Ameer
+* created on 05.11.2024
+**/
 
 class ProfileViewModel (
     private val fetchFriendsUseCase: FetchFriendsUseCase = FetchFriendsUseCase()
