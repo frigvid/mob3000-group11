@@ -7,7 +7,10 @@ import no.usn.mob3000.data.source.remote.social.FriendsDataSource
 import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.domain.repository.social.IFriendsRepository
 import kotlin.math.log
-
+/**
+* @author Hussein Abdul-Ameer
+* created on 05.11.2024
+**/
 class FriendsRepository (
     private val authDataSource: AuthDataSource = AuthDataSource(),
     private val FriendsDataSource: FriendsDataSource = FriendsDataSource()
