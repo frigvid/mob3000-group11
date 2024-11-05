@@ -1,8 +1,4 @@
-package no.usn.mob3000.domain.repository
 
-import no.usn.mob3000.data.model.social.FriendSingleDto
-import no.usn.mob3000.data.model.social.FriendsDto
-import no.usn.mob3000.domain.model.Friend
 
 /**
  * @author Hussein Abdul-Ameer
@@ -10,6 +6,13 @@ import no.usn.mob3000.domain.model.Friend
  */
 // In IFriendsRepository
 // In IFriendsRepository
+
+package no.usn.mob3000.domain.repository.social
+
+import no.usn.mob3000.data.model.social.FriendSingleDto
+import no.usn.mob3000.data.model.social.FriendsDto
+import no.usn.mob3000.domain.model.social.FriendData
+
 interface IFriendsRepository {
-    suspend fun fetchFriends(): Result<List<Friend>>
+suspend fun FetchFriends(): Result<List<FriendData>>
 }
