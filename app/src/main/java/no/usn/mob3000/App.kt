@@ -24,7 +24,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -71,8 +70,7 @@ import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
 import no.usn.mob3000.ui.screens.user.ProfileEditScreen
 import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
 import no.usn.mob3000.ui.screens.user.ProfileScreen
-import no.usn.mob3000.ui.theme.NavbarBackground
-import no.usn.mob3000.ui.theme.NavbarButtonSelected
+import androidx.compose.material3.MaterialTheme
 
 /**
  * The LocalNavController was borne out of necessity, to allow for a more dynamic UI where
@@ -565,7 +563,7 @@ fun TopNavbar(
     TopAppBar(
         title = { if (showTitle) Text(stringResource(currentScreen.title)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = NavbarBackground
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         modifier = modifier,
         navigationIcon = {
@@ -611,7 +609,7 @@ fun BottomNavbar(
     onNavigate: (String) -> Unit
 ) {
     BottomAppBar(
-        containerColor = NavbarBackground
+        containerColor = MaterialTheme.colorScheme.surface
     ) {
         roots.forEach { screen ->
             NavigationBarItem(
@@ -627,8 +625,8 @@ fun BottomNavbar(
                 selected = currentDestination?.hierarchy?.any { it.route == screen.name } == true,
                 onClick = { onNavigate(screen.name) },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    indicatorColor = NavbarButtonSelected
+                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    indicatorColor = MaterialTheme.colorScheme.secondary
                 )
             )
         }
