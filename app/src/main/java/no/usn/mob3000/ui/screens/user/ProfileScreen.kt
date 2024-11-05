@@ -19,19 +19,20 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.domain.model.Friend
+import no.usn.mob3000.data.model.social.FriendSingleDto
+import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.ui.theme.ProfileUserBackground
 import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
-import no.usn.mob3000.domain.usecase.social.FetchFriendsUseCase
-import no.usn.mob3000.domain.viewmodel.ProfileViewModel
 
 /**
  * The profile screen.
@@ -50,10 +51,13 @@ fun ProfileScreen(
     onProfileEditClick: () -> Unit,
     onProfileAddFriendsClick: () -> Unit,
     onProfileFriendRequestsClick: () -> Unit,
-    viewModel: ProfileViewModel = ProfileViewModel()
+    fetchFriends:() -> Unit,
+    friendState: StateFlow<Result<List<FriendData>>>
 ) {
-    val friends = viewModel.friends.collectAsState().value
-
+val friendResult by friendState.collectAsState()
+LaunchedEffect (Unit){
+    fetchFriends()
+}
     Viewport(
         topBarActions = {
             IconButton(onClick = onProfileEditClick) {
@@ -92,7 +96,7 @@ fun ProfileScreen(
             ProfileHeader()
             ProfileStats()
             AboutSection()
-            FriendsSection(friends)
+            FriendsSection(friendResult)
         }
     }
 }
@@ -208,34 +212,6 @@ fun AboutSection() {
     }
 }
 
-@Composable
-fun FriendItem(friend: Friend) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .padding(8.dp)
-            .clickable { /* Optional: Handle friend click, like navigating to friend’s profile */ }
-    ) {
-        Image(
-            painter = painterResource(R.drawable.profile_icon), // Replace this with friend.avatarUrl when using a real image URL
-            contentDescription = "Friend Avatar",
-            modifier = Modifier
-                .size(50.dp)
-                .clip(CircleShape)
-                .border(1.dp, Color.Gray, CircleShape)
-        )
-
-        Text(
-            text = friend.displayName,
-            style = MaterialTheme.typography.bodyMedium,
-            fontSize = 14.sp,
-            modifier = Modifier.padding(top = 4.dp),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-
 /**
  * Composable function that displays the friends section of the profile screen.
  *
@@ -245,7 +221,48 @@ fun FriendItem(friend: Friend) {
  * @created 2024-10-11
  */
 @Composable
-fun FriendsSection(friends: List<Friend>) {
+fun friendComponent(friendResult: Result<List<FriendData>>) {
+    LazyColumn {
+        friendResult.onSuccess { friends ->
+            items(friends) { friend ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable { /* Add click handling here if needed */ }
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.profile_icon),
+                        contentDescription = "Friend Icon",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .border(1.dp, Color.Gray, CircleShape)
+                    )
+
+                    friend.displayname?.let {
+                        Text(
+                            text = it,  // Assuming `FriendSingleDto` has a `displayName` property
+                            modifier = Modifier.padding(start = 8.dp),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+            }
+        }.onFailure {
+            // Handle the error case if needed, such as showing an error message
+            item {
+                Text(
+                    text = "Failed to load friends",
+                    color = Color.Red,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}@Composable
+fun FriendsSection(friendResult: Result<List<FriendData>>) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
             text = stringResource(R.string.profile_friends),
@@ -253,25 +270,6 @@ fun FriendsSection(friends: List<Friend>) {
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-
-        if (friends.isEmpty()) {
-            Text(
-                text = "no friends",
-                color = Color.Gray,
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        } else {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(vertical = 8.dp)
-            ) {
-                items(friends) { friend ->
-                    FriendItem(friend)
-                }
-            }
-        }
+        friendComponent(friendResult = friendResult)
     }
 }
-
