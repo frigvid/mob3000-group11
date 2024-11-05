@@ -20,7 +20,7 @@ fun ChessbuddyTheme(
             onPrimary = DarkProfileUserBackground,
             onSecondary = DarkProfileUserStatisticsBackground,
             onBackground = DarkProfileUserBackground,
-            onSurface = DarkProfileUserStatisticsBackground
+            onSurface = DarkProfileUserStatisticsBackground,
         )
     } else {
         lightColorScheme(
@@ -31,7 +31,8 @@ fun ChessbuddyTheme(
             onPrimary = DefaultBackground,
             onSecondary = DefaultBackground,
             onBackground = OnDefaultBackground,
-            onSurface = ProfileUserStatisticsBackground
+            onSurface = ProfileUserStatisticsBackground,
+
         )
     }
 

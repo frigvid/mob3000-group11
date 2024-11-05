@@ -127,7 +127,8 @@ fun SettingsScreen(
 
             Button(
                 onClick = onAdminDashboardClick,
-                colors = ButtonDefaults.buttonColors(DefaultButton),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
@@ -144,7 +145,7 @@ fun SettingsScreen(
 
             Button(
                 onClick = onLoginClick,
-                colors = ButtonDefaults.buttonColors(DefaultButton),
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)

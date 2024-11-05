@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen for allowing users to search for other users and sending them a friend request.
@@ -113,7 +112,7 @@ fun UserListItem(
 
         Button(
             onClick = { /* TODO: Implement send friend request logic */ },
-            colors = ButtonDefaults.buttonColors(DefaultButton),
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
             modifier = Modifier.padding(start = 8.dp)
         ) { Text(stringResource(R.string.profile_add_friends_add_button)) }
     }

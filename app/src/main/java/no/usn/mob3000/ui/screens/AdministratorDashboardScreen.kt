@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Administrator dashboard allowing administrators to promote/demote users, and delete them.
@@ -169,7 +168,8 @@ fun UserListItem(
                         if (user.isAdmin) onDemoteUser(user.id)
                         else onPromoteUser(user.id)
                     },
-                    colors = IconButtonDefaults.iconButtonColors(containerColor = DefaultButton)
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Icon(
                         painter = painterResource(

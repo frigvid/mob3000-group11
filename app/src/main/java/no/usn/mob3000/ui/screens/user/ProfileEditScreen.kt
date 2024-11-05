@@ -147,7 +147,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isProfileVisible,
                     onCheckedChange = { isProfileVisible = it },
-                    colors = SwitchDefaults.colors(checkedTrackColor = DefaultButton)
+                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.primary)
                 )
             }
 
@@ -165,7 +165,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isFriendsListVisible,
                     onCheckedChange = { isFriendsListVisible = it },
-                    colors = SwitchDefaults.colors(checkedTrackColor = DefaultButton)
+                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.primary)
                 )
             }
 
@@ -174,7 +174,7 @@ fun ProfileEditScreen(
                     /* TODO: Implement update to database. */
                     onSaveProfileClick()
                 },
-                colors = ButtonDefaults.buttonColors(DefaultButton),
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)

@@ -23,8 +23,6 @@ import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.ProfileUserBackground
-import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 
 /**
  * The profile screen.
@@ -103,7 +101,7 @@ fun ProfileHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(ProfileUserBackground),
+            .background(MaterialTheme.colorScheme.primary),
         verticalArrangement = Arrangement.Center
     ) {
         /* TODO: Fetch the user's icon and display name from cached state in ViewModel. */
@@ -113,7 +111,7 @@ fun ProfileHeader() {
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape)
-                .border(2.dp, Color.Black, CircleShape)
+                .border(2.dp, MaterialTheme.colorScheme.onBackground, CircleShape)
         )
 
         Text(
@@ -140,7 +138,7 @@ fun ProfileStats() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(ProfileUserStatisticsBackground)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
