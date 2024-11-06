@@ -7,6 +7,11 @@ import kotlinx.coroutines.withContext
 import no.usn.mob3000.data.model.social.FriendSingleDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 
+/**
+ * @author Husseinabdulameer11
+ * @created: 04.11.2024
+ */
+
 open class FriendsDataSource(
     private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient())
 {

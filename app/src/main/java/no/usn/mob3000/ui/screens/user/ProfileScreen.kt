@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.model.social.FriendSingleDto
+import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.ui.theme.ProfileUserBackground
 import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
@@ -54,6 +55,7 @@ fun ProfileScreen(
     fetchFriends:() -> Unit,
     friendState: StateFlow<Result<List<FriendData>>>
 ) {
+
 val friendResult by friendState.collectAsState()
 LaunchedEffect (Unit){
     fetchFriends()
@@ -112,6 +114,7 @@ LaunchedEffect (Unit){
  */
 @Composable
 fun ProfileHeader() {
+    var client = SupabaseClientWrapper.getClient()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -241,17 +244,17 @@ fun friendComponent(friendResult: Result<List<FriendData>>) {
                             .border(1.dp, Color.Gray, CircleShape)
                     )
 
-                    friend.displayname?.let {
+
                         Text(
-                            text = it,  // Assuming `FriendSingleDto` has a `displayName` property
+                            text =friend.displayname,
                             modifier = Modifier.padding(start = 8.dp),
                             style = MaterialTheme.typography.bodyMedium
                         )
-                    }
+
                 }
             }
         }.onFailure {
-            // Handle the error case if needed, such as showing an error message
+
             item {
                 Text(
                     text = "Failed to load friends",

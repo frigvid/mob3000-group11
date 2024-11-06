@@ -44,6 +44,7 @@ import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
+import no.usn.mob3000.domain.viewmodel.socials.profileViewModel
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
@@ -144,7 +145,8 @@ fun App(
     viewModel: CBViewModel = viewModel(),
     loginViewModel: LoginViewModel = viewModel(),
     registrationViewModel: RegistrationViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    profileViewModel: profileViewModel = viewModel()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(
@@ -267,7 +269,9 @@ fun App(
                 ProfileScreen(
                     onProfileEditClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) },
                     onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
-                    onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }
+                    onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) },
+                        fetchFriends = profileViewModel::fetchFriends,
+                        friendState = profileViewModel.friends
                 )
             }
             composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
