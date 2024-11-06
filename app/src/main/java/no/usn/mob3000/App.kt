@@ -174,7 +174,10 @@ fun App(
                     navigateToDocumentationDetails = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
                     onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
                     setSelectedDocumentation = documentationViewModel::setSelectedDocumentation,
-                    clearSelectedDocumentation = documentationViewModel::clearSelectedDocumentation
+                    clearSelectedDocumentation = documentationViewModel::clearSelectedDocumentation,
+                    checkAdminStatus = loginViewModel::checkAdminStatus,
+                    isAdmin = loginViewModel.isAdmin.value,
+                    setAdminStatus = loginViewModel::setAdminStatus
                 )
             }
             composable(route = Destination.DOCUMENTATION_DETAILS.name) {
@@ -183,7 +186,8 @@ fun App(
                     deleteDocItem = documentationViewModel::deleteDocs,
                     selectedDoc = documentationViewModel.selectedDocumentation.value,
                     navigateToDocumentationUpdate = { navController.navigate(Destination.DOCUMENTATION_UPDATE.name) },
-                    popNavigationBackStack = navController::popBackStack
+                    popNavigationBackStack = navController::popBackStack,
+                    isAdmin = loginViewModel.isAdmin.value
                 )
             }
             composable(route = Destination.DOCUMENTATION_CREATE.name) {
@@ -206,7 +210,10 @@ fun App(
                     navigateToFaqDetails = { navController.navigate(Destination.FAQ_DETAILS.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
                     setSelectedFAQ = faqViewModel::setSelectedFAQ,
-                    clearSelectedFAQ = faqViewModel::clearSelectedFAQ
+                    clearSelectedFAQ = faqViewModel::clearSelectedFAQ,
+                    checkAdminStatus = loginViewModel::checkAdminStatus,
+                    isAdmin = loginViewModel.isAdmin.value,
+                    setAdminStatus = loginViewModel::setAdminStatus
                 )
             }
             composable(route = Destination.FAQ_CREATE.name) {
@@ -221,7 +228,8 @@ fun App(
                     deleteFaqItem = faqViewModel::deleteFAQ,
                     selectedFaq = faqViewModel.selectedFAQ.value,
                     navigateToFaqUpdate = { navController.navigate(Destination.FAQ_UPDATE.name) },
-                    popNavigationBackStack = navController::popBackStack
+                    popNavigationBackStack = navController::popBackStack,
+                    isAdmin = loginViewModel.isAdmin.value
                 )
             }
             composable(route = Destination.FAQ_UPDATE.name) {
@@ -239,7 +247,11 @@ fun App(
                     onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
                     onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
                     setSelectedNews = newsViewModel::setSelectedNews,
-                    clearSelectedNews = newsViewModel::clearSelectedNews
+                    clearSelectedNews = newsViewModel::clearSelectedNews,
+                    checkAdminStatus = loginViewModel::checkAdminStatus,
+                    isAdmin = loginViewModel.isAdmin.value,
+                    setAdminStatus = loginViewModel::setAdminStatus
+
                 )
             }
             composable(route = Destination.NEWS_DETAILS.name) {
@@ -248,7 +260,8 @@ fun App(
                     deleteNewsItem = newsViewModel::deleteNews,
                     selectedNews = newsViewModel.selectedNews.value,
                     navigateToNewsUpdate = { navController.navigate(Destination.NEWS_UPDATE.name) },
-                    navControllerPopBackStack = navController::popBackStack
+                    navControllerPopBackStack = navController::popBackStack,
+                    isAdmin = loginViewModel.isAdmin.value
                 )
             }
             composable(route = Destination.NEWS_CREATE.name) {

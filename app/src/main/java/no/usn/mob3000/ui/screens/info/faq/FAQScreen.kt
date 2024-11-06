@@ -26,22 +26,28 @@ fun FAQScreen(
     navigateToFaqDetails: (FAQData) -> Unit,
     onCreateFAQClick: () -> Unit,
     setSelectedFAQ: (FAQData) -> Unit,
-    clearSelectedFAQ: () -> Unit
+    clearSelectedFAQ: () -> Unit,
+    checkAdminStatus: () -> Unit,
+    isAdmin: Boolean,
+    setAdminStatus: (Boolean) -> Unit
 ) {
     val faqResult by faqState.collectAsState()
 
     LaunchedEffect(Unit) {
+        checkAdminStatus()
         clearSelectedFAQ()
         fetchFaq()
     }
 
     Viewport(
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = onCreateFAQClick,
-                containerColor = DefaultButton
-            ) {
-                Icon(Icons.Filled.Add, contentDescription = "Create FAQ")
+            if (isAdmin) {
+                FloatingActionButton(
+                    onClick = onCreateFAQClick,
+                    containerColor = DefaultButton
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = "Create FAQ")
+                }
             }
         }
     ) { innerPadding ->
@@ -53,6 +59,7 @@ fun FAQScreen(
                     isPublished = faqItem.isPublished,
                     onClick = {
                         setSelectedFAQ(faqItem)
+                        setAdminStatus(isAdmin)
                         navigateToFaqDetails(faqItem) }
                 )
             }

@@ -39,8 +39,9 @@ fun ContentDisplay(
     content: String?,
     createdAt: Long? = null,
     modifiedAt: Long? = null,
-    isPublished: Boolean = false
+    isPublishedText: String = ""
 ) {
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -99,17 +100,12 @@ fun ContentDisplay(
                 )
             }
 
-            Text(
-                text = stringResource(R.string.info_item_details_status_prefix) +
-                    ": ${
-                        if (isPublished) {
-                            stringResource(R.string.info_item_details_status_published)
-                        } else {
-                            stringResource(R.string.info_item_details_status_draft)
-                        }
-                    }",
-                fontSize = 12.sp,
-            )
+            if (isPublishedText.isNotBlank()) {
+                Text(
+                    text = stringResource(R.string.info_item_details_status_prefix) + ": $isPublishedText",
+                    fontSize = 12.sp,
+                )
+            }
         }
     }
 }

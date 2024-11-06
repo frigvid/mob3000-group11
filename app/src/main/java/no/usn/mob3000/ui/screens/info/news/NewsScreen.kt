@@ -30,22 +30,28 @@ fun NewsScreen(
     onNewsClick: (NewsData) -> Unit,
     onCreateNewsClick: () -> Unit,
     setSelectedNews: (NewsData) -> Unit,
-    clearSelectedNews: () -> Unit
+    clearSelectedNews: () -> Unit,
+    checkAdminStatus: () -> Unit,
+    isAdmin: Boolean,
+    setAdminStatus: (Boolean) -> Unit
 ) {
     val newsResult by newsState.collectAsState()
 
     LaunchedEffect(Unit) {
+        checkAdminStatus()
         clearSelectedNews()
         fetchNews()
     }
 
     Viewport(
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = onCreateNewsClick,
-                containerColor = DefaultButton
-            ) {
-                Icon(Icons.Filled.Add, contentDescription = "Create News")
+            if (isAdmin) {
+                FloatingActionButton(
+                    onClick = onCreateNewsClick,
+                    containerColor = DefaultButton
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = "Create News")
+                }
             }
         }
     ) { innerPadding ->
@@ -61,6 +67,7 @@ fun NewsScreen(
                     isPublished = newsItem.isPublished,
                     onClick = {
                         setSelectedNews(newsItem)
+                        setAdminStatus(isAdmin)
                         onNewsClick(newsItem)
                     }
                 )

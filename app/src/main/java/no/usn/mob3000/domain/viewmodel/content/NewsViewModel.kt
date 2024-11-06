@@ -27,13 +27,14 @@ class NewsViewModel(
     private val fetchNewsUseCase: FetchNewsUseCase = FetchNewsUseCase(),
     private val deleteNewsUseCase: DeleteNewsUseCase = DeleteNewsUseCase(),
     private val updateNewsUseCase: UpdateNewsUseCase = UpdateNewsUseCase(NewsRepository()),
-    private val insertNewsUseCase: InsertNewsUseCase = InsertNewsUseCase(NewsRepository()),
+    private val insertNewsUseCase: InsertNewsUseCase = InsertNewsUseCase(NewsRepository())
 ): ViewModel() {
     private val _news = MutableStateFlow<Result<List<NewsData>>>(Result.success(emptyList()))
     val news: StateFlow<Result<List<NewsData>>> = _news
 
     private val _selectedNews = mutableStateOf<NewsData?>(null)
     val selectedNews: State<NewsData?> = _selectedNews
+
 
     /**
      * Fetches news from the data layer.

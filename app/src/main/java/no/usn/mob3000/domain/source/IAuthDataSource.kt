@@ -20,4 +20,6 @@ interface IAuthDataSource {
     suspend fun getUserProfile(userId: String): ProfileDto?
     suspend fun getUserFriends(userId: String): List<FriendsDto>
     suspend fun getUserFriendRequests(): List<FriendRequestsDto>
+    // Open for where else it should be, let me know
+    suspend fun checkAdminStatus(userId: String): Boolean
 }

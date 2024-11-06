@@ -29,9 +29,15 @@ fun FAQDetailsScreen(
     deleteFaqItem: (String) -> Unit,
     selectedFaq: FAQData? = null,
     navigateToFaqUpdate: () -> Unit,
-    popNavigationBackStack: () -> Unit
+    popNavigationBackStack: () -> Unit,
+    isAdmin: Boolean
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
+    val isPublishedText = when {
+        isAdmin && selectedFaq?.isPublished == true -> stringResource(R.string.info_item_details_status_published)
+        isAdmin -> stringResource(R.string.info_item_details_status_draft)
+        else -> ""
+    }
 
     ConfirmationDialog(
         showDialog = showConfirmationDialog,
@@ -45,24 +51,26 @@ fun FAQDetailsScreen(
 
     Viewport(
         topBarActions = {
-            Row {
-                IconButton(onClick = {
-                    selectedFaq?.let {
-                        setSelectedFaq(it)
-                        navigateToFaqUpdate()
+            if (isAdmin) {
+                Row {
+                    IconButton(onClick = {
+                        selectedFaq?.let {
+                            setSelectedFaq(it)
+                            navigateToFaqUpdate()
+                        }
+                    }) {
+                        Icon(
+                            Icons.Default.Edit,
+                            contentDescription = "Edit FAQ"
+                        )
                     }
-                }) {
-                    Icon(
-                        Icons.Default.Edit,
-                        contentDescription = "Edit FAQ"
-                    )
-                }
-                IconButton(onClick = { showConfirmationDialog.value = true }) {
-                    Icon(
-                        Icons.Default.Delete,
-                        contentDescription = "Delete FAQ",
-                        tint = Color.Red
-                    )
+                    IconButton(onClick = { showConfirmationDialog.value = true }) {
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = "Delete FAQ",
+                            tint = Color.Red
+                        )
+                    }
                 }
             }
         }
@@ -74,7 +82,8 @@ fun FAQDetailsScreen(
                 summary = selectedFaq.summary,
                 content = selectedFaq.content,
                 createdAt = selectedFaq.createdAt.toEpochMilliseconds(),
-                modifiedAt = selectedFaq.modifiedAt.toEpochMilliseconds()
+                modifiedAt = selectedFaq.modifiedAt.toEpochMilliseconds(),
+                isPublishedText = isPublishedText
             )
         } else {
             Text(stringResource(R.string.documentation_details_not_found))

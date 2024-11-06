@@ -34,11 +34,15 @@ fun DocumentationScreen(
     navigateToDocumentationDetails: (DocsData) -> Unit,
     onCreateDocumentationClick: () -> Unit,
     setSelectedDocumentation: (DocsData) -> Unit,
-    clearSelectedDocumentation: () -> Unit
+    clearSelectedDocumentation: () -> Unit,
+    checkAdminStatus: () -> Unit,
+    isAdmin: Boolean,
+    setAdminStatus: (Boolean) -> Unit
 ) {
     val documentationResult by docsState.collectAsState()
 
     LaunchedEffect(Unit) {
+        checkAdminStatus()
         clearSelectedDocumentation()
         fetchDocs()
     }
@@ -48,11 +52,13 @@ fun DocumentationScreen(
      */
     Viewport(
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = onCreateDocumentationClick,
-                containerColor = DefaultButton
-            ) {
-                Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
+            if (isAdmin) {
+                FloatingActionButton(
+                    onClick = onCreateDocumentationClick,
+                    containerColor = DefaultButton
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
+                }
             }
         }
     ) { innerPadding ->
@@ -72,6 +78,7 @@ fun DocumentationScreen(
                      isPublished = docsItem.isPublished,
                      onClick = {
                          setSelectedDocumentation(docsItem)
+                         setAdminStatus(isAdmin)
                          navigateToDocumentationDetails(docsItem) }
                  )
              }

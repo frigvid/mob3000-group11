@@ -32,9 +32,15 @@ fun DocumentationDetailsScreen(
     deleteDocItem: (String) -> Unit,
     selectedDoc: DocsData? = null,
     navigateToDocumentationUpdate: () -> Unit,
-    popNavigationBackStack: () -> Unit
+    popNavigationBackStack: () -> Unit,
+    isAdmin: Boolean
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
+    val isPublishedText = when {
+        isAdmin && selectedDoc?.isPublished == true -> stringResource(R.string.info_item_details_status_published)
+        isAdmin -> stringResource(R.string.info_item_details_status_draft)
+        else -> ""
+    }
 
     ConfirmationDialog(
         showDialog = showConfirmationDialog,
@@ -48,24 +54,26 @@ fun DocumentationDetailsScreen(
 
     Viewport(
         topBarActions = {
-            Row {
-            IconButton(onClick = {
-                selectedDoc?.let {
-                    setSelectedDoc(it)
-                    navigateToDocumentationUpdate()
-                }
-            }) {
-                Icon(
-                    Icons.Default.Edit,
-                    contentDescription = "Edit Documentation"
-                )
-            }
-                IconButton(onClick = { showConfirmationDialog.value = true }) {
-                    Icon(
-                        Icons.Default.Delete,
-                        contentDescription = "Delete Documentation",
-                        tint = Color.Red
-                    )
+            if (isAdmin) {
+                Row {
+                    IconButton(onClick = {
+                        selectedDoc?.let {
+                            setSelectedDoc(it)
+                            navigateToDocumentationUpdate()
+                        }
+                    }) {
+                        Icon(
+                            Icons.Default.Edit,
+                            contentDescription = "Edit Documentation"
+                        )
+                    }
+                    IconButton(onClick = { showConfirmationDialog.value = true }) {
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = "Delete Documentation",
+                            tint = Color.Red
+                        )
+                    }
                 }
             }
         }
@@ -77,7 +85,8 @@ fun DocumentationDetailsScreen(
                 summary = selectedDoc.summary,
                 content = selectedDoc.content,
                 createdAt = selectedDoc.createdAt.toEpochMilliseconds(),
-                modifiedAt = selectedDoc.modifiedAt.toEpochMilliseconds()
+                modifiedAt = selectedDoc.modifiedAt.toEpochMilliseconds(),
+                isPublishedText = isPublishedText
             )
         } else {
             Text(stringResource(R.string.documentation_details_not_found))

@@ -35,9 +35,16 @@ fun NewsDetailsScreen(
     deleteNewsItem: (String) -> Unit,
     selectedNews: NewsData? = null,
     navigateToNewsUpdate: () -> Unit,
-    navControllerPopBackStack: () -> Unit
+    navControllerPopBackStack: () -> Unit,
+    isAdmin: Boolean
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
+    val isPublishedText = when {
+        isAdmin && selectedNews?.isPublished == true -> stringResource(R.string.info_item_details_status_published)
+        isAdmin -> stringResource(R.string.info_item_details_status_draft)
+        else -> ""
+    }
+
 
     ConfirmationDialog(
         showDialog = showConfirmationDialog,
@@ -51,6 +58,7 @@ fun NewsDetailsScreen(
 
     Viewport(
         topBarActions = {
+            if (isAdmin) {
             Row {
                 IconButton(onClick = {
                     selectedNews?.let {
@@ -71,6 +79,7 @@ fun NewsDetailsScreen(
                     )
                 }
             }
+                }
         }
     ) { innerPadding ->
         if (selectedNews != null) {
@@ -81,7 +90,7 @@ fun NewsDetailsScreen(
                 content = selectedNews.content,
                 createdAt = selectedNews.createdAt.toEpochMilliseconds(),
                 modifiedAt = selectedNews.modifiedAt.toEpochMilliseconds(),
-                isPublished = selectedNews.isPublished
+                isPublishedText = isPublishedText
             )
 
         } else {

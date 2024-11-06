@@ -1,6 +1,8 @@
 package no.usn.mob3000.domain.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.jan.supabase.gotrue.exception.AuthRestException
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.domain.model.AuthError
 import no.usn.mob3000.domain.model.User
+import no.usn.mob3000.domain.usecase.auth.CheckAdminStatusUseCase
 import no.usn.mob3000.domain.usecase.auth.LoginUseCase
 import no.usn.mob3000.domain.usecase.auth.LogoutUseCase
 
@@ -22,7 +25,8 @@ import no.usn.mob3000.domain.usecase.auth.LogoutUseCase
  */
 class LoginViewModel(
     private val loginUseCase: LoginUseCase = LoginUseCase(),
-    private val logoutUseCase: LogoutUseCase = LogoutUseCase()
+    private val logoutUseCase: LogoutUseCase = LogoutUseCase(),
+    private val checkAdminStatusUseCase: CheckAdminStatusUseCase = CheckAdminStatusUseCase()
 ) : ViewModel() {
     /**
      * The current [LoginState].
@@ -40,6 +44,29 @@ class LoginViewModel(
      */
     private val _authenticatedUser = MutableStateFlow<User?>(null)
     val authenticatedUser: StateFlow<User?> = _authenticatedUser.asStateFlow()
+
+
+    private val _isAdmin = mutableStateOf(false)
+    val isAdmin: State<Boolean> = _isAdmin
+    /**
+     * Checks if the current user is an admin. This might be something already implemented, let me know if you're aware when merging
+     *
+     * @author 258030
+     * @created 2024-11-06
+     */
+    fun checkAdminStatus() {
+        viewModelScope.launch {
+            _isAdmin.value = checkAdminStatusUseCase.execute()
+
+        }
+    }
+
+    /**
+     * Saves the status for passing the value to a view without checking admin state all the time
+     */
+    fun setAdminStatus(isAdmin: Boolean) {
+        _isAdmin.value = isAdmin
+    }
 
     /**
      * Initiates the login process with the provided credentials.
