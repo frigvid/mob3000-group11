@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.components.base.Viewport
 
 /**
  * Screen to allow users to see pending friend requests for their acccounts,

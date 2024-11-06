@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.domain.model.auth.state.DeleteAccountState
 import no.usn.mob3000.domain.model.auth.state.LogoutState
 import no.usn.mob3000.domain.viewmodel.CBViewModel

@@ -6,8 +6,11 @@ import androidx.activity.compose.setContent
 import no.usn.mob3000.ui.theme.ChessbuddyTheme
 import no.usn.mob3000.data.SecureEnvManager
 import no.usn.mob3000.data.network.SupabaseClientWrapper
+import no.usn.mob3000.ui.Navigation
 
 /**
+ * The main activity for the application, essentially the entry point.
+ *
  * @author frigvid
  * @created 2024-09-02
  */
@@ -17,8 +20,9 @@ class MainActivity : ComponentActivity() {
         SupabaseClientWrapper.initialize(applicationContext)
 
         super.onCreate(savedInstanceState)
+
         setContent {
-            ChessbuddyTheme { App() }
+            ChessbuddyTheme { Navigation() }
         }
     }
 }
