@@ -3,6 +3,7 @@ package no.usn.mob3000.domain.usecase.auth
 import no.usn.mob3000.data.repository.auth.AuthRepository
 import no.usn.mob3000.data.model.auth.UserDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
+import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.domain.model.auth.User
 
 /**
@@ -16,7 +17,7 @@ import no.usn.mob3000.domain.model.auth.User
  * @created 2024-10-22
  */
 class LoginUseCase(
-    private val authRepository: AuthRepository = AuthRepository(AuthDataSource())
+    private val authRepository: AuthRepository = AuthRepository(AuthDataSource(), UserDataSource())
 ) {
     /**
      * Executes the login operation with the provided credentials.
