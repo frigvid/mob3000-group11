@@ -174,7 +174,7 @@ class AuthDataSource(
      * @author frigvid
      * @created 2024-10-22
      */
-    suspend fun checkAdminStatus(userId: String): Boolean {
+    override suspend fun checkAdminStatus(userId: String): Boolean {
         return supabase.postgrest.rpc(
             function = "admin_check_if_admin",
             parameters = mapOf("user_to_check" to userId)

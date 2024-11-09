@@ -2,6 +2,19 @@
     <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
 
+    <!-- Info item generics. News/Documentation/FAQ. -->
+    <string name="info_item_details_created_date_prefix">Opprettet</string>
+    <string name="info_item_details_modified_date_prefix">Endret</string>
+    <string name="info_item_details_status_prefix">Status</string>
+    <string name="info_item_details_status_published">Publisert</string>
+    <string name="info_item_details_status_draft">Utkast</string>
+    <string name="info_item_content_title">Tittel</string>
+    <string name="info_item_content_summary">Sammendrag</string>
+    <string name="info_item_content_content">Innhold</string>
+    <string name="info_item_content_publish">Publiser</string>
+    <string name="info_item_content_unpublish">Fjern publisering</string>
+    <string name="info_item_content_save">Lagre</string>
+
     <!-- Documentation related pages. -->
     <string name="info_title">Informasjon</string>
 
@@ -12,14 +25,11 @@
 
     <!-- Documentation details page. -->
     <string name="documentation_details_title">Dokumentasjonsdetaljer</string>
-    <string name="documentation_details_created_date_prefix">Opprettet</string>
-    <string name="documentation_details_created_date_pattern">yyyy/MM/dd HH:mm</string>
-    <string name="documentation_details_modified_date_prefix">Sist endret</string>
-    <string name="documentation_details_modified_date_pattern">yyyy/MM/dd HH:mm</string>
-    <string name="documentation_details_status_prefix">Status</string>
-    <string name="documentation_details_status_published">Publisert</string>
-    <string name="documentation_details_status_draft">Utkast</string>
     <string name="documentation_details_not_found">Ikke funner</string>
+    <string name="documentation_details_confirm">Bekreft Sletting</string>
+    <string name="documentation_details_delete_text">Er du sikker på at du vil slette dokumentasjonen? Det vil ikke være mulig å gjennoprette den senere.</string>
+    <string name="documentation_details_delete_cancel">Avbryt</string>
+    <string name="documentation_details_delete_confirm">Slett</string>
 
     <!-- Documentation creation page. -->
     <string name="documentation_create_title">Lag dokumentasjon</string>
@@ -31,12 +41,12 @@
     <string name="documentation_create_save_documentation">Lagre dokumentasjon</string>
     <string name="documentation_create_save_changes">Lagre endringer</string>
 
+    <!-- Documentation update page. -->
+    <string name="documentation_update_title">Oppdater dokumentasjon</string>
+
     <!-- FAQ page. -->
     <string name="faq_title">FAQ</string>
     <string name="faq_create_title">Opprett FAQ</string>
-    <string name="faq_created_at">Opprettet</string>
-    <string name="faq_modified_at">Modifisert</string>
-    <string name="faq_date_pattern">yyyy/MM/dd HH:mm</string>
 
     <!-- FAQ creation page. -->
     <string name="faq_create_label_title">Spørsmål</string>
@@ -47,6 +57,16 @@
     <string name="faq_create_save_faq">Lagre FAQ</string>
     <string name="faq_create_save_changes">Lagre endringer</string>
     <string name="faq_create_delete_faq">Slett FAQ</string>
+
+    <!-- FAQ details page. -->
+    <string name="faq_details_title">FAQ detaljer</string>
+    <string name="faq_details_confirm">Bekreft sletting</string>
+    <string name="faq_details_delete_text">Er du sikker på at du vil slette dette Spørsmålet? Det vil ikke være mulig å gjennoprette den senere.</string>
+    <string name="faq_details_delete_cancel">Avbryt</string>
+    <string name="faq_details_delete_confirm">Slett</string>
+
+    <!-- FAQ update page. -->
+    <string name="faq_update_title">Oppdater FAQ</string>
 
     <!-- About us page. -->
     <string name="about_us_title">Om oss</string>
@@ -71,14 +91,11 @@
     <string name="news_date_pattern">yyyy/MM/dd HH:mm</string>
 
     <!-- News details page. -->
-    <string name="news_details_created_date_prefix">Opprettet</string>
-    <string name="news_details_modified_date_prefix">Endret</string>
-    <string name="news_details_status_prefix">Status</string>
-    <string name="news_details_status_published">Publisert</string>
-    <string name="news_details_status_draft">Utkast</string>
     <string name="news_details_not_found">Nyhet ikke funnet</string>
-    <string name="news_details_created_date_pattern">yyyy/MM/dd HH:mm</string>
-    <string name="news_details_modified_date_pattern">yyyy/MM/dd HH:mm</string>
+    <string name="news_details_confirm">Bekreft Sletting</string>
+    <string name="news_details_delete_text">Er du sikker på at du vil slette denne nyheten? Det vil ikke være mulig å gjennoprette den senere.</string>
+    <string name="news_details_delete_cancel">Avbryt</string>
+    <string name="news_details_delete_confirm">Slett</string>
 
     <!-- News creation page. -->
     <string name="news_create_title">Oprett nyhet</string>
@@ -89,6 +106,9 @@
     <string name="news_create_check_unpublish">Avpubliser nyhet?</string>
     <string name="news_create_save_news">Lagre nyhet</string>
     <string name="news_create_save_changes">Lagre endringer</string>
+
+    <!-- News update page. -->
+    <string name="news_update_title">Oppdater nyhet</string>
 
     <!-- Home page. -->
     <string name="home_title">Hjem</string>
@@ -256,4 +276,11 @@
     <!-- Dangerous Action Dialogue. -->
     <string name="component_dialogue_dangerous_action_button_confirm">Ja</string>
     <string name="component_dialogue_dangerous_action_button_dismiss">Nei</string>
+
+    <!-- Components. -->
+    <!-- Confirmation dialog -->
+    <string name="confirmation_dialog_confirm">Slettebekreftelse</string>
+    <string name="confirmation_dialog_cancel">Avbryt</string>
+    <string name="confirmation_dialog_delete_text">Er du sikker på at du ønsker å slette dette?</string>
+    <string name="confirmation_dialog_delete_confirm">Slett</string>
 </resources>

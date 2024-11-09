@@ -46,6 +46,9 @@ import no.usn.mob3000.ui.screens.SettingsScreen
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
+import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
+import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
+import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
@@ -62,11 +65,15 @@ import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.docs.DocumentationDetailsScreen
 import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
+import no.usn.mob3000.ui.screens.info.docs.UpdateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.faq.CreateFAQScreen
+import no.usn.mob3000.ui.screens.info.faq.FAQDetailsScreen
 import no.usn.mob3000.ui.screens.info.faq.FAQScreen
+import no.usn.mob3000.ui.screens.info.faq.UpdateFAQScreen
 import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
+import no.usn.mob3000.ui.screens.info.news.UpdateNewsScreen
 import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
 import no.usn.mob3000.ui.screens.user.ProfileEditScreen
 import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
@@ -145,6 +152,9 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
 fun App(
     viewModel: CBViewModel = viewModel(),
     loginViewModel: LoginViewModel = viewModel(),
+    documentationViewModel: DocumentationViewModel = viewModel(),
+    faqViewModel: FAQViewModel = viewModel(),
+    newsViewModel: NewsViewModel = viewModel(),
     logoutViewModel: LogoutViewModel = viewModel(),
     registrationViewModel: RegistrationViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
@@ -165,66 +175,115 @@ fun App(
             }
             composable(route = Destination.DOCUMENTATION.name) {
                 DocumentationScreen(
-                    documentations = viewModel.documentations.value,
-                    onDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
+                    docsState = documentationViewModel.documentations,
+                    fetchDocs = documentationViewModel::fetchDocumentations,
+                    navigateToDocumentationDetails = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
                     onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
-                    setDocumentationList = viewModel::setDocumentations,
-                    setSelectedDocumentation = viewModel::setSelectedDocumentation,
-                    clearSelectedDocumentation = viewModel::clearSelectedDocumentation
+                    setSelectedDocumentation = documentationViewModel::setSelectedDocumentation,
+                    clearSelectedDocumentation = documentationViewModel::clearSelectedDocumentation,
+                    checkAdminStatus = loginViewModel::checkAdminStatus,
+                    isAdmin = loginViewModel.isAdmin.value,
+                    setAdminStatus = loginViewModel::setAdminStatus
                 )
             }
             composable(route = Destination.DOCUMENTATION_DETAILS.name) {
                 DocumentationDetailsScreen(
-                    selectedDocumentation = viewModel.selectedDocumentation.value,
-                    onEditClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) }
+                    setSelectedDoc = documentationViewModel::setSelectedDocumentation,
+                    deleteDocItem = documentationViewModel::deleteDocs,
+                    selectedDoc = documentationViewModel.selectedDocumentation.value,
+                    navigateToDocumentationUpdate = { navController.navigate(Destination.DOCUMENTATION_UPDATE.name) },
+                    popNavigationBackStack = navController::popBackStack,
+                    isAdmin = loginViewModel.isAdmin.value
                 )
             }
             composable(route = Destination.DOCUMENTATION_CREATE.name) {
                 CreateDocumentationScreen(
-                    selectedDocumentation = viewModel.selectedDocumentation.value,
-                    onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
+                    insertDocumentation = documentationViewModel::insertDocs,
+                    navControllerNavigateUp = { navController.navigateUp() }
+                )
+            }
+            composable(route = Destination.DOCUMENTATION_UPDATE.name) {
+                UpdateDocumentationScreen(
+                    selectedDoc = documentationViewModel.selectedDocumentation.value,
+                    saveDocChanges = documentationViewModel::saveDocumentationChanges,
+                    navigateToDocs = { navController.navigate(Destination.DOCUMENTATION.name) }
                 )
             }
             composable(route = Destination.FAQ.name) {
                 FAQScreen(
-                    faqList = viewModel.faqs.value,
-                    onFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
+                    faqState = faqViewModel.faq,
+                    fetchFaq = faqViewModel::fetchFAQ,
+                    navigateToFaqDetails = { navController.navigate(Destination.FAQ_DETAILS.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
-                    setFAQList = viewModel::setFAQs,
-                    setSelectedFAQ = viewModel::setSelectedFAQ,
-                    clearSelectedFAQ = viewModel::clearSelectedFAQ
+                    setSelectedFAQ = faqViewModel::setSelectedFAQ,
+                    clearSelectedFAQ = faqViewModel::clearSelectedFAQ,
+                    checkAdminStatus = loginViewModel::checkAdminStatus,
+                    isAdmin = loginViewModel.isAdmin.value,
+                    setAdminStatus = loginViewModel::setAdminStatus
                 )
             }
             composable(route = Destination.FAQ_CREATE.name) {
                 CreateFAQScreen(
-                    selectedFAQ = viewModel.selectedFAQ.value,
-                    onSaveFAQClick = { navController.navigate(Destination.FAQ.name) },
-                    onDeleteFAQClick = { navController.navigate(Destination.FAQ.name) }
+                    insertFaq = faqViewModel::insertFAQ,
+                    navControllerNavigateUp = { navController.navigateUp() }
+                )
+            }
+            composable(route = Destination.FAQ_DETAILS.name) {
+                FAQDetailsScreen(
+                    setSelectedFaq = faqViewModel::setSelectedFAQ,
+                    deleteFaqItem = faqViewModel::deleteFAQ,
+                    selectedFaq = faqViewModel.selectedFAQ.value,
+                    navigateToFaqUpdate = { navController.navigate(Destination.FAQ_UPDATE.name) },
+                    popNavigationBackStack = navController::popBackStack,
+                    isAdmin = loginViewModel.isAdmin.value
+                )
+            }
+            composable(route = Destination.FAQ_UPDATE.name) {
+                UpdateFAQScreen(
+                    selectedFaq = faqViewModel.selectedFAQ.value,
+                    saveFaqChanges = faqViewModel::saveFAQChanges,
+                    navigateToFaq = { navController.navigate(Destination.FAQ.name) }
                 )
             }
             composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
-                    news = viewModel.news.value,
+                    newsState = newsViewModel.news,
+                    fetchNews = newsViewModel::fetchNews,
                     onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
                     onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
-                    setNewsList = viewModel::setNews,
-                    setSelectedNews = viewModel::setSelectedNews,
-                    clearSelectedNews = viewModel::clearSelectedNews
+                    setSelectedNews = newsViewModel::setSelectedNews,
+                    clearSelectedNews = newsViewModel::clearSelectedNews,
+                    checkAdminStatus = loginViewModel::checkAdminStatus,
+                    isAdmin = loginViewModel.isAdmin.value,
+                    setAdminStatus = loginViewModel::setAdminStatus
+
                 )
             }
             composable(route = Destination.NEWS_DETAILS.name) {
                 NewsDetailsScreen(
-                    selectedNews = viewModel.selectedNews.value,
-                    onEditClick = { navController.navigate(Destination.NEWS_CREATE.name) }
+                    setSelectedNews = newsViewModel::setSelectedNews,
+                    deleteNewsItem = newsViewModel::deleteNews,
+                    selectedNews = newsViewModel.selectedNews.value,
+                    navigateToNewsUpdate = { navController.navigate(Destination.NEWS_UPDATE.name) },
+                    navControllerPopBackStack = navController::popBackStack,
+                    isAdmin = loginViewModel.isAdmin.value
                 )
             }
             composable(route = Destination.NEWS_CREATE.name) {
                 CreateNewsScreen(
-                    selectedNews = viewModel.selectedNews.value,
-                    onSaveNewsClick = { navController.navigateUp() }
+                    insertNews = newsViewModel::insertNews,
+                    navControllerNavigateUp = { navController.navigateUp() }
                 )
             }
+            composable(route = Destination.NEWS_UPDATE.name) {
+                UpdateNewsScreen(
+                    selectedNews = newsViewModel.selectedNews.value,
+                    saveNewsChanges = newsViewModel::saveNewsChanges,
+                    navigateToNews = { navController.navigate(Destination.NEWS.name) },
+                )
+            }
+
             composable(route = Destination.HOME.name) {
                 HomeScreen(
                     onTrainClick = { navController.navigate(Destination.OPENINGS.name) },
@@ -502,12 +561,16 @@ enum class Destination(@StringRes val title: Int, val icon: Icon? = null) {
     DOCUMENTATION(title = R.string.documentation_title),
     DOCUMENTATION_CREATE(title = R.string.documentation_create_title),
     DOCUMENTATION_DETAILS(title = R.string.documentation_details_title),
+    DOCUMENTATION_UPDATE(title = R.string.documentation_update_title),
     FAQ(title = R.string.faq_title),
     FAQ_CREATE(title = R.string.faq_create_title),
+    FAQ_DETAILS(title = R.string.faq_details_title),
+    FAQ_UPDATE(title = R.string.faq_update_title),
     ABOUT_US(title = R.string.about_us_title),
     NEWS(title = R.string.news_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_news)),
     NEWS_DETAILS(title = R.string.news_title),
     NEWS_CREATE(title = R.string.news_create_title),
+    NEWS_UPDATE(title = R.string.news_update_title),
     HOME(title = R.string.home_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_home)),
     PROFILE(title = R.string.profile_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_profile)),
     PROFILE_EDIT_PROFILE(title = R.string.profile_edit_profile_title),

@@ -1,6 +1,8 @@
 package no.usn.mob3000.domain.viewmodel.auth
 
 import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.jan.supabase.gotrue.exception.AuthRestException
@@ -8,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import no.usn.mob3000.domain.usecase.auth.CheckAdminStatusUseCase
 import no.usn.mob3000.domain.model.auth.error.AuthError
 import no.usn.mob3000.domain.model.auth.User
 import no.usn.mob3000.domain.model.auth.state.LoginState
@@ -21,7 +24,9 @@ import no.usn.mob3000.domain.usecase.auth.LoginUseCase
  * @created 2024-10-21
  */
 class LoginViewModel(
-    private val loginUseCase: LoginUseCase = LoginUseCase()
+    private val loginUseCase: LoginUseCase = LoginUseCase(),
+    private val checkAdminStatusUseCase: CheckAdminStatusUseCase = CheckAdminStatusUseCase()
+
 ) : ViewModel() {
     /**
      * The current [LoginState].
@@ -81,4 +86,28 @@ class LoginViewModel(
     fun resetState() {
         _loginState.value = LoginState.Idle
     }
+
+    private val _isAdmin = mutableStateOf(false)
+    val isAdmin: State<Boolean> = _isAdmin
+    /**
+     * Checks if the current user is an admin. This might be something already implemented, let me know if you're aware when merging
+     *
+     * @author 258030
+     * @created 2024-11-06
+     */
+    fun checkAdminStatus() {
+        viewModelScope.launch {
+            _isAdmin.value = checkAdminStatusUseCase.execute()
+
+        }
+    }
+
+    /**
+     * Saves the status for passing the value to a view without checking admin state all the time
+     */
+    fun setAdminStatus(isAdmin: Boolean) {
+        _isAdmin.value = isAdmin
+    }
+
+
 }
