@@ -53,10 +53,14 @@ class AuthDataSource(
     suspend fun checkAdminStatus(
         userId: String
     ): Boolean {
-        return supabase.postgrest.rpc(
-            function = "admin_check_if_admin",
-            parameters = mapOf("user_to_check" to userId)
-        ).decodeAs<Boolean>()
+        return try {
+            supabase.postgrest.rpc(
+                function = "admin_check_if_admin",
+                parameters = mapOf("user_to_check" to userId)
+            ).decodeAs<Boolean>()
+        } catch (error: Exception) {
+            false
+        }
     }
 
     /**
@@ -68,10 +72,14 @@ class AuthDataSource(
      * @created 2024-11-07
      */
     suspend fun checkAdminStatus(): Boolean {
-        return supabase.postgrest.rpc(
-            function = "admin_check_if_admin",
-            parameters = mapOf("user_to_check" to getCurrentUserId())
-        ).decodeAs<Boolean>()
+        return try {
+            supabase.postgrest.rpc(
+                function = "admin_check_if_admin",
+                parameters = mapOf("user_to_check" to getCurrentUserId())
+            ).decodeAs<Boolean>()
+        } catch (error: Exception) {
+            false
+        }
     }
 
     /**
