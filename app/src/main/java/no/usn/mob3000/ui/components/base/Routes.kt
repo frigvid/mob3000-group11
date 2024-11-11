@@ -10,6 +10,9 @@ import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
+import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
+import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
+import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
@@ -29,11 +32,15 @@ import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.docs.DocumentationDetailsScreen
 import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
+import no.usn.mob3000.ui.screens.info.docs.UpdateDocumentationScreen
 import no.usn.mob3000.ui.screens.info.faq.CreateFAQScreen
+import no.usn.mob3000.ui.screens.info.faq.FAQDetailsScreen
 import no.usn.mob3000.ui.screens.info.faq.FAQScreen
+import no.usn.mob3000.ui.screens.info.faq.UpdateFAQScreen
 import no.usn.mob3000.ui.screens.info.news.CreateNewsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsDetailsScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
+import no.usn.mob3000.ui.screens.info.news.UpdateNewsScreen
 import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
 import no.usn.mob3000.ui.screens.user.ProfileEditScreen
 import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
@@ -65,7 +72,10 @@ object Routes {
         operator fun invoke(
             navGraphBuilder: NavGraphBuilder,
             navController: NavController,
-            cbViewModel: CBViewModel
+            authenticationViewModel: AuthenticationViewModel,
+            documentationViewModel: DocumentationViewModel,
+            faqViewModel: FAQViewModel,
+            newsViewModel: NewsViewModel
         ): Information {
             navGraphBuilder.composable(route = Destination.INFO.name) {
                 InfoScreen(
@@ -75,9 +85,9 @@ object Routes {
                 )
             }
 
-            navGraphBuilder.documentationRoutes(navController, cbViewModel)
-            navGraphBuilder.faqRoutes(navController, cbViewModel)
-            navGraphBuilder.newsRoutes(navController, cbViewModel)
+            navGraphBuilder.documentationRoutes(navController, authenticationViewModel, documentationViewModel)
+            navGraphBuilder.faqRoutes(navController, authenticationViewModel, faqViewModel)
+            navGraphBuilder.newsRoutes(navController, authenticationViewModel, newsViewModel)
 
             navGraphBuilder.composable(route = Destination.ABOUT_US.name) { AboutUsScreen() }
 
@@ -88,36 +98,53 @@ object Routes {
          * The documentation routes.
          *
          * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
+         * @param authenticationViewModel The authentication status view model.
+         * @param documentationViewModel The documentation view model.
          * @author frigvid
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.documentationRoutes(
             navController: NavController,
-            cbViewModel: CBViewModel
+            authenticationViewModel: AuthenticationViewModel,
+            documentationViewModel: DocumentationViewModel
         ) {
             composable(route = Destination.DOCUMENTATION.name) {
                 DocumentationScreen(
-                    documentations = cbViewModel.documentations.value,
-                    onDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
+                    docsState = documentationViewModel.documentations,
+                    fetchDocs = documentationViewModel::fetchDocumentations,
+                    navigateToDocumentationDetails = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
                     onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
-                    setDocumentationList = cbViewModel::setDocumentations,
-                    setSelectedDocumentation = cbViewModel::setSelectedDocumentation,
-                    clearSelectedDocumentation = cbViewModel::clearSelectedDocumentation
+                    setSelectedDocumentation = documentationViewModel::setSelectedDocumentation,
+                    clearSelectedDocumentation = documentationViewModel::clearSelectedDocumentation,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState
                 )
             }
 
             composable(route = Destination.DOCUMENTATION_DETAILS.name) {
                 DocumentationDetailsScreen(
-                    selectedDocumentation = cbViewModel.selectedDocumentation.value,
-                    onEditClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) }
+                    setSelectedDoc = documentationViewModel::setSelectedDocumentation,
+                    deleteDocItem = documentationViewModel::deleteDocs,
+                    selectedDoc = documentationViewModel.selectedDocumentation.value,
+                    navigateToDocumentationUpdate = { navController.navigate(Destination.DOCUMENTATION_UPDATE.name) },
+                    popNavigationBackStack = navController::popBackStack,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState
                 )
             }
 
             composable(route = Destination.DOCUMENTATION_CREATE.name) {
                 CreateDocumentationScreen(
-                    selectedDocumentation = cbViewModel.selectedDocumentation.value,
-                    onSaveDocumentationClick = { navController.navigate(Destination.DOCUMENTATION.name) }
+                    insertDocumentation = documentationViewModel::insertDocs,
+                    navControllerNavigateUp = { navController.navigateUp() }
+                )
+            }
+
+            composable(route = Destination.DOCUMENTATION_UPDATE.name) {
+                UpdateDocumentationScreen(
+                    selectedDoc = documentationViewModel.selectedDocumentation.value,
+                    saveDocChanges = documentationViewModel::saveDocumentationChanges,
+                    navigateToDocs = { navController.navigate(Destination.DOCUMENTATION.name) }
                 )
             }
         }
@@ -126,30 +153,53 @@ object Routes {
          * The FAQ routes.
          *
          * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
+         * @param authenticationViewModel The authentication status view model.
+         * @param faqViewModel The FAQ view model.
          * @author frigvid
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.faqRoutes(
             navController: NavController,
-            cbViewModel: CBViewModel
+            authenticationViewModel: AuthenticationViewModel,
+            faqViewModel: FAQViewModel
         ) {
             composable(route = Destination.FAQ.name) {
                 FAQScreen(
-                    faqList = cbViewModel.faqs.value,
-                    onFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
+                    faqState = faqViewModel.faq,
+                    fetchFaq = faqViewModel::fetchFAQ,
+                    navigateToFaqDetails = { navController.navigate(Destination.FAQ_DETAILS.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
-                    setFAQList = cbViewModel::setFAQs,
-                    setSelectedFAQ = cbViewModel::setSelectedFAQ,
-                    clearSelectedFAQ = cbViewModel::clearSelectedFAQ
+                    setSelectedFAQ = faqViewModel::setSelectedFAQ,
+                    clearSelectedFAQ = faqViewModel::clearSelectedFAQ,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState
                 )
             }
 
             composable(route = Destination.FAQ_CREATE.name) {
                 CreateFAQScreen(
-                    selectedFAQ = cbViewModel.selectedFAQ.value,
-                    onSaveFAQClick = { navController.navigate(Destination.FAQ.name) },
-                    onDeleteFAQClick = { navController.navigate(Destination.FAQ.name) }
+                    insertFaq = faqViewModel::insertFAQ,
+                    navControllerNavigateUp = { navController.navigateUp() }
+                )
+            }
+
+            composable(route = Destination.FAQ_DETAILS.name) {
+                FAQDetailsScreen(
+                    setSelectedFaq = faqViewModel::setSelectedFAQ,
+                    deleteFaqItem = faqViewModel::deleteFAQ,
+                    selectedFaq = faqViewModel.selectedFAQ.value,
+                    navigateToFaqUpdate = { navController.navigate(Destination.FAQ_UPDATE.name) },
+                    popNavigationBackStack = navController::popBackStack,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState
+                )
+            }
+
+            composable(route = Destination.FAQ_UPDATE.name) {
+                UpdateFAQScreen(
+                    selectedFaq = faqViewModel.selectedFAQ.value,
+                    saveFaqChanges = faqViewModel::saveFAQChanges,
+                    navigateToFaq = { navController.navigate(Destination.FAQ.name) }
                 )
             }
         }
@@ -164,30 +214,46 @@ object Routes {
          */
         private fun NavGraphBuilder.newsRoutes(
             navController: NavController,
-            cbViewModel: CBViewModel
+            authenticationViewModel: AuthenticationViewModel,
+            newsViewModel: NewsViewModel
         ) {
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
-                    news = cbViewModel.news.value,
+                    newsState = newsViewModel.news,
+                    fetchNews = newsViewModel::fetchNews,
                     onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
                     onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
-                    setNewsList = cbViewModel::setNews,
-                    setSelectedNews = cbViewModel::setSelectedNews,
-                    clearSelectedNews = cbViewModel::clearSelectedNews
+                    setSelectedNews = newsViewModel::setSelectedNews,
+                    clearSelectedNews = newsViewModel::clearSelectedNews,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState
                 )
             }
 
             composable(route = Destination.NEWS_DETAILS.name) {
                 NewsDetailsScreen(
-                    selectedNews = cbViewModel.selectedNews.value,
-                    onEditClick = { navController.navigate(Destination.NEWS_CREATE.name) }
+                    setSelectedNews = newsViewModel::setSelectedNews,
+                    deleteNewsItem = newsViewModel::deleteNews,
+                    selectedNews = newsViewModel.selectedNews.value,
+                    navigateToNewsUpdate = { navController.navigate(Destination.NEWS_UPDATE.name) },
+                    navControllerPopBackStack = navController::popBackStack,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState
                 )
             }
 
             composable(route = Destination.NEWS_CREATE.name) {
                 CreateNewsScreen(
-                    selectedNews = cbViewModel.selectedNews.value,
-                    onSaveNewsClick = { navController.navigateUp() }
+                    insertNews = newsViewModel::insertNews,
+                    navControllerNavigateUp = { navController.navigateUp() }
+                )
+            }
+
+            composable(route = Destination.NEWS_UPDATE.name) {
+                UpdateNewsScreen(
+                    selectedNews = newsViewModel.selectedNews.value,
+                    saveNewsChanges = newsViewModel::saveNewsChanges,
+                    navigateToNews = { navController.navigate(Destination.NEWS.name) },
                 )
             }
         }

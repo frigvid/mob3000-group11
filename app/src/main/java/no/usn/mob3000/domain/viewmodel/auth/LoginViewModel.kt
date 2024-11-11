@@ -1,6 +1,8 @@
 package no.usn.mob3000.domain.viewmodel.auth
 
 import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.jan.supabase.gotrue.exception.AuthRestException
@@ -22,6 +24,7 @@ import no.usn.mob3000.domain.usecase.auth.LoginUseCase
  */
 class LoginViewModel(
     private val loginUseCase: LoginUseCase = LoginUseCase()
+
 ) : ViewModel() {
     /**
      * The current [LoginState].

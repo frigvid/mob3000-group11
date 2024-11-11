@@ -17,6 +17,9 @@ import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
+import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
+import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
+import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
 import no.usn.mob3000.ui.components.base.Routes
 
 /**
@@ -98,6 +101,9 @@ fun Navigation(
     registrationViewModel: RegistrationViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     authenticationViewModel: AuthenticationViewModel = viewModel(),
+    documentationViewModel: DocumentationViewModel = viewModel(),
+    newsViewModel: NewsViewModel = viewModel(),
+    faqViewModel: FAQViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -111,7 +117,10 @@ fun Navigation(
             Routes.Information(
                 this,
                 navController,
-                viewModel
+                authenticationViewModel,
+                documentationViewModel,
+                faqViewModel,
+                newsViewModel
             )
 
             Routes.Game(
