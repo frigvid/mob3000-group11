@@ -1,10 +1,12 @@
 package no.usn.mob3000.domain.usecase.auth
 
+import android.util.Log
 import no.usn.mob3000.data.repository.auth.AuthRepository
 import no.usn.mob3000.data.model.auth.UserDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.domain.model.auth.User
+import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
 
 /**
  * Android Use Case for handling login operations.
@@ -13,11 +15,13 @@ import no.usn.mob3000.domain.model.auth.User
  * a bridge between the UI and Data layers.
  *
  * @property authRepository The repository handling authentication operations.
+ * @property authenticationViewModel The authentication status view model.
  * @author frigvid
  * @created 2024-10-22
  */
 class LoginUseCase(
-    private val authRepository: AuthRepository = AuthRepository(AuthDataSource(), UserDataSource())
+    private val authRepository: AuthRepository = AuthRepository(AuthDataSource(), UserDataSource()),
+    private val authenticationViewModel: AuthenticationViewModel = AuthenticationViewModel()
 ) {
     /**
      * Executes the login operation with the provided credentials.
@@ -40,7 +44,11 @@ class LoginUseCase(
             return Result.failure(IllegalArgumentException("Password must be at least 8 characters"))
         }
 
-        return authRepository.login(email, password)
+        return authRepository.login(email, password).onSuccess {
+            Log.d("LoginUseCase", "Starting authentication state job.")
+            authenticationViewModel.updateAuthState()
+            authenticationViewModel.startPeriodicUpdates()
+        }
     }
 
 

@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.domain.viewmodel.CBViewModel
+import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
 import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
@@ -96,6 +97,7 @@ fun Navigation(
     logoutViewModel: LogoutViewModel = viewModel(),
     registrationViewModel: RegistrationViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
+    authenticationViewModel: AuthenticationViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -128,7 +130,8 @@ fun Navigation(
                 navController,
                 viewModel,
                 logoutViewModel,
-                deleteAccountViewModel
+                deleteAccountViewModel,
+                authenticationViewModel
             )
 
             Routes.Authentication(

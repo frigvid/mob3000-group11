@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.domain.viewmodel.CBViewModel
+import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
 import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
@@ -387,16 +388,19 @@ object Routes {
             navController: NavController,
             cbViewModel: CBViewModel,
             logoutViewModel: LogoutViewModel,
-            deleteAccountViewModel: DeleteAccountViewModel
+            deleteAccountViewModel: DeleteAccountViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ): Settings {
             navGraphBuilder.composable(route = Destination.SETTINGS.name) {
                 SettingsScreen(
                     logoutState = logoutViewModel.logoutState,
                     logoutStateReset = logoutViewModel::resetState,
+                    authenticationState = authenticationViewModel.authState,
                     onLogoutClick = logoutViewModel::logout,
                     onLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
                     accountDeleteState = deleteAccountViewModel.deleteAccountState,
                     accountDeleteStateReset = deleteAccountViewModel::resetState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
                     onDeleteAccountClick = deleteAccountViewModel::deleteAccount,
                     onAdminDashboardClick = { navController.navigate(Destination.ADMIN_DASHBOARD.name) },
                     selectedTheme = cbViewModel.selectedTheme.value,
