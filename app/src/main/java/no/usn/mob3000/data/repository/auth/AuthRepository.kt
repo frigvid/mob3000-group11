@@ -265,7 +265,7 @@ class AuthRepository(
                         is FriendRequestsDto -> dto.filterIsInstance<FriendRequestsDto>().map { requestDto ->
                             DomainFriendRequest(
                                 friendRequestId = requestDto.friendRequestId,
-                                createdAt = requestDto.createdAt,
+                                createdAt = requestDto.createdAt ?: Instant.fromEpochMilliseconds(0),
                                 fromUserId = requestDto.byUser ?: "",
                                 toUserId = requestDto.toUser ?: ""
                             )

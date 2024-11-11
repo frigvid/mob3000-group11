@@ -22,7 +22,7 @@ data class FriendRequestsDto(
     @SerialName("id")
     val friendRequestId: String,
     @SerialName("created_at")
-    val createdAt: Instant,
+    val createdAt: Instant? = null,
     @SerialName("by_user")
     val byUser: String? = null,
     @SerialName("to_user")
