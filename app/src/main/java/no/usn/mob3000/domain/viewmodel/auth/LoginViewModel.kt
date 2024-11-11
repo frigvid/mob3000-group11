@@ -33,14 +33,6 @@ class LoginViewModel(
     val loginState = _loginState.asStateFlow()
 
     /**
-     *
-     * @author frigvid
-     * @created 2024-10-22
-     */
-    private val _authenticatedUser = MutableStateFlow<User?>(null)
-    val authenticatedUser: StateFlow<User?> = _authenticatedUser.asStateFlow()
-
-    /**
      * Initiates the login process with the provided credentials.
      *
      * @param email The user's e-mail address.
@@ -60,7 +52,6 @@ class LoginViewModel(
             loginUseCase(email, password).fold(
                 onSuccess = { user ->
                     Log.d("LoginViewModel", user.toString())
-                    _authenticatedUser.value = user
                     _loginState.value = LoginState.Success(user)
                 },
                 onFailure = { error ->
