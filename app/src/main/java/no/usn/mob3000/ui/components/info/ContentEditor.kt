@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.components.base.Viewport
 
 /**
  * Content editor for news, documentation and faq.

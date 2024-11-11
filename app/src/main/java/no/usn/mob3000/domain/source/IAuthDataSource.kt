@@ -15,11 +15,4 @@ import no.usn.mob3000.data.model.social.ProfileDto
  */
 interface IAuthDataSource {
     suspend fun getCurrentSession(): UserSession?
-    suspend fun getCurrentUser(): UserInfo
-    suspend fun getUserGameStats(): GameDataDto
-    suspend fun getUserProfile(userId: String): ProfileDto?
-    suspend fun getUserFriends(userId: String): List<FriendsDto>
-    suspend fun getUserFriendRequests(): List<FriendRequestsDto>
-    // Open for where else it should be, let me know
-    suspend fun checkAdminStatus(userId: String): Boolean
 }

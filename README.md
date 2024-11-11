@@ -30,16 +30,47 @@
 </details>
 <br>
 
+# About the project
+
+This project was made in conjunction with the University of South-Eastern Norway, at campus Bø, as part the course MOB3000.
+
+You can check out the web-application this mobile application is based on [[HERE](https://github.com/frigvid/app2000-gruppe11)].
+
 # Getting started
 ## Built with
+
+The project is developed using:
+
+- Kotlin.
+- Jetpack Compose.
+- [Supabase-kt](https://github.com/supabase-community/supabase-kt).
+- [Chesslib](https://github.com/bhlangonijr/chesslib).
+
 ## Prerequisites
 ### Database
+
+The database used for this project is PostgreSQL via Supabase. It's using the same database as the mobile application. The pre-requisites for the database are thus the same, and can be found in the [`PREREQUISITES.sql`](https://github.com/frigvid/app2000-gruppe11/blob/master/PREREQUISITES.sql) file in the older repository.
+
 ### Environment file
-### Additional notes
+
+This project requires a connection to Supabase to compile. Specifically, this means you'll need a few key-value pairs.
+
+You'll need to create a `.env.local` file in the root repository with the following keys. And values, of course.
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
+
 ## Installation
-## Running DEBUG
-# Usage
-# Roadmap
+
+Installation is as simple as:
+
+1. Run `gradle sync`.
+2. Then run `gradle build`.
+
+If any problems occur, you can try a `gradle sync` too.
+
 # License
 
 The repository `LICENSE` file, as you may have noticed, marks this repository as MIT. However, due to the nature of its contents, it's actually multi-licensed. Unless otherwise specified, the licenses below apply to their respective areas:

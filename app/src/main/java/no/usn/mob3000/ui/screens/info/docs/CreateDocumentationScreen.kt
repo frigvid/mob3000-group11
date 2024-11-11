@@ -23,7 +23,6 @@ fun CreateDocumentationScreen(
     var content by remember { mutableStateOf("") }
     var isPublished by remember { mutableStateOf(true) }
 
-
     ContentEditor(
         title = title,
         onTitleChange = { title = it },

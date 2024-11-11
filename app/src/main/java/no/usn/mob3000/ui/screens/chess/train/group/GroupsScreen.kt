@@ -23,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen

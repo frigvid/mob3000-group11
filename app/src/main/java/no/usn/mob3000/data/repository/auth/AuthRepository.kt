@@ -15,6 +15,7 @@ import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
+import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.domain.model.auth.Friend as DomainFriend
 import no.usn.mob3000.domain.model.auth.FriendRequest as DomainFriendRequest
 import no.usn.mob3000.domain.model.auth.UserGameStats as DomainUserGameStats
@@ -31,11 +32,14 @@ import no.usn.mob3000.domain.repository.IAuthRepository
  * operations into cohesive results.
  *
  * @property authDataSource The data source for authentication operations.
+ * @property userDataSource The data source for user operations.
+ * @property supabase The Supabase client.
  * @author frigvid
  * @created 2024-10-22
  */
 class AuthRepository(
     private val authDataSource: AuthDataSource,
+    private val userDataSource: UserDataSource,
     private val supabase: SupabaseClient = SupabaseClientWrapper.getClient()
 ) : IAuthRepository {
     private lateinit var currentUserId: String
@@ -135,23 +139,23 @@ class AuthRepository(
      * @created 2024-10-22
      */
     private suspend fun fetchUserData(): DomainUser {
-        val user = mapToDomainUser<UserDto>(authDataSource.getCurrentUser())
+        val user = mapToDomainUser<UserDto>(userDataSource.getCurrentUser())
         Log.d("AuthRepository", "Fetched user: $user")
 
-        val isAdmin = authDataSource.checkAdminStatus(currentUserId)
+        val isAdmin = authDataSource.checkAdminStatus()
         Log.d("AuthRepository", "Fetched admin status: $isAdmin")
 
-        val stats = mapToDomainUser<DomainUserGameStats>(authDataSource.getUserGameStats())
+        val stats = mapToDomainUser<DomainUserGameStats>(userDataSource.getUserGameStats())
         Log.d("AuthRepository", "Fetched user's game stats: $stats")
 
-        val profile = authDataSource.getUserProfile(currentUserId)
+        val profile = userDataSource.getUserProfile(currentUserId)
             ?.let { mapToDomainUser<DomainUserProfile>(it) }
         Log.d("AuthRepository", "Fetched user profile: $profile")
 
-        val friends = mapToDomainUser<List<DomainFriend>>(authDataSource.getUserFriends(currentUserId))
+        val friends = mapToDomainUser<List<DomainFriend>>(userDataSource.getUserFriends(currentUserId))
         Log.d("AuthRepository", "Fetched friends: $friends")
 
-        val friendRequests = mapToDomainUser<List<DomainFriendRequest>>(authDataSource.getUserFriendRequests())
+        val friendRequests = mapToDomainUser<List<DomainFriendRequest>>(userDataSource.getUserFriendRequests())
         Log.d("AuthRepository", "Fetched friend requests: $friendRequests")
 
         return DomainUser(
@@ -246,7 +250,7 @@ class AuthRepository(
                                     friendDto.user1
                                 }
 
-                            val friendData = authDataSource.getUserFriendSingle(friendId)
+                            val friendData = userDataSource.getUserFriendSingle(friendId)
 
                             DomainFriend(
                                 friendshipId = friendData.friendshipId,
@@ -261,7 +265,7 @@ class AuthRepository(
                         is FriendRequestsDto -> dto.filterIsInstance<FriendRequestsDto>().map { requestDto ->
                             DomainFriendRequest(
                                 friendRequestId = requestDto.friendRequestId,
-                                createdAt = requestDto.createdAt,
+                                createdAt = requestDto.createdAt ?: Instant.fromEpochMilliseconds(0),
                                 fromUserId = requestDto.byUser ?: "",
                                 toUserId = requestDto.toUser ?: ""
                             )

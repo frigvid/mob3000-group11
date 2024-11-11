@@ -7,15 +7,21 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.content.FAQData
+import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.info.ContentDisplay
+import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 
 /**
  * Screen to display full details about some documentation.
@@ -30,12 +36,32 @@ fun FAQDetailsScreen(
     selectedFaq: FAQData? = null,
     navigateToFaqUpdate: () -> Unit,
     popNavigationBackStack: () -> Unit,
-    isAdmin: Boolean
+    authenticationState: StateFlow<AuthenticationState>,
+    authenticationStateUpdate: () -> Unit
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
-    val isPublishedText = when {
-        isAdmin && selectedFaq?.isPublished == true -> stringResource(R.string.info_item_details_status_published)
-        isAdmin -> stringResource(R.string.info_item_details_status_draft)
+
+    /**
+     * See [SettingsSectionAdmin]'s docstring for [authenticationState] for
+     * additional details.
+     *
+     * @author frigvid
+     * @created 2024-11-11
+     */
+    val state by remember { authenticationState }.collectAsState()
+
+    LaunchedEffect(Unit) { authenticationStateUpdate() }
+
+    val isPublishedText = when (val auth = state) {
+        is AuthenticationState.Authenticated -> {
+            when {
+                auth.isAdmin && selectedFaq?.isPublished == true ->
+                    stringResource(R.string.info_item_details_status_published)
+                auth.isAdmin ->
+                    stringResource(R.string.info_item_details_status_draft)
+                else -> ""
+            }
+        }
         else -> ""
     }
 
@@ -51,27 +77,32 @@ fun FAQDetailsScreen(
 
     Viewport(
         topBarActions = {
-            if (isAdmin) {
-                Row {
-                    IconButton(onClick = {
-                        selectedFaq?.let {
-                            setSelectedFaq(it)
-                            navigateToFaqUpdate()
+            when (val auth = state) {
+                is AuthenticationState.Authenticated -> {
+                    if (auth.isAdmin) {
+                        Row {
+                            IconButton(onClick = {
+                                selectedFaq?.let {
+                                    setSelectedFaq(it)
+                                    navigateToFaqUpdate()
+                                }
+                            }) {
+                                Icon(
+                                    Icons.Default.Edit,
+                                    contentDescription = "Edit FAQ"
+                                )
+                            }
+                            IconButton(onClick = { showConfirmationDialog.value = true }) {
+                                Icon(
+                                    Icons.Default.Delete,
+                                    contentDescription = "Delete FAQ",
+                                    tint = Color.Red
+                                )
+                            }
                         }
-                    }) {
-                        Icon(
-                            Icons.Default.Edit,
-                            contentDescription = "Edit FAQ"
-                        )
-                    }
-                    IconButton(onClick = { showConfirmationDialog.value = true }) {
-                        Icon(
-                            Icons.Default.Delete,
-                            contentDescription = "Delete FAQ",
-                            tint = Color.Red
-                        )
                     }
                 }
+                else -> return@Viewport
             }
         }
     ) { innerPadding ->

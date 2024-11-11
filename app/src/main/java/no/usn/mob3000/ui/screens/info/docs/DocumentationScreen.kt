@@ -5,7 +5,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.domain.model.auth.state.AuthenticationState
+import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
+import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
@@ -35,14 +37,22 @@ fun DocumentationScreen(
     onCreateDocumentationClick: () -> Unit,
     setSelectedDocumentation: (DocsData) -> Unit,
     clearSelectedDocumentation: () -> Unit,
-    checkAdminStatus: () -> Unit,
-    isAdmin: Boolean,
-    setAdminStatus: (Boolean) -> Unit
+    authenticationState: StateFlow<AuthenticationState>,
+    authenticationStateUpdate: () -> Unit
 ) {
     val documentationResult by docsState.collectAsState()
 
+    /**
+     * See [SettingsSectionAdmin]'s docstring for [authenticationState] for
+     * additional details.
+     *
+     * @author frigvid
+     * @created 2024-11-11
+     */
+    val state by remember { authenticationState }.collectAsState()
+
     LaunchedEffect(Unit) {
-        checkAdminStatus()
+        authenticationStateUpdate()
         clearSelectedDocumentation()
         fetchDocs()
     }
@@ -52,13 +62,17 @@ fun DocumentationScreen(
      */
     Viewport(
         floatingActionButton = {
-            if (isAdmin) {
-                FloatingActionButton(
-                    onClick = onCreateDocumentationClick,
-                    containerColor = DefaultButton
-                ) {
-                    Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
+            when (state) {
+                is AuthenticationState.Authenticated -> {
+                    FloatingActionButton(
+                        onClick = onCreateDocumentationClick,
+                        containerColor = DefaultButton
+                    ) {
+                        Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
+                    }
                 }
+
+                else -> return@Viewport
             }
         }
     ) { innerPadding ->
@@ -78,7 +92,7 @@ fun DocumentationScreen(
                      isPublished = docsItem.isPublished,
                      onClick = {
                          setSelectedDocumentation(docsItem)
-                         setAdminStatus(isAdmin)
+                         authenticationStateUpdate()
                          navigateToDocumentationDetails(docsItem) }
                  )
              }
