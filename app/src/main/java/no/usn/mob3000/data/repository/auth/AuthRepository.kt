@@ -142,7 +142,7 @@ class AuthRepository(
         val user = mapToDomainUser<UserDto>(userDataSource.getCurrentUser())
         Log.d("AuthRepository", "Fetched user: $user")
 
-        val isAdmin = authDataSource.checkAdminStatus(currentUserId)
+        val isAdmin = authDataSource.checkAdminStatus()
         Log.d("AuthRepository", "Fetched admin status: $isAdmin")
 
         val stats = mapToDomainUser<DomainUserGameStats>(userDataSource.getUserGameStats())
