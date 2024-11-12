@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 
 /**
@@ -99,7 +98,7 @@ fun OpeningDetailsScreen(
                  */
                 Button(
                     onClick = onPracticeClick,
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(stringResource(R.string.opening_details_practice_button))

@@ -97,7 +97,7 @@ fun HomePageButton(
         Text(
             text = text,
             fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
             modifier = Modifier.padding(top = 8.dp)
         )
     }

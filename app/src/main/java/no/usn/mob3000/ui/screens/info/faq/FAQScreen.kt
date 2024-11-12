@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,9 +18,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.draw.shadow
 
 /**
  * This is the FAQ page, where frequently asked questions will be displayed.
@@ -88,7 +90,8 @@ fun FAQScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onCreateFAQClick,
-                containerColor = DefaultButton
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.shadow(15.dp)
             ) {
                 Icon(
                     Icons.Filled.Add,
@@ -134,8 +137,8 @@ fun FAQItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
-        border = if (faq.isPublished) null else BorderStroke(width = 2.dp, color = Color.Red)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+        border = if (faq.isPublished) null else BorderStroke(width = 2.dp, color = Color.Red),
     ) {
         Column(
             modifier = Modifier
@@ -145,7 +148,8 @@ fun FAQItem(
             Text(
                 text = faq.title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -154,7 +158,8 @@ fun FAQItem(
                 Text(
                     text = it,
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -163,7 +168,8 @@ fun FAQItem(
             faq.content?.let {
                 Text(
                     text = it,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -171,7 +177,8 @@ fun FAQItem(
 
             Text(
                 text = "${stringResource(R.string.faq_created_at)}: ${SimpleDateFormat(stringResource(R.string.faq_date_pattern), Locale.getDefault()).format(faq.createdAt)} | ${stringResource(R.string.faq_modified_at)}: ${SimpleDateFormat(stringResource(R.string.faq_date_pattern), Locale.getDefault()).format(faq.modifiedAt)}",
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,9 +26,7 @@ import kotlinx.serialization.Serializable
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.network.SupabaseClientWrapper
-import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
  * This shows the various chess opening groups that have been created by the active user.
@@ -76,7 +75,8 @@ fun GroupsScreen(
     Viewport(
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = DefaultButton,
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.shadow(15.dp),
                 onClick = onCreateGroupClick
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Create Group")
@@ -84,7 +84,10 @@ fun GroupsScreen(
         },
         topBarActions = {
             IconButton(
-                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
                 onClick = onReturnToOpeningClick
             ) {
                 Icon(Icons.Default.Close, contentDescription = "Return to Openings")
@@ -130,8 +133,8 @@ fun GroupItem(group: Group) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable { expanded = !expanded },
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
-    ) {
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+        ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {

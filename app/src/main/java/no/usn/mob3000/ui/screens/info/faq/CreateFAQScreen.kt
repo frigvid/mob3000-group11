@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import java.util.Date
 
 /**
@@ -48,6 +48,7 @@ fun CreateFAQScreen(
                 value = title,
                 onValueChange = { title = it },
                 label = { Text(stringResource(R.string.faq_create_label_title)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -55,6 +56,7 @@ fun CreateFAQScreen(
                 value = subtitle,
                 onValueChange = { subtitle = it },
                 label = { Text(stringResource(R.string.faq_create_label_subtitle)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 2
             )
@@ -62,7 +64,8 @@ fun CreateFAQScreen(
             OutlinedTextField(
                 value = content,
                 onValueChange = { content = it },
-                label = { Text(stringResource(R.string.faq_create_label_content)) },
+                label = { Text(stringResource(R.string.faq_create_label_content) ) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 5
             )
@@ -102,7 +105,9 @@ fun CreateFAQScreen(
                         onSaveFAQClick(newFAQ)
                     },
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(DefaultButton)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                    )
                 ) {
                     Text(
                         if (selectedFAQ == null) stringResource(R.string.faq_create_save_faq)

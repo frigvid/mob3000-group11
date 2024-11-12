@@ -11,15 +11,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 import no.usn.mob3000.ui.screens.info.faq.FAQScreen
 import no.usn.mob3000.ui.screens.info.news.NewsScreen
 import java.text.SimpleDateFormat
@@ -93,7 +92,8 @@ fun DocumentationScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onCreateDocumentationClick,
-                containerColor = DefaultButton
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.shadow(15.dp)
             ) {
                 Icon(
                     Icons.Filled.Add,
@@ -139,7 +139,7 @@ fun DocumentationItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
         border =
             if (documentation.isPublished) null
             else BorderStroke(width = 2.dp, color = Color(0xFFFF0000))
@@ -152,7 +152,8 @@ fun DocumentationItem(
             Text(
                 text = documentation.title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -160,7 +161,8 @@ fun DocumentationItem(
             documentation.summary?.let {
                 Text(
                     text = it,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
@@ -168,7 +170,8 @@ fun DocumentationItem(
 
             Text(
                 text = stringResource(R.string.documentation_date_prefix) + ": ${SimpleDateFormat(stringResource(R.string.documentation_date_pattern), Locale.getDefault()).format(documentation.createdAt)}",
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

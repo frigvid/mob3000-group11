@@ -33,8 +33,8 @@ import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.state.LoginState
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error
-import no.usn.mob3000.ui.theme.DefaultButton
-
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.ui.text.TextStyle
 /**
  * This screen allows users to log into accounts, request new passwords ([ForgotPasswordScreen]),
  * and register new accounts ([CreateUserScreen]).
@@ -90,6 +90,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 16.dp),
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                 )
 
@@ -97,11 +98,12 @@ fun LoginScreen(
                     value = inputPassword,
                     onValueChange = { inputPassword = it },
                     label = { Text(stringResource(R.string.auth_login_password)) },
-                    placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
+                    placeholder = { Text(stringResource(R.string.auth_login_password_placeholder), ) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 16.dp),
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
 
@@ -112,7 +114,7 @@ fun LoginScreen(
                         loginStateReset()
                         onLoginClick(inputEmail, inputPassword)
                     },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -123,7 +125,7 @@ fun LoginScreen(
                 OutlinedButton(
                     onClick = onForgotPasswordClick,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) { Text(stringResource(R.string.auth_login_forgot_password)) }
+                ) { Text(stringResource(R.string.auth_login_forgot_password),color = MaterialTheme.colorScheme.onBackground) }
 
                 Row(
                     modifier = Modifier
@@ -151,7 +153,7 @@ fun LoginScreen(
 
                     Button(
                         onClick = onCreateUserClick,
-                        colors = ButtonDefaults.buttonColors(DefaultButton)
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     ) { Text(stringResource(R.string.auth_login_register)) }
                 }
 

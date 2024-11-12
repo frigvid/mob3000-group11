@@ -18,8 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.ui.text.TextStyle
 import no.usn.mob3000.ui.screens.chess.train.opening.Opening
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
 
@@ -54,8 +55,8 @@ fun CreateGroupScreen(
             modifier = Modifier.padding(innerPadding),
             bottomBar = {
                 BottomAppBar(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
                 ) {
                     Row(
                         modifier = Modifier
@@ -70,14 +71,14 @@ fun CreateGroupScreen(
                                 selectedOpenings = emptyList()
                                 /* TODO: onClearGroup() */
                             },
-                            colors = ButtonDefaults.buttonColors(DefaultButton),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                             modifier = Modifier.weight(1f).padding(end = 8.dp)
                         ) {
                             Text(stringResource(R.string.group_create_reset_all))
                         }
                         Button(
                             onClick = { /* TODO: onSaveGroup(title, description, selectedOpenings) */ },
-                            colors = ButtonDefaults.buttonColors(DefaultButton),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                             modifier = Modifier.weight(1f).padding(start = 8.dp)
                         ) {
                             Text(stringResource(R.string.group_create_save_group))
@@ -98,6 +99,7 @@ fun CreateGroupScreen(
                     value = title,
                     onValueChange = { title = it },
                     label = { Text(stringResource(R.string.group_create_prompt_title)) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -105,6 +107,7 @@ fun CreateGroupScreen(
                     value = description,
                     onValueChange = { description = it },
                     label = { Text(stringResource(R.string.group_create_prompt_description)) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 3
                 )
@@ -178,7 +181,7 @@ fun OpeningCard(
     Card(
         modifier = Modifier.fillMaxWidth()
                            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
     ) {
         Row(
             modifier = Modifier.padding(12.dp)

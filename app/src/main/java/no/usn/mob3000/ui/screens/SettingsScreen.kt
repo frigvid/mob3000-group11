@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,7 +20,6 @@ import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error as ProgressError
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * SettingsScreen allows users to configure application-wide settings.
@@ -154,6 +154,9 @@ fun SettingsScreen(
             /* TODO: Only show this when the user is logged in. */
             OutlinedButton(
                 onClick = { showLogoutConfirmation = true },
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
@@ -220,7 +223,8 @@ fun SettingsScreen(
 
             Text(
                 stringResource(R.string.settings_section_app_language),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             ExposedDropdownMenuBox(
@@ -231,6 +235,7 @@ fun SettingsScreen(
                     value = selectedLanguage,
                     onValueChange = {},
                     readOnly = true,
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = languageExpanded) },
                     modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
                                        .fillMaxWidth()
@@ -241,14 +246,14 @@ fun SettingsScreen(
                     onDismissRequest = { languageExpanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_section_app_language_enus)) },
+                        text = { Text(stringResource(R.string.settings_section_app_language_enus), color = MaterialTheme.colorScheme.onBackground) },
                         onClick = {
                             onLanguageChange("English")
                             languageExpanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_section_app_language_nonb)) },
+                        text = { Text(stringResource(R.string.settings_section_app_language_nonb), color = MaterialTheme.colorScheme.onBackground) },
                         onClick = {
                             onLanguageChange("Norwegian bokmål")
                             languageExpanded = false
@@ -259,7 +264,8 @@ fun SettingsScreen(
 
             Text(
                 stringResource(R.string.settings_section_app_theme),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             ExposedDropdownMenuBox(
@@ -270,6 +276,7 @@ fun SettingsScreen(
                     value = selectedTheme,
                     onValueChange = {},
                     readOnly = true,
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = themeExpanded) },
                     modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
                                        .fillMaxWidth()
@@ -280,14 +287,14 @@ fun SettingsScreen(
                     onDismissRequest = { themeExpanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_section_app_theme_light)) },
+                        text = { Text(stringResource(R.string.settings_section_app_theme_light), color = MaterialTheme.colorScheme.onBackground) },
                         onClick = {
                             onThemeChange("Default - light")
                             themeExpanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_section_app_theme_dark)) },
+                        text = { Text(stringResource(R.string.settings_section_app_theme_dark), color = MaterialTheme.colorScheme.onBackground) },
                         onClick = {
                             onThemeChange("Default - dark")
                             themeExpanded = false

@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -70,7 +71,6 @@ import no.usn.mob3000.ui.screens.user.ProfileAddFriendsScreen
 import no.usn.mob3000.ui.screens.user.ProfileEditScreen
 import no.usn.mob3000.ui.screens.user.ProfileFriendRequestsScreen
 import no.usn.mob3000.ui.screens.user.ProfileScreen
-import androidx.compose.material3.MaterialTheme
 
 /**
  * The LocalNavController was borne out of necessity, to allow for a more dynamic UI where
@@ -561,9 +561,13 @@ fun TopNavbar(
     topBarActions: @Composable (RowScope.() -> Unit) = {},
 ) {
     TopAppBar(
-        title = { if (showTitle) Text(stringResource(currentScreen.title)) },
+        title = { if (showTitle)
+            Text(stringResource(currentScreen.title),
+                color = MaterialTheme.colorScheme.onSurface
+            ) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surface,
+            titleContentColor = MaterialTheme.colorScheme.onSurface
         ),
         modifier = modifier,
         navigationIcon = {
@@ -602,6 +606,7 @@ fun TopNavbar(
  * @author frigvid
  * @created 2024-10-02
  */
+
 @Composable
 fun BottomNavbar(
     roots: List<Destination>,

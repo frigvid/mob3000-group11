@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen to create or modify documentation.
@@ -46,7 +46,8 @@ fun CreateNewsScreen(
                 value = title,
                 onValueChange = { title = it },
                 label = { Text(stringResource(R.string.news_create_label_title)) },
-                modifier = Modifier.fillMaxWidth()
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
+                modifier = Modifier.fillMaxWidth(),
             )
 
             OutlinedTextField(
@@ -54,6 +55,7 @@ fun CreateNewsScreen(
                 onValueChange = { summary = it },
                 label = { Text(stringResource(R.string.news_create_label_summary)) },
                 modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 minLines = 3
             )
 
@@ -62,6 +64,7 @@ fun CreateNewsScreen(
                 onValueChange = { content = it },
                 label = { Text(stringResource(R.string.news_create_label_content)) },
                 modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 minLines = 14
             )
 
@@ -85,7 +88,7 @@ fun CreateNewsScreen(
             Button(
                 onClick = onSaveNewsClick,
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(DefaultButton)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             ) {
                 if (selectedNews == null) {
                     Text(stringResource(R.string.news_create_save_news))

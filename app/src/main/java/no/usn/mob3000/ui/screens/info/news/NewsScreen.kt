@@ -11,15 +11,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 import no.usn.mob3000.ui.screens.info.docs.DocumentationScreen
 import java.text.SimpleDateFormat
 import java.util.*
@@ -100,7 +99,8 @@ fun NewsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onCreateNewsClick,
-                containerColor = DefaultButton
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.shadow(15.dp)
             ) {
                 Icon(
                     Icons.Filled.Add,
@@ -146,7 +146,7 @@ fun NewsItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
         border =
         if (news.isPublished) null
         else BorderStroke(width = 2.dp, color = Color(0xFFFF0000))

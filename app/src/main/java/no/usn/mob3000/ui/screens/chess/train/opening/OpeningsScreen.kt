@@ -29,8 +29,7 @@ import kotlinx.serialization.Serializable
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
 import no.usn.mob3000.data.network.SupabaseClientWrapper
-import no.usn.mob3000.ui.theme.DefaultButton
-
+import androidx.compose.ui.draw.shadow
 /**
  * This shows the various chess openings that are available by default, and that
  * are created by users.
@@ -78,7 +77,8 @@ fun OpeningsScreen(
     Viewport (
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = DefaultButton,
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.shadow(15.dp),
                 onClick = onCreateOpeningClick
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Create opening")
@@ -86,7 +86,10 @@ fun OpeningsScreen(
         },
         topBarActions = {
             IconButton(
-                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
                 onClick = onGroupsClick
             ) {
                 Icon(Icons.Default.PlayArrow, contentDescription = "Groups")

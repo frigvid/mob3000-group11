@@ -2,16 +2,16 @@ package no.usn.mob3000.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import no.usn.mob3000.R
-import no.usn.mob3000.ui.theme.DefaultButton
+
 
 /**
  * A reusable confirmation dialog component with dangerous action highlighting.
@@ -34,9 +34,7 @@ fun DangerousActionDialogue(
     onDismiss: () -> Unit,
     confirmText: String = stringResource(R.string.component_dialogue_dangerous_action_button_confirm),
     dismissText: String = stringResource(R.string.component_dialogue_dangerous_action_button_dismiss),
-    colorContainer: Color = MaterialTheme.colorScheme.surface,
-    colorButtonDismiss: Color = DefaultButton,
-    colorButtonConfirm: Color = Color.Red,
+
 ) {
     Dialog(
         onDismissRequest = onDismiss
@@ -45,7 +43,7 @@ fun DangerousActionDialogue(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            colors = CardDefaults.cardColors(containerColor = colorContainer)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
         ) {
             Column(
                 modifier = Modifier
@@ -66,7 +64,10 @@ fun DangerousActionDialogue(
                 ) {
                     Button(
                         onClick = onDismiss,
-                        colors = ButtonDefaults.buttonColors(colorButtonDismiss),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 8.dp)
@@ -74,7 +75,10 @@ fun DangerousActionDialogue(
 
                     Button(
                         onClick = onConfirm,
-                        colors = ButtonDefaults.buttonColors(colorButtonConfirm),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFFF0000),
+                            contentColor = Color.White
+                        ),
                         modifier = Modifier
                             .weight(1f)
                             .padding(start = 8.dp)

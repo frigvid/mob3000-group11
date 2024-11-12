@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
+import androidx.compose.ui.text.TextStyle
 
 /**
  * Screen to create or modify documentation.
@@ -46,6 +46,7 @@ fun CreateDocumentationScreen(
                 value = title,
                 onValueChange = { title = it },
                 label = { Text(stringResource(R.string.documentation_create_label_title)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -53,6 +54,7 @@ fun CreateDocumentationScreen(
                 value = summary,
                 onValueChange = { summary = it },
                 label = { Text(stringResource(R.string.documentation_create_label_summary)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3
             )
@@ -61,6 +63,7 @@ fun CreateDocumentationScreen(
                 value = content,
                 onValueChange = { content = it },
                 label = { Text(stringResource(R.string.documentation_create_label_content)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 14
             )
@@ -86,7 +89,10 @@ fun CreateDocumentationScreen(
             Button(
                 onClick = onSaveDocumentationClick,
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(DefaultButton)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary, // Bruker primary fargen fra temaet
+                    contentColor = MaterialTheme.colorScheme.onPrimary // Bruker fargen for tekst (content) på primary
+                )
             ) {
                 if (selectedDocumentation == null) {
                     Text(stringResource(R.string.documentation_create_save_documentation))

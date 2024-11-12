@@ -43,6 +43,7 @@ fun AdministratorDashboardScreen() {
                 text = stringResource(R.string.admin_dashboard_subtitle),
                 style = MaterialTheme.typography.bodySmall,
                 fontStyle = FontStyle.Italic,
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -150,13 +151,14 @@ fun UserListItem(
             ) {
                 Text(
                     text = user.displayName ?: user.id,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
 
                 Text(
                     text = user.id,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
 
@@ -168,8 +170,7 @@ fun UserListItem(
                         if (user.isAdmin) onDemoteUser(user.id)
                         else onPromoteUser(user.id)
                     },
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary)
+                    colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Icon(
                         painter = painterResource(
@@ -179,7 +180,8 @@ fun UserListItem(
                         contentDescription =
                             if (user.isAdmin) "Demote administrator to regular user"
                             else "Promote regular user to administrator",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
 
