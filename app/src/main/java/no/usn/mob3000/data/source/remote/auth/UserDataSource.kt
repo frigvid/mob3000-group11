@@ -6,6 +6,8 @@ import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.rpc
 import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.model.social.FriendRequestsDto
@@ -150,5 +152,13 @@ class UserDataSource(
         } catch (error: Exception) {
             throw Exception("Failed to fetch user's friend requests: ${error.message}", error)
         }
+    }
+
+    suspend fun fetchUserById(userId: String): ProfileDto? = withContext(Dispatchers.IO) {
+        supabase
+            .from("profiles")
+            .select()
+            { filter { eq("id", userId) } }
+            .decodeSingleOrNull()
     }
 }

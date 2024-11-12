@@ -44,6 +44,8 @@ class AuthRepository(
 ) : IAuthRepository {
     private lateinit var currentUserId: String
 
+    override suspend fun getCurrentUserId(): String = authDataSource.getCurrentUserId()
+
     /**
      * Performs user login and fetches associated user data.
      *

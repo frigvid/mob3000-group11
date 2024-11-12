@@ -19,10 +19,18 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.domain.model.auth.UserProfile
+import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.ui.theme.ProfileUserBackground
 import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 
@@ -36,14 +44,31 @@ import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
  * @param onProfileAddFriendsClick Callback function to navigate to [ProfileAddFriendsScreen].
  * @param onProfileFriendRequestsClick Callback function to navigate to [ProfileFriendRequestsScreen].
  * @author frigvid, Hussein
+ * @contributor 258030
  * @created 2024-09-12
  */
 @Composable
 fun ProfileScreen(
     onProfileEditClick: () -> Unit,
     onProfileAddFriendsClick: () -> Unit,
-    onProfileFriendRequestsClick: () -> Unit
+    onProfileFriendRequestsClick: () -> Unit,
+    fetchFriends: () -> Unit,
+    fetchUser: (String) -> Unit,
+    friendState: StateFlow<Result<List<FriendData>>>,
+    userState: StateFlow<Result<UserProfile?>>,
+    userIdState: StateFlow<String?>
 ) {
+    val friendResult by friendState.collectAsState()
+    val userResult by userState.collectAsState()
+    val userId by userIdState.collectAsState()
+
+    LaunchedEffect(userId) {
+        userId?.let { id ->
+            fetchUser(id)
+            fetchFriends()
+        }
+    }
+
     Viewport(
         topBarActions = {
             IconButton(onClick = onProfileEditClick) {
@@ -54,7 +79,6 @@ fun ProfileScreen(
                     tint = Color.Black
                 )
             }
-
             IconButton(onClick = onProfileAddFriendsClick) {
                 Icon(
                     painter = painterResource(R.drawable.profile_add_friends),
@@ -63,7 +87,6 @@ fun ProfileScreen(
                     tint = Color.Black
                 )
             }
-
             IconButton(onClick = onProfileFriendRequestsClick) {
                 Icon(
                     painter = painterResource(R.drawable.profile_pending_friends),
@@ -79,25 +102,28 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            ProfileHeader()
-            ProfileStats()
+            ProfileHeader(userResult = userResult)
+            ProfileStats(userProfile = userResult.getOrNull())
             AboutSection()
-            FriendsSection()
+            FriendsSection(friendResult)
         }
     }
 }
+
 
 /**
  * Composable function that displays the header section of the profile screen.
  *
  * This section includes the user's profile picture and display name.
  *
+ * TODO: Input actual data about the user here, such as their profile picture and display name.
+ *
  * @author Hussein
  * @contributor frigvid
  * @created 2024-10-11
  */
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(userResult: Result<UserProfile?>) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -106,7 +132,6 @@ fun ProfileHeader() {
             .background(ProfileUserBackground),
         verticalArrangement = Arrangement.Center
     ) {
-        /* TODO: Fetch the user's icon and display name from cached state in ViewModel. */
         Image(
             painter = painterResource(R.drawable.profile_icon),
             contentDescription = "Profile Icon",
@@ -115,13 +140,26 @@ fun ProfileHeader() {
                 .clip(CircleShape)
                 .border(2.dp, Color.Black, CircleShape)
         )
-
-        Text(
-            text = "Example user",
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            modifier = Modifier.padding(top = 8.dp)
-        )
+        userResult.onSuccess { user ->
+            user?.let {
+                Text(
+                    text = it.displayName,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            } ?: Text(
+                text = "No user data",
+                color = Color.Gray,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }.onFailure {
+            Text(
+                text = "Failed to load user profile.",
+                color = Color.Red,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
     }
 }
 
@@ -131,12 +169,14 @@ fun ProfileHeader() {
  * This section shows various user statistics such as ELO rating, games played,
  * wins, losses, draws, and country.
  *
+ * TODO: INPUT CORRECT DATATABLE HERE, WRONG DATA REFERENCE IN DOMAIN
+ *
  * @author Hussein
- * @contributor frigvid
+ * @contributor frigvid, 258030
  * @created 2024-10-11
  */
 @Composable
-fun ProfileStats() {
+fun ProfileStats(userProfile: UserProfile?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,12 +184,12 @@ fun ProfileStats() {
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        StatItem(stringResource(R.string.profile_stat_elo), "430")
+        StatItem(stringResource(R.string.profile_stat_elo), userProfile?.eloRank?.toString() ?: "N/A")
         StatItem(stringResource(R.string.profile_stat_games), "0")
         StatItem(stringResource(R.string.profile_stat_wins), "0")
         StatItem(stringResource(R.string.profile_stat_losses), "0")
         StatItem(stringResource(R.string.profile_stat_draws), "0")
-        StatItem(stringResource(R.string.profile_stat_country), "\uD83C\uDDF3\uD83C\uDDF4")
+        StatItem(stringResource(R.string.profile_stat_country), userProfile?.nationality ?: "N/A")
     }
 }
 
@@ -207,7 +247,48 @@ fun AboutSection() {
  * @created 2024-10-11
  */
 @Composable
-fun FriendsSection() {
+fun friendComponent(friendResult: Result<List<FriendData>>) {
+    LazyColumn {
+        friendResult.onSuccess { friends ->
+            items(friends) { friend ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable { /* Add click handling here if needed */ }
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.profile_icon),
+                        contentDescription = "Friend Icon",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .border(1.dp, Color.Gray, CircleShape)
+                    )
+
+
+                    Text(
+                        text =friend.displayname,
+                        modifier = Modifier.padding(start = 8.dp),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+
+                }
+            }
+        }.onFailure {
+
+            item {
+                Text(
+                    text = "Failed to load friends",
+                    color = Color.Red,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}@Composable
+fun FriendsSection(friendResult: Result<List<FriendData>>) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
             text = stringResource(R.string.profile_friends),
@@ -215,29 +296,6 @@ fun FriendsSection() {
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .clickable {  }
-        ) {
-            /* TODO: Get user icon and display name from data layer by querying the user's friends. */
-            Image(
-                painter = painterResource(R.drawable.profile_icon),
-                contentDescription = "Friend Icon",
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .border(1.dp, Color.Gray, CircleShape)
-            )
-
-            Text(
-                text = "Example user name",
-                modifier = Modifier.padding(start = 8.dp),
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
+        friendComponent(friendResult = friendResult)
     }
 }

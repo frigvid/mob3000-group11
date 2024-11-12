@@ -20,6 +20,7 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.socials.ProfileViewModel
 import no.usn.mob3000.ui.components.base.Routes
 
 /**
@@ -104,7 +105,8 @@ fun Navigation(
     documentationViewModel: DocumentationViewModel = viewModel(),
     newsViewModel: NewsViewModel = viewModel(),
     faqViewModel: FAQViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    profileViewModel: ProfileViewModel = viewModel()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(
@@ -131,7 +133,8 @@ fun Navigation(
 
             Routes.UserProfile(
                 this,
-                navController
+                navController,
+                profileViewModel
             )
 
             Routes.Settings(

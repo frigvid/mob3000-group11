@@ -16,4 +16,5 @@ interface IAuthRepository {
     suspend fun changePassword()
     suspend fun changeEmail()
     suspend fun delete()
+    suspend fun getCurrentUserId(): String
 }

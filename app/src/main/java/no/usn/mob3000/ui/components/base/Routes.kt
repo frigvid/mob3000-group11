@@ -13,6 +13,7 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.socials.ProfileViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
@@ -386,9 +387,10 @@ object Routes {
          */
         operator fun invoke(
             navGraphBuilder: NavGraphBuilder,
-            navController: NavController
+            navController: NavController,
+            profileViewModel: ProfileViewModel
         ): UserProfile {
-            navGraphBuilder.profile(navController)
+            navGraphBuilder.profile(navController, profileViewModel)
             navGraphBuilder.profileFriends()
 
             return this
@@ -402,13 +404,19 @@ object Routes {
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.profile(
-            navController: NavController
+            navController: NavController,
+            profileViewModel: ProfileViewModel
         ) {
             composable(route = Destination.PROFILE.name) {
                 ProfileScreen(
                     onProfileEditClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) },
                     onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
-                    onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }
+                    onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) },
+                    fetchFriends = { profileViewModel.fetchFriends() },
+                    fetchUser = { userId -> profileViewModel.fetchUser(userId) },
+                    friendState = profileViewModel.friends,
+                    userState = profileViewModel.user,
+                    userIdState = profileViewModel.userId
                 )
             }
 
