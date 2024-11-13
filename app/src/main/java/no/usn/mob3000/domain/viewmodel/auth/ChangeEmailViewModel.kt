@@ -6,12 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.usn.mob3000.domain.model.auth.error.AccountModificationError
-import no.usn.mob3000.domain.model.auth.error.RegistrationError
 import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
-import no.usn.mob3000.domain.model.auth.state.DeleteAccountState
-import no.usn.mob3000.domain.model.auth.state.RegistrationState
 import no.usn.mob3000.domain.usecase.auth.ChangeEmailUseCase
-import no.usn.mob3000.domain.usecase.auth.DeleteAccountUseCase
 
 /**
  * ViewModel for account e-mail address change state.
