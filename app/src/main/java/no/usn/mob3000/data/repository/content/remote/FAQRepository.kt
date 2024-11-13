@@ -1,7 +1,7 @@
-package no.usn.mob3000.data.repository.content
+package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
-import no.usn.mob3000.data.model.content.FaqDto
+import no.usn.mob3000.data.model.content.remote.FaqDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.docs.FAQDataSource
 import no.usn.mob3000.domain.model.content.FAQData

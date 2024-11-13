@@ -5,7 +5,7 @@ import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.result.PostgrestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.usn.mob3000.data.model.content.DocsDto
+import no.usn.mob3000.data.model.content.remote.DocsDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 
 /**

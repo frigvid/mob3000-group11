@@ -1,9 +1,20 @@
-package no.usn.mob3000.data.network.local
+package no.usn.mob3000.data.repository.content.local
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import no.usn.mob3000.data.model.content.local.NewsItemLocal
+import no.usn.mob3000.data.network.local.AppDatabase
+import no.usn.mob3000.data.source.local.content.NewsDao
 
+/**
+ * Repository class responsible for managing operations related to the news table. It uses [NewsDao] for fetching and handling
+ * It also keeps the initiation of local and remote data sources from each-other.
+ *
+ * @param context The application context.
+ * @author 258030
+ * @created 2024-11-13
+ */
 class NewsRepositoryLocal(private val context: Context) {
 
     private val newsDao: NewsDao by lazy {
@@ -18,22 +29,10 @@ class NewsRepositoryLocal(private val context: Context) {
         newsDao.getAllNews()
     }
 
-    suspend fun fetchNewsById(newsId: String): NewsItemLocal? = withContext(Dispatchers.IO) {
-        newsDao.getNewsById(newsId)
-    }
-
     suspend fun clearAllNews() = withContext(Dispatchers.IO) {
         newsDao.clearAllNews()
     }
 
-
-    suspend fun updateNews(news: NewsItemLocal) = withContext(Dispatchers.IO) {
-        newsDao.updateNews(news)
-    }
-
-    suspend fun deleteNews(news: NewsItemLocal) = withContext(Dispatchers.IO) {
-        newsDao.deleteNews(news)
-    }
 }
 
 

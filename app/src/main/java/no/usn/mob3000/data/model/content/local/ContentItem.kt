@@ -1,4 +1,11 @@
-package no.usn.mob3000.data.network.local
+package no.usn.mob3000.data.model.content.local
+
+/**
+ * Data classes representing the local tables for news, docs, and faq items.
+ *
+ * @author 258030
+ * @created 2024-11-13
+ */
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

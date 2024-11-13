@@ -1,8 +1,8 @@
 package no.usn.mob3000.domain.viewmodel.content
 
 import android.content.Context
-import no.usn.mob3000.data.network.local.NewsRepositoryLocal
-import no.usn.mob3000.data.repository.content.NewsRepository
+import no.usn.mob3000.data.repository.content.local.NewsRepositoryLocal
+import no.usn.mob3000.data.repository.content.remote.NewsRepository
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.content.NewsDataSource
 import no.usn.mob3000.domain.usecase.content.news.DeleteNewsUseCase

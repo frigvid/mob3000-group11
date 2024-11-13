@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.usecase.content.faq
 
-import no.usn.mob3000.data.repository.content.FAQRepository
+import no.usn.mob3000.data.repository.content.remote.FAQRepository
 import no.usn.mob3000.domain.model.content.FAQData
 
 /**

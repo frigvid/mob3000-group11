@@ -1,4 +1,4 @@
-package no.usn.mob3000.data.model.content
+package no.usn.mob3000.data.model.content.remote
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName

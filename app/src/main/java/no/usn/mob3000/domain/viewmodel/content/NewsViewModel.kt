@@ -42,7 +42,7 @@ class NewsViewModel(
 
     /**
      * Fetch news from the network and update the local database. It only calls from remote once per session. That means it does not call the remote db everytime
-     * someone enters the news screen. Using a simple boolean to determine that. Resets every session (or whith a refresh when we get to that)
+     * someone enters the news screen. Using a simple boolean to determine that. Resets every session (or with a refresh when we get to that)
      */
     fun fetchNews() {
         viewModelScope.launch {
@@ -169,7 +169,7 @@ class NewsViewModel(
     /**
      * Clear the cards to reload the view in case of new data.
      *
-     * Todo: Localstorage and a listener to only update the cards when changes are made.
+     * TODO: REDUNDANT
      */
     fun clearSelectedNews() {
         _selectedNews.value = null

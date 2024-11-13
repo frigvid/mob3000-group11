@@ -1,9 +1,9 @@
-package no.usn.mob3000.data.repository.content
+package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
-import no.usn.mob3000.data.model.content.NewsDto
-import no.usn.mob3000.data.network.local.NewsItemLocal
-import no.usn.mob3000.data.network.local.NewsRepositoryLocal
+import no.usn.mob3000.data.model.content.remote.NewsDto
+import no.usn.mob3000.data.model.content.local.NewsItemLocal
+import no.usn.mob3000.data.repository.content.local.NewsRepositoryLocal
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.content.NewsDataSource
 import no.usn.mob3000.domain.model.content.NewsData
@@ -17,6 +17,7 @@ import java.util.UUID
  *
  * @param newsDataSource The data source for news-related operations.
  * @param authDataSource The data source for authentication-related operations.
+ * @param newsRepositoryLocal The local data handling for news-related operations.
  * @author 258030
  * @created 2024-10-30
  */
@@ -40,6 +41,9 @@ class NewsRepository(
         }
     }
 
+    /**
+     * TODO: Is clearAllNews a little overkill in the long run? I think the function should be a little more sustainable and scalable. Thank god for garbage collection, but it will take a toll on local cache after some time
+     */
     override suspend fun refreshNewsFromNetwork(): Result<Unit> {
         return try {
             val networkNewsList = newsDataSource.fetchAllNews()
