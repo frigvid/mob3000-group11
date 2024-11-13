@@ -23,7 +23,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.error.AccountModificationError
-import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
 import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport

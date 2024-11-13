@@ -1,5 +1,6 @@
 package no.usn.mob3000.ui.screens.auth
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,25 +23,53 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.auth.error.AccountModificationError
+import no.usn.mob3000.domain.model.auth.error.AuthError
+import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
+import no.usn.mob3000.domain.model.auth.state.ForgotPasswordState
+import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This is the password reset request screen.
  *
- * TODO: Implement reset request functionality in the data layer.
- * NOTE: Currently this practically only sends you to the [ResetPasswordScreen].
- *
- * @param onResetPasswordClick Callback triggered when the user presses the "Reset
- *                             password" button to initiate the password reset process.
+ * @param onForgotPasswordClick Callback triggered when the user presses the "forgot password"
+ *                              button to initiate the password reset process.
  * @author Anarox1111
  * @Contributor Markus, frigvid
  * @created 2024-09-24
  */
 @Composable
 fun ForgotPasswordScreen(
-    onResetPasswordClick: () -> Unit
+    onForgotPasswordClick: (String) -> Unit,
+    forgotPasswordStateUpdate: (ForgotPasswordState) -> Unit,
+    navControllerPopBackStack: () -> Unit
 ) {
+    var showForgotPasswordConfirmation by remember { mutableStateOf(false) }
+
     var email by remember { mutableStateOf("") }
+
+    if (showForgotPasswordConfirmation) {
+        DangerousActionDialogue(
+            title = stringResource(R.string.auth_email_confirmation),
+            onConfirm = {
+                showForgotPasswordConfirmation = false
+
+                try {
+                    onForgotPasswordClick(email)
+                } catch (error: Exception) {
+                    Log.e("ForgotPasswordScreen", "Something went wrong!", error)
+
+                    forgotPasswordStateUpdate(
+                        ForgotPasswordState.Error(AuthError.UserNotFound)
+                    )
+                }
+
+                navControllerPopBackStack()
+            },
+            onDismiss = { showForgotPasswordConfirmation = false }
+        )
+    }
 
     Viewport { innerPadding ->
         Box(
@@ -68,10 +97,12 @@ fun ForgotPasswordScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = onResetPasswordClick,
+                    onClick = { showForgotPasswordConfirmation = true },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
-                ) { Text(text = stringResource(R.string.auth_forgot_password_reset)) }
+                ) {
+                    Text(text = stringResource(R.string.auth_forgot_password_reset))
+                }
             }
         }
     }

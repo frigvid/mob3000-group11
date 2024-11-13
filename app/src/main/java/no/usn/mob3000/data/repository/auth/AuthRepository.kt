@@ -129,6 +129,29 @@ class AuthRepository(
     }
 
     /**
+     * Request a forgotten password e-mail.
+     *
+     * ## References
+     *
+     * [Supabase-kt 'send a password reset request' docs](https://supabase.com/docs/reference/kotlin/auth-resetpasswordforemail).
+     *
+     * @param email The e-mail address of the user requesting the forgotten password e-mail.
+     * @author frigvid
+     * @created 2024-11-13
+     */
+    override suspend fun forgotPassword(
+        email: String
+    ): Result<Unit> {
+        return try {
+            supabase.auth.resetPasswordForEmail(email)
+
+            Result.success(Unit)
+        } catch (error: Exception) {
+            Result.failure(error)
+        }
+    }
+
+    /**
      * Updates the currently authenticated user's account with a new e-mail.
      *
      * ## References

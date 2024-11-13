@@ -247,8 +247,10 @@
 
     <!-- Forgot password page. -->
     <string name="auth_forgot_password_title">Glemt passord</string>
-    <string name="auth_forgot_password_preamble">Skriv inn e-post adressen din og klikk på reset passord knappen. Du vil etterpå motta en e-post som lar deg endre passordet ditt.</string>
-    <string name="auth_forgot_password_reset">Nullstill passord</string>
+    <string name="auth_forgot_password_preamble">Skriv inn e-post adressen din og klikk på knappen under. Du vil etterpå motta en e-post som lar deg endre passordet ditt snart.</string>
+    <string name="auth_forgot_password_reset">Forespør glemt passord e-post</string>
+    <string name="auth_forgot_password_state_success">En e-post har blitt sendt med linken for å resette brukerkontoen sitt passord.</string>
+    <string name="auth_forgot_password_state_failure">Noe gikk galt!</string>
 
     <!-- Reset password page. -->
     <string name="auth_reset_password_title">Nullstill passord</string>

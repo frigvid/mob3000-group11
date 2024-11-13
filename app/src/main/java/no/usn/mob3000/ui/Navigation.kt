@@ -16,6 +16,7 @@ import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
 import no.usn.mob3000.domain.viewmodel.auth.ChangeEmailViewModel
 import no.usn.mob3000.domain.viewmodel.auth.ChangePasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ForgotPasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
@@ -103,6 +104,7 @@ fun Navigation(
     changeEmailViewModel: ChangeEmailViewModel = viewModel(),
     changePasswordViewModel: ChangePasswordViewModel = viewModel(),
     registrationViewModel: RegistrationViewModel = viewModel(),
+    forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     authenticationViewModel: AuthenticationViewModel = viewModel(),
     documentationViewModel: DocumentationViewModel = viewModel(),
@@ -156,6 +158,7 @@ fun Navigation(
                 registrationViewModel,
                 changeEmailViewModel,
                 changePasswordViewModel,
+                forgotPasswordViewModel,
                 authenticationViewModel
             )
 
