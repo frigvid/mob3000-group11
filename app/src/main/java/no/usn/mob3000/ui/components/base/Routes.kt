@@ -226,13 +226,6 @@ object Routes {
                 )
             }
 
-
-
-
-
-
-
-
         composable(route = Destination.NEWS_DETAILS.name) {
                 NewsDetailsScreen(
                     setSelectedNews = newsViewModel::setSelectedNews,

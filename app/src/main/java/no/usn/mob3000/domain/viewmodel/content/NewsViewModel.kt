@@ -1,10 +1,10 @@
 package no.usn.mob3000.domain.viewmodel.content
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ class NewsViewModel(
     private val insertNewsUseCase: InsertNewsUseCase,
     private val deleteNewsUseCase: DeleteNewsUseCase
 ) : ViewModel() {
-
+    private var hasRefreshed = false
 
     private val _news = MutableStateFlow<Result<List<NewsData>>>(Result.success(emptyList()))
     val news: StateFlow<Result<List<NewsData>>> = _news
@@ -36,10 +36,21 @@ class NewsViewModel(
     private val _selectedNews = mutableStateOf<NewsData?>(null)
     val selectedNews: State<NewsData?> = _selectedNews
 
+    init {
+        periodicRefresh()
+    }
+
+    /**
+     * Fetch news from the network and update the local database. It only calls from remote once per session. That means it does not call the remote db everytime
+     * someone enters the news screen. Using a simple boolean to determine that. Resets every session (or whith a refresh when we get to that)
+     */
     fun fetchNews() {
         viewModelScope.launch {
+            if (!hasRefreshed) {
+                refreshRoomNews()
+                hasRefreshed = true
+            }
             loadLocalNews()
-            refreshRoomNews()
         }
     }
 
@@ -68,9 +79,8 @@ class NewsViewModel(
         viewModelScope.launch {
             val result = insertNewsUseCase.execute(title, summary, content, isPublished)
             if (result.isSuccess) {
-                // TODO: Handle success
-            } else {
-                // TODO: Handle error
+                refreshRoomNews()
+                loadLocalNews()
             }
         }
     }
@@ -82,7 +92,12 @@ class NewsViewModel(
      */
     fun deleteNews(newsId: String) {
         viewModelScope.launch {
-            deleteNewsUseCase.deleteNews(newsId)
+            val result = deleteNewsUseCase.deleteNews(newsId)
+            if (result.isSuccess) {
+                deleteNewsUseCase.deleteNews(newsId)
+                refreshRoomNews()
+                loadLocalNews()
+            }
         }
     }
 
@@ -138,9 +153,8 @@ class NewsViewModel(
                 isPublished = isPublished
             )
             if (result.isSuccess) {
-                Log.d("ContentViewModel", "Update successful for news with ID: $newsId")
-            } else {
-                Log.e("ContentViewModel", "Update failed for news with ID: $newsId")
+                refreshRoomNews()
+                loadLocalNews()
             }
         }
     }
@@ -161,5 +175,19 @@ class NewsViewModel(
         _selectedNews.value = null
     }
 
-
+    /**
+     * Periodically refresh the news from the network. Used for automatic updates. Have put 2 min now. Its a pretty simple solution, but as it sits now
+     * it only updates if the user is in the news screen for two minutes. Will push this further back in the code.
+     *
+     * UPDATE: I lied, but that might be a thing ^ It will still update if the user is in another screen, probably because all viewmodels are initiated.
+     */
+    private fun periodicRefresh() {
+        viewModelScope.launch {
+            while (true) {
+                delay(2 * 60 * 1000)
+                refreshRoomNews()
+                loadLocalNews()
+            }
+        }
+    }
 }
