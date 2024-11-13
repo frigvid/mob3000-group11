@@ -37,7 +37,7 @@ class LoginUseCase(
         password: String
     ): Result<User> {
         if (!email.isValidEmail()) {
-            return Result.failure(IllegalArgumentException("Invalid email format"))
+            return Result.failure(IllegalArgumentException("Invalid e-mail format"))
         }
 
         /**
@@ -56,7 +56,6 @@ class LoginUseCase(
             authenticationViewModel.startPeriodicUpdates()
         }
     }
-
 
     private fun String.isValidEmail(): Boolean =
         android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
