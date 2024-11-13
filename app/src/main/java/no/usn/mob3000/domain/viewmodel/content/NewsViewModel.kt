@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import no.usn.mob3000.data.repository.content.NewsRepository
 import no.usn.mob3000.domain.model.content.NewsData
 import no.usn.mob3000.domain.usecase.content.news.DeleteNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.FetchNewsUseCase
@@ -24,25 +23,32 @@ import no.usn.mob3000.domain.usecase.content.news.UpdateNewsUseCase
  * @created 2024-11-04
  */
 class NewsViewModel(
-    private val fetchNewsUseCase: FetchNewsUseCase = FetchNewsUseCase(),
-    private val deleteNewsUseCase: DeleteNewsUseCase = DeleteNewsUseCase(),
-    private val updateNewsUseCase: UpdateNewsUseCase = UpdateNewsUseCase(NewsRepository()),
-    private val insertNewsUseCase: InsertNewsUseCase = InsertNewsUseCase(NewsRepository())
-): ViewModel() {
+    private val fetchNewsUseCase: FetchNewsUseCase,
+    private val updateNewsUseCase: UpdateNewsUseCase,
+    private val insertNewsUseCase: InsertNewsUseCase,
+    private val deleteNewsUseCase: DeleteNewsUseCase
+) : ViewModel() {
+
+
     private val _news = MutableStateFlow<Result<List<NewsData>>>(Result.success(emptyList()))
     val news: StateFlow<Result<List<NewsData>>> = _news
 
     private val _selectedNews = mutableStateOf<NewsData?>(null)
     val selectedNews: State<NewsData?> = _selectedNews
 
-
-    /**
-     * Fetches news from the data layer.
-     */
     fun fetchNews() {
         viewModelScope.launch {
-            _news.value = fetchNewsUseCase.fetchNews()
+            loadLocalNews()
+            refreshRoomNews()
         }
+    }
+
+    suspend fun refreshRoomNews() {
+        fetchNewsUseCase.refreshRoomFromNetwork()
+    }
+
+    suspend fun loadLocalNews() {
+        _news.value = fetchNewsUseCase.fetchLocalNews()
     }
 
     /**
@@ -154,4 +160,6 @@ class NewsViewModel(
     fun clearSelectedNews() {
         _selectedNews.value = null
     }
+
+
 }

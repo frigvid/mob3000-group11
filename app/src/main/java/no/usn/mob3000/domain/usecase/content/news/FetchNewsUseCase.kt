@@ -10,9 +10,14 @@ import no.usn.mob3000.domain.model.content.NewsData
  * @created 2024-10-30
  */
 class FetchNewsUseCase(
-    private val fetchRepository: NewsRepository = NewsRepository()
+    private val repository: NewsRepository
 ) {
-    suspend fun fetchNews(): Result<List<NewsData>> {
-        return fetchRepository.fetchNews()
+    suspend fun fetchLocalNews(): Result<List<NewsData>> {
+        return repository.fetchAllNewsLocal()
+    }
+
+    suspend fun refreshRoomFromNetwork(): Result<Unit> {
+        return repository.refreshNewsFromNetwork()
     }
 }
+

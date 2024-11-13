@@ -20,6 +20,7 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideNewsViewModel
 import no.usn.mob3000.ui.components.base.Routes
 
 /**
@@ -102,7 +103,6 @@ fun Navigation(
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     authenticationViewModel: AuthenticationViewModel = viewModel(),
     documentationViewModel: DocumentationViewModel = viewModel(),
-    newsViewModel: NewsViewModel = viewModel(),
     faqViewModel: FAQViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
@@ -112,15 +112,15 @@ fun Navigation(
             startDestination = Destination.HOME.name,
             modifier = Modifier.fillMaxSize()
         ) {
-            Routes.Home(this, navController)
 
+            Routes.Home(this, navController)
             Routes.Information(
                 this,
                 navController,
                 authenticationViewModel,
                 documentationViewModel,
                 faqViewModel,
-                newsViewModel
+                provideNewsViewModel(navController.context)
             )
 
             Routes.Game(
@@ -154,3 +154,7 @@ fun Navigation(
         }
     }
 }
+
+
+
+

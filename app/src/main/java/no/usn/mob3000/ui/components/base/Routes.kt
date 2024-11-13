@@ -1,5 +1,6 @@
 package no.usn.mob3000.ui.components.base
 
+import android.content.Context
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideNewsViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
@@ -60,15 +62,6 @@ object Routes {
      * @created 2024-11-06
      */
     object Information {
-        /**
-         * The invokable operator function for returning the composable routes.
-         *
-         * @param navGraphBuilder The navigation graph builder.
-         * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
-         * @author frigvid
-         * @created 2024-11-06
-         */
         operator fun invoke(
             navGraphBuilder: NavGraphBuilder,
             navController: NavController,
@@ -220,8 +213,11 @@ object Routes {
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
                     newsState = newsViewModel.news,
-                    fetchNews = newsViewModel::fetchNews,
-                    onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
+                    fetchNews = { newsViewModel.fetchNews() },
+                    onNewsClick = { newsItem ->
+                        newsViewModel.setSelectedNews(newsItem)
+                        navController.navigate(Destination.NEWS_DETAILS.name)
+                    },
                     onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
                     setSelectedNews = newsViewModel::setSelectedNews,
                     clearSelectedNews = newsViewModel::clearSelectedNews,
@@ -230,7 +226,14 @@ object Routes {
                 )
             }
 
-            composable(route = Destination.NEWS_DETAILS.name) {
+
+
+
+
+
+
+
+        composable(route = Destination.NEWS_DETAILS.name) {
                 NewsDetailsScreen(
                     setSelectedNews = newsViewModel::setSelectedNews,
                     deleteNewsItem = newsViewModel::deleteNews,
