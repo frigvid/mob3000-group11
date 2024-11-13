@@ -21,4 +21,5 @@ open class FriendsDataSource(
             .select()
             .decodeList()
     }
+
 }
