@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.viewmodel.socials
 
-import FetchUserProfileUseCase
+import no.usn.mob3000.domain.usecase.social.Profile.FetchUserProfileUseCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
-import no.usn.mob3000.domain.usecase.social.FetchFriendsUseCase
+import no.usn.mob3000.domain.usecase.social.Profile.FetchFriendsUseCase
 
 /**
  *

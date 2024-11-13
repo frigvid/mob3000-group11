@@ -23,4 +23,16 @@ class UserDataSource(
             { filter { eq("id", userId) } }
             .decodeSingleOrNull()
     }
+    suspend fun updateProfile(userId: String, profileDto: ProfileDto): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            supabaseClient
+                .from("profiles")
+                .update(profileDto) {
+                    filter { eq("id", userId) }
+                }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
