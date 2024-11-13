@@ -252,6 +252,7 @@
     <string name="auth_forgot_password_title">Forgot password</string>
     <string name="auth_forgot_password_preamble">Input your email and click the button below. You will receive an e-mail with a link to reset your password shortly.</string>
     <string name="auth_forgot_password_reset">Request forgotten password e-mail</string>
+    <string name="auth_forgot_password_confirmation">Are you sure you want to request a password reset e-mail?</string>
     <string name="auth_forgot_password_state_success">An e-mail has been sent with the link to reset the account\'s password.</string>
     <string name="auth_forgot_password_state_failure">Something went wrong!</string>
 

@@ -51,7 +51,7 @@ fun ForgotPasswordScreen(
 
     if (showForgotPasswordConfirmation) {
         DangerousActionDialogue(
-            title = stringResource(R.string.auth_email_confirmation),
+            title = stringResource(R.string.auth_forgot_password_confirmation),
             onConfirm = {
                 showForgotPasswordConfirmation = false
 
