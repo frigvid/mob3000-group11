@@ -40,6 +40,12 @@ class LoginUseCase(
             return Result.failure(IllegalArgumentException("Invalid email format"))
         }
 
+        /**
+         * TODO: This is likely not necessary. Supabase has ways of controlling password strength,
+         *       but I'll need to investigate how the current implementation reacts with this gone.
+         *       I'm rather certain it'll simply work straight outta the gate, but doesn't hurt to
+         *       try.
+         */
         if (password.length < 8) {
             return Result.failure(IllegalArgumentException("Password must be at least 8 characters"))
         }
