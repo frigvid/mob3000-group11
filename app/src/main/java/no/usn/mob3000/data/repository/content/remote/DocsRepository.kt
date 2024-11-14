@@ -1,9 +1,11 @@
 package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
+import no.usn.mob3000.data.model.content.local.DocsItemLocal
 import no.usn.mob3000.data.source.remote.docs.DocsDataSource
 import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.data.model.content.remote.DocsDto
+import no.usn.mob3000.data.repository.content.local.DocsRepositoryLocal
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.domain.repository.content.IDocsRepository
 import java.util.UUID
@@ -21,7 +23,8 @@ import java.util.UUID
  */
 class DocsRepository(
     private val authDataSource: AuthDataSource = AuthDataSource(),
-    private val docsDataSource: DocsDataSource = DocsDataSource()
+    private val docsDataSource: DocsDataSource = DocsDataSource(),
+    private val docsRepositoryLocal: DocsRepositoryLocal
 ) : IDocsRepository {
     /**
      * Fetches a list of all documents to later be used for generating document-cards in the UI. It maps the fetched data to a domain model, so it can be used in the UI.
@@ -29,10 +32,22 @@ class DocsRepository(
      * @return A result containing a list of documents.
      * @throws Exception If an error occurs during the fetching process.
      */
-    override suspend fun fetchDocuments(): Result<List<DocsData>> {
+    override suspend fun fetchAllDocsLocal(): Result<List<DocsData>> {
         return try {
-            val docsDtoList = docsDataSource.fetchAllDocs()
-            Result.success(docsDtoList.map { it.toDomainModel() })
+            val localDocs = docsRepositoryLocal.fetchAllDocs()
+            Result.success(localDocs.map { it.toDomainModel() })
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun refreshDocsFromNetwork(): Result<Unit> {
+        return try {
+            val networkDocsList = docsDataSource.fetchAllDocs()
+            val localDocsList = networkDocsList.map { it.toLocalModel() }
+            docsRepositoryLocal.clearAllDocs()
+            docsRepositoryLocal.insertDocsList(localDocsList)
+            Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -143,6 +158,33 @@ class DocsRepository(
             modifiedAt = this.modifiedAt,
             createdByUser = this.createdByUser ?: "",
             docsId = this.docId
+        )
+    }
+
+    private fun DocsDto.toLocalModel(): DocsItemLocal {
+        return DocsItemLocal(
+            docsId = this.docId,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser ?: "",
+            title = this.title ?: "",
+            summary = this.summary ?: "",
+            content = this.content ?: "",
+            isPublished = this.isPublished
+        )
+
+    }
+
+    private fun DocsItemLocal.toDomainModel(): DocsData {
+        return DocsData(
+            docsId = this.docsId,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser,
+            title = this.title,
+            summary = this.summary,
+            content = this.content,
+            isPublished = this.isPublished
         )
     }
 }

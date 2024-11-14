@@ -12,9 +12,13 @@ import no.usn.mob3000.domain.model.content.FAQData
  * @created 2024-10-30
  */
 class FetchFAQUseCase(
-    private val fetchRepository: FAQRepository = FAQRepository()
+    private val fetchRepository: FAQRepository
 ) {
-    suspend fun fetchFAQ(): Result<List<FAQData>> {
-        return fetchRepository.fetchFAQ()
+    suspend fun fetchLocalFaq(): Result<List<FAQData>> {
+        return fetchRepository.fetchAllFaqLocal()
+    }
+
+    suspend fun refreshRoomFromNetwork(): Result<Unit> {
+        return fetchRepository.refreshFaqFromNetwork()
     }
 }

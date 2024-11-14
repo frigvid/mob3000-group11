@@ -25,7 +25,7 @@ import no.usn.mob3000.ui.components.info.PaddedLazyColumn
 fun FAQScreen(
     faqState: StateFlow<Result<List<FAQData>>>,
     fetchFaq: () -> Unit,
-    navigateToFaqDetails: (FAQData) -> Unit,
+    onFaqClick: (FAQData) -> Unit,
     onCreateFAQClick: () -> Unit,
     setSelectedFAQ: (FAQData) -> Unit,
     clearSelectedFAQ: () -> Unit,
@@ -76,7 +76,7 @@ fun FAQScreen(
                     onClick = {
                         setSelectedFAQ(faqItem)
                         authenticationStateUpdate()
-                        navigateToFaqDetails(faqItem)
+                        onFaqClick(faqItem)
                     }
                 )
             }

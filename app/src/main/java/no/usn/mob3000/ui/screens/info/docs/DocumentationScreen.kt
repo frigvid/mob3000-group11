@@ -33,7 +33,7 @@ import java.util.*
 fun DocumentationScreen(
     docsState: StateFlow<Result<List<DocsData>>>,
     fetchDocs: () -> Unit,
-    navigateToDocumentationDetails: (DocsData) -> Unit,
+    onDocsClick: (DocsData) -> Unit,
     onCreateDocumentationClick: () -> Unit,
     setSelectedDocumentation: (DocsData) -> Unit,
     clearSelectedDocumentation: () -> Unit,
@@ -93,7 +93,7 @@ fun DocumentationScreen(
                      onClick = {
                          setSelectedDocumentation(docsItem)
                          authenticationStateUpdate()
-                         navigateToDocumentationDetails(docsItem) }
+                         onDocsClick(docsItem) }
                  )
              }
          }

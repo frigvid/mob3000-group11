@@ -12,9 +12,13 @@ import no.usn.mob3000.domain.model.content.DocsData
  * @created 2024-10-30
  */
 class FetchDocUseCase(
-    private val fetchRepository: DocsRepository = DocsRepository()
+    private val fetchRepository: DocsRepository
 ) {
-    suspend fun fetchDocumentations(): Result<List<DocsData>> {
-        return fetchRepository.fetchDocuments()
+    suspend fun fetchLocalDocs(): Result<List<DocsData>> {
+        return fetchRepository.fetchAllDocsLocal()
+    }
+
+    suspend fun refreshRoomFromNetwork(): Result<Unit> {
+        return fetchRepository.refreshDocsFromNetwork()
     }
 }

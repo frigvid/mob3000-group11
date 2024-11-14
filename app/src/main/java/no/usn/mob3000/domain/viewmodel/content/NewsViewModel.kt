@@ -129,7 +129,6 @@ class NewsViewModel(
     /**
      * Update a news item in the database with new values. Logs the result console-side.
      *
-     * Todo: Remove logs before final iteration
      *
      * @param newsId The ID of the news to be updated.
      * @param title The new title of the news.

@@ -12,7 +12,7 @@ import no.usn.mob3000.domain.repository.content.IDocsRepository
  * @created 2024-10-30
  */
 class DeleteDocsUseCase(
-    private val docsRepository: IDocsRepository = DocsRepository()
+    private val docsRepository: IDocsRepository
 ) {
     suspend fun deleteDocs(docsId: String): Result<Unit> {
         return docsRepository.deleteDocs(docsId)

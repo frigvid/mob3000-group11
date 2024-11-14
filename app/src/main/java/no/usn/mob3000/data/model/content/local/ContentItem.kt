@@ -27,8 +27,8 @@ class NewsItemLocal(
 @Entity(tableName = "docs_table")
 class DocsItemLocal (
     @PrimaryKey(autoGenerate = false) var docsId: String,
-    @ColumnInfo(name = "created_at") var createdAt: String,
-    @ColumnInfo(name = "modified_at") var modifiedAt: String,
+    @ColumnInfo(name = "created_at") var createdAt: Instant,
+    @ColumnInfo(name = "modified_at") var modifiedAt: Instant,
     @ColumnInfo(name = "created_by") var createdByUser: String,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "summary") var summary: String,
@@ -37,10 +37,10 @@ class DocsItemLocal (
 )
 
 @Entity(tableName = "faq_table")
-class FaqsItemLocal(
+class FaqItemLocal(
     @PrimaryKey(autoGenerate = false) var faqId: String,
-    @ColumnInfo(name = "created_at") var createdAt: String,
-    @ColumnInfo(name = "modified_at") var modifiedAt: String,
+    @ColumnInfo(name = "created_at") var createdAt: Instant,
+    @ColumnInfo(name = "modified_at") var modifiedAt: Instant,
     @ColumnInfo(name = "created_by") var createdByUser: String,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "summary") var summary: String,

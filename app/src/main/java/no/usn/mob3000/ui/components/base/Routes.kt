@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.components.base
 
-import android.content.Context
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -14,7 +13,6 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
-import no.usn.mob3000.domain.viewmodel.content.provideNewsViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
@@ -105,7 +103,9 @@ object Routes {
                 DocumentationScreen(
                     docsState = documentationViewModel.documentations,
                     fetchDocs = documentationViewModel::fetchDocumentations,
-                    navigateToDocumentationDetails = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
+                    onDocsClick = { docsItem ->
+                        documentationViewModel.setSelectedDocumentation(docsItem)
+                        navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
                     onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
                     setSelectedDocumentation = documentationViewModel::setSelectedDocumentation,
                     clearSelectedDocumentation = documentationViewModel::clearSelectedDocumentation,
@@ -160,7 +160,9 @@ object Routes {
                 FAQScreen(
                     faqState = faqViewModel.faq,
                     fetchFaq = faqViewModel::fetchFAQ,
-                    navigateToFaqDetails = { navController.navigate(Destination.FAQ_DETAILS.name) },
+                    onFaqClick = { faqItem ->
+                        faqViewModel.setSelectedFAQ(faqItem)
+                        navController.navigate(Destination.FAQ_DETAILS.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
                     setSelectedFAQ = faqViewModel::setSelectedFAQ,
                     clearSelectedFAQ = faqViewModel::clearSelectedFAQ,

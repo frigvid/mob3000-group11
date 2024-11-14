@@ -17,9 +17,8 @@ import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
-import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
-import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
-import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideDocumentationViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideFAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.provideNewsViewModel
 import no.usn.mob3000.ui.components.base.Routes
 
@@ -91,7 +90,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * @see ScreenIcon
  * @see Icon
  * @author frigvid
- * @contributors Routes: Anarox1111, Markus
+ * @contributors Routes: Anarox1111, Markus, 258030
  * @created 2024-09-24
  */
 @Composable
@@ -102,8 +101,6 @@ fun Navigation(
     registrationViewModel: RegistrationViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     authenticationViewModel: AuthenticationViewModel = viewModel(),
-    documentationViewModel: DocumentationViewModel = viewModel(),
-    faqViewModel: FAQViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -118,8 +115,8 @@ fun Navigation(
                 this,
                 navController,
                 authenticationViewModel,
-                documentationViewModel,
-                faqViewModel,
+                provideDocumentationViewModel(navController.context),
+                provideFAQViewModel(navController.context),
                 provideNewsViewModel(navController.context)
             )
 

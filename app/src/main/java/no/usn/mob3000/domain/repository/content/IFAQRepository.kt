@@ -9,7 +9,6 @@ import no.usn.mob3000.domain.model.content.FAQData
  * @created 2024-10-30
  */
 interface IFAQRepository {
-    suspend fun fetchFAQ(): Result<List<FAQData>>
     suspend fun fetchFAQById(faqId: String): Result<FAQData?>
     suspend fun deleteFAQ(faqId: String): Result<Unit>
     suspend fun updateFAQ(
@@ -25,4 +24,6 @@ interface IFAQRepository {
         content: String,
         isPublished: Boolean
     ): Result<Unit>
+    suspend fun refreshFaqFromNetwork(): Result<Unit>
+    suspend fun fetchAllFaqLocal(): Result<List<FAQData>>
 }

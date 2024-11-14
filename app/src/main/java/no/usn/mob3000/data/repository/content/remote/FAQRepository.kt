@@ -1,7 +1,9 @@
 package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
+import no.usn.mob3000.data.model.content.local.FaqItemLocal
 import no.usn.mob3000.data.model.content.remote.FaqDto
+import no.usn.mob3000.data.repository.content.local.FAQRepositoryLocal
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.docs.FAQDataSource
 import no.usn.mob3000.domain.model.content.FAQData
@@ -21,7 +23,8 @@ import java.util.UUID
  */
 class FAQRepository(
     private val authDataSource: AuthDataSource = AuthDataSource(),
-    private val faqDataSource: FAQDataSource = FAQDataSource()
+    private val faqDataSource: FAQDataSource = FAQDataSource(),
+    private val faqRepositoryLocal: FAQRepositoryLocal
 ) : IFAQRepository {
     /**
      * Fetches a list of all FAQs to later be used for generating FAQ-cards in the UI. It maps the fetched data to a domain model, so it can be used in the UI.
@@ -29,14 +32,30 @@ class FAQRepository(
      * @return A result containing a list of FAQs.
      * @throws Exception If an error occurs during the fetching process.
      */
-    override suspend fun fetchFAQ(): Result<List<FAQData>> {
+
+    override suspend fun fetchAllFaqLocal(): Result<List<FAQData>> {
         return try {
-            val faqDtoList = faqDataSource.fetchAllFAQ()
-            Result.success(faqDtoList.map { it.toDomainModel() })
+            val localFAQ = faqRepositoryLocal.fetchAllFaq()
+            Result.success(localFAQ.map { it.toDomainModel() })
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
+
+    override suspend fun refreshFaqFromNetwork(): Result<Unit> {
+        return try {
+            val networkFaqList = faqDataSource.fetchAllFAQ()
+            val localFaqList = networkFaqList.map { it.toLocalModel() }
+            faqRepositoryLocal.clearAllFaq()
+            faqRepositoryLocal.insertFaqList(localFaqList)
+            Result.success(Unit
+                )
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
 
     /**
      * Deletes a FAQ by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens.
@@ -145,4 +164,32 @@ class FAQRepository(
             faqId = this.faqId
         )
     }
+
+    private fun FaqDto.toLocalModel(): FaqItemLocal {
+        return FaqItemLocal(
+            faqId = this.faqId,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser ?: "",
+            title = this.title ?: "",
+            summary = this.summary ?: "",
+            content = this.content ?: "",
+            isPublished = this.isPublished
+        )
+
+    }
+
+    private fun FaqItemLocal.toDomainModel(): FAQData {
+        return FAQData(
+            faqId = this.faqId,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser,
+            title = this.title,
+            summary = this.summary,
+            content = this.content,
+            isPublished = this.isPublished
+        )
+    }
+
 }
