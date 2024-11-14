@@ -2,10 +2,13 @@ package no.usn.mob3000.data.repository.social
 
 import android.util.Log
 import no.usn.mob3000.data.model.social.FriendSingleDto
+import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.social.FriendsDataSource
+import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.domain.repository.social.IFriendsRepository
+import no.usn.mob3000.ui.screens.user.friendComponent
 
 
 /**
@@ -14,9 +17,21 @@ import no.usn.mob3000.domain.repository.social.IFriendsRepository
  **/
 
 class FriendsRepository (
-    private val authDataSource: AuthDataSource = AuthDataSource(),
-    private val FriendsDataSource: FriendsDataSource = FriendsDataSource()
+
+    private val FriendsDataSource: FriendsDataSource = FriendsDataSource(),
+    private val userDataSource : UserDataSource = UserDataSource()
 ):IFriendsRepository{
+
+   override suspend fun getFriendProfile(userId: String):Result<List<FriendData>>{
+       return try {
+           val friendprofileDto = userDataSource.getUserFriends(userId);
+           Result.success( friendprofileDto.map { it.toDomainModel() })
+       }
+       catch (e: Exception){
+           Result.failure(e)
+       }
+   }
+
     override suspend fun FetchFriends(): Result<List<FriendData>> {
         return try{
             val Friendslist = FriendsDataSource.fetchAllFriends();
@@ -29,14 +44,12 @@ class FriendsRepository (
         }
     }
 
-    private fun FriendSingleDto.toDomainModel(): FriendData {
+    private fun FriendsDto.toDomainModel(): FriendData {
         return FriendData(
             friendshipId = this.friendshipId ?: "",
-            friendId = this.friendId ?: "",
-            displayname = this.displayName ?: "",
-            eloRank = this.eloRank ?:"" ,
-            avatarUrl = this.avatarUrl ?:"",
-            nationality =  this.nationality ?:""
+            friendsSince = this.friendsSince,
+            user1 = this.user1 ?:"",
+            user2 = this.user2 ?: ""
         )
     }
 

@@ -62,6 +62,8 @@ class ProfileViewModel(
         }
     }
 
+
+
     fun fetchFriends() {
         viewModelScope.launch {
             _friends.value = fetchFriendsUseCase.fetchFriends()
