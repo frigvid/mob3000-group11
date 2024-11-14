@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.components.base.Viewport
 
 /**
  * @author frigvid

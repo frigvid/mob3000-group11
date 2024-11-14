@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.components.base.Viewport
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -32,7 +32,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * @param onResetPasswordClick Callback triggered when the user presses the "Reset
  *                             password" button to initiate the password reset process.
- * @author Anarox
+ * @author Anarox1111
  * @Contributor Markus, frigvid
  * @created 2024-09-24
  */

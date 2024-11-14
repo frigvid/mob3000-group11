@@ -1,6 +1,9 @@
 package no.usn.mob3000.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -8,23 +11,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.domain.model.auth.state.AuthenticationState
+import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.domain.model.auth.state.DeleteAccountState
+import no.usn.mob3000.domain.model.auth.state.LogoutState
 import no.usn.mob3000.domain.viewmodel.CBViewModel
+import no.usn.mob3000.ui.components.DangerousActionDialogue
+import no.usn.mob3000.ui.components.Loading
+import no.usn.mob3000.ui.components.debug.AuthenticationStatusText
+import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
+import no.usn.mob3000.ui.components.settings.SettingsSectionApplication
+import no.usn.mob3000.ui.components.settings.SettingsSectionUser
+import no.usn.mob3000.ui.components.auth.Error as ProgressError
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
- * SettingsScreen allows users to configure application-wide settings.
- *
- * This composable function creates a screen where users can modify the application's language
- * and theme. It uses dropdown menus for both settings, allowing users to select from predefined
- * options. The current selections are displayed and can be changed, with the changes being
- * propagated back to the ViewModel through callback functions.
+ * SettingsScreen allows users to configure user and application-wide settings.
  *
  * TODO: Actually implement more than just the UI.
- * TODO: Setting the values need to be changed. Currently, they'll display the hard-coded string,
- *       and not whatever localized string resource it should be. This may confuse users.
  *
+ * @param logoutState The logout state.
+ * @param logoutStateReset Callback function to reset the account logout state.
+ * @param authenticationState The authentication status state.
+ * @param onLogoutClick Function to log the user out.
+ * @param onLoginClick Function to log the user in.
+ * @param accountDeleteState The account deletion state.
+ * @param accountDeleteStateReset Callback function to reset the account deletion state.
+ * @param authenticationStateUpdate Callback function to update the authentication status state immediately.
+ * @param onDeleteAccountClick Function to delete account.
+ * @param onAdminDashboardClick Callback function to navigate to the administrator dashboard.
  * @param selectedTheme The currently selected theme, displayed in the theme dropdown.
  * @param selectedLanguage The currently selected language, displayed in the language dropdown.
  * @param onThemeChange Callback function invoked when the user selects a new theme. It receives
@@ -36,158 +54,58 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * @author frigvid
  * @created 2024-09-12
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
+    logoutState: Flow<LogoutState>,
+    logoutStateReset: () -> Unit,
+    authenticationState: StateFlow<AuthenticationState>,
     onLogoutClick: () -> Unit,
     onLoginClick: () -> Unit,
+    accountDeleteState: Flow<DeleteAccountState>,
+    accountDeleteStateReset: () -> Unit,
+    authenticationStateUpdate: () -> Unit,
+    onDeleteAccountClick: () -> Unit,
     onAdminDashboardClick: () -> Unit,
     selectedTheme: String,
     selectedLanguage: String,
     onThemeChange: (String) -> Unit,
     onLanguageChange: (String) -> Unit
 ) {
-    var themeExpanded by remember { mutableStateOf(false) }
-    var languageExpanded by remember { mutableStateOf(false) }
-
-    Viewport { innerPadding ->
+    Viewport(
+        topBarActions = { AuthenticationStatusText(authenticationState, authenticationStateUpdate) }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // TODO: Only show if user is admin.
-            Text(
-                "[ " + stringResource(R.string.settings_section_admin_subtitle) + " ]",
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+            SettingsSectionAdmin(
+                authenticationState,
+                authenticationStateUpdate,
+                onAdminDashboardClick
             )
 
-            Button(
-                onClick = onAdminDashboardClick,
-                colors = ButtonDefaults.buttonColors(DefaultButton),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            ) { Text(stringResource(R.string.settings_section_admin_button_admin)) }
-
-            Text(
-                "[ " + stringResource(R.string.settings_section_user_subtitle) + " ]",
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+            SettingsSectionUser(
+                authenticationState,
+                logoutState,
+                accountDeleteState,
+                logoutStateReset,
+                accountDeleteStateReset,
+                authenticationStateUpdate,
+                onLoginClick,
+                onLogoutClick,
+                onDeleteAccountClick
             )
 
-            Button(
-                onClick = onLoginClick,
-                colors = ButtonDefaults.buttonColors(DefaultButton),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            ) { Text(stringResource(R.string.settings_section_user_button_login)) }
-
-            /* TODO: Add indication that user has been successfully logged out. */
-            Button(
-                onClick = onLogoutClick,
-                colors = ButtonDefaults.buttonColors(Color.Red),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            ) { Text(stringResource(R.string.settings_section_user_button_logout)) }
-
-            Text(
-                "[ " + stringResource(R.string.settings_section_app_subtitle) + " ]",
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+            SettingsSectionApplication(
+                selectedTheme,
+                selectedLanguage,
+                onThemeChange,
+                onLanguageChange
             )
-
-            Text(
-                stringResource(R.string.settings_section_app_language),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            ExposedDropdownMenuBox(
-                expanded = languageExpanded,
-                onExpandedChange = { languageExpanded = !languageExpanded }
-            ) {
-                TextField(
-                    value = selectedLanguage,
-                    onValueChange = {},
-                    readOnly = true,
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = languageExpanded) },
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
-                                       .fillMaxWidth()
-                )
-
-                ExposedDropdownMenu(
-                    expanded = languageExpanded,
-                    onDismissRequest = { languageExpanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_section_app_language_enus)) },
-                        onClick = {
-                            onLanguageChange("English")
-                            languageExpanded = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_section_app_language_nonb)) },
-                        onClick = {
-                            onLanguageChange("Norwegian bokmål")
-                            languageExpanded = false
-                        }
-                    )
-                }
-            }
-
-            Text(
-                stringResource(R.string.settings_section_app_theme),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            ExposedDropdownMenuBox(
-                expanded = themeExpanded,
-                onExpandedChange = { themeExpanded = !themeExpanded }
-            ) {
-                TextField(
-                    value = selectedTheme,
-                    onValueChange = {},
-                    readOnly = true,
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = themeExpanded) },
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
-                                       .fillMaxWidth()
-                )
-
-                ExposedDropdownMenu(
-                    expanded = themeExpanded,
-                    onDismissRequest = { themeExpanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_section_app_theme_light)) },
-                        onClick = {
-                            onThemeChange("Default - light")
-                            themeExpanded = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings_section_app_theme_dark)) },
-                        onClick = {
-                            onThemeChange("Default - dark")
-                            themeExpanded = false
-                        }
-                    )
-                }
-            }
         }
     }
 }

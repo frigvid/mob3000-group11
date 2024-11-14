@@ -22,7 +22,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.res.stringResource
-import no.usn.mob3000.Viewport
+import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.ProfileUserBackground
 import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 

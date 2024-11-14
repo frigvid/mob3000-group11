@@ -1,6 +1,20 @@
 <resources>
     <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
+    <string name="ISO8601_yyyy_MM_dd_HH_mm" translatable="false">yyyy-MM-dd HH:mm</string>
+
+    <!-- Info item generics. News/Documentation/FAQ. -->
+    <string name="info_item_details_created_date_prefix">Created</string>
+    <string name="info_item_details_modified_date_prefix">Last modified</string>
+    <string name="info_item_details_status_prefix">Status</string>
+    <string name="info_item_details_status_published">Published</string>
+    <string name="info_item_details_status_draft">Draft</string>
+    <string name="info_item_content_title">Title</string>
+    <string name="info_item_content_summary">Summary</string>
+    <string name="info_item_content_content">Content</string>
+    <string name="info_item_content_publish">Publish</string>
+    <string name="info_item_content_unpublish">Unpublish</string>
+    <string name="info_item_content_save">Save</string>
 
     <!-- Documentation related pages. -->
     <string name="info_title">Information</string>
@@ -12,14 +26,14 @@
 
     <!-- Documentation details page. -->
     <string name="documentation_details_title">Documentation details</string>
-    <string name="documentation_details_created_date_prefix">Created</string>
-    <string name="documentation_details_created_date_pattern">yyyy-MM-dd HH:mm</string>
-    <string name="documentation_details_modified_date_prefix">Last modified</string>
-    <string name="documentation_details_modified_date_pattern">yyyy-MM-dd HH:mm</string>
-    <string name="documentation_details_status_prefix">Status</string>
-    <string name="documentation_details_status_published">Published</string>
-    <string name="documentation_details_status_draft">Draft</string>
     <string name="documentation_details_not_found">Not found</string>
+    <string name="documentation_details_confirm">Confirm deletion</string>
+    <string name="documentation_details_delete_text">Are you sure you want tot delete this documentation? It will be permanently removed and will not be recoverable.</string>
+    <string name="documentation_details_delete_cancel">Cancel</string>
+    <string name="documentation_details_delete_confirm">Delete</string>
+
+    <!-- Documentation update page. -->
+    <string name="documentation_update_title">Update documentation</string>
 
     <!-- Documentation creation page. -->
     <string name="documentation_create_title">Create Documentation</string>
@@ -34,9 +48,6 @@
     <!-- FAQ page. -->
     <string name="faq_title">FAQ</string>
     <string name="faq_create_title">Create FAQ</string>
-    <string name="faq_created_at">Created</string>
-    <string name="faq_modified_at">Modified</string>
-    <string name="faq_date_pattern">yyyy-MM-dd HH:mm</string>
 
     <!-- FAQ creation page. -->
     <string name="faq_create_label_title">Question</string>
@@ -47,6 +58,16 @@
     <string name="faq_create_save_faq">Save FAQ</string>
     <string name="faq_create_save_changes">Save Changes</string>
     <string name="faq_create_delete_faq">Delete FAQ</string>
+
+    <!-- FAQ details page. -->
+    <string name="faq_details_title">FAQ details</string>
+    <string name="faq_details_confirm">Confirm deletion</string>
+    <string name="faq_details_delete_text">Are you sure you want to delete this FAQ? It will be permanently removed and will not be recoverable.</string>
+    <string name="faq_details_delete_cancel">Cancel</string>
+    <string name="faq_details_delete_confirm">Delete</string>
+
+    <!-- FAQ update page. -->
+    <string name="faq_update_title">Update FAQ</string>
 
     <!-- About us page. -->
     <string name="about_us_title">About us</string>
@@ -71,14 +92,11 @@
     <string name="news_date_pattern">yyyy-MM-dd HH:mm</string>
 
     <!-- News details page. -->
-    <string name="news_details_created_date_prefix">Created</string>
-    <string name="news_details_modified_date_prefix">Modified</string>
-    <string name="news_details_status_prefix">Status</string>
-    <string name="news_details_status_published">Published</string>
-    <string name="news_details_status_draft">Draft</string>
     <string name="news_details_not_found">News not found</string>
-    <string name="news_details_created_date_pattern">yyyy-MM-dd HH:mm</string>
-    <string name="news_details_modified_date_pattern">yyyy-MM-dd HH:mm</string>
+    <string name="news_details_confirm">Confirm deletion</string>
+    <string name="news_details_delete_text">Are you sure you want tot delete this news-article? It will be permanently removed and will not be recoverable.</string>
+    <string name="news_details_delete_cancel">Cancel</string>
+    <string name="news_details_delete_confirm">Delete</string>
 
     <!-- News creation page. -->
     <string name="news_create_title">Create news</string>
@@ -89,6 +107,9 @@
     <string name="news_create_check_unpublish">Unpublish news?</string>
     <string name="news_create_save_news">Save News</string>
     <string name="news_create_save_changes">Save Changes</string>
+
+    <!-- News update page. -->
+    <string name="news_update_title">Update news</string>
 
     <!-- Home page. -->
     <string name="home_title">Home Page</string>
@@ -140,6 +161,12 @@
     <string name="settings_section_user_subtitle">USER</string>
     <string name="settings_section_user_button_login">Go to login</string>
     <string name="settings_section_user_button_logout">Log out</string>
+    <string name="settings_section_user_popup_logout_title">Are you sure you want to log out?</string>
+    <string name="settings_section_user_state_logout_success">You\'ve been logged out.</string>
+    <string name="settings_section_user_button_delete">Delete account?</string>
+    <string name="settings_section_user_popup_delete_title">Are you sure you want to delete your account?</string>
+    <string name="settings_section_user_state_delete_success">Your account has been deleted.</string>
+    <string name="settings_section_user_state_delete_error">Something went wrong.</string>
 
     <string name="settings_section_app_subtitle">APPLICATION</string>
     <string name="settings_section_app_language">Language</string>
@@ -232,9 +259,12 @@
     <!-- Authentication Error Messages. -->
     <string name="auth_error_email_exists">Email address already exists.</string>
     <string name="auth_error_signup_disabled">Sign-up is disabled.</string>
+    <string name="auth_error_passwords_must_match">Passwords must match!</string>
+    <string name="auth_error_weak_password">Your password must be at least 8 characters long and contain a mix of letters and numbers.</string>
     <string name="auth_error_not_admin">The user is not an administrator.</string>
 
     <string name="auth_error_email_not_confirmed">Please confirm your email address.</string>
+    <string name="auth_error_invalid_email_format">Please enter a valid email address.</string>
     <string name="auth_error_invalid_credentials">Invalid email or password.</string>
     <string name="auth_error_user_not_found">User not found</string>
     <string name="auth_error_user_banned">This user is banned.</string>
@@ -244,4 +274,16 @@
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">You will not be able to see your own account here.</string>
+
+    <!-- Components. -->
+    <!-- Confirmation dialog -->
+    <string name="confirmation_dialog_confirm">Confirm deletion</string>
+    <string name="confirmation_dialog_cancel">Cancel</string>
+    <string name="confirmation_dialog_delete_text">Are you sure you want to delete this?</string>
+    <string name="confirmation_dialog_delete_confirm">Delete</string>
+
+    <!-- Components. -->
+    <!-- Dangerous Action Dialogue. -->
+    <string name="component_dialogue_dangerous_action_button_confirm">Yes</string>
+    <string name="component_dialogue_dangerous_action_button_dismiss">No</string>
 </resources>

@@ -5,6 +5,8 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.github.jan.supabase.gotrue.user.UserInfo
+import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.rpc
 import kotlinx.datetime.Instant
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
@@ -13,14 +15,15 @@ import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
-import no.usn.mob3000.domain.model.Friend as DomainFriend
-import no.usn.mob3000.domain.model.FriendRequest as DomainFriendRequest
-import no.usn.mob3000.domain.model.UserGameStats as DomainUserGameStats
-import no.usn.mob3000.domain.model.UserMetadata as DomainUserMetadata
-import no.usn.mob3000.domain.model.UserGameStats as DomainUserStats
-import no.usn.mob3000.domain.model.UserProfile as DomainUserProfile
-import no.usn.mob3000.domain.model.UserSocial as DomainUserSocial
-import no.usn.mob3000.domain.model.User as DomainUser
+import no.usn.mob3000.data.source.remote.auth.UserDataSource
+import no.usn.mob3000.domain.model.auth.Friend as DomainFriend
+import no.usn.mob3000.domain.model.auth.FriendRequest as DomainFriendRequest
+import no.usn.mob3000.domain.model.auth.UserGameStats as DomainUserGameStats
+import no.usn.mob3000.domain.model.auth.UserMetadata as DomainUserMetadata
+import no.usn.mob3000.domain.model.auth.UserGameStats as DomainUserStats
+import no.usn.mob3000.domain.model.auth.UserProfile as DomainUserProfile
+import no.usn.mob3000.domain.model.auth.UserSocial as DomainUserSocial
+import no.usn.mob3000.domain.model.auth.User as DomainUser
 import no.usn.mob3000.domain.repository.IAuthRepository
 
 /**
@@ -29,11 +32,14 @@ import no.usn.mob3000.domain.repository.IAuthRepository
  * operations into cohesive results.
  *
  * @property authDataSource The data source for authentication operations.
+ * @property userDataSource The data source for user operations.
+ * @property supabase The Supabase client.
  * @author frigvid
  * @created 2024-10-22
  */
 class AuthRepository(
     private val authDataSource: AuthDataSource,
+    private val userDataSource: UserDataSource,
     private val supabase: SupabaseClient = SupabaseClientWrapper.getClient()
 ) : IAuthRepository {
     private lateinit var currentUserId: String
@@ -74,8 +80,27 @@ class AuthRepository(
      */
     override suspend fun logout() = supabase.auth.signOut()
 
-    override suspend fun register() {
-        TODO("Registration not yet implemented")
+    /**
+     * Performs user registration.
+     *
+     * @author Anarox1111
+     * @contributor frigvid
+     * @created 2024-10-30
+     */
+    override suspend fun register(
+        email: String,
+        password: String
+    ): Result<Unit> {
+        return try {
+            supabase.auth.signUpWith(Email) {
+                this.email = email
+                this.password = password
+            }
+
+            Result.success(Unit)
+        } catch (error: Exception) {
+            Result.failure(error)
+        }
     }
 
     override suspend fun changePassword() {
@@ -86,8 +111,23 @@ class AuthRepository(
         TODO("E-mail change not yet implemented")
     }
 
+    /**
+     * Deletes the authenticated user via an RPC function.
+     *
+     * ## References
+     *
+     * Web application's SQL [pre-requisites](https://github.com/frigvid/app2000-gruppe11/blob/master/PREREQUISITES.sql#L868) on line 868.
+     *
+     * @author frigvid
+     * @created 2024-11-03
+     */
     override suspend fun delete() {
-        TODO("Account deletion not yet implemented")
+        try {
+            val result = supabase.postgrest.rpc(function = "user_delete")
+            Log.d("AuthRepository", "RPC function user_delete result: ${result.data}")
+        } catch (error: Exception) {
+            throw Exception("Failed to delete authenticated user's account: ${error.message}", error)
+        }
     }
 
     /**
@@ -99,23 +139,23 @@ class AuthRepository(
      * @created 2024-10-22
      */
     private suspend fun fetchUserData(): DomainUser {
-        val user = mapToDomainUser<UserDto>(authDataSource.getCurrentUser())
+        val user = mapToDomainUser<UserDto>(userDataSource.getCurrentUser())
         Log.d("AuthRepository", "Fetched user: $user")
 
-        val isAdmin = authDataSource.checkAdminStatus(currentUserId)
+        val isAdmin = authDataSource.checkAdminStatus()
         Log.d("AuthRepository", "Fetched admin status: $isAdmin")
 
-        val stats = mapToDomainUser<DomainUserGameStats>(authDataSource.getUserGameStats())
+        val stats = mapToDomainUser<DomainUserGameStats>(userDataSource.getUserGameStats())
         Log.d("AuthRepository", "Fetched user's game stats: $stats")
 
-        val profile = authDataSource.getUserProfile(currentUserId)
+        val profile = userDataSource.getUserProfile(currentUserId)
             ?.let { mapToDomainUser<DomainUserProfile>(it) }
         Log.d("AuthRepository", "Fetched user profile: $profile")
 
-        val friends = mapToDomainUser<List<DomainFriend>>(authDataSource.getUserFriends(currentUserId))
+        val friends = mapToDomainUser<List<DomainFriend>>(userDataSource.getUserFriends(currentUserId))
         Log.d("AuthRepository", "Fetched friends: $friends")
 
-        val friendRequests = mapToDomainUser<List<DomainFriendRequest>>(authDataSource.getUserFriendRequests())
+        val friendRequests = mapToDomainUser<List<DomainFriendRequest>>(userDataSource.getUserFriendRequests())
         Log.d("AuthRepository", "Fetched friend requests: $friendRequests")
 
         return DomainUser(
@@ -210,7 +250,7 @@ class AuthRepository(
                                     friendDto.user1
                                 }
 
-                            val friendData = authDataSource.getUserFriendSingle(friendId)
+                            val friendData = userDataSource.getUserFriendSingle(friendId)
 
                             DomainFriend(
                                 friendshipId = friendData.friendshipId,
@@ -225,7 +265,7 @@ class AuthRepository(
                         is FriendRequestsDto -> dto.filterIsInstance<FriendRequestsDto>().map { requestDto ->
                             DomainFriendRequest(
                                 friendRequestId = requestDto.friendRequestId,
-                                createdAt = requestDto.createdAt,
+                                createdAt = requestDto.createdAt ?: Instant.fromEpochMilliseconds(0),
                                 fromUserId = requestDto.byUser ?: "",
                                 toUserId = requestDto.toUser ?: ""
                             )

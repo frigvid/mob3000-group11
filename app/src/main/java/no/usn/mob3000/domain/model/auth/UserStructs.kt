@@ -11,7 +11,7 @@
  * @created 2024-10-22
  */
 
-package no.usn.mob3000.domain.model
+package no.usn.mob3000.domain.model.auth
 
 import kotlinx.datetime.Instant
 
