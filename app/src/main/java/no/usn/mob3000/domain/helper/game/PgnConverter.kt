@@ -1,8 +1,12 @@
 package no.usn.mob3000.domain.helper.game
 
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
 import no.usn.mob3000.data.model.game.OpeningsDto
 
 /**
@@ -88,6 +92,64 @@ fun convertJsonPgnArrayToPgn(
     return moves.chunked(2).mapIndexed { index, movePair ->
         "${index + 1}. ${movePair[0]}${if (movePair.size > 1) { " ${movePair[1]}" } else { "" } }"
     }.joinToString(" ")
+}
+
+/**
+ * Converts standard PGN notation back to a JSON PGN move set fragment array.
+ *
+ * This also performs some safety checks using regular expressions to
+ * validate the structure of the inputted PGN notation.
+ *
+ * @param pgn Standard PGN string.
+ * @return [JsonArray] containing move fragments.
+ * @throws IllegalArgumentException If PGN notation isn't valid.
+ * @author frigvid
+ * @created 2024-11-14
+ */
+fun convertPgnToJsonPgnArray(
+    pgn: String
+): JsonArray {
+    if (pgn.isBlank()) return buildJsonArray { }
+
+    val moveGroups = pgn.split("""\s+(?=\d+\.)""".toRegex())
+    if (!moveGroups.all {
+        it.matches("""^\d+\.\s+[NBRQK]?[a-h][1-8]-[a-h][1-8](?:\s+[NBRQK]?[a-h][1-8]-[a-h][1-8])?$""".toRegex())
+    }) {
+        throw IllegalArgumentException("Invalid PGN format: Moves must follow pattern: <number>. <move> [<move>]")
+    }
+
+    val moves = mutableListOf<JsonObject>()
+    val movePattern = """([NBRQK])?([a-h][1-8])-([a-h][1-8])""".toRegex()
+
+    moveGroups.forEach { group ->
+        val fragments = group.substringAfter(". ").split(" ")
+
+        fragments.forEach { move ->
+            val result = movePattern.matchEntire(move)
+                ?: throw IllegalArgumentException("Invalid move format: $move")
+
+            val (piece, from, to) = result.destructured
+
+            val pieceNotation = when (piece) {
+                "N" -> "n"
+                "B" -> "b"
+                "R" -> "r"
+                "Q" -> "q"
+                "K" -> "k"
+                "" -> "p"
+
+                else -> throw IllegalArgumentException("Invalid piece notation: $piece")
+            }
+
+            moves.add(buildJsonObject {
+                put("to", to)
+                put("from", from)
+                put("piece", pieceNotation)
+            })
+        }
+    }
+
+    return JsonArray(moves)
 }
 
 /**
