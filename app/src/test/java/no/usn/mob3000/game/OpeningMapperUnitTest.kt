@@ -22,7 +22,7 @@ private const val TAG: String = "> TEST :app:OpeningMapperTest"
  * @author frigvid
  * @created 2024-11-14
  */
-class OpeningMapperTest {
+class OpeningMapperUnitTest {
     private val jsonPgnArray = buildJsonArray {
         add(buildJsonObject {
             put("to", "e4")
