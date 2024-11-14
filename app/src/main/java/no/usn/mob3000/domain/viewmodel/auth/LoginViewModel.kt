@@ -24,7 +24,6 @@ import no.usn.mob3000.domain.usecase.auth.LoginUseCase
  */
 class LoginViewModel(
     private val loginUseCase: LoginUseCase = LoginUseCase()
-
 ) : ViewModel() {
     /**
      * The current [LoginState].

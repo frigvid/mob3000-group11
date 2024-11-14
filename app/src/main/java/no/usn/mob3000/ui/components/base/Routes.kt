@@ -6,7 +6,10 @@ import androidx.navigation.compose.composable
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ChangeEmailViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ChangePasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ForgotPasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
@@ -16,6 +19,7 @@ import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
+import no.usn.mob3000.ui.screens.auth.ChangeEmailScreen
 import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
@@ -445,6 +449,8 @@ object Routes {
          * @param navController The navigation controller.
          * @param cbViewModel The generic application ViewModel.
          * @param logoutViewModel The account logout ViewModel.
+         * @param changeEmailViewModel The account email change ViewModel.
+         * @param changePasswordViewModel The account password change ViewModel.
          * @param deleteAccountViewModel The account deletion ViewModel.
          * @author frigvid
          * @created 2024-11-06
@@ -455,12 +461,16 @@ object Routes {
             cbViewModel: CBViewModel,
             logoutViewModel: LogoutViewModel,
             deleteAccountViewModel: DeleteAccountViewModel,
+            changeEmailViewModel: ChangeEmailViewModel,
+            changePasswordViewModel: ChangePasswordViewModel,
             authenticationViewModel: AuthenticationViewModel
         ): Settings {
             navGraphBuilder.composable(route = Destination.SETTINGS.name) {
                 SettingsScreen(
                     logoutState = logoutViewModel.logoutState,
                     logoutStateReset = logoutViewModel::resetState,
+                    changeEmailState = changeEmailViewModel.changeEmailState,
+                    changePasswordState = changePasswordViewModel.changePasswordState,
                     authenticationState = authenticationViewModel.authState,
                     onLogoutClick = logoutViewModel::logout,
                     onLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
@@ -472,7 +482,9 @@ object Routes {
                     selectedTheme = cbViewModel.selectedTheme.value,
                     selectedLanguage = cbViewModel.selectedLanguage.value,
                     onThemeChange = cbViewModel::setSelectedTheme,
-                    onLanguageChange = cbViewModel::setSelectedLanguage
+                    onLanguageChange = cbViewModel::setSelectedLanguage,
+                    navigateToPasswordReset = { navController.navigate(Destination.AUTH_RESET.name) },
+                    navigateToEmailChange = { navController.navigate(Destination.AUTH_EMAIL_CHANGE.name) }
                 )
             }
 
@@ -493,6 +505,9 @@ object Routes {
          * @param navGraphBuilder The navigation graph builder.
          * @param navController The navigation controller.
          * @param loginViewModel The login ViewModel.
+         * @param changeEmailViewModel The e-mail change ViewModel.
+         * @param changePasswordViewModel The password change ViewModel.
+         * @param forgotPasswordViewModel The forgotten password request ViewModel.
          * @param registrationViewModel The registration ViewModel.
          * @author frigvid
          * @created 2024-11-06
@@ -501,16 +516,21 @@ object Routes {
             navGraphBuilder: NavGraphBuilder,
             navController: NavController,
             loginViewModel: LoginViewModel,
-            registrationViewModel: RegistrationViewModel
+            registrationViewModel: RegistrationViewModel,
+            changeEmailViewModel: ChangeEmailViewModel,
+            changePasswordViewModel: ChangePasswordViewModel,
+            forgotPasswordViewModel: ForgotPasswordViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ): Authentication {
             navGraphBuilder.composable(route = Destination.AUTH_LOGIN.name) {
                 LoginScreen(
                     loginState = loginViewModel.loginState,
+                    forgotPasswordState = forgotPasswordViewModel.forgotPasswordState,
                     loginStateReset = loginViewModel::resetState,
                     navigateHome = { navController.navigate(Destination.HOME.name) },
                     onLoginClick = loginViewModel::login,
                     onCreateUserClick = { navController.navigate(Destination.AUTH_CREATE.name)},
-                    onForgotPasswordClick = { navController.navigate(Destination.AUTH_FORGOT.name) }
+                    onForgotPasswordClick = { navController.navigate(Destination.AUTH_FORGOT.name) },
                 )
             }
 
@@ -526,13 +546,27 @@ object Routes {
 
             navGraphBuilder.composable(route = Destination.AUTH_FORGOT.name) {
                 ForgotPasswordScreen(
-                    onResetPasswordClick = { navController.navigate(Destination.AUTH_RESET.name) }
+                    onForgotPasswordClick = forgotPasswordViewModel::forgotPassword,
+                    forgotPasswordStateUpdate = forgotPasswordViewModel::updateState,
+                    navControllerPopBackStack = navController::popBackStack
                 )
             }
 
             navGraphBuilder.composable(route = Destination.AUTH_RESET.name) {
                 ResetPasswordScreen(
-                    onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
+                    onResetPasswordClick = changePasswordViewModel::changePassword,
+                    changePasswordStateUpdate = changePasswordViewModel::updateState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    navControllerPopBackStack = navController::popBackStack
+                )
+            }
+
+            navGraphBuilder.composable(route = Destination.AUTH_EMAIL_CHANGE.name) {
+                ChangeEmailScreen(
+                    changeEmailStateUpdate = changeEmailViewModel::updateState,
+                    onChangeEmailClick = changeEmailViewModel::changeEmail,
+                    navControllerPopBackStack = navController::popBackStack,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState
                 )
             }
 
