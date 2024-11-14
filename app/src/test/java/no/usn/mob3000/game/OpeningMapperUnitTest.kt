@@ -11,6 +11,8 @@ import no.usn.mob3000.domain.model.game.Opening
 import org.junit.Test
 import org.junit.Assert.*
 
+private const val TAG: String = "> TEST :app:OpeningMapperTest"
+
 /**
  * DTO openings and pure kotlin data class openings mapper tests.
  *
@@ -21,8 +23,6 @@ import org.junit.Assert.*
  * @created 2024-11-14
  */
 class OpeningMapperTest {
-    private val TAG: String = "> TEST :app:OpeningMapperTest"
-
     private val jsonPgnArray = buildJsonArray {
         add(buildJsonObject {
             put("to", "e4")
@@ -73,7 +73,7 @@ class OpeningMapperTest {
 
         val domainResult = dataOpening.mapToDomain()
         val dtoResult = domainResult.mapToData()
-        
+
         assertEquals(dataOpening, dtoResult)
         assertEquals(domainOpening, domainResult)
     }

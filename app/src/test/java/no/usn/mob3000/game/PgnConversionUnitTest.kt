@@ -9,6 +9,8 @@ import org.junit.Test
 import org.junit.Assert.*
 import java.lang.AssertionError
 
+private const val TAG: String = "> TEST :app:PgnConversionUnitTest"
+
 /**
  * PGN notation converter tests.
  *
@@ -22,8 +24,6 @@ import java.lang.AssertionError
  * @created 2024-11-14
  */
 class PgnConversionUnitTest {
-    private val TAG: String = "> TEST :app:PgnConversionUnitTest"
-
     private val validJsonPgnArray = """[
         {
             "to": "f3",
