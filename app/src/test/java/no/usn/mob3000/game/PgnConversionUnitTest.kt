@@ -9,6 +9,18 @@ import org.junit.Test
 import org.junit.Assert.*
 import java.lang.AssertionError
 
+/**
+ * PGN notation converter tests.
+ *
+ * This includes both one-off and bi-directional tests for
+ * PGN notation, JSON PGN array, and both.
+ *
+ * Docstrings for individual tests aren't included, as the
+ * test's names are made to be at least mostly self-explanatory.
+ *
+ * @author frigvid
+ * @created 2024-11-14
+ */
 class PgnConversionUnitTest {
     private val TAG: String = "> TEST :app:PgnConversionUnitTest"
 
