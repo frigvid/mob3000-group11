@@ -18,6 +18,11 @@ import java.util.UUID
  * the domain layer and the data source. It aggregates data from multiple
  * operations into cohesive results.
  *
+ * ## Note
+ *
+ * If this class happens to say it's not in use, do note that it's being used via its
+ * interface to increase testability.
+ *
  * @property openingsDataSource The openings data source.
  * @property supabase The Supabase client.
  * @author frigvid
