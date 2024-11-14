@@ -50,14 +50,13 @@ class FriendRequestRepository (
         }
     }
 
-
     private fun FriendRequestsDto.toDomainModel(): FriendRequestData {
         return FriendRequestData(
 
-            accepted = this.accepted,
+            accepted = this.accepted ?: false,
             toUser = this.toUser ?: "",
             byUser = this.byUser ?: "",
-            createdAt = this.createdAt?: ,
+            createdAt = this.createdAt?: Clock.System.now() ,
             friendRequestId = this.friendRequestId
         )
     }
