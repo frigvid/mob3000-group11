@@ -1,7 +1,6 @@
 package no.usn.mob3000.data.repository.social
 
 import no.usn.mob3000.data.model.social.ProfileDto
-import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.repository.social.IUserRepository
@@ -21,6 +20,15 @@ class UserRepository(
     override suspend fun getUserProfile(userId: String): Result<UserProfile?> {
         return try {
             val profileDto = userDataSource.getUserProfile(userId)
+            Result.success(profileDto?.toDomainModel())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun fetchUserById(userId: String): Result<UserProfile?> {
+        return try {
+            val profileDto = userDataSource.fetchUserById(userId)
             Result.success(profileDto?.toDomainModel())
         } catch (e: Exception) {
             Result.failure(e)

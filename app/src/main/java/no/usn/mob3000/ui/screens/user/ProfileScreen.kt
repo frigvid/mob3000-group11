@@ -54,14 +54,15 @@ fun ProfileScreen(
     onProfileFriendRequestsClick: () -> Unit,
     fetchFriends: () -> Unit,
     fetchUser: (String) -> Unit,
+    fetchUserById: (String) -> Unit,
     friendState: StateFlow<Result<List<FriendData>>>,
-    userState: StateFlow<Result<UserProfile?>>,
     userIdState: StateFlow<String?>,
+    userProfilesMap: StateFlow<Map<String, UserProfile>>,
     setSelectedUser: (UserProfile) -> Unit
 ) {
     val friendResult by friendState.collectAsState()
-    val userResult by userState.collectAsState()
     val userId by userIdState.collectAsState()
+    val userProfiles by userProfilesMap.collectAsState()
 
     LaunchedEffect(userId) {
         userId?.let { id ->
@@ -72,7 +73,7 @@ fun ProfileScreen(
 
     Viewport(
         topBarActions = {
-            userResult.getOrNull()?.let { user ->
+            userProfiles[userId]?.let { user ->
                 IconButton(onClick = {
                     setSelectedUser(user)
                     onProfileEditClick(user)
@@ -108,13 +109,20 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            ProfileHeader(userResult = userResult)
-            ProfileStats(userProfile = userResult.getOrNull())
+            ProfileHeader(userResult = Result.success(userProfiles[userId]))
+            ProfileStats(userProfile = userProfiles[userId])
             AboutSection()
-            FriendsSection(friendResult)
+            FriendsSection(
+                friendResult = friendResult,
+                userId = userId,
+                fetchUserById = fetchUserById,
+                userProfilesMap = userProfiles
+            )
         }
     }
 }
+
+
 
 
 /**
@@ -253,16 +261,30 @@ fun AboutSection() {
  * @created 2024-10-11
  */
 @Composable
-fun friendComponent(friendResult: Result<List<FriendData>>) {
+fun friendComponent(
+    friendResult: Result<List<FriendData>>,
+    userId: String?,
+    fetchUserById: (String) -> Unit,
+    userProfilesMap: Map<String, UserProfile>
+) {
     LazyColumn {
         friendResult.onSuccess { friends ->
             items(friends) { friend ->
+                val friendIdToDisplay = if (userId != friend.user1) friend.user1 else friend.user2
+                LaunchedEffect(friendIdToDisplay) {
+                    if (!userProfilesMap.containsKey(friendIdToDisplay)) {
+                        fetchUserById(friendIdToDisplay)
+                    }
+                }
+
+                val friendDisplayName = userProfilesMap[friendIdToDisplay]?.displayName ?: friendIdToDisplay
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
-                        .clickable { /* Add click handling here if needed */ }
+                        .clickable {  }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.profile_icon),
@@ -273,17 +295,14 @@ fun friendComponent(friendResult: Result<List<FriendData>>) {
                             .border(1.dp, Color.Gray, CircleShape)
                     )
 
-
                     Text(
-                        text =friend.displayname,
+                        text = friendDisplayName,
                         modifier = Modifier.padding(start = 8.dp),
                         style = MaterialTheme.typography.bodyMedium
                     )
-
                 }
             }
         }.onFailure {
-
             item {
                 Text(
                     text = "Failed to load friends",
@@ -293,8 +312,15 @@ fun friendComponent(friendResult: Result<List<FriendData>>) {
             }
         }
     }
-}@Composable
-fun FriendsSection(friendResult: Result<List<FriendData>>) {
+}
+
+@Composable
+fun FriendsSection(
+    friendResult: Result<List<FriendData>>,
+    userId: String?,
+    fetchUserById: (String) -> Unit,
+    userProfilesMap: Map<String, UserProfile>
+) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
             text = stringResource(R.string.profile_friends),
@@ -302,6 +328,13 @@ fun FriendsSection(friendResult: Result<List<FriendData>>) {
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        friendComponent(friendResult = friendResult)
+        friendComponent(
+            friendResult = friendResult,
+            userId = userId,
+            fetchUserById = fetchUserById,
+            userProfilesMap = userProfilesMap
+        )
     }
 }
+
+

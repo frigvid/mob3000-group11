@@ -16,6 +16,7 @@ import no.usn.mob3000.domain.usecase.social.Profile.FetchFriendsUseCase
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
+import no.usn.mob3000.domain.usecase.social.Profile.FetchUserByIdUseCase
 
 /**
  *
@@ -27,19 +28,19 @@ import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
  **/
 
 class ProfileViewModel(
-    private val fetchFriendsUseCase: FetchFriendsUseCase = FetchFriendsUseCase (),
+    private val fetchFriendsUseCase: FetchFriendsUseCase = FetchFriendsUseCase(),
+    private val fetchUserByIdUseCase: FetchUserByIdUseCase = FetchUserByIdUseCase(UserRepository()),
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase = GetCurrentUserIdUseCase(
         authRepository = AuthRepository(
             authDataSource = AuthDataSource(),
             userDataSource = UserDataSource()
         )
-    )
-    ,
+    ),
     private val fetchUserProfileUseCase: FetchUserProfileUseCase = FetchUserProfileUseCase(UserRepository())
 ) : ViewModel() {
 
-    private val _user = MutableStateFlow<Result<UserProfile?>>(Result.success(null))
-    val user: StateFlow<Result<UserProfile?>> = _user
+    private val _userProfiles = MutableStateFlow<Map<String, UserProfile>>(emptyMap())
+    val userProfiles: StateFlow<Map<String, UserProfile>> = _userProfiles
 
     private val _selectedUser = mutableStateOf<UserProfile?>(null)
     val selectedUser: State<UserProfile?> = _selectedUser
@@ -58,11 +59,25 @@ class ProfileViewModel(
 
     fun fetchUser(userId: String) {
         viewModelScope.launch {
-            _user.value = fetchUserProfileUseCase(userId)
+            val result = fetchUserProfileUseCase(userId)
+            result.onSuccess { userProfile ->
+                userProfile?.let {
+                    _userProfiles.value = _userProfiles.value + (userId to it)
+                }
+            }
         }
     }
 
-
+    fun fetchUserById(userId: String) {
+        viewModelScope.launch {
+            val result = fetchUserByIdUseCase(userId)
+            result.onSuccess { userProfile ->
+                userProfile?.let {
+                    _userProfiles.value = _userProfiles.value + (userId to it)
+                }
+            }
+        }
+    }
 
     fun fetchFriends() {
         viewModelScope.launch {
@@ -74,6 +89,7 @@ class ProfileViewModel(
         _selectedUser.value = selectedUser
     }
 }
+
 
 
 
