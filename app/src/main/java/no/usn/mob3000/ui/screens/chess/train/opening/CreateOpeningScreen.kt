@@ -1,19 +1,23 @@
 package no.usn.mob3000.ui.screens.chess.train.opening
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import android.util.Log
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
-import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
+import no.usn.mob3000.domain.model.auth.state.AuthenticationState
+import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.ui.components.game.OpeningEditor
 
 /**
  * Screen to allow users to create openings.
@@ -22,106 +26,65 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * representation of the moves (currently a placeholder), and interact with the opening creation
  * process through various buttons.
  *
- * @param onSaveOpening A lambda function that will be called when the user attempts to save the
- *                      opening. It should take two String parameters: the title and description
- *                      of the opening.
- * @param onClearOpening A lambda function that will be called when the user wants to clear all
- *                       inputs.
+ * @param authenticationState The authentication status state.
+ * @param authenticationStateUpdate Callback function to update authentication state.
+ * @param openingsStartPeriodicUpdates Callback function to start periodic updates.
+ * @param onSaveOpeningClick Callback function for when the save is confirmed.
+ * @param popNavigationBackStack Callback function to navigate back a step.
  * @author frigvid
  * @created 2024-10-08
  */
 @Composable
 fun CreateOpeningScreen(
-    // TODO: onSaveOpening: (String, String) -> Unit,
-    // TODO: onClearOpening: () -> Unit
+    authenticationState: StateFlow<AuthenticationState>,
+    authenticationStateUpdate: () -> Unit,
+    openingsStartPeriodicUpdates: () -> Unit,
+    onSaveOpeningClick: (Opening) -> Unit,
+    popNavigationBackStack: () -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+    val authState by remember { authenticationState }.collectAsState()
+    LaunchedEffect(Unit) { authenticationStateUpdate() }
 
-    Viewport { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
-                label = { Text(stringResource(R.string.opening_create_prompt_title)) },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = description,
-                onValueChange = { description = it },
-                label = { Text(stringResource(R.string.opening_create_prompt_description)) },
-                modifier = Modifier.fillMaxWidth(),
-                minLines = 3
-            )
-
-            Text(
-                text = stringResource(R.string.opening_create_moves),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Image(
-                painter = painterResource(id = R.drawable.placeholder_chess),
-                contentDescription = null,
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentScale = ContentScale.Fit
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    onClick = { /* TODO: Implement undo move logic */ },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
-                    modifier = Modifier.weight(1f).padding(end = 8.dp)
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                TextButton(
+                    onClick = { showDialog = false }
                 ) {
-                    Text(stringResource(R.string.opening_create_undo_move))
+                    Text(stringResource(R.string.opening_create_auth_required_button))
                 }
-                Button(
-                    onClick = { /* TODO: Implement reset board logic */ },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
-                    modifier = Modifier.weight(1f).padding(start = 8.dp)
-                ) {
-                    Text(stringResource(R.string.opening_create_reset_board))
-                }
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    /* TODO: This should be extracted into its own function. Saving needs to also
-                     *       clear old data.
-                     */
-                    onClick = {
-                        title = ""
-                        description = ""
-                        /* TODO: onClearOpening() */
-                    },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
-                    modifier = Modifier.weight(1f).padding(end = 8.dp)
-                ) {
-                    Text(stringResource(R.string.opening_create_reset_all))
-                }
-                Button(
-                    onClick = { /* TODO: onSaveOpening(title, description) */ },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
-                    modifier = Modifier.weight(1f).padding(start = 8.dp)
-                ) {
-                    Text(stringResource(R.string.opening_create_save_opening))
-                }
-            }
-        }
+            },
+            text = { Text(stringResource(R.string.opening_create_auth_required_message)) },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            )
+        )
     }
+
+    OpeningEditor(
+        authState = authState,
+        opening = null,
+        onSave = { opening ->
+            when (authState) {
+                is AuthenticationState.Authenticated -> {
+                    try {
+                        onSaveOpeningClick(opening)
+                        openingsStartPeriodicUpdates()
+                        popNavigationBackStack()
+                    } catch (error: Exception) {
+                        Log.e("CreateOpeningScreen", "Error saving opening", error)
+                    }
+                }
+
+                is AuthenticationState.Unauthenticated -> showDialog = true
+
+                else -> return@OpeningEditor
+            }
+        },
+        onCancel = popNavigationBackStack,
+        saveButtonText = stringResource(R.string.opening_create_save_opening)
+    )
 }

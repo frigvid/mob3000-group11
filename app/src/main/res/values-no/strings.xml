@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
 
@@ -180,14 +180,14 @@
     <string name="openings_title">Åpninger</string>
 
     <!-- Opening creation page. -->
-    <string name="openings_create_title">ÅpningLagingStub</string>
-    <string name="opening_create_prompt_title">Tittel</string>
-    <string name="opening_create_prompt_description">Beskrivelse</string>
-    <string name="opening_create_moves">Trekk</string>
-    <string name="opening_create_undo_move">Angre trekk</string>
-    <string name="opening_create_reset_board">Nullstill sjakkbrett</string>
+    <string name="openings_create_title">Opprett ny åpning</string>
     <string name="opening_create_save_opening">Lagre åpning</string>
-    <string name="opening_create_reset_all">Nullstill</string>
+    <string name="opening_create_auth_required_message">Du må være logget inn for å gjennomføre denne handlingen.</string>
+    <string name="opening_create_auth_required_button" tools:ignore="Typos">Ok.</string>
+
+    <!-- Openings update page. -->
+    <string name="opening_update_title">Oppdater åpning</string>
+    <string name="opening_update_save_opening">Oppdater åpning</string>
 
     <!-- Opening details page. -->
     <string name="opening_details">Åpningsdetaljer</string>
@@ -296,10 +296,17 @@
     <string name="component_dialogue_dangerous_action_button_confirm">Ja</string>
     <string name="component_dialogue_dangerous_action_button_dismiss">Nei</string>
 
-    <!-- Components. -->
     <!-- Confirmation dialog -->
     <string name="confirmation_dialog_confirm">Slettebekreftelse</string>
     <string name="confirmation_dialog_cancel">Avbryt</string>
     <string name="confirmation_dialog_delete_text">Er du sikker på at du ønsker å slette dette?</string>
     <string name="confirmation_dialog_delete_confirm">Slett</string>
+
+    <!-- Opening editor -->
+    <string name="opening_editor_prompt_title">Tittel</string>
+    <string name="opening_editor_prompt_description">Beskrivelse</string>
+    <string name="opening_editor_moves">Trekk</string>
+    <string name="opening_editor_undo_move">Angre trekk</string>
+    <string name="opening_editor_reset_board">Nullstill sjakkbrett</string>
+    <string name="opening_editor_reset_all">Nullstill</string>
 </resources>

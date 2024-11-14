@@ -23,6 +23,7 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
 import no.usn.mob3000.ui.components.base.Routes
 
 /**
@@ -110,6 +111,7 @@ fun Navigation(
     documentationViewModel: DocumentationViewModel = viewModel(),
     newsViewModel: NewsViewModel = viewModel(),
     faqViewModel: FAQViewModel = viewModel(),
+    openingsViewModel: OpeningsViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -118,7 +120,11 @@ fun Navigation(
             startDestination = Destination.HOME.name,
             modifier = Modifier.fillMaxSize()
         ) {
-            Routes.Home(this, navController)
+            Routes.Home(
+                this,
+                navController,
+                openingsViewModel
+            )
 
             Routes.Information(
                 this,
@@ -132,7 +138,8 @@ fun Navigation(
             Routes.Game(
                 this,
                 navController,
-                viewModel
+                openingsViewModel,
+                authenticationViewModel
             )
 
             Routes.UserProfile(

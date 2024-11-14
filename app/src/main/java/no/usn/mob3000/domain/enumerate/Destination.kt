@@ -50,6 +50,7 @@ enum class Destination(
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),
     OPENINGS(title = R.string.openings_title),
     OPENINGS_CREATE(title = R.string.openings_create_title),
+    OPENINGS_UPDATE(title = R.string.opening_update_title),
     OPENING_DETAILS(title = R.string.opening_details),
     GROUPS(title = R.string.groups_title),
     GROUPS_CREATE(title = R.string.groups_create_title),

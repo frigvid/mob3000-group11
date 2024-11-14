@@ -17,10 +17,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.game.Opening
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
-import no.usn.mob3000.ui.screens.chess.train.opening.Opening
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
 
 /**
@@ -186,7 +186,7 @@ fun OpeningCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(opening.title)
+            Text(opening.title ?: "\uD83D\uDC4B\uD83D\uDE00")
 
             Icon(
                 imageVector = icon,
