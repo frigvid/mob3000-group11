@@ -12,10 +12,10 @@ import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendData
-import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
 import no.usn.mob3000.domain.usecase.social.Profile.FetchFriendsUseCase
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
 
 /**
  *

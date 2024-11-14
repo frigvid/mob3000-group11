@@ -14,18 +14,9 @@ import no.usn.mob3000.domain.repository.social.IUserRepository
  * @created 2024-11-09
  */
 class UserRepository(
-    private val userDataSource: UserDataSource = UserDataSource(),
-    private val authDataSource: AuthDataSource = AuthDataSource()
+    private val userDataSource: UserDataSource = UserDataSource()
 ) : IUserRepository {
 
-    override suspend fun fetchUserById(userId: String): Result<UserProfile?> {
-        return try {
-            val profileDto = userDataSource.fetchUserById(userId)
-            Result.success(profileDto?.toDomainModel())
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
 
     override suspend fun getUserProfile(userId: String): Result<UserProfile?> {
         return try {
