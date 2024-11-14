@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 
@@ -25,14 +26,16 @@ import no.usn.mob3000.ui.theme.DefaultButton
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileEditScreen(
+    setSelectedUser: (UserProfile) -> Unit,
+    selectedUser: UserProfile? = null,
     onSaveProfileClick: () -> Unit
 ) {
-    var avatarUrl by remember { mutableStateOf("") }
-    var displayName by remember { mutableStateOf("") }
-    var aboutMe by remember { mutableStateOf("") }
-    var selectedCountry by remember { mutableStateOf("") }
-    var isProfileVisible by remember { mutableStateOf(true) }
-    var isFriendsListVisible by remember { mutableStateOf(true) }
+    var avatarUrl by remember { mutableStateOf(selectedUser?.avatarUrl ?: "") }
+    var displayName by remember { mutableStateOf(selectedUser?.displayName ?: "") }
+    var aboutMe by remember { mutableStateOf(selectedUser?.aboutMe ?: "") }
+    var selectedCountry by remember { mutableStateOf(selectedUser?.nationality ?: "") }
+    var isProfileVisible by remember { mutableStateOf(selectedUser?.visibility ?: true) }
+    var isFriendsListVisible by remember { mutableStateOf(selectedUser?.visibilityFriends ?: true) }
     var isDropdownExpanded by remember { mutableStateOf(false) }
 
     /* TODO: Use "https://restcountries.com/v3.1/all?fields=name,cca2" to fetch countries,
@@ -120,7 +123,6 @@ fun ProfileEditScreen(
                     expanded = isDropdownExpanded,
                     onDismissRequest = { isDropdownExpanded = false }
                 ) {
-                    /* TODO: Use country-code to decide on which emoji to display. */
                     commonCountries.forEach { (code, name) ->
                         DropdownMenuItem(
                             text = { Text(name) },
@@ -171,7 +173,6 @@ fun ProfileEditScreen(
 
             Button(
                 onClick = {
-                    /* TODO: Implement update to database. */
                     onSaveProfileClick()
                 },
                 colors = ButtonDefaults.buttonColors(DefaultButton),

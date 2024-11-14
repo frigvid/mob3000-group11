@@ -409,19 +409,24 @@ object Routes {
         ) {
             composable(route = Destination.PROFILE.name) {
                 ProfileScreen(
-                    onProfileEditClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) },
+                    onProfileEditClick = { userItem ->
+                        profileViewModel.setSelectedUser(userItem)
+                        navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) },
                     onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
                     onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) },
                     fetchFriends = { profileViewModel.fetchFriends() },
                     fetchUser = { userId -> profileViewModel.fetchUser(userId) },
                     friendState = profileViewModel.friends,
                     userState = profileViewModel.user,
-                    userIdState = profileViewModel.userId
+                    userIdState = profileViewModel.userId,
+                    setSelectedUser = profileViewModel::setSelectedUser
                 )
             }
 
             composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
                 ProfileEditScreen(
+                    setSelectedUser = profileViewModel::setSelectedUser,
+                    selectedUser = profileViewModel.selectedUser.value,
                     onSaveProfileClick = { navController.navigate(Destination.PROFILE.name) }
                 )
             }

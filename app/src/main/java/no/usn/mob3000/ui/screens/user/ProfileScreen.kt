@@ -49,14 +49,15 @@ import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
  */
 @Composable
 fun ProfileScreen(
-    onProfileEditClick: () -> Unit,
+    onProfileEditClick: (UserProfile) -> Unit,
     onProfileAddFriendsClick: () -> Unit,
     onProfileFriendRequestsClick: () -> Unit,
     fetchFriends: () -> Unit,
     fetchUser: (String) -> Unit,
     friendState: StateFlow<Result<List<FriendData>>>,
     userState: StateFlow<Result<UserProfile?>>,
-    userIdState: StateFlow<String?>
+    userIdState: StateFlow<String?>,
+    setSelectedUser: (UserProfile) -> Unit
 ) {
     val friendResult by friendState.collectAsState()
     val userResult by userState.collectAsState()
@@ -71,13 +72,18 @@ fun ProfileScreen(
 
     Viewport(
         topBarActions = {
-            IconButton(onClick = onProfileEditClick) {
-                Icon(
-                    painter = painterResource(R.drawable.profile_edit),
-                    contentDescription = "Edit Profile",
-                    modifier = Modifier.size(24.dp),
-                    tint = Color.Black
-                )
+            userResult.getOrNull()?.let { user ->
+                IconButton(onClick = {
+                    setSelectedUser(user)
+                    onProfileEditClick(user)
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.profile_edit),
+                        contentDescription = "Edit Profile",
+                        modifier = Modifier.size(24.dp),
+                        tint = Color.Black
+                    )
+                }
             }
             IconButton(onClick = onProfileAddFriendsClick) {
                 Icon(
