@@ -107,8 +107,10 @@ fun convertJsonPgnArrayToPgn(
  * @created 2024-11-14
  */
 fun convertPgnToJsonPgnArray(
-    pgn: String
+    pgn: String?
 ): JsonArray {
+    /* Practically the same check, but it doesn't hurt to be paranoid. */
+    if (pgn == null) return buildJsonArray { }
     if (pgn.isBlank()) return buildJsonArray { }
 
     val moveGroups = pgn.split("""\s+(?=\d+\.)""".toRegex())
