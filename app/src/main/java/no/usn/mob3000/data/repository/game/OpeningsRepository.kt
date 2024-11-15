@@ -83,7 +83,7 @@ class OpeningsRepository(
         } catch (error: NoSuchElementException) {
             throw error
         } catch (error: Exception) {
-            throw Exception("Failed to fetch the opening: ${error.message}", error)
+            throw Exception("Failed to delete the opening: ${error.message}", error)
         }
     }
 
