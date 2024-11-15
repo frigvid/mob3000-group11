@@ -1,7 +1,6 @@
 package no.usn.mob3000.domain.usecase.social.ProfileEdit
 
 
-import kotlinx.datetime.Instant
 import no.usn.mob3000.domain.repository.social.IProfileEditRepository
 
 class UpdateProfileUseCase(
@@ -9,7 +8,6 @@ class UpdateProfileUseCase(
 ) {
     suspend fun execute(
         userid: String,
-        updatedAt: Instant,
         displayName: String,
         avatarUrl: String,
         aboutMe: String,
@@ -18,6 +16,6 @@ class UpdateProfileUseCase(
         friendsVisibility: Boolean
 
     ): Result<Unit> {
-        return profileEditRepository.updateProfile(userid,updatedAt,displayName,avatarUrl,aboutMe,nationality,profileVisibility,friendsVisibility)
+        return profileEditRepository.updateProfile(userid,displayName,avatarUrl,aboutMe,nationality,profileVisibility,friendsVisibility)
     }
 }

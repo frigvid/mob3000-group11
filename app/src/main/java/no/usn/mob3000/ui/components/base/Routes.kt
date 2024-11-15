@@ -429,9 +429,9 @@ object Routes {
 
         composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
                 ProfileEditScreen(
-                    setSelectedUser = profileViewModel::setSelectedUser,
                     selectedUser = profileViewModel.selectedUser.value,
-                    onSaveProfileClick = { navController.navigate(Destination.PROFILE.name) }
+                    onSaveProfileClick = profileViewModel::saveProfileChanges,
+                    navigateToProfile = { navController.navigate(Destination.PROFILE.name) },
                 )
             }
         }

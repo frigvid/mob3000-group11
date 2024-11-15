@@ -50,6 +50,7 @@ data class UserGameStats(
  * @created 2024-10-22
  */
 data class UserProfile(
+    val userId: String,
     val displayName: String,
     val avatarUrl: String,
     val eloRank: Int,

@@ -1,19 +1,16 @@
 package no.usn.mob3000.data.repository.social
 
-import kotlinx.datetime.Instant
+import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.social.ProfileDto
-import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.social.UserDataSource
 import no.usn.mob3000.domain.repository.social.IProfileEditRepository
 
 class ProfileEditRepository (
-    private val authDataSource: AuthDataSource,
-    private val profileEditDataSource: UserDataSource
+    private val profileEditDataSource: UserDataSource = UserDataSource()
 ):IProfileEditRepository{
 
     override suspend fun updateProfile(
         userid: String,
-        updatedAt: Instant,
         displayName: String,
         avatarUrl: String,
         aboutMe: String,
@@ -25,10 +22,10 @@ class ProfileEditRepository (
         return if(originalUser != null){
             val updateProfileDto = ProfileDto(
                 userId = userid,
-                    updatedAt = originalUser.updatedAt,
+                    updatedAt = Clock.System.now(),
                     displayName = displayName,
                     avatarUrl = avatarUrl,
-                    aboutMe = avatarUrl,
+                    aboutMe = aboutMe,
                     nationality = nationality,
                     profileVisibility = profileVisibility,
                     friendsVisibility = friendsVisibility

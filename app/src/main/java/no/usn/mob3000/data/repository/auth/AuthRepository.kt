@@ -226,6 +226,7 @@ class AuthRepository(
             ) as T
 
             dto is ProfileDto && T::class == DomainUserProfile::class -> DomainUserProfile(
+                userId = dto.userId,
                 displayName = dto.displayName ?: "",
                 avatarUrl = dto.avatarUrl ?: "",
                 eloRank = dto.eloRank ?: 0,
