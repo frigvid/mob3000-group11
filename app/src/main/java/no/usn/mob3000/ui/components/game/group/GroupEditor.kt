@@ -21,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.game.Opening
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
@@ -68,7 +70,7 @@ fun GroupEditor(
                     colors = ButtonDefaults.buttonColors(Color.Red),
                     modifier = Modifier.weight(1f).padding(end = 8.dp)
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.groups_editor_cancel_button))
                 }
 
                 Button(
@@ -92,20 +94,24 @@ fun GroupEditor(
             OutlinedTextField(
                 value = title,
                 onValueChange = onTitleChange,
-                label = { Text("Group title") },
+                label = {
+                    Text(stringResource(R.string.groups_editor_group_title))
+                },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = description,
                 onValueChange = onDescriptionChange,
-                label = { Text("Group description") },
+                label = {
+                    Text(stringResource(R.string.groups_editor_group_description))
+                },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3
             )
 
             Text(
-                text = "Available openings",
+                text = stringResource(R.string.groups_editor_group_openings_available),
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -126,7 +132,7 @@ fun GroupEditor(
             }
 
             Text(
-                text = "Selected openings",
+                text = stringResource(R.string.groups_editor_group_openings_selected),
                 style = MaterialTheme.typography.titleMedium
             )
 

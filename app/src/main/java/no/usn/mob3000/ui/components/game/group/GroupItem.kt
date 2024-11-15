@@ -82,10 +82,17 @@ fun GroupItem(
 
                 Row {
                     IconButton(onClick = { onEditClick(group) }) {
-                        Icon(Icons.Default.Edit, "Edit Group")
+                        Icon(
+                            Icons.Default.Edit,
+                            stringResource(R.string.groups_group_edit_button)
+                        )
                     }
                     IconButton(onClick = { onDeleteClick(group) }) {
-                        Icon(Icons.Default.Delete, "Delete Group", tint = Color.Red)
+                        Icon(
+                            Icons.Default.Delete,
+                            stringResource(R.string.groups_group_delete_button),
+                            tint = Color.Red
+                        )
                     }
                 }
             }
@@ -111,7 +118,7 @@ fun GroupItem(
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Train All Openings")
+                    Text(stringResource(R.string.groups_group_train_all_button))
                 }
 
                 HorizontalDivider(
@@ -150,7 +157,7 @@ fun GroupItem(
                                 IconButton(onClick = { onOpeningLongClick(opening, group) }) {
                                     Icon(
                                         Icons.Default.Close,
-                                        "Delete Group"
+                                        stringResource(R.string.groups_group_delete_button)
                                     )
                                 }
                             }

@@ -203,6 +203,21 @@
     <string name="groups_create_openings">Openings</string>
 
     <!-- TODO@frigvid: Normalize/generalize string resources for groups. -->
+    <!-- Some minor generics for repertoires/groups. Needs clean-up later. TODO. -->
+    <string name="groups_action_delete">Delete this group?</string>
+    <string name="groups_action_remove">Remove this opening from the group?</string>
+    <string name="groups_editor_create_button">Create group</string>
+    <string name="groups_editor_update_button">Update group</string>
+    <string name="groups_editor_cancel_button">Cancel</string>
+    <string name="groups_editor_group_title">Group title</string>
+    <string name="groups_editor_group_description">Group description</string>
+    <string name="groups_editor_group_openings_available">Available openings</string>
+    <string name="groups_editor_group_openings_selected">Selected openings</string>
+    <string name="groups_group_edit_button">Edit Group</string>
+    <string name="groups_group_delete_button">Delete Group</string>
+    <string name="groups_group_train_all_button">Train All Openings</string>
+    <string name="groups_opening_card_moves">Moves</string>
+
     <!-- Groups creation page. -->
     <string name="groups_create_title">Create a repertoire</string>
     <string name="group_create_prompt_title">Title</string>

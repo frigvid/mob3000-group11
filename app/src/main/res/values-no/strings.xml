@@ -200,6 +200,22 @@
     <string name="groups_create_description_missing">Ingen beskrivelse tilgjengelig</string>
     <string name="groups_create_openings">Åpninger</string>
 
+    <!-- TODO@frigvid: Normalize/generalize string resources for groups. -->
+    <!-- Some minor generics for repertoires/groups. Needs clean-up later. TODO. -->
+    <string name="groups_action_delete">Slett denne gruppen?</string>
+    <string name="groups_action_remove">Fjern denne åpningen fra gruppen?</string>
+    <string name="groups_editor_create_button">Opprett gruppe</string>
+    <string name="groups_editor_update_button">Oppdater gruppe</string>
+    <string name="groups_editor_cancel_button">Kanseler</string>
+    <string name="groups_editor_group_title">Gruppetittel</string>
+    <string name="groups_editor_group_description">Gruppebeskrivelse</string>
+    <string name="groups_editor_group_openings_available">Tilgjengelige åpninger</string>
+    <string name="groups_editor_group_openings_selected">Valgte åpninger</string>
+    <string name="groups_group_edit_button">Rediger gruppe</string>
+    <string name="groups_group_delete_button">Slett gruppe</string>
+    <string name="groups_group_train_all_button">Tren på alle åpninger</string>
+    <string name="groups_opening_card_moves">Trekk</string>
+
     <!-- Groups creation page. -->
     <string name="groups_create_title">Lag en ny repertoar</string>
     <string name="group_create_prompt_title">Tittel</string>

@@ -7,7 +7,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.flow.StateFlow
+import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.game.Group
 import no.usn.mob3000.domain.model.game.Opening
@@ -72,6 +74,6 @@ fun CreateGroupScreen(
             navControllerPopBackStack()
         },
         onCancel = navControllerPopBackStack,
-        saveButtonText = "Create Group"
+        saveButtonText = stringResource(R.string.groups_editor_create_button)
     )
 }

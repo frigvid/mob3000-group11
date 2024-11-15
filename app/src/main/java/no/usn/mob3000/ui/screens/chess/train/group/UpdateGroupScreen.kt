@@ -5,6 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.game.Group
 import no.usn.mob3000.domain.model.game.Opening
 import no.usn.mob3000.ui.components.game.group.GroupEditor
@@ -56,6 +58,6 @@ fun UpdateGroupScreen(
             navControllerPopBackStack()
         },
         onCancel = navControllerPopBackStack,
-        saveButtonText = "Update Group"
+        saveButtonText = stringResource(R.string.groups_editor_update_button)
     )
 }

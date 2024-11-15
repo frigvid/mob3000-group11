@@ -17,7 +17,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.game.Group
 import no.usn.mob3000.domain.model.game.Opening
 import no.usn.mob3000.ui.components.DangerousActionDialogue
@@ -63,7 +65,7 @@ fun GroupsScreen(
 
     if (showDeleteConfirm != null) {
         DangerousActionDialogue(
-            title = "Delete this group?",
+            title = stringResource(R.string.groups_action_delete),
             onConfirm = {
                 onGroupDelete(showDeleteConfirm!!.id)
                 showDeleteConfirm = null
@@ -75,7 +77,7 @@ fun GroupsScreen(
     if (showRemoveOpeningConfirm != null) {
         val (opening, group) = showRemoveOpeningConfirm!!
         DangerousActionDialogue(
-            title = "Remove this opening from the group?",
+            title = stringResource(R.string.groups_action_remove),
             onConfirm = {
                 setSelectedGroup(group.copy(openings = group.openings - opening))
                 showRemoveOpeningConfirm = null
@@ -90,7 +92,10 @@ fun GroupsScreen(
                 containerColor = DefaultButton,
                 onClick = onNavigateToGroupCreation
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Create Group")
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = "Create Group"
+                )
             }
         }
     ) { innerPadding ->
