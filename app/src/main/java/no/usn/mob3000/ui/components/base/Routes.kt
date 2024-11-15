@@ -388,9 +388,10 @@ object Routes {
         operator fun invoke(
             navGraphBuilder: NavGraphBuilder,
             navController: NavController,
-            profileViewModel: ProfileViewModel
+            profileViewModel: ProfileViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ): UserProfile {
-            navGraphBuilder.profile(navController, profileViewModel)
+            navGraphBuilder.profile(navController, profileViewModel, authenticationViewModel)
             navGraphBuilder.profileFriends(navController, profileViewModel)
 
             return this
@@ -405,7 +406,8 @@ object Routes {
          */
         private fun NavGraphBuilder.profile(
             navController: NavController,
-            profileViewModel: ProfileViewModel
+            profileViewModel: ProfileViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ) {
             composable(route = Destination.PROFILE.name) {
                 ProfileScreen(
@@ -423,11 +425,12 @@ object Routes {
                     friendState = profileViewModel.friends,
                     userIdState = profileViewModel.userId,
                     userProfilesMap = profileViewModel.userProfiles,
-                    setSelectedUser = profileViewModel::setSelectedUser
+                    setSelectedUser = profileViewModel::setSelectedUser,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    onLoginClick = {navController.navigate(Destination.AUTH_LOGIN.name)}
                 )
             }
-
-
 
         composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
                 ProfileEditScreen(
