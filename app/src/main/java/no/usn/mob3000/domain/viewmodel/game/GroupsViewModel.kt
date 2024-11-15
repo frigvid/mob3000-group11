@@ -22,6 +22,7 @@ import no.usn.mob3000.domain.usecase.game.group.FetchGroupSingleUseCase
 import no.usn.mob3000.domain.usecase.game.group.FetchGroupsUseCase
 import no.usn.mob3000.domain.usecase.game.group.UpdateGroupUseCase
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
+import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel.Companion
 
 /**
  * ViewModel to track state for repertoires/groups.
@@ -68,6 +69,9 @@ class GroupsViewModel(
             while (isActive) {
                 Log.d(TAG, "Fetching groups.")
                 fetchGroups()
+
+                Log.d(TAG, "Updating authentication state.")
+                authenticationViewModel.updateAuthState()
 
                 Log.d(TAG, "Delaying for 5 minutes.")
                 delay(REFRESH_INTERVAL)
