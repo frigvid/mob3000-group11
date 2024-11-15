@@ -33,7 +33,7 @@ class OpeningsDataSource(
         } catch (error: NoSuchElementException) {
             throw error
         } catch (error: Exception) {
-            throw Exception("Failed to fetch the opening: ${error.message}", error)
+            throw Exception("Failed to fetch the openings: ${error.message}", error)
         }
     }
 
