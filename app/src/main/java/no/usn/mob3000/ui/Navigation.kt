@@ -134,7 +134,8 @@ fun Navigation(
             Routes.UserProfile(
                 this,
                 navController,
-                profileViewModel
+                profileViewModel,
+                authenticationViewModel
             )
 
             Routes.Settings(

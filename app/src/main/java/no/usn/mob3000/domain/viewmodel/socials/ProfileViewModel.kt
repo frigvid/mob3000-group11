@@ -1,5 +1,6 @@
 package no.usn.mob3000.domain.viewmodel.socials
 
+import android.util.Log
 import no.usn.mob3000.domain.usecase.social.Profile.FetchUserProfileUseCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,8 +16,11 @@ import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.domain.usecase.social.Profile.FetchFriendsUseCase
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import no.usn.mob3000.data.repository.social.ProfileEditRepository
 import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
+import no.usn.mob3000.domain.usecase.social.AddFriends.FetchNonFriendsUseCase
 import no.usn.mob3000.domain.usecase.social.Profile.FetchUserByIdUseCase
+import no.usn.mob3000.domain.usecase.social.ProfileEdit.UpdateProfileUseCase
 
 /**
  *
@@ -28,7 +32,9 @@ import no.usn.mob3000.domain.usecase.social.Profile.FetchUserByIdUseCase
  **/
 
 class ProfileViewModel(
+    private val updateProfileUseCase: UpdateProfileUseCase = UpdateProfileUseCase(ProfileEditRepository()),
     private val fetchFriendsUseCase: FetchFriendsUseCase = FetchFriendsUseCase(),
+    private val fetchNonFriendsUseCase: FetchNonFriendsUseCase = FetchNonFriendsUseCase(),
     private val fetchUserByIdUseCase: FetchUserByIdUseCase = FetchUserByIdUseCase(UserRepository()),
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase = GetCurrentUserIdUseCase(
         authRepository = AuthRepository(
@@ -47,6 +53,9 @@ class ProfileViewModel(
 
     private val _friends = MutableStateFlow<Result<List<FriendData>>>(Result.success(emptyList()))
     val friends: StateFlow<Result<List<FriendData>>> = _friends
+
+    private val _nonFriends = MutableStateFlow<Result<List<UserProfile>>>(Result.success(emptyList()))
+    val nonFriends: StateFlow<Result<List<UserProfile>>> = _nonFriends
 
     private val _userId = MutableStateFlow<String?>(null)
     val userId: StateFlow<String?> = _userId
@@ -85,9 +94,68 @@ class ProfileViewModel(
         }
     }
 
+    fun fetchNonFriends() {
+        viewModelScope.launch {
+            _userId.value?.let { userId ->
+                val result = fetchNonFriendsUseCase.execute(userId)
+                _nonFriends.value = result
+            }
+        }
+    }
+
+
     fun setSelectedUser(selectedUser: UserProfile) {
         _selectedUser.value = selectedUser
     }
+
+    fun saveProfileChanges(
+        displayName: String,
+        avatarUrl: String,
+        aboutMe: String,
+        nationality: String,
+        profileVisibility: Boolean,
+        friendsVisibility: Boolean
+    ) {
+        _selectedUser.value?.let { profiles ->
+            updateUserInDb(
+                userid = profiles.userId,
+                displayName = displayName,
+                avatarUrl = avatarUrl,
+                aboutMe = aboutMe,
+                nationality = nationality,
+                profileVisibility = profileVisibility,
+                friendsVisibility = friendsVisibility
+            )
+        }
+    }
+
+    /**
+     * Updates the user's profile in the database.
+     */
+    private fun updateUserInDb(
+        userid: String,
+        displayName: String,
+        avatarUrl: String,
+        aboutMe: String,
+        nationality: String,
+        profileVisibility: Boolean,
+        friendsVisibility: Boolean
+    ) {
+        viewModelScope.launch {
+            updateProfileUseCase.execute(
+                userid = userid,
+                displayName = displayName,
+                avatarUrl = avatarUrl,
+                aboutMe = aboutMe,
+                nationality = nationality,
+                profileVisibility = profileVisibility,
+                friendsVisibility = friendsVisibility
+            )
+        }
+    }
+
+
+
 }
 
 

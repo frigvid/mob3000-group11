@@ -1,6 +1,6 @@
 package no.usn.mob3000.ui.screens.user
 
-import android.util.Log
+import androidx.compose.material3.Button
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.material3.Text
@@ -22,23 +22,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon;
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.social.FriendData
+import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.theme.ProfileUserBackground
 import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
-import androidx.compose.runtime.*;
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * The profile screen.
@@ -56,7 +55,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
 @Composable
 fun ProfileScreen(
     onProfileEditClick: (UserProfile) -> Unit,
-    onProfileAddFriendsClick: () -> Unit,
+    onProfileAddFriendsClick: (UserProfile) -> Unit,
     onProfileFriendRequestsClick: () -> Unit,
     fetchFriends: () -> Unit,
     fetchUser: (String) -> Unit,
@@ -72,7 +71,8 @@ fun ProfileScreen(
     val friendResult by friendState.collectAsState()
     val userId by userIdState.collectAsState()
     val userProfiles by userProfilesMap.collectAsState()
-    val state by remember {authenticationState}.collectAsState()
+    val state by remember { authenticationState }.collectAsState()
+
     LaunchedEffect(userId) {
         authenticationStateUpdate()
         userId?.let { id ->
@@ -95,14 +95,18 @@ fun ProfileScreen(
                         tint = Color.Black
                     )
                 }
-            }
-            IconButton(onClick = onProfileAddFriendsClick) {
-                Icon(
-                    painter = painterResource(R.drawable.profile_add_friends),
-                    contentDescription = "Add Friend",
-                    modifier = Modifier.size(24.dp),
-                    tint = Color.Black
-                )
+
+                IconButton(onClick = {
+                    setSelectedUser(user)
+                    onProfileAddFriendsClick(user)
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.profile_add_friends),
+                        contentDescription = "Add Friend",
+                        modifier = Modifier.size(24.dp),
+                        tint = Color.Black
+                    )
+                }
             }
             IconButton(onClick = onProfileFriendRequestsClick) {
                 Icon(
@@ -112,6 +116,7 @@ fun ProfileScreen(
                     tint = Color.Black
                 )
             }
+
         }
     ) { innerPadding ->
         Column(
@@ -119,7 +124,7 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            when(state) {
+            when (state) {
                 is AuthenticationState.Error,
                 is AuthenticationState.Unauthenticated -> {
                     Button(
@@ -129,9 +134,10 @@ fun ProfileScreen(
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
                     ) { Text(stringResource(R.string.settings_section_user_button_login)) }
-
                 }
+
                 is AuthenticationState.Authenticated -> {
+
                     ProfileHeader(userResult = Result.success(userProfiles[userId]))
                     ProfileStats(userProfile = userProfiles[userId])
                     AboutSection()
@@ -142,7 +148,8 @@ fun ProfileScreen(
                         userProfilesMap = userProfiles
                     )
                 }
-                else ->  return@Viewport
+
+                else -> return@Viewport
             }
         }
     }

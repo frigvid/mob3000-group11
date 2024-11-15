@@ -388,10 +388,11 @@ object Routes {
         operator fun invoke(
             navGraphBuilder: NavGraphBuilder,
             navController: NavController,
-            profileViewModel: ProfileViewModel
+            profileViewModel: ProfileViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ): UserProfile {
-            navGraphBuilder.profile(navController, profileViewModel)
-            navGraphBuilder.profileFriends()
+            navGraphBuilder.profile(navController, profileViewModel, authenticationViewModel)
+            navGraphBuilder.profileFriends(navController, profileViewModel)
 
             return this
         }
@@ -405,7 +406,8 @@ object Routes {
          */
         private fun NavGraphBuilder.profile(
             navController: NavController,
-            profileViewModel: ProfileViewModel
+            profileViewModel: ProfileViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ) {
             composable(route = Destination.PROFILE.name) {
                 ProfileScreen(
@@ -413,7 +415,9 @@ object Routes {
                         profileViewModel.setSelectedUser(userItem)
                         navController.navigate(Destination.PROFILE_EDIT_PROFILE.name)
                     },
-                    onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
+                    onProfileAddFriendsClick = { userItem ->
+                        profileViewModel.setSelectedUser(userItem)
+                        navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
                     onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) },
                     fetchFriends = { profileViewModel.fetchFriends() },
                     fetchUser = { userId -> profileViewModel.fetchUser(userId) },
@@ -421,32 +425,48 @@ object Routes {
                     friendState = profileViewModel.friends,
                     userIdState = profileViewModel.userId,
                     userProfilesMap = profileViewModel.userProfiles,
-                    setSelectedUser = profileViewModel::setSelectedUser
+                    setSelectedUser = profileViewModel::setSelectedUser,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    onLoginClick = {navController.navigate(Destination.AUTH_LOGIN.name)}
                 )
             }
-
-
 
         composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
                 ProfileEditScreen(
-                    setSelectedUser = profileViewModel::setSelectedUser,
                     selectedUser = profileViewModel.selectedUser.value,
-                    onSaveProfileClick = { navController.navigate(Destination.PROFILE.name) }
+                    onSaveProfileClick = profileViewModel::saveProfileChanges,
+                    navigateToProfile = { navController.navigate(Destination.PROFILE.name) },
                 )
             }
         }
 
-        /**
-         * The chess repository/groups routes.
-         *
-         * @author frigvid
-         * @created 2024-11-06
-         */
-        private fun NavGraphBuilder.profileFriends() {
-            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen() }
+        private fun NavGraphBuilder.profileFriends(
+            navController: NavController,
+            profileViewModel: ProfileViewModel,
+        ) {
+            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen(
+                selectedUser = profileViewModel.selectedUser.value,
+                fetchNonFriends = { profileViewModel.fetchNonFriends() },
+                nonFriendState = profileViewModel.nonFriends,
+                sendFriendRequest = { navController.navigate(Destination.PROFILE.name) },
+                fetchUser = { userId -> profileViewModel.fetchUser(userId) },
+                fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
+                friendState = profileViewModel.friends,
+                userIdState = profileViewModel.userId,
+                userProfilesMap = profileViewModel.userProfiles,
+                setSelectedUser = profileViewModel::setSelectedUser
+            ) }
             composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
         }
     }
+
+    /**
+     * The chess repository/groups routes.
+     *
+     * @author frigvid
+     * @created 2024-11-06
+     */
 
     /**
      * Routes for the user/app settings Screen.

@@ -35,11 +35,9 @@ class UserRepository(
         }
     }
 
-
-
-
     private fun ProfileDto.toDomainModel(): UserProfile {
         return UserProfile(
+            userId = this.userId,
             displayName = this.displayName ?: "",
             avatarUrl = this.avatarUrl ?: "",
             eloRank = this.eloRank ?: 0,

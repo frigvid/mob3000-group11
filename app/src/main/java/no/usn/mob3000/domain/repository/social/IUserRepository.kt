@@ -12,4 +12,5 @@ interface IUserRepository {
     suspend fun getUserProfile(userId: String): Result<UserProfile?>
     suspend fun fetchUserById(userId: String): Result<UserProfile?>
 
+
 }

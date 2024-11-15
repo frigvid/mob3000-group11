@@ -26,9 +26,9 @@ import no.usn.mob3000.ui.theme.DefaultButton
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileEditScreen(
-    setSelectedUser: (UserProfile) -> Unit,
     selectedUser: UserProfile? = null,
-    onSaveProfileClick: () -> Unit
+    onSaveProfileClick: (String, String, String, String, Boolean, Boolean) -> Unit,
+    navigateToProfile: () -> Unit
 ) {
     var avatarUrl by remember { mutableStateOf(selectedUser?.avatarUrl ?: "") }
     var displayName by remember { mutableStateOf(selectedUser?.displayName ?: "") }
@@ -96,7 +96,6 @@ fun ProfileEditScreen(
                 value = aboutMe,
                 onValueChange = { aboutMe = it },
                 label = { Text(stringResource(R.string.profile_edit_about_me)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_about_me_placeholder)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
@@ -173,7 +172,8 @@ fun ProfileEditScreen(
 
             Button(
                 onClick = {
-                    onSaveProfileClick()
+                    onSaveProfileClick(displayName, avatarUrl, aboutMe, selectedCountry, isProfileVisible, isFriendsListVisible)
+                    navigateToProfile()
                 },
                 colors = ButtonDefaults.buttonColors(DefaultButton),
                 modifier = Modifier
