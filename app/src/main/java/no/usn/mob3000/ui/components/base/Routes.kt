@@ -1,8 +1,12 @@
 package no.usn.mob3000.ui.components.base
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
@@ -552,12 +556,51 @@ object Routes {
                 )
             }
 
-            navGraphBuilder.composable(route = Destination.AUTH_RESET.name) {
+            /**
+             * Routing with Deeplinking if the external webdomain is matching the URI. The URI holds the navArguments:
+             * @see navArgument that contains a token, a type and next which identifies the specific link sent to the email
+             * of the user.
+             *
+             * @author Anarox
+             * @created 2024-11-11
+             */
+            navGraphBuilder.composable(route = Destination.AUTH_RESET.name + "?token_hash={token_hash}&type={type}&next={next}",
+                arguments = listOf(
+                    navArgument("token_hash") {
+                        type = NavType.StringType; defaultValue = ""
+                    },
+                    navArgument("type") {
+                        type = NavType.StringType; defaultValue = ""
+                    },
+                    navArgument("next") {
+                        type = NavType.StringType; defaultValue = ""
+                    }
+                ),
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "https://a2g11.vercel.app/confirm?token_hash={token_hash}&type={type}&next={next}" }
+                )
+            ) {
+                /**
+                 * backStackEntry extracts the passed parameters through the deeplink to ensure that ResetPasswordScreen
+                 * recieves the correct data.
+                 *
+                 * If there are no arguments provided, it will use default value "" as a fallback value.
+                 *
+                 * @author Anarox
+                 * @created 2024-11-11
+                 */
+                    backStackEntry ->
+                val tokenHash = backStackEntry.arguments?.getString("token_hash") ?: ""
+                val type = backStackEntry.arguments?.getString("type") ?: ""
+                val next = backStackEntry.arguments?.getString("next") ?: ""
+
+                Log.d("DeepLink", "tokenHash: $tokenHash, type: $type, next: $next")
+
                 ResetPasswordScreen(
-                    onResetPasswordClick = changePasswordViewModel::changePassword,
-                    changePasswordStateUpdate = changePasswordViewModel::updateState,
-                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
-                    navControllerPopBackStack = navController::popBackStack
+                    tokenHash = tokenHash,
+                    type = type,
+                    next = next,
+                    onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
                 )
             }
 

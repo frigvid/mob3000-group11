@@ -34,10 +34,14 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * @param onResetPasswordClick Callback triggered when the user presses the "Reset Password"
  *                             button to initiate the password reset process.
  * @author Markus, frigvid
+ * @contributor Anarox
  * @created 2024-09-24
  */
 @Composable
 fun ResetPasswordScreen(
+    tokenHash : String,
+    type : String,
+    next : String,
     onResetPasswordClick: (String) -> Unit,
     changePasswordStateUpdate: (ChangePasswordState) -> Unit,
     authenticationStateUpdate: () -> Unit,
