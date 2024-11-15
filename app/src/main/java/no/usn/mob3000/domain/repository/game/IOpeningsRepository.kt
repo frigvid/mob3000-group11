@@ -1,6 +1,5 @@
 package no.usn.mob3000.domain.repository.game
 
-import kotlinx.serialization.json.Json
 import no.usn.mob3000.data.model.game.OpeningsDto
 import no.usn.mob3000.domain.model.game.Opening
 
