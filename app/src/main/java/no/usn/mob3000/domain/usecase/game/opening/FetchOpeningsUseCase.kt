@@ -1,7 +1,5 @@
 package no.usn.mob3000.domain.usecase.game.opening
 
-import android.util.Log
-import no.usn.mob3000.data.repository.game.OpeningsRepository
 import no.usn.mob3000.domain.model.game.Opening
 import no.usn.mob3000.domain.repository.game.IOpeningsRepository
 
