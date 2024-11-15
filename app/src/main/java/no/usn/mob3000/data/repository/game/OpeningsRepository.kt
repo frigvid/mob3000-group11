@@ -70,13 +70,8 @@ class OpeningsRepository(
     override suspend fun delete(
         openingId: String
     ) {
-        val test = UUID.fromString(openingId)
         try {
             Log.d("OpeningsRepository", "Deleting opening with ID: $openingId")
-            //supabase.postgrest.rpc(
-            //    function = "opening_delete",
-            //    parameters = mapOf("openingId" to "opn_id")
-            //)
             supabase.postgrest
                 .from("openings")
                 .delete {
