@@ -70,8 +70,8 @@ fun mapOpeningIdsToOpenings(
                     try {
                         val opening = openingsRepository.getOpeningSingle(id)
                         result.add(opening)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Failed to fetch opening $id.", e)
+                    } catch (error: Exception) {
+                        Log.e(TAG, "Failed to fetch opening $id.", error)
                     }
                 }
             }

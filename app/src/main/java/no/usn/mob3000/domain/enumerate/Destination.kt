@@ -54,6 +54,7 @@ enum class Destination(
     OPENING_DETAILS(title = R.string.opening_details),
     GROUPS(title = R.string.groups_title),
     GROUPS_CREATE(title = R.string.groups_create_title),
+    GROUPS_UPDATE(title = R.string.group_update_title),
     PLAY(title = R.string.home_play_title),
     HISTORY(title = R.string.home_history_title),
     AUTH_LOGIN(title = R.string.auth_login_title),

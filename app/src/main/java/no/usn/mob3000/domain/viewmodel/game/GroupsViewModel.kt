@@ -22,7 +22,6 @@ import no.usn.mob3000.domain.usecase.game.group.FetchGroupSingleUseCase
 import no.usn.mob3000.domain.usecase.game.group.FetchGroupsUseCase
 import no.usn.mob3000.domain.usecase.game.group.UpdateGroupUseCase
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
-import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel.Companion
 
 /**
  * ViewModel to track state for repertoires/groups.
@@ -137,7 +136,7 @@ class GroupsViewModel(
                             _groupState.emit(GroupState.Success)
                         },
                         onFailure = { error ->
-                            Log.e(TAG, "Failure! Something went wrong while fetching groups!")
+                            Log.e(TAG, "Failure! Something went wrong while fetching groups!", error)
                             _groupState.emit(GroupState.Error(Exception(error)))
                         }
                     )
@@ -221,7 +220,7 @@ class GroupsViewModel(
      * @author frigvid
      * @created 2024-11-15
      */
-    fun updateOpening(
+    fun updateGroup(
         group: Group
     ) {
         viewModelScope.launch {
@@ -237,7 +236,7 @@ class GroupsViewModel(
         _groups.value = groups
     }
 
-    fun setSelectedOpening(group: Group) {
+    fun setSelectedGroup(group: Group) {
         _selectedGroup.value = group
     }
 

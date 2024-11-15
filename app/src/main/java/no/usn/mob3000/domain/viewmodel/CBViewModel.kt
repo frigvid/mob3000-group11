@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 /**
  * ViewModel to save state where necessary.
  *
+ * TODO: Needs refactor. Serves only for parts settings now.
+ *
  * @author frigvid
  * @created 2024-10-08
  */

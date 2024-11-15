@@ -17,6 +17,13 @@ import no.usn.mob3000.R
 import no.usn.mob3000.ui.components.base.Viewport
 
 /**
+ * The home screen.
+ *
+ * @param onTrainClick Callback function to navigate to the openings screen.
+ * @param onPlayClick Callback function to navigate to the chessboard screen.
+ * @param onHistoryClick Callback function to navigate to the game history screen.
+ * @param openingsStartPeriodicUpdates Callback function to schedule an update for openings.
+ * @param groupsStartPeriodicUpdates Callback function to schedule an update for repertoires/groups.
  * @author frigvid
  * @created 2024-09-12
  */
@@ -25,7 +32,8 @@ fun HomeScreen(
     onTrainClick: () -> Unit,
     onPlayClick: () -> Unit,
     onHistoryClick: () -> Unit,
-    openingsStartPeriodicUpdates: () -> Unit
+    openingsStartPeriodicUpdates: () -> Unit,
+    groupsStartPeriodicUpdates: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -34,6 +42,7 @@ fun HomeScreen(
     /* Schedule background check for openings. */
     LaunchedEffect(Unit) {
         openingsStartPeriodicUpdates()
+        groupsStartPeriodicUpdates()
     }
 
     Viewport { innerPadding ->

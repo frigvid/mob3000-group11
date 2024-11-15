@@ -1,185 +1,123 @@
 package no.usn.mob3000.ui.screens.chess.train.group
 
-import android.util.Log
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import io.github.jan.supabase.postgrest.from
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.Serializable
-import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.game.Group
+import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.data.network.SupabaseClientWrapper
+import no.usn.mob3000.ui.components.game.group.GroupItem
 import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
- * This shows the various chess opening groups that have been created by the active user.
+ * This shows the various chess opening repertoires/groups that have been created by the active user.
  *
- * Its sibling screen, which is accessible from this one, is the OpeningsScreen.
- *
- * TODO: Inform the user that this is only available to logged in users.
- *       Alternatively, make it so that the app caches this locally, and *if*
- *       a user is created, then it takes the cached data and syncs it to the server.
- *       Falling back to local-only if the user logs out again.
- *
- * NOTE: To actually test this, since login hasn't been implemented, remember to temporarily
- *       disable RLS on the repertoire table. It'll simply display nothing if it's on since it
- *       depends on the currently logged in user's ID matching any "usr" in for any given row.
- *
- * @param onCreateGroupClick Callback function to navigate to [CreateGroupScreen].
- * @param onReturnToOpeningClick Callback function to navigate to [OpeningsScreen].
+ * @param groupsList The list of repertoires/groups.
+ * @param openingsStartPeriodicUpdates Callback function to schedule an update for openings.
+ * @param groupsStartPeriodicUpdates Callback function to schedule an update for repertoires/groups
+ * @param onOpeningSelect Store the selected opening in its corresponding ViewModel.
+ * @param setSelectedGroup Store the selected repertoire/group in its corresponding ViewModel.
+ * @param onGroupDelete Delete the opening matching the string ID.
+ * @param onNavigateToGroupCreation Callback function to navigate to the repertoire/group creation screen.
+ * @param onNavigateToGroupEditing Callback function to navigate to the repertoire/group editing screen.
+ * @param onNavigateToOpeningDetails Callback function to navigate to the opening details screen.
  * @author frigvid
  * @created 2024-09-24
  */
 @Composable
 fun GroupsScreen(
-    onCreateGroupClick: () -> Unit,
-    onReturnToOpeningClick: () -> Unit
+    groupsList: List<Group>,
+    openingsStartPeriodicUpdates: () -> Unit,
+    groupsStartPeriodicUpdates: () -> Unit,
+    onOpeningSelect: (Opening) -> Unit,
+    setSelectedGroup: (Group) -> Unit,
+    onGroupDelete: (String) -> Unit,
+    onNavigateToGroupCreation: () -> Unit,
+    onNavigateToGroupEditing: () -> Unit,
+    onNavigateToOpeningDetails: () -> Unit
 ) {
-    /* TODO: Extract data-handling code to data layer. */
-    var groups by remember { mutableStateOf<List<Group>>(emptyList()) }
+    var showDeleteConfirm by remember { mutableStateOf<Group?>(null) }
+    var showRemoveOpeningConfirm by remember { mutableStateOf<Pair<Opening, Group>?>(null) }
 
-    LaunchedEffect(key1 = true) {
-        try {
-            val result = withContext(Dispatchers.IO) {
-                val supabase = SupabaseClientWrapper.getClient()
-                supabase.from("repertoire")
-                        .select()
-                        .decodeList<Group>()
-            }
+    LaunchedEffect(showRemoveOpeningConfirm) { groupsStartPeriodicUpdates() }
+    LaunchedEffect(showDeleteConfirm) {
+        openingsStartPeriodicUpdates()
+        groupsStartPeriodicUpdates()
+    }
 
-            groups = result
+    if (showDeleteConfirm != null) {
+        DangerousActionDialogue(
+            title = "Delete this group?",
+            onConfirm = {
+                onGroupDelete(showDeleteConfirm!!.id)
+                showDeleteConfirm = null
+            },
+            onDismiss = { showDeleteConfirm = null }
+        )
+    }
 
-            Log.d("GroupsScreen", "Fetched groups: ${groups.size}")
-        } catch (e: Exception) {
-            Log.e("GroupsScreen", "Error fetching groups", e)
-        }
+    if (showRemoveOpeningConfirm != null) {
+        val (opening, group) = showRemoveOpeningConfirm!!
+        DangerousActionDialogue(
+            title = "Remove this opening from the group?",
+            onConfirm = {
+                setSelectedGroup(group.copy(openings = group.openings - opening))
+                showRemoveOpeningConfirm = null
+            },
+            onDismiss = { showRemoveOpeningConfirm = null }
+        )
     }
 
     Viewport(
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = DefaultButton,
-                onClick = onCreateGroupClick
+                onClick = onNavigateToGroupCreation
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Create Group")
-            }
-        },
-        topBarActions = {
-            IconButton(
-                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
-                onClick = onReturnToOpeningClick
-            ) {
-                Icon(Icons.Default.Close, contentDescription = "Return to Openings")
             }
         }
     ) { innerPadding ->
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxSize().padding(innerPadding)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
         ) {
-            items(groups) { group ->
-                GroupItem(group)
-            }
-        }
-    }
-}
-
-/* Todo: Extract to data layer. */
-@Serializable
-data class Group(
-    val id: String,
-    val timestamp: String,
-    val usr: String?,
-    val title: String,
-    val description: String?,
-    val openings: List<String>
-)
-
-/**
- * Creates a list item for the scrollable list from any given group given.
- *
- * @param group The group data object from the database.
- * @see [Group]
- * @author frigvid
- * @created 2024-10-09
- */
-@Composable
-fun GroupItem(group: Group) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { expanded = !expanded },
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = group.title,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+            items(groupsList) { group ->
+                GroupItem(
+                    group = group,
+                    onOpeningClick = { opening ->
+                        onOpeningSelect(opening)
+                        onNavigateToOpeningDetails()
+                    },
+                    onOpeningLongClick = { opening, _ ->
+                        showRemoveOpeningConfirm = opening to group
+                    },
+                    onEditClick = {
+                        setSelectedGroup(group)
+                        onNavigateToGroupEditing()
+                    },
+                    onDeleteClick = { showDeleteConfirm = it },
+                    onTrainClick = setSelectedGroup
                 )
-
-                Icon(
-                    imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = if (expanded) "Collapse" else "Expand"
-                )
-            }
-
-            if (expanded) {
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = group.description ?: stringResource(R.string.groups_create_description_missing),
-                    fontSize = 14.sp
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = stringResource(R.string.groups_create_openings) + ":",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                /* TODO: Long-term. Sub-list of expandable openings. Or clickables that take the
-                 *       user to the given opening. Shouldn't need any safety-checks for if the
-                 *       opening is available or not. With RLS on, the user should only be able to
-                 *       access their own, or the ones the developers provide.
-                 */
-                group.openings.forEach { opening ->
-                    Text(
-                        text = "• $opening",
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
             }
         }
     }

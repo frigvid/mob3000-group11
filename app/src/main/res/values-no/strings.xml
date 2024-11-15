@@ -209,6 +209,10 @@
     <string name="group_create_reset_all">Nullstill</string>
     <string name="group_create_save_group">Lagre repertoar</string>
 
+    <!-- Groups update page. -->
+    <string name="group_update_title">Oppdater gruppe</string>
+    <string name="group_update_save_opening">Oppdater gruppe</string>
+
     <!-- Play now page. -->
     <string name="play_title">Spill</string>
     <string name="play_game_status">Spill status</string>
