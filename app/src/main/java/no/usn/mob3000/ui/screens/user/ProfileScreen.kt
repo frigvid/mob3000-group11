@@ -50,7 +50,7 @@ import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 @Composable
 fun ProfileScreen(
     onProfileEditClick: (UserProfile) -> Unit,
-    onProfileAddFriendsClick: () -> Unit,
+    onProfileAddFriendsClick: (UserProfile) -> Unit,
     onProfileFriendRequestsClick: () -> Unit,
     fetchFriends: () -> Unit,
     fetchUser: (String) -> Unit,
@@ -85,14 +85,18 @@ fun ProfileScreen(
                         tint = Color.Black
                     )
                 }
-            }
-            IconButton(onClick = onProfileAddFriendsClick) {
-                Icon(
-                    painter = painterResource(R.drawable.profile_add_friends),
-                    contentDescription = "Add Friend",
-                    modifier = Modifier.size(24.dp),
-                    tint = Color.Black
-                )
+
+                IconButton(onClick = {
+                    setSelectedUser(user)
+                    onProfileAddFriendsClick(user)
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.profile_add_friends),
+                        contentDescription = "Add Friend",
+                        modifier = Modifier.size(24.dp),
+                        tint = Color.Black
+                    )
+                }
             }
             IconButton(onClick = onProfileFriendRequestsClick) {
                 Icon(
@@ -102,6 +106,7 @@ fun ProfileScreen(
                     tint = Color.Black
                 )
             }
+
         }
     ) { innerPadding ->
         Column(

@@ -2,11 +2,11 @@ package no.usn.mob3000.data.repository.social
 
 import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.social.ProfileDto
-import no.usn.mob3000.data.source.remote.social.UserDataSource
+import no.usn.mob3000.data.source.remote.social.ProfileUserDataSource
 import no.usn.mob3000.domain.repository.social.IProfileEditRepository
 
 class ProfileEditRepository (
-    private val profileEditDataSource: UserDataSource = UserDataSource()
+    private val profileEditDataSource: ProfileUserDataSource = ProfileUserDataSource()
 ):IProfileEditRepository{
 
     override suspend fun updateProfile(

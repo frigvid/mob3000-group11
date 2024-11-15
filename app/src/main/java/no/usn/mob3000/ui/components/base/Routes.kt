@@ -391,7 +391,7 @@ object Routes {
             profileViewModel: ProfileViewModel
         ): UserProfile {
             navGraphBuilder.profile(navController, profileViewModel)
-            navGraphBuilder.profileFriends()
+            navGraphBuilder.profileFriends(navController, profileViewModel)
 
             return this
         }
@@ -413,7 +413,9 @@ object Routes {
                         profileViewModel.setSelectedUser(userItem)
                         navController.navigate(Destination.PROFILE_EDIT_PROFILE.name)
                     },
-                    onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
+                    onProfileAddFriendsClick = { userItem ->
+                        profileViewModel.setSelectedUser(userItem)
+                        navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
                     onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) },
                     fetchFriends = { profileViewModel.fetchFriends() },
                     fetchUser = { userId -> profileViewModel.fetchUser(userId) },
@@ -436,17 +438,32 @@ object Routes {
             }
         }
 
-        /**
-         * The chess repository/groups routes.
-         *
-         * @author frigvid
-         * @created 2024-11-06
-         */
-        private fun NavGraphBuilder.profileFriends() {
-            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen() }
+        private fun NavGraphBuilder.profileFriends(
+            navController: NavController,
+            profileViewModel: ProfileViewModel,
+        ) {
+            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen(
+                selectedUser = profileViewModel.selectedUser.value,
+                fetchNonFriends = { profileViewModel.fetchNonFriends() },
+                nonFriendState = profileViewModel.nonFriends,
+                sendFriendRequest = { navController.navigate(Destination.PROFILE.name) },
+                fetchUser = { userId -> profileViewModel.fetchUser(userId) },
+                fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
+                friendState = profileViewModel.friends,
+                userIdState = profileViewModel.userId,
+                userProfilesMap = profileViewModel.userProfiles,
+                setSelectedUser = profileViewModel::setSelectedUser
+            ) }
             composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
         }
     }
+
+    /**
+     * The chess repository/groups routes.
+     *
+     * @author frigvid
+     * @created 2024-11-06
+     */
 
     /**
      * Routes for the user/app settings Screen.
