@@ -18,6 +18,12 @@ import no.usn.mob3000.domain.source.game.IOpeningsDataSource
 class OpeningsDataSource(
     private val supabase: SupabaseClient = SupabaseClientWrapper.getClient()
 ) : IOpeningsDataSource {
+    /**
+     * Get all openings.
+     *
+     * @author frigvid
+     * @created 2024-11-14
+     */
     override suspend fun getOpenings(): List<OpeningsDto> {
         return try {
             supabase
