@@ -62,6 +62,9 @@ class OpeningsViewModel(
     /**
      * Function to periodically call [fetchOpenings]. This also
      * stops any existing jobs, in case there's any dirty state.
+     *
+     * @author frigvid
+     * @created 2024-11-14
      */
     fun startPeriodicUpdates() {
         Log.d(TAG, "Starting periodic update by first canceling pending jobs.")
@@ -85,6 +88,9 @@ class OpeningsViewModel(
     /**
      * Function to clean up job state by stopping any pending
      * jobs and removing any stored reference to it.
+     *
+     * @author frigvid
+     * @created 2024-11-14
      */
     private fun stopPeriodicUpdates() {
         periodicUpdateJob?.cancel()
@@ -94,6 +100,9 @@ class OpeningsViewModel(
     /**
      * Clean up the openings state, stop pending jobs, and
      * reset to its default state after.
+     *
+     * @author frigvid
+     * @created 2024-11-14
      */
     suspend fun resetOpeningsState() {
         stateMutex.withLock {
@@ -107,6 +116,9 @@ class OpeningsViewModel(
      * Override super implementation of onCleared to additionally also
      * stop any pending jobs and related states, when clearing the view
      * model.
+     *
+     * @author frigvid
+     * @created 2024-11-14
      */
     override fun onCleared() {
         super.onCleared()
@@ -115,6 +127,9 @@ class OpeningsViewModel(
 
     /**
      * This is the main handler for fetching openings and updating the opening state.
+     *
+     * @author frigvid
+     * @created 2024-11-14
      */
     fun fetchOpenings() {
         viewModelScope.launch {
@@ -144,6 +159,8 @@ class OpeningsViewModel(
      * Fetches a single opening.
      *
      * @param openingId The ID of the opening to fetch.
+     * @author frigvid
+     * @created 2024-11-14
      */
     fun fetchOpeningSingle(
         openingId: String
