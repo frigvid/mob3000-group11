@@ -164,7 +164,13 @@ class OpeningsViewModel(
         }
     }
 
-    // TODO: Add proper handling.
+    /**
+     * Creates an opening.
+     *
+     * @param opening The [Opening] object to be insert.
+     * @author frigvid
+     * @created 2024-11-14
+     */
     fun createOpening(
         opening: Opening
     ) {
@@ -177,7 +183,13 @@ class OpeningsViewModel(
         }
     }
 
-    // TODO: Add proper handling.
+    /**
+     * Deletes an opening.
+     *
+     * @param openingId The ID of the [Opening] to be deleted.
+     * @author frigvid
+     * @created 2024-11-14
+     */
     fun deleteOpening(
         openingId: String
     ) {
@@ -191,7 +203,13 @@ class OpeningsViewModel(
         }
     }
 
-    // TODO: Add proper handling.
+    /**
+     * Updates an opening.
+     *
+     * @param opening The [Opening] object to be updated.
+     * @author frigvid
+     * @created 2024-11-14
+     */
     fun updateOpening(
         opening: Opening
     ) {
