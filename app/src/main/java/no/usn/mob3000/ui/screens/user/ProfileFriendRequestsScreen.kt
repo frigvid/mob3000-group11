@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.ui.components.socials.friendrequests.FriendRequestItem
 
 /**
  * Screen to allow users to see pending friend requests for their acccounts,
@@ -34,7 +35,7 @@ fun ProfileFriendRequestsScreen() {
              *       Show buffering if waiting. If background fetching, that'll hopefully not be
              *       necessary though.
              */
-            Text(stringResource(R.string.profile_pending_friend_requests_no_requests))
+          FriendRequestItem()
         }
     }
 }
