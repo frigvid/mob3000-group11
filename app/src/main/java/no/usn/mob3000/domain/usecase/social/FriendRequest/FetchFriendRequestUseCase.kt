@@ -6,7 +6,7 @@ import no.usn.mob3000.domain.model.social.FriendRequestData
 class FetchFriendRequestUseCase (
   private val fetchRepository: FriendRequestRepository = FriendRequestRepository()
 ){
-    suspend fun fetchAllFriendRequests(): Result<List<FriendRequestData>>{
+    suspend fun execute(): Result<List<FriendRequestData>>{
         return fetchRepository.fetchAllFriendRequests()
     }
 }

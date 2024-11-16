@@ -79,7 +79,6 @@ fun ProfileScreen(
     LaunchedEffect(userId) {
         authenticationStateUpdate()
         userId?.let { id ->
-
             fetchFriends()
         }
     }

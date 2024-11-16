@@ -7,4 +7,6 @@ interface IFriendRequestRepository {
     suspend fun fetchAllFriendRequests(): Result<List<FriendRequestData>>
     suspend fun insertFriendRequest(toUser : String) : Result<Unit>
     suspend fun deleteFriendRequest(userid: String): Result<Unit>
+    suspend fun acceptFriendRequest(friendRequestId: String): Result<Unit>
+    suspend fun declineFriendRequest(friendRequestId: String): Result<Unit>
 }

@@ -460,7 +460,21 @@ object Routes {
                 setSelectedUser = profileViewModel::setSelectedUser,
                 onUserClick = profileViewModel::insertFriendRequest
             ) }
-            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
+            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) {
+                ProfileFriendRequestsScreen(
+                    fetchFriendRequests = { profileViewModel.fetchFriendRequests() },
+                    friendRequestState = profileViewModel.friendRequests,
+                    onAcceptFriendRequest = {
+                        profileViewModel.acceptFriendRequest(it)
+                        navController.navigate(Destination.PROFILE.name)
+                    },
+                    onDeclineFriendRequest = {
+                        profileViewModel.declineFriendRequest(it)
+                        navController.navigate(Destination.PROFILE.name)
+                    }
+                )
+            }
+
         }
     }
 

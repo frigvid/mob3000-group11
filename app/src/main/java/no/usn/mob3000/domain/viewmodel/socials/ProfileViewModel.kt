@@ -17,8 +17,11 @@ import no.usn.mob3000.domain.usecase.social.Profile.FetchFriendsUseCase
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import no.usn.mob3000.data.repository.social.ProfileEditRepository
+import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
 import no.usn.mob3000.domain.usecase.social.AddFriends.FetchNonFriendsUseCase
+import no.usn.mob3000.domain.usecase.social.FriendRequest.AcceptFriendRequestUseCase
+import no.usn.mob3000.domain.usecase.social.FriendRequest.FetchFriendRequestUseCase
 import no.usn.mob3000.domain.usecase.social.FriendRequest.InsertFriendRequestUseCase
 import no.usn.mob3000.domain.usecase.social.Profile.FetchUserByIdUseCase
 import no.usn.mob3000.domain.usecase.social.ProfileEdit.UpdateProfileUseCase
@@ -36,7 +39,9 @@ class ProfileViewModel(
     private val updateProfileUseCase: UpdateProfileUseCase = UpdateProfileUseCase(ProfileEditRepository()),
     private val insertFriendRequestUseCase: InsertFriendRequestUseCase = InsertFriendRequestUseCase(),
     private val fetchFriendsUseCase: FetchFriendsUseCase = FetchFriendsUseCase(),
+    private val fetchFriendRequestUseCase: FetchFriendRequestUseCase = FetchFriendRequestUseCase(),
     private val fetchNonFriendsUseCase: FetchNonFriendsUseCase = FetchNonFriendsUseCase(),
+    private val acceptFriendRequestUseCase: AcceptFriendRequestUseCase = AcceptFriendRequestUseCase(),
     private val fetchUserByIdUseCase: FetchUserByIdUseCase = FetchUserByIdUseCase(UserRepository()),
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase = GetCurrentUserIdUseCase(
         authRepository = AuthRepository(
@@ -62,6 +67,12 @@ class ProfileViewModel(
     private val _userId = MutableStateFlow<String?>(null)
     val userId: StateFlow<String?> = _userId
 
+    private val _friendRequests = MutableStateFlow<Result<List<FriendRequestData>>>(Result.success(emptyList()))
+    val friendRequests: StateFlow<Result<List<FriendRequestData>>> = _friendRequests
+
+    private val _currentUserProfile = MutableStateFlow<UserProfile?>(null)
+    val currentUserProfile: StateFlow<UserProfile?> = _currentUserProfile
+
     init {
         viewModelScope.launch {
             _userId.value = getCurrentUserIdUseCase.getCurrentUserId()
@@ -79,16 +90,36 @@ class ProfileViewModel(
         }
     }
 
+    fun acceptFriendRequest(friendRequestId: String) {
+        viewModelScope.launch {
+            val result = acceptFriendRequestUseCase.accept(friendRequestId)
+            result.onSuccess {
+                fetchFriendRequests()
+                fetchFriends()
+            }.onFailure {
+                Log.e("ProfileViewModel", "Error when accepting: ${it.message}")
+            }
+        }
+    }
 
-    private val _currentUserProfile = MutableStateFlow<UserProfile?>(null)
-    val currentUserProfile: StateFlow<UserProfile?> = _currentUserProfile
+    fun declineFriendRequest(friendRequestId: String) {
+        viewModelScope.launch {
+            val result = acceptFriendRequestUseCase.decline(friendRequestId)
+            result.onSuccess {
+                fetchFriendRequests()
+            }.onFailure {
+                Log.e("ProfileViewModel", "Error when declining: ${it.message}")
+            }
+        }
+    }
+
+
     fun fetchUser(userId: String) {
         viewModelScope.launch {
             val result = fetchUserProfileUseCase(userId)
             result.onSuccess { userProfile ->
                 _currentUserProfile.value = userProfile
             }.onFailure {
-                // Log error or handle failure case
                 Log.e("ProfileViewModel", "Failed to fetch user profile: ${it.message}")
             }
         }
@@ -117,6 +148,13 @@ class ProfileViewModel(
                 val result = fetchNonFriendsUseCase.execute(userId)
                 _nonFriends.value = result
             }
+        }
+    }
+
+    fun fetchFriendRequests() {
+        viewModelScope.launch {
+            val result = fetchFriendRequestUseCase.execute()
+            _friendRequests.value = result
         }
     }
 
