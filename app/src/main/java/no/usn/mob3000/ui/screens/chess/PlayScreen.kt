@@ -25,6 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.game.convertPgnToFen
+import no.usn.mob3000.domain.model.game.board.PracticeMode
+import no.usn.mob3000.domain.model.game.opening.Opening
+import no.usn.mob3000.domain.utils.Logger
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.board.ChessBoard
 import no.usn.mob3000.ui.theme.DefaultButton
@@ -43,12 +47,26 @@ import no.usn.mob3000.ui.theme.DefaultListItemBackground
  * @created 2024-09-24
  */
 @Composable
-fun PlayScreen() {
+fun PlayScreen(
+    openingsList: List<Opening>?,
+) {
     /* TODO: Extract to ViewModel as necessary. */
     val gameStatus by remember { mutableStateOf("Ongoing") }
     val wins by remember { mutableIntStateOf(5) }
     val losses by remember { mutableIntStateOf(3) }
     val draws by remember { mutableIntStateOf(2) }
+
+    /* If list is more than one long, assume that practice mode is group training. */
+    val practiceMode = if (openingsList != null && openingsList.size == 1) {
+        Logger.d("Practice mode: ${PracticeMode.SINGLE.name}")
+        PracticeMode.SINGLE
+    } else if (openingsList != null && openingsList.size > 1) {
+        Logger.d("Practice mode: ${PracticeMode.GROUP.name}")
+        PracticeMode.GROUP
+    } else {
+        Logger.d("Practice mode: ${PracticeMode.NONE.name}")
+        PracticeMode.NONE
+    }
 
     Viewport { innerPadding ->
         Column(
@@ -102,12 +120,24 @@ fun PlayScreen() {
                 }
             }
 
-            ChessBoard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                startingPosition = "3qk3/7P/8/8/8/8/7p/3QK3 w - - 0 1"
-            )
+            if (practiceMode.name == PracticeMode.SINGLE.name) {
+                ChessBoard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    startingPosition = convertPgnToFen(openingsList?.first()?.moves ?: "")
+                )
+            } else if (practiceMode == PracticeMode.GROUP) {
+                TODO("Group practice is not implemented yet.")
+            } else {
+                ChessBoard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    // TODO@frigvid: Remove after testing complete.
+                    startingPosition = "3qk3/7P/8/8/8/8/7p/3QK3 w - - 0 1"
+                )
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),

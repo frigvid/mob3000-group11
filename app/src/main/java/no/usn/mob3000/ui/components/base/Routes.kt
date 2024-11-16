@@ -16,6 +16,7 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
 import no.usn.mob3000.domain.viewmodel.game.GroupsViewModel
 import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
@@ -285,6 +286,7 @@ object Routes {
          * @param navController The navigation controller.
          * @param openingsViewModel The openings ViewModel.
          * @param groupsViewModel The groups ViewModel.
+         * @param chessBoardViewModel The chess board ViewModel.
          * @param authenticationViewModel The authentication state ViewModel.
          * @author frigvid
          * @created 2024-11-06
@@ -294,11 +296,28 @@ object Routes {
             navController: NavController,
             openingsViewModel: OpeningsViewModel,
             groupsViewModel: GroupsViewModel,
+            chessBoardViewModel: ChessBoardViewModel,
             authenticationViewModel: AuthenticationViewModel
         ): Game {
-            navGraphBuilder.openingRoutes(navController, openingsViewModel, authenticationViewModel)
-            navGraphBuilder.repositoryRoutes(navController, openingsViewModel, groupsViewModel, authenticationViewModel)
-            navGraphBuilder.gameRoutes(navController, openingsViewModel)
+            navGraphBuilder.openingRoutes(
+                navController,
+                openingsViewModel,
+                chessBoardViewModel,
+                authenticationViewModel
+            )
+
+            navGraphBuilder.repositoryRoutes(
+                navController,
+                openingsViewModel,
+                groupsViewModel,
+                authenticationViewModel
+            )
+
+            navGraphBuilder.gameRoutes(
+                navController,
+                chessBoardViewModel,
+                openingsViewModel
+            )
 
             return this
         }
@@ -308,6 +327,7 @@ object Routes {
          *
          * @param navController The navigation controller.
          * @param openingsViewModel The openings ViewModel.
+         * @param chessBoardViewModel The chess board ViewModel.
          * @param authenticationViewModel The authentication state ViewModel.
          * @author frigvid
          * @created 2024-11-06
@@ -315,6 +335,7 @@ object Routes {
         private fun NavGraphBuilder.openingRoutes(
             navController: NavController,
             openingsViewModel: OpeningsViewModel,
+            chessBoardViewModel: ChessBoardViewModel,
             authenticationViewModel: AuthenticationViewModel
         ) {
             composable(route = Destination.OPENINGS.name) {
@@ -356,9 +377,10 @@ object Routes {
                     authenticationState = authenticationViewModel.authState,
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
                     opening = openingsViewModel.selectedOpening.value,
-                    onPracticeClick = { navController.navigate(Destination.PLAY.name) },
+                    navigateToPlayScreen = { navController.navigate(Destination.PLAY.name) },
                     onDeleteOpeningClick = openingsViewModel::deleteOpening,
-                    onEditOpeningClick = openingsViewModel::setSelectedOpening,
+                    setSelectedOpening = openingsViewModel::setSelectedOpening,
+                    setSelectedBoardOpenings = chessBoardViewModel::setSelectedBoardOpenings,
                     navigateToOpeningEditor = { navController.navigate(Destination.OPENINGS_UPDATE.name) },
                     popNavigationBackStack = navController::popBackStack
                 )
@@ -419,15 +441,21 @@ object Routes {
          * The chess game and history routes.
          *
          * @param navController The navigation controller.
+         * @param chessBoardViewModel The chess board ViewModel.
          * @param openingsViewModel The openings ViewModel.
          * @author frigvid
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.gameRoutes(
             navController: NavController,
+            chessBoardViewModel: ChessBoardViewModel,
             openingsViewModel: OpeningsViewModel
         ) {
-            composable(route = Destination.PLAY.name) { PlayScreen() }
+            composable(route = Destination.PLAY.name) {
+                PlayScreen(
+                    openingsList = chessBoardViewModel.selectedBoardOpenings.value,
+                )
+            }
 
             composable(route = Destination.HISTORY.name) {
                 HistoryScreen(

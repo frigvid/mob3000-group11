@@ -10,6 +10,9 @@ import no.usn.mob3000.BuildConfig
  * `BuildConfig.DEBUG` is set to `true`. This means actually building the final APK will have
  * logging disabled, and thus should not impede regular users.
  *
+ * TODO@frigvid: Create UnitTestLogger class that extends Logger, and overrides Logger with
+                 Java's System.out.println().
+ *
  * @author frigvid
  * @created 2024-11-01
  */

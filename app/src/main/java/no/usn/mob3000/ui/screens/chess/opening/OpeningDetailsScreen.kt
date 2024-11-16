@@ -45,7 +45,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * TODO: Extract data/logic related code to data layer.
  *
  * @param opening The [Opening] to display details about.
- * @param onPracticeClick Callback function to navigate to the [PlayScreen].
+ * @param navigateToPlayScreen Callback function to navigate to the [PlayScreen].
  * @author frigvid
  * @created 2024-10-08
  */
@@ -54,9 +54,10 @@ fun OpeningDetailsScreen(
     authenticationState: StateFlow<AuthenticationState>,
     authenticationStateUpdate: () -> Unit,
     opening: Opening?,
-    onPracticeClick: () -> Unit,
+    navigateToPlayScreen: () -> Unit,
     onDeleteOpeningClick: (String) -> Unit,
-    onEditOpeningClick: (Opening) -> Unit,
+    setSelectedOpening: (Opening) -> Unit,
+    setSelectedBoardOpenings: (List<Opening>) -> Unit,
     navigateToOpeningEditor: () -> Unit,
     popNavigationBackStack: () -> Unit
 ) {
@@ -92,7 +93,7 @@ fun OpeningDetailsScreen(
 
                         IconButton(
                             onClick = {
-                                onEditOpeningClick(opening)
+                                setSelectedOpening(opening)
                                 navigateToOpeningEditor()
                             }
                         ) {
@@ -182,7 +183,10 @@ fun OpeningDetailsScreen(
                      *       floating.
                      */
                     Button(
-                        onClick = onPracticeClick,
+                        onClick = {
+                            setSelectedBoardOpenings(listOf(opening))
+                            navigateToPlayScreen()
+                        },
                         colors = ButtonDefaults.buttonColors(DefaultButton),
                         modifier = Modifier
                             .fillMaxWidth()

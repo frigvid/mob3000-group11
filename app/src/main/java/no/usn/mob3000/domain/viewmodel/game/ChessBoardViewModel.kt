@@ -1,5 +1,6 @@
 package no.usn.mob3000.domain.viewmodel.game
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,11 +11,14 @@ import com.github.bhlangonijr.chesslib.Rank
 import com.github.bhlangonijr.chesslib.Side
 import com.github.bhlangonijr.chesslib.Square
 import com.github.bhlangonijr.chesslib.move.Move
+import com.github.bhlangonijr.chesslib.move.MoveList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.game.board.DraggedPiece
 import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
 import no.usn.mob3000.domain.model.game.board.ChessBoardState
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.utils.Logger
 
 class ChessBoardViewModel : ViewModel() {
@@ -23,6 +27,16 @@ class ChessBoardViewModel : ViewModel() {
 
     private val _boardPieceDraggedToSquare = MutableStateFlow<Square>(Square.NONE)
     val boardPieceDraggedToSquare = _boardPieceDraggedToSquare.asStateFlow()
+
+    private val _selectedBoardOpenings = mutableStateOf<List<Opening>>(emptyList())
+    val selectedBoardOpenings = _selectedBoardOpenings
+
+    fun setSelectedBoardOpenings(openings: List<Opening>) {
+        _selectedBoardOpenings.value = openings
+    }
+
+
+
     fun setBoardPieceDraggedToSquare(square: Square) {
         _boardPieceDraggedToSquare.value = square
     }
@@ -46,6 +60,18 @@ class ChessBoardViewModel : ViewModel() {
 
     private val _draggedPieceLiveData = MutableLiveData<DraggedPiece?>()
     val draggedPieceLiveData: LiveData<DraggedPiece?> = _draggedPieceLiveData
+
+
+
+
+
+    fun loadFen(fen: String) {
+        _boardState.value.board.loadFromFen(fen)
+    }
+    fun loadPgn(pgn: String) {
+        _boardState.value.board.loadFromFen(convertPgnToFen(pgn))
+    }
+
 
 
 
