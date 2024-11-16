@@ -35,6 +35,7 @@ import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.social.FriendData
+import no.usn.mob3000.domain.viewmodel.socials.ProfileViewModel
 import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.theme.ProfileUserBackground
 import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
@@ -66,12 +67,14 @@ fun ProfileScreen(
     setSelectedUser: (UserProfile) -> Unit,
     authenticationState: StateFlow<AuthenticationState>,
     authenticationStateUpdate: () -> Unit,
-    onLoginClick: () -> Unit
+    onLoginClick: () -> Unit,
+    viewModel : ProfileViewModel
 ) {
     val friendResult by friendState.collectAsState()
     val userId by userIdState.collectAsState()
     val userProfiles by userProfilesMap.collectAsState()
     val state by remember { authenticationState }.collectAsState()
+    val currentUserProfile by viewModel.currentUserProfile.collectAsState()
 
     LaunchedEffect(userId) {
         authenticationStateUpdate()
@@ -83,7 +86,7 @@ fun ProfileScreen(
 
     Viewport(
         topBarActions = {
-            userProfiles[userId]?.let { user ->
+            currentUserProfile?.let { user ->
                 IconButton(onClick = {
                     setSelectedUser(user)
                     onProfileEditClick(user)
@@ -138,8 +141,8 @@ fun ProfileScreen(
 
                 is AuthenticationState.Authenticated -> {
 
-                    ProfileHeader(userResult = Result.success(userProfiles[userId]))
-                    ProfileStats(userProfile = userProfiles[userId])
+                    ProfileHeader(userResult = Result.success(currentUserProfile))
+                    ProfileStats(userProfile = currentUserProfile)
                     AboutSection()
                     FriendsSection(
                         friendResult = friendResult,

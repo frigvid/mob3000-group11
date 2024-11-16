@@ -1,5 +1,6 @@
 package no.usn.mob3000.ui.components.base
 
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -428,7 +429,8 @@ object Routes {
                     setSelectedUser = profileViewModel::setSelectedUser,
                     authenticationState = authenticationViewModel.authState,
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
-                    onLoginClick = {navController.navigate(Destination.AUTH_LOGIN.name)}
+                    onLoginClick = {navController.navigate(Destination.AUTH_LOGIN.name) },
+                    viewModel = ProfileViewModel()
                 )
             }
 
