@@ -5,12 +5,10 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,14 +29,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.game.opening.Opening
+import no.usn.mob3000.ui.components.game.board.ChessBoard
 import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
@@ -131,22 +131,31 @@ fun OpeningCard(
                         )
                     }
 
-                    Image(
-                        painter = painterResource(id = R.drawable.placeholder_chess),
-                        contentDescription = "Chess board preview",
+                    ChessBoard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .clip(MaterialTheme.shapes.medium)
+                            .padding(16.dp),
+                        startingPosition = convertPgnToFen(listOf(opening).first().moves ?: ""),
+                        gameHistory = false,
+                        gameInteractable = false
                     )
 
                     if (!opening.moves.isNullOrBlank()) {
                         Text(
                             text =
+                                "PGN" +
                                 stringResource(R.string.groups_opening_card_moves) +
                                 ": ${opening.moves}",
                             style = MaterialTheme.typography.bodySmall,
                             modifier = Modifier.padding(top = 8.dp)
+                        )
+
+                        Text(
+                            text = "FEN: ${convertPgnToFen(listOf(opening).first().moves ?: "")}",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Medium,
+                            fontStyle = FontStyle.Italic,
+                            modifier = Modifier.padding(bottom = 8.dp)
                         )
                     }
                 }

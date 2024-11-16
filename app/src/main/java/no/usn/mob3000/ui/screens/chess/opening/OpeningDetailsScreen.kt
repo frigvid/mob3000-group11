@@ -31,9 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.ui.components.game.board.ChessBoard
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 import no.usn.mob3000.ui.theme.DefaultButton
 
@@ -140,37 +142,22 @@ fun OpeningDetailsScreen(
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
 
+                    /* TODO: Go back-forward in history. */
+                    ChessBoard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        startingPosition = convertPgnToFen(listOf(opening).first().moves ?: ""),
+                        gameInteractable = false
+                    )
+
                     Text(
-                        text = stringResource(R.string.opening_details_moves),
+                        text = "FEN: ${convertPgnToFen(listOf(opening).first().moves ?: "")}",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         fontStyle = FontStyle.Italic,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-
-                    // TODO: chess.
-                    //opening.moves.forEachIndexed { index, move ->
-                    //    /* TODO: Extract string resources. Should also probably not be designed this way. */
-                    //    val pieceFullName = when (move["piece"]) {
-                    //        "p" -> "pawn"
-                    //        "q" -> "queen"
-                    //        "k" -> "king"
-                    //        "b" -> "bishop"
-                    //        "n" -> "knight"
-                    //        "r" -> "rook"
-                    //        else -> "piece"
-                    //    }
-                    //
-                    //    /* TODO: Extract as string resource. */
-                    //    val moveDescription = "Move $pieceFullName from ${move["from"]?.uppercase()} to ${move["to"]?.uppercase()}"
-                    //
-                    //    Text(
-                    //        text = "${index + 1}. $moveDescription",
-                    //        modifier = Modifier
-                    //            .fillMaxWidth()
-                    //            .padding(bottom = 4.dp)
-                    //    )
-                    //}
                 }
 
                 Column(
@@ -179,9 +166,6 @@ fun OpeningDetailsScreen(
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-                    /* TODO: Stick this to the bottom of the screen, or something. Should probably be
-                     *       floating.
-                     */
                     Button(
                         onClick = {
                             setSelectedBoardOpenings(listOf(opening))
