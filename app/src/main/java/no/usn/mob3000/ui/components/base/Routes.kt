@@ -418,7 +418,8 @@ object Routes {
                     },
                     onProfileAddFriendsClick = { userItem ->
                         profileViewModel.setSelectedUser(userItem)
-                        navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
+                        navController.navigate(Destination.PROFILE_ADD_FRIENDS.name)
+                    },
                     onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) },
                     fetchFriends = { profileViewModel.fetchFriends() },
                     fetchUser = { userId -> profileViewModel.fetchUser(userId) },
@@ -429,12 +430,12 @@ object Routes {
                     setSelectedUser = profileViewModel::setSelectedUser,
                     authenticationState = authenticationViewModel.authState,
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
-                    onLoginClick = {navController.navigate(Destination.AUTH_LOGIN.name) },
+                    onLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
                     viewModel = ProfileViewModel()
                 )
             }
 
-        composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
+            composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
                 ProfileEditScreen(
                     selectedUser = profileViewModel.selectedUser.value,
                     onSaveProfileClick = profileViewModel::saveProfileChanges,
@@ -447,23 +448,27 @@ object Routes {
             navController: NavController,
             profileViewModel: ProfileViewModel,
         ) {
-            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen(
-                selectedUser = profileViewModel.selectedUser.value,
-                fetchNonFriends = { profileViewModel.fetchNonFriends() },
-                nonFriendState = profileViewModel.nonFriends,
-                sendFriendRequest = { navController.navigate(Destination.PROFILE.name) },
-                fetchUser = { userId -> profileViewModel.fetchUser(userId) },
-                fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
-                friendState = profileViewModel.friends,
-                userIdState = profileViewModel.userId,
-                userProfilesMap = profileViewModel.userProfiles,
-                setSelectedUser = profileViewModel::setSelectedUser,
-                onUserClick = profileViewModel::insertFriendRequest
-            ) }
+            composable(route = Destination.PROFILE_ADD_FRIENDS.name) {
+                ProfileAddFriendsScreen(
+                    selectedUser = profileViewModel.selectedUser.value,
+                    fetchNonFriends = { profileViewModel.fetchNonFriends() },
+                    nonFriendState = profileViewModel.nonFriends,
+                    sendFriendRequest = { navController.navigate(Destination.PROFILE.name) },
+                    fetchUser = { userId -> profileViewModel.fetchUser(userId) },
+                    fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
+                    friendState = profileViewModel.friends,
+                    userIdState = profileViewModel.userId,
+                    userProfilesMap = profileViewModel.userProfiles,
+                    setSelectedUser = profileViewModel::setSelectedUser,
+                    onUserClick = profileViewModel::insertFriendRequest
+                )
+            }
             composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) {
                 ProfileFriendRequestsScreen(
                     fetchFriendRequests = { profileViewModel.fetchFriendRequests() },
                     friendRequestState = profileViewModel.friendRequests,
+                    userProfilesMap = profileViewModel.userProfiles,
+                    fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
                     onAcceptFriendRequest = {
                         profileViewModel.acceptFriendRequest(it)
                         navController.navigate(Destination.PROFILE.name)
@@ -474,7 +479,6 @@ object Routes {
                     }
                 )
             }
-
         }
     }
 

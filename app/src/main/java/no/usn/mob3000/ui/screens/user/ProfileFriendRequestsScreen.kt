@@ -1,5 +1,6 @@
 package no.usn.mob3000.ui.screens.user
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
@@ -43,10 +45,13 @@ import no.usn.mob3000.ui.theme.DefaultButton
 fun ProfileFriendRequestsScreen(
     fetchFriendRequests: () -> Unit,
     friendRequestState: StateFlow<Result<List<FriendRequestData>>>,
+    userProfilesMap: StateFlow<Map<String, UserProfile>>,
+    fetchUserById: (String) -> Unit,
     onAcceptFriendRequest: (String) -> Unit,
     onDeclineFriendRequest: (String) -> Unit
 ) {
     val friendRequests by friendRequestState.collectAsState()
+    val userProfiles by userProfilesMap.collectAsState()
 
     LaunchedEffect(Unit) {
         fetchFriendRequests()
@@ -72,15 +77,17 @@ fun ProfileFriendRequestsScreen(
                         Text(text = "No new friend requests", color = Color.Gray)
                     } else {
                         requests.forEach { friendRequest ->
-                            friendRequest.displayName?.let {
-                                FriendRequestItem(
-                                    displayName = it,
-                                    onAccept = { onAcceptFriendRequest(friendRequest.friendRequestId) },
-                                    onDecline = { onDeclineFriendRequest(friendRequest.friendRequestId) }
-                                )
-                            }
+                            FriendRequestItem(
+                                friendRequest = friendRequest,
+                                userProfilesMap = userProfiles,
+                                fetchUserById = fetchUserById,
+                                onAccept = { onAcceptFriendRequest(friendRequest.friendRequestId) },
+                                onDecline = { onDeclineFriendRequest(friendRequest.friendRequestId) }
+                            )
                         }
                     }
+                } else {
+                    Text(text = "Error fetching friend requests", color = Color.Red)
                 }
             }
         }
@@ -90,10 +97,22 @@ fun ProfileFriendRequestsScreen(
 
 @Composable
 fun FriendRequestItem(
-    displayName: String,
+    friendRequest: FriendRequestData,
+    userProfilesMap: Map<String, UserProfile>,
+    fetchUserById: (String) -> Unit,
     onAccept: () -> Unit,
     onDecline: () -> Unit
 ) {
+    val friendIdToDisplay = friendRequest.byUser
+
+    LaunchedEffect(friendIdToDisplay) {
+        if (!userProfilesMap.containsKey(friendIdToDisplay)) {
+            fetchUserById(friendIdToDisplay)
+        }
+    }
+
+    val displayName = userProfilesMap[friendIdToDisplay]?.displayName ?: "Ukjent bruker"
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -130,3 +149,5 @@ fun FriendRequestItem(
         }
     }
 }
+
+

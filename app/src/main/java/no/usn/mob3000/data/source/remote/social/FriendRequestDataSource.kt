@@ -5,7 +5,6 @@ import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.result.PostgrestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.usn.mob3000.data.model.content.DocsDto
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
@@ -17,17 +16,13 @@ import no.usn.mob3000.data.network.SupabaseClientWrapper
 
 class FriendRequestDataSource (private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()){
 
-    suspend fun fetchAllFriendRequests(userId: String): List<FriendRequestsDto> = withContext(Dispatchers.IO) {
+    suspend fun fetchFriendRequests(): List<FriendRequestsDto> = withContext(Dispatchers.IO) {
         supabaseClient
             .from("friend_requests")
             .select()
-            {
-                filter {
-                    eq("to_user", userId)
-                }
-            }
             .decodeList()
     }
+
 
     suspend fun fetchFriendRequestById(friendRequestId: String): FriendRequestsDto? = withContext(Dispatchers.IO) {
         supabaseClient
@@ -74,8 +69,6 @@ class FriendRequestDataSource (private val supabaseClient: SupabaseClient = Supa
             Result.failure(e)
         }
     }
-
-
 
 
 }

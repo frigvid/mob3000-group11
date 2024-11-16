@@ -12,6 +12,6 @@ class FetchFriendsUseCase (
     private val fetchrepository: FriendsRepository = FriendsRepository()
 ){
     suspend fun fetchFriends():Result<List<FriendData>> {
-        return fetchrepository.FetchFriends()
+        return fetchrepository.fetchFriends()
     }
 }

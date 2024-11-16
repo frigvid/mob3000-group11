@@ -32,7 +32,7 @@ class FriendsRepository (
        }
    }
 
-    override suspend fun FetchFriends(): Result<List<FriendData>> {
+    override suspend fun fetchFriends(): Result<List<FriendData>> {
         return try{
             val Friendslist = FriendsDataSource.fetchAllFriends();
             Friendslist.forEach { friend ->

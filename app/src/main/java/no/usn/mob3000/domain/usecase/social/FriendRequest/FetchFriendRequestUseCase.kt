@@ -7,6 +7,6 @@ class FetchFriendRequestUseCase (
   private val fetchRepository: FriendRequestRepository = FriendRequestRepository()
 ){
     suspend fun execute(): Result<List<FriendRequestData>>{
-        return fetchRepository.fetchAllFriendRequests()
+        return fetchRepository.fetchFriendRequests()
     }
 }
