@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.usn.mob3000.data.model.content.remote.DocsDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
-
 /**
  * Data source class responsible for the database communication. All database
  * interactions are executed on the IO dispatcher to ensure optimal performance for
@@ -31,7 +30,6 @@ class DocsDataSource(
             .select()
             .decodeList()
     }
-
     /**
      * Deletes a document by its ID.
      *
@@ -42,7 +40,6 @@ class DocsDataSource(
             .from("docs")
             .delete { filter { eq("id", docsId) } }
     }
-
     /**
      * Fetches a document by its ID.
      *
@@ -55,7 +52,6 @@ class DocsDataSource(
             { filter { eq("id", docsId) } }
             .decodeSingleOrNull()
     }
-
     /**
      * Updates an existing document by its ID with new data
      *
@@ -75,7 +71,6 @@ class DocsDataSource(
             Result.failure(e)
         }
     }
-
     /**
      * Inserts a new row into the docs table
      *

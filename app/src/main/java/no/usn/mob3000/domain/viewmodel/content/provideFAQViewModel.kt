@@ -9,9 +9,9 @@ import no.usn.mob3000.domain.usecase.content.faq.DeleteFAQUseCase
 import no.usn.mob3000.domain.usecase.content.faq.FetchFAQUseCase
 import no.usn.mob3000.domain.usecase.content.faq.InsertFAQUseCase
 import no.usn.mob3000.domain.usecase.content.faq.UpdateFAQUseCase
-
 /**
- * Provide FAQViewModel with an instance.
+ * Provide FAQViewModel with an instance. Instead of instancing everything trough the useCases, I use this support-class for each viewModel.
+ * Having interfaces does cover some of this workarounds, but for extra measure i've collected all the initializations here.
  *
  * @author 258030
  * @created 2024-11-13

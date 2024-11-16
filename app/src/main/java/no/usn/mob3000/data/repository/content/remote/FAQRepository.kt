@@ -9,7 +9,6 @@ import no.usn.mob3000.data.source.remote.docs.FAQDataSource
 import no.usn.mob3000.domain.model.content.FAQData
 import no.usn.mob3000.domain.repository.content.IFAQRepository
 import java.util.UUID
-
 /**
  * Repository class responsible for managing operations related to the docs table. It uses [FAQDataSource] for fetching and handling
  * database actions. Via [IFAQRepository] it makes a possible communication route with the UI domain layer, without the domain layer getting accidental access
@@ -32,7 +31,6 @@ class FAQRepository(
      * @return A result containing a list of FAQs.
      * @throws Exception If an error occurs during the fetching process.
      */
-
     override suspend fun fetchAllFaqLocal(): Result<List<FAQData>> {
         return try {
             val localFAQ = faqRepositoryLocal.fetchAllFaq()
@@ -41,7 +39,13 @@ class FAQRepository(
             Result.failure(e)
         }
     }
-
+    /**
+     * Fetches a list of all FAQs to later be used for generating FAQ-cards in the UI.
+     * It maps the fetched data to a domain model, so it can be used in the UI.
+     *
+     * @return
+     * @throws Exception If an error occurs during the fetching process.
+     */
     override suspend fun refreshFaqFromNetwork(): Result<Unit> {
         return try {
             val networkFaqList = faqDataSource.fetchAllFAQ()
@@ -54,9 +58,6 @@ class FAQRepository(
             Result.failure(e)
         }
     }
-
-
-
     /**
      * Deletes a FAQ by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens.
      * [FAQScreen] -> [FAQDetailsScreen]
@@ -72,7 +73,6 @@ class FAQRepository(
             Result.failure(e)
         }
     }
-
     /**
      * Updates a chosen FAQ by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
          * [FAQScreen] -> [FAQDetailsScreen]. As long as the faqId exist, the update instance starts. Without an actual UUID for the faq
@@ -105,7 +105,6 @@ class FAQRepository(
             Result.failure(Exception("Original FAQ data not found"))
         }
     }
-
     /**
      * Fetches a FAQ by its ID. Used for populating the update screen and identify what row we are working with.
      *
@@ -120,7 +119,6 @@ class FAQRepository(
             Result.failure(e)
         }
     }
-
     /**
      * Inserts a new row into the database. The database has an auto generated UUID for new rows, but we call it here for good measure. Not passing the value seems
      * to interfere with the null exception. It displays the time of creation using [kotlinx.datetime.Clock] and tracks what user made the row.
@@ -148,7 +146,6 @@ class FAQRepository(
         )
         return faqDataSource.insertFAQ(faqItem)
     }
-
     /**
      * Maps a FaqDto to a FAQData. For usage in the domain layer. Might be moved if repository are made abstract.
      */
@@ -191,5 +188,4 @@ class FAQRepository(
             isPublished = this.isPublished
         )
     }
-
 }

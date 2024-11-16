@@ -31,7 +31,6 @@ class FAQDataSource(
             .select()
             .decodeList()
     }
-
     /**
      * Deletes a FAQ by its ID.
      *
@@ -42,7 +41,6 @@ class FAQDataSource(
             .from("faq")
             .delete { filter { eq("id", faqId) } }
     }
-
     /**
      * Fetches a FAQ by its ID.
      *
@@ -55,7 +53,6 @@ class FAQDataSource(
             { filter { eq("id", faqId) } }
             .decodeSingleOrNull()
     }
-
     /**
      * Updates an existing FAQ by its ID with new data.
      *
@@ -75,7 +72,6 @@ class FAQDataSource(
                 Result.failure(e)
             }
         }
-
     /**
      * Inserts a new row into the faq table.
      *

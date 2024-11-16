@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import no.usn.mob3000.data.model.content.local.NewsItemLocal
-
 /**
  * Data Access Object (DAO) interface for the news table.
  *

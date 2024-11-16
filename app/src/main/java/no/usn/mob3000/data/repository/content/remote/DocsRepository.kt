@@ -17,6 +17,7 @@ import java.util.UUID
  *
  * @param docsDataSource The data source for document-related operations.
  * @param authDataSource The data source for authentication-related operations.
+ * @param docsRepositoryLocal The local data source for document-related operations.
  * @author 258030
  * @contributor frigvid
  * @created 2024-10-30
@@ -40,7 +41,13 @@ class DocsRepository(
             Result.failure(e)
         }
     }
-
+    /**
+     * Fetches a list of all documents to later be used for generating document-cards in the UI.
+     * It maps the fetched data to a domain model, so it can be used in the UI.
+     *
+     * @return A result containing a list of documents.
+     * @throws Exception If an error occurs during the fetching process.
+     */
     override suspend fun refreshDocsFromNetwork(): Result<Unit> {
         return try {
             val networkDocsList = docsDataSource.fetchAllDocs()
@@ -52,7 +59,6 @@ class DocsRepository(
             Result.failure(e)
         }
     }
-
     /**
      * Deletes a document by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
      * [DocumentationScreen] -> [DocumentationDetailsScreen].
@@ -68,7 +74,6 @@ class DocsRepository(
             Result.failure(e)
         }
     }
-
     /**
      * Updates a chosen document by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
      * [DocumentationScreen] -> [DocumentationDetailsScreen]. As long as the docsId exist, the update instance starts. Without an actual UUID for the doc
@@ -115,7 +120,6 @@ class DocsRepository(
             Result.failure(e)
         }
     }
-
     /**
      * Inserts a new row into the database. The database has an auto generated UUID for new rows, but we call it here for good measure. Not passing the value seems
      * to interfere with the null exception. It displays the time of creation using [kotlinx.datetime.Clock] and tracks what user made the row.
@@ -144,7 +148,6 @@ class DocsRepository(
         return docsDataSource.insertDocs(docsItem)
 
     }
-
     /**
      * Maps a DocsDto to a DocsData. For usage in the domain layer. Might be moved if repository are made abstract.
      */
@@ -160,7 +163,6 @@ class DocsRepository(
             docsId = this.docId
         )
     }
-
     private fun DocsDto.toLocalModel(): DocsItemLocal {
         return DocsItemLocal(
             docsId = this.docId,
@@ -174,7 +176,6 @@ class DocsRepository(
         )
 
     }
-
     private fun DocsItemLocal.toDomainModel(): DocsData {
         return DocsData(
             docsId = this.docsId,

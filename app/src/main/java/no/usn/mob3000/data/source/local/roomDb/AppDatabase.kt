@@ -1,4 +1,4 @@
-package no.usn.mob3000.data.network.local
+package no.usn.mob3000.data.source.local.roomDb
 
 import android.content.Context
 import androidx.room.Database

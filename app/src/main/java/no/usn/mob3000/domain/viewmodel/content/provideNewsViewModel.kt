@@ -9,11 +9,9 @@ import no.usn.mob3000.domain.usecase.content.news.DeleteNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.FetchNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.InsertNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.UpdateNewsUseCase
-
 /**
- * Provides newviewmodel with an instance. Had to to it like this since it kept getting under my skin that i could not initiate it directly in the viewmodel. I think it's normal to use
- * some framework for this type of initiating, since the repositories has to many parameters to be initiated directly. Will be refactoring later on, so we might be able to fix this with just
- * fewer parameters.
+ * Provides newviewmodel with an instance. Instead of instancing everything trough the useCases, I use this support-class for each viewModel. Having interfaces
+ * does cover some of this workarounds, but for extra measure i've collected all the initializations here.
  *
  * @author 258030
  * @created 2024-11-13

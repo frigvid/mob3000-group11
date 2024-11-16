@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.usn.mob3000.data.model.content.remote.NewsDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
-
 /**
  * Data source class responsible for the database communication. All database
  * interactions are executed on the IO dispatcher to ensure optimal performance for
@@ -31,7 +30,6 @@ class NewsDataSource(
             .select()
             .decodeList()
     }
-
     /**
      * Deletes a news by its ID.
      *
@@ -42,7 +40,6 @@ class NewsDataSource(
             .from("news")
             .delete { filter { eq("id", newsId) } }
     }
-
     /**
      * Fetches a news by its ID.
      *
@@ -55,7 +52,6 @@ class NewsDataSource(
             {filter { eq("id", newsId) }}
             .decodeSingleOrNull()
     }
-
     /**
      * Updates an existing news by its ID with new data
      *
@@ -75,7 +71,6 @@ class NewsDataSource(
             Result.failure(e)
         }
     }
-
     /**
      * Inserts a new row into the news table
      *

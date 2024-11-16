@@ -7,7 +7,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import no.usn.mob3000.data.model.content.local.FaqItemLocal
-
+/**
+ * Data Access Object (DAO) for the Faq entity.
+ *
+ * @author 258030
+ * @created 2024-11-13
+ */
 @Dao
 interface FaqDao {
 
