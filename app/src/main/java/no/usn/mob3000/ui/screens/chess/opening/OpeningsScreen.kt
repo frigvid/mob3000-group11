@@ -76,6 +76,7 @@ fun OpeningsScreen(
 ) {
     val openingsList by remember { mutableStateOf(openings) }
 
+    // TODO: Hide top bar and bottom bar when in landscape.
     //val configuration = LocalConfiguration.current
     //val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
 
