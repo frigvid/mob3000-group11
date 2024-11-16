@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.chesslib)
 
     // Supabase package/modules.
     // See: https://supabase.com/docs/reference/kotlin/installing
@@ -88,7 +89,6 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.github.jan-tennert.supabase:functions-kt")
     implementation("io.ktor:ktor-client-android:2.3.12")
-    implementation(libs.chesslib)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

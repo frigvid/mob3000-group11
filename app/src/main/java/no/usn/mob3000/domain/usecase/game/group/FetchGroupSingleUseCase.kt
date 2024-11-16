@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.usecase.game.group
 
-import no.usn.mob3000.domain.model.game.Group
+import no.usn.mob3000.domain.model.game.group.Group
 import no.usn.mob3000.domain.repository.game.IGroupsRepository
 
 /**

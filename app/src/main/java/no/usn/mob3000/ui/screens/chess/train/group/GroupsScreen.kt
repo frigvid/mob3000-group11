@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
-import no.usn.mob3000.domain.model.game.Group
+import no.usn.mob3000.domain.model.game.group.Group
 import no.usn.mob3000.domain.model.game.Opening
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport

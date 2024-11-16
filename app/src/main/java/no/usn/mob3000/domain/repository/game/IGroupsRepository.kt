@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.repository.game
 
 import no.usn.mob3000.data.model.game.RepertoireDto
-import no.usn.mob3000.domain.model.game.Group
+import no.usn.mob3000.domain.model.game.group.Group
 
 /**
  * Interface for the repertoire/group repository.
