@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.chess.game
+package no.usn.mob3000.ui.components.game.board
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
