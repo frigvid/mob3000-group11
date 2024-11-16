@@ -49,6 +49,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.github.bhlangonijr.chesslib.game.GameMode
 import com.github.bhlangonijr.chesslib.game.VariationType
 import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
+import no.usn.mob3000.domain.model.game.board.ChessResources
 import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
 import no.usn.mob3000.domain.model.game.board.DraggedPiece
 import no.usn.mob3000.ui.theme.DefaultListItemBackground

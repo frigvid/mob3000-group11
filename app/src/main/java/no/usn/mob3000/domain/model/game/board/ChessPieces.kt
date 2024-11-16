@@ -1,8 +1,14 @@
-package no.usn.mob3000.ui.screens.chess.game
+package no.usn.mob3000.domain.model.game.board
 
 import com.github.bhlangonijr.chesslib.Piece
 import no.usn.mob3000.R
 
+/**
+ * Map of chess pieces to resource drawable pieces.
+ *
+ * @author frigvid
+ * @created 2024-11-03
+ */
 object ChessResources {
     val pieceToResourceMap = mapOf(
         Piece.BLACK_PAWN to R.drawable.chess_pawn_black,
