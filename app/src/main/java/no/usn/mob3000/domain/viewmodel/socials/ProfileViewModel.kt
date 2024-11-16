@@ -63,16 +63,22 @@ class ProfileViewModel(
     init {
         viewModelScope.launch {
             _userId.value = getCurrentUserIdUseCase.getCurrentUserId()
+            userId.value?.let { userId ->
+                fetchUser(userId)
+            }
         }
     }
 
+    private val _currentUserProfile = MutableStateFlow<UserProfile?>(null)
+    val currentUserProfile: StateFlow<UserProfile?> = _currentUserProfile
     fun fetchUser(userId: String) {
         viewModelScope.launch {
             val result = fetchUserProfileUseCase(userId)
             result.onSuccess { userProfile ->
-                userProfile?.let {
-                    _userProfiles.value = _userProfiles.value + (userId to it)
-                }
+                _currentUserProfile.value = userProfile
+            }.onFailure {
+                // Log error or handle failure case
+                Log.e("ProfileViewModel", "Failed to fetch user profile: ${it.message}")
             }
         }
     }
