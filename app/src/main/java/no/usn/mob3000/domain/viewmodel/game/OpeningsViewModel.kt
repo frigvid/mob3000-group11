@@ -13,18 +13,15 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.json.Json
 import no.usn.mob3000.data.repository.game.OpeningsRepository
-import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.domain.model.game.Opening
-import no.usn.mob3000.domain.model.game.state.OpeningState
+import no.usn.mob3000.domain.model.game.opening.Opening
+import no.usn.mob3000.domain.model.game.opening.OpeningState
 import no.usn.mob3000.domain.usecase.game.opening.CreateOpeningUseCase
 import no.usn.mob3000.domain.usecase.game.opening.DeleteOpeningUseCase
 import no.usn.mob3000.domain.usecase.game.opening.FetchOpeningSingleUseCase
 import no.usn.mob3000.domain.usecase.game.opening.FetchOpeningsUseCase
 import no.usn.mob3000.domain.usecase.game.opening.UpdateOpeningUseCase
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
-import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel.Companion
 
 /**
  * ViewModel to track state for chess openings.

@@ -1,8 +1,6 @@
 package no.usn.mob3000.domain.usecase.game.opening
 
-import no.usn.mob3000.data.repository.game.OpeningsRepository
-import no.usn.mob3000.data.source.remote.game.OpeningsDataSource
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.repository.game.IOpeningsRepository
 
 /**

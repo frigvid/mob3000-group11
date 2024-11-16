@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.game.OpeningEditor
 
 /**

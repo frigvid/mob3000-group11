@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.game.group.Group
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.game.group.GroupEditor
 
 /**

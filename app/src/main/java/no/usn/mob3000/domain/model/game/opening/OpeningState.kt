@@ -1,4 +1,4 @@
-package no.usn.mob3000.domain.model.game.state
+package no.usn.mob3000.domain.model.game.opening
 
 /**
  * Sealed class representing the possible states of any opening processes.

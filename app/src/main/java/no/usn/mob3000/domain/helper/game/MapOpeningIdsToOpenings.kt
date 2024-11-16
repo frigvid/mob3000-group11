@@ -3,7 +3,7 @@ package no.usn.mob3000.domain.helper.game
 import android.util.Log
 import kotlinx.coroutines.runBlocking
 import no.usn.mob3000.data.repository.game.OpeningsRepository
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
 
 private const val TAG = "OpeningsFetcher"
