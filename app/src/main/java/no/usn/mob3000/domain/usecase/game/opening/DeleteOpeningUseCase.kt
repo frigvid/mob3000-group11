@@ -6,6 +6,8 @@ import no.usn.mob3000.domain.repository.game.IOpeningsRepository
 /**
  * Android Use Case for handling chess opening deletion operations.
  *
+ * TODO@frigvid: If an opening is deleted, remove it from any groups automatically.
+ *
  * @property openingsRepository The repository handling opening operations.
  * @author frigvid
  * @created 2024-11-14
