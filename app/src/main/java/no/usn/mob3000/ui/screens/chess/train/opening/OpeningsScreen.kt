@@ -2,9 +2,14 @@ package no.usn.mob3000.ui.screens.chess.train.opening
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -12,84 +17,122 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.jan.supabase.postgrest.from
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.Serializable
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.auth.state.AuthenticationState
+import no.usn.mob3000.domain.model.game.Opening
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.data.network.SupabaseClientWrapper
+import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This shows the various chess openings that are available by default, and that
  * are created by users.
  *
- * Its sibling screen, which is accessible from this one, is the GroupsScreen.
+ * Its sibling screen, which is accessible from this one, is the `GroupsScreen`.
  *
- * @param onGroupsClick Callback function to navigate to the [GroupsScreen].
+ * @param authenticationState The authentication status state.
+ * @param authenticationStateUpdate Callback function to update the authentication status state immediately.
+ * @param openingsStartPeriodicUpdates Callback function to schedule a periodic update.
+ * @param setSelectedOpening ViewModel function to set the selected opening.
+ * @param openings The list of openings tracked in state.
+ * @param onGroupsClick Callback function to navigate to the `GroupsScreen`.
  * @param onCreateOpeningClick Callback function to navigate to the [CreateOpeningScreen].
  * @param onOpeningClick Callback function to navigate to the [OpeningDetailsScreen].
- * @param setOpenings ViewModel function to set the openings.
- * @param setSelectedOpening ViewModel function to set the selected opening.
  * @param filter TODO: Optional list of string IDs to filter openings
  * @author frigvid
  * @created 2024-09-24
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpeningsScreen(
+    authenticationState: StateFlow<AuthenticationState>,
+    authenticationStateUpdate: () -> Unit,
+    openingsStartPeriodicUpdates: () -> Unit,
+    setSelectedOpening: (Opening) -> Unit,
+    openings: List<Opening>,
     onGroupsClick: () -> Unit,
     onCreateOpeningClick: () -> Unit,
     onOpeningClick: (Opening) -> Unit,
-    setOpenings: (List<Opening>) -> Unit,
-    setSelectedOpening: (Opening) -> Unit,
     filter: List<String>? = null
 ) {
-    /* TODO: Extract data-handling code to data layer. */
-    var openings by remember { mutableStateOf<List<Opening>>(emptyList()) }
-    val configuration = LocalConfiguration.current
-    val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
+    val openingsList by remember { mutableStateOf(openings) }
 
-    LaunchedEffect(key1 = true) {
-        try {
-            val result = withContext(Dispatchers.IO) {
-                val supabase = SupabaseClientWrapper.getClient()
-                supabase.from("openings").select().decodeList<Opening>()
-            }
-            openings = result
-            setOpenings(result)
-            Log.d("OpeningsScreen", "Fetched openings: ${openings.size}")
-        } catch (e: Exception) {
-            Log.e("OpeningsScreen", "Error fetching openings", e)
-        }
+    //val configuration = LocalConfiguration.current
+    //val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
+
+    /**
+     * See [SettingsSectionAdmin]'s docstring for [authenticationState] for
+     * additional details.
+     *
+     * @author frigvid
+     * @created 2024-11-14
+     */
+    val authState by remember { authenticationState }.collectAsState()
+
+    LaunchedEffect(Unit) {
+        authenticationStateUpdate()
+        openingsStartPeriodicUpdates()
     }
 
     Viewport (
         floatingActionButton = {
-            FloatingActionButton(
-                containerColor = DefaultButton,
-                onClick = onCreateOpeningClick
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Create opening")
+            when (val auth = authState) {
+                is AuthenticationState.Authenticated -> {
+                    if (auth.isAdmin) {
+                        FloatingActionButton(
+                            containerColor = DefaultButton,
+                            onClick = onCreateOpeningClick
+                        ) {
+                            Icon(
+                                Icons.Default.Add,
+                                contentDescription = "Create opening"
+                            )
+                        }
+                    }
+                }
+
+                else -> return@Viewport
             }
         },
         topBarActions = {
-            IconButton(
-                colors = IconButtonDefaults.iconButtonColors(DefaultButton),
-                onClick = onGroupsClick
-            ) {
-                Icon(Icons.Default.PlayArrow, contentDescription = "Groups")
+            when (val auth = authState) {
+                is AuthenticationState.Authenticated -> {
+                    if (auth.isAdmin) {
+                        IconButton(
+                            onClick = onGroupsClick
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.group_button),
+                                contentDescription = "Groups",
+                                modifier = Modifier.size(24.dp),
+                                tint = Color.Black
+                            )
+                        }
+                    }
+                }
+
+                else -> return@Viewport
             }
         }
     ) { innerPadding ->
@@ -101,13 +144,12 @@ fun OpeningsScreen(
             modifier = Modifier.fillMaxSize()
                                .padding(innerPadding)
         ) {
-            items(openings) { opening ->
+            items(openingsList) { opening ->
                 CardButton(
-                    text = opening.title,
+                    text = opening.title ?: "\uD83D\uDC4B\uD83D\uDE00",
                     imageResource = R.drawable.placeholder_chess,
                     onClick = {
-                        /* TODO: Go to details page. Might need to implement a ViewModel for this. */
-                        Log.d("OpeningsScreen", opening.pgn.toString())
+                        Log.d("OpeningsScreen", opening.moves.toString())
                         setSelectedOpening(opening)
                         onOpeningClick(opening)
                     }
@@ -116,17 +158,6 @@ fun OpeningsScreen(
         }
     }
 }
-
-/* Todo: Extract to data layer. */
-@Serializable
-data class Opening(
-    val id: String,
-    val created_by: String? = null,
-    val title: String,
-    val description: String,
-    val pgn: List<Map<String, String>>,
-    val timestamp: String
-)
 
 /**
  * Displays a card, with a title and a thumbnail of the opening.

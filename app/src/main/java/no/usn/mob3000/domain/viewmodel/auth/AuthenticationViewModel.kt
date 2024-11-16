@@ -160,7 +160,7 @@ class AuthenticationViewModel(
                             *        Though, if it's an unknown error, then it should be logged as
                             *        such.
                             */
-                            Log.e(TAG, "Failure! Something went wrong while checking for user data!", error)
+                            Log.i(TAG, "No session token found, assuming unauthenticated!")
                             _authState.emit(AuthenticationState.Error(Exception(error)))
                         }
                     )
