@@ -455,7 +455,8 @@ object Routes {
                 friendState = profileViewModel.friends,
                 userIdState = profileViewModel.userId,
                 userProfilesMap = profileViewModel.userProfiles,
-                setSelectedUser = profileViewModel::setSelectedUser
+                setSelectedUser = profileViewModel::setSelectedUser,
+                onUserClick = profileViewModel::insertFriendRequest
             ) }
             composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
         }

@@ -40,7 +40,7 @@ class FriendRequestDataSource (private val supabaseClient: SupabaseClient = Supa
      */
     suspend fun insertFriendRequest(friendrequestItem: FriendRequestsDto): Result<Unit> = withContext(Dispatchers.IO) {
         try {
-            supabaseClient.from("friend_request").insert(friendrequestItem)
+            supabaseClient.from("friend_requests").insert(friendrequestItem)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

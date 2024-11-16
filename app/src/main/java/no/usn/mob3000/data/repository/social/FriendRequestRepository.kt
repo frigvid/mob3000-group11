@@ -1,11 +1,9 @@
 package no.usn.mob3000.data.repository.social
 
 import kotlinx.datetime.Clock
-import no.usn.mob3000.data.model.content.FaqDto
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.social.FriendRequestDataSource
-import no.usn.mob3000.domain.model.content.FAQData
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.domain.repository.social.IFriendRequestRepository
 import java.util.UUID
@@ -23,20 +21,13 @@ class FriendRequestRepository (
         }
     }
 
-
-
-
-    override suspend fun insertFriendRequest(
-        byUser : String,
-        toUser : String,
-        accepted : Boolean
-    ): Result<Unit>{
+    override suspend fun insertFriendRequest(toUser: String): Result<Unit>{
         val friendRequestItem = FriendRequestsDto(
             friendRequestId = UUID.randomUUID().toString(),
             createdAt = Clock.System.now(),
-            byUser = byUser,
+            byUser = authDataSource.getCurrentUserId(),
             toUser = toUser,
-            accepted = accepted
+            accepted = null
         )
         return friendRequestDataSource.insertFriendRequest(friendRequestItem)
 

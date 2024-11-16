@@ -35,7 +35,8 @@ fun ProfileAddFriendsScreen(
     selectedUser: UserProfile? = null,
     fetchNonFriends: () -> Unit,
     nonFriendState: StateFlow<Result<List<UserProfile>>>,
-    sendFriendRequest: (String) -> Unit,
+    sendFriendRequest: () -> Unit,
+    onUserClick: (String) -> Unit,
     fetchUser: (String) -> Unit,
     fetchUserById: (String) -> Unit,
     friendState: StateFlow<Result<List<FriendData>>>,
@@ -74,7 +75,9 @@ fun ProfileAddFriendsScreen(
                 items(filteredNonFriends) { user ->
                     UserListItem(
                         user = user,
-                        onAddClick = { sendFriendRequest(user.userId) }
+                        onClick = {
+                            onUserClick(user.userId)
+                            sendFriendRequest() }
                     )
                 }
             }
@@ -85,7 +88,7 @@ fun ProfileAddFriendsScreen(
 @Composable
 fun UserListItem(
     user: UserProfile,
-    onAddClick: () -> Unit
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -111,7 +114,7 @@ fun UserListItem(
         )
 
         Button(
-            onClick = onAddClick,
+            onClick = onClick,
             colors = ButtonDefaults.buttonColors(DefaultButton)
         ) {
             Text(stringResource(R.string.profile_add_friends_add_button))

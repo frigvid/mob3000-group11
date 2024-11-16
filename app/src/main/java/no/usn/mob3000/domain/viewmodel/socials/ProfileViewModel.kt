@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import no.usn.mob3000.data.repository.social.ProfileEditRepository
 import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
 import no.usn.mob3000.domain.usecase.social.AddFriends.FetchNonFriendsUseCase
+import no.usn.mob3000.domain.usecase.social.FriendRequest.InsertFriendRequestUseCase
 import no.usn.mob3000.domain.usecase.social.Profile.FetchUserByIdUseCase
 import no.usn.mob3000.domain.usecase.social.ProfileEdit.UpdateProfileUseCase
 
@@ -33,6 +34,7 @@ import no.usn.mob3000.domain.usecase.social.ProfileEdit.UpdateProfileUseCase
 
 class ProfileViewModel(
     private val updateProfileUseCase: UpdateProfileUseCase = UpdateProfileUseCase(ProfileEditRepository()),
+    private val insertFriendRequestUseCase: InsertFriendRequestUseCase = InsertFriendRequestUseCase(),
     private val fetchFriendsUseCase: FetchFriendsUseCase = FetchFriendsUseCase(),
     private val fetchNonFriendsUseCase: FetchNonFriendsUseCase = FetchNonFriendsUseCase(),
     private val fetchUserByIdUseCase: FetchUserByIdUseCase = FetchUserByIdUseCase(UserRepository()),
@@ -65,6 +67,15 @@ class ProfileViewModel(
             _userId.value = getCurrentUserIdUseCase.getCurrentUserId()
         }
     }
+
+    fun insertFriendRequest(
+        toUser: String
+    ) {
+        viewModelScope.launch {
+            insertFriendRequestUseCase.execute(toUser)
+        }
+    }
+
 
     fun fetchUser(userId: String) {
         viewModelScope.launch {
