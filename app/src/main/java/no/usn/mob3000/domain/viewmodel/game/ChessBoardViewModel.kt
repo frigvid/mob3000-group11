@@ -4,52 +4,18 @@ import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.bhlangonijr.chesslib.Board
 import com.github.bhlangonijr.chesslib.Piece
 import com.github.bhlangonijr.chesslib.PieceType
 import com.github.bhlangonijr.chesslib.Rank
 import com.github.bhlangonijr.chesslib.Side
 import com.github.bhlangonijr.chesslib.Square
-import com.github.bhlangonijr.chesslib.game.GameContext
-import com.github.bhlangonijr.chesslib.game.GameMode
-import com.github.bhlangonijr.chesslib.game.VariationType
 import com.github.bhlangonijr.chesslib.move.Move
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import no.usn.mob3000.domain.model.game.board.DraggedPiece
+import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
+import no.usn.mob3000.domain.model.game.board.ChessBoardState
 import no.usn.mob3000.domain.utils.Logger
-
-data class ChessBoardState(
-    val board: Board = Board(
-        GameContext(GameMode.HUMAN_VS_HUMAN, VariationType.NORMAL),
-        true
-    ),
-    val draggedPiece: DraggedPiece? = null,
-    val legalMoves: Set<Square> = emptySet(),
-    val pendingPromotion: PendingPromotion? = null
-
-)
-
-data class PendingPromotion(
-    val pieceType: PieceType,
-    val pieceSide: Side,
-    val squareRank: Rank,
-    val dialogPosition: Pair<Float, Float>
-)
-
-data class DraggedPiece(
-    val piece: Piece,
-    val fromSquare: Square,
-    val currentX: Float,
-    val currentY: Float
-)
-
-sealed class ChessBoardEvent {
-    data class InitializeBoard(val fen: String) : ChessBoardEvent()
-    data class OnPieceDragStart(val square: Square, val x: Float, val y: Float) : ChessBoardEvent()
-    data class OnPieceDragged(val x: Float, val y: Float) : ChessBoardEvent()
-    data class OnPieceDragEnd(val toSquare: Square?) : ChessBoardEvent()
-    data class OnPromotionPieceSelected(val piece: Piece) : ChessBoardEvent()
-}
 
 class ChessBoardViewModel : ViewModel() {
     private val _boardState = MutableStateFlow(ChessBoardState())

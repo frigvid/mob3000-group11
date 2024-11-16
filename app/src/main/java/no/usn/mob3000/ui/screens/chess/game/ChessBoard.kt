@@ -12,7 +12,6 @@ import no.usn.mob3000.ui.theme.ChessboardCellDark
 import no.usn.mob3000.ui.theme.ChessboardCellLight
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
@@ -26,7 +25,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.bhlangonijr.chesslib.File
@@ -35,7 +33,6 @@ import com.github.bhlangonijr.chesslib.Rank
 import com.github.bhlangonijr.chesslib.Side
 import com.github.bhlangonijr.chesslib.Square
 import no.usn.mob3000.domain.utils.Logger
-import kotlin.math.roundToInt
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -51,9 +48,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.github.bhlangonijr.chesslib.game.GameMode
 import com.github.bhlangonijr.chesslib.game.VariationType
-import no.usn.mob3000.domain.viewmodel.game.ChessBoardEvent
+import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
 import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
-import no.usn.mob3000.domain.viewmodel.game.DraggedPiece
+import no.usn.mob3000.domain.model.game.board.DraggedPiece
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 // FIX: This is cursed. Common now.
