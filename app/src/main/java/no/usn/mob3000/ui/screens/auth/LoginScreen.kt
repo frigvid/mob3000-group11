@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -30,6 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.flow.Flow
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
+import no.usn.mob3000.domain.model.auth.state.ForgotPasswordState
 import no.usn.mob3000.domain.model.auth.state.LoginState
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error
@@ -57,6 +60,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
 @Composable
 fun LoginScreen(
     loginState: Flow<LoginState>,
+    forgotPasswordState: Flow<ForgotPasswordState>,
     loginStateReset: () -> Unit,
     navigateHome: () -> Unit,
     onLoginClick: (String, String) -> Unit,
@@ -64,6 +68,7 @@ fun LoginScreen(
     onCreateUserClick: () -> Unit
 ) {
     val state by loginState.collectAsState(initial = LoginState.Idle)
+    val forgotState by forgotPasswordState.collectAsState(initial = ForgotPasswordState.Idle)
 
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -177,6 +182,28 @@ fun LoginScreen(
                     is LoginState.Loading -> Loading()
 
                     else -> {  }
+                }
+
+                /* Forgotten password state information box. */
+                when (forgotState) {
+                    is ForgotPasswordState.Success -> {
+                        loginStateReset()
+
+                        Error(
+                            text = stringResource(R.string.auth_forgot_password_state_success),
+                            cardContainerColor = Color.Green
+                        )
+                    }
+
+                    is ForgotPasswordState.Error -> {
+                        Error(
+                            text = stringResource(R.string.auth_forgot_password_state_failure)
+                        )
+                    }
+
+                    is ForgotPasswordState.Loading -> Loading()
+
+                    else -> {}
                 }
             }
         }

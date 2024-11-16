@@ -18,7 +18,10 @@ import no.usn.mob3000.data.source.remote.auth.UserDataSource
 class RegisterUseCase(
     private val authRepository: AuthRepository = AuthRepository(AuthDataSource(), UserDataSource())
 ) {
-    suspend operator fun invoke(email: String, password: String): Result<Unit> {
+    suspend operator fun invoke(
+        email: String,
+        password: String
+    ): Result<Unit> {
         if (!email.isValidEmail() || password.length < 8) {
             return Result.failure(
                 IllegalArgumentException("Invalid e-mail or password is too short.")
@@ -31,4 +34,3 @@ class RegisterUseCase(
     private fun String.isValidEmail(): Boolean =
         android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
-

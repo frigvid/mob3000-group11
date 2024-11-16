@@ -1,32 +1,27 @@
 package no.usn.mob3000.ui.screens
 
-import android.util.Log
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
+import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
 import no.usn.mob3000.domain.model.auth.state.DeleteAccountState
 import no.usn.mob3000.domain.model.auth.state.LogoutState
 import no.usn.mob3000.domain.viewmodel.CBViewModel
-import no.usn.mob3000.ui.components.DangerousActionDialogue
-import no.usn.mob3000.ui.components.Loading
+import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.debug.AuthenticationStatusText
 import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 import no.usn.mob3000.ui.components.settings.SettingsSectionApplication
 import no.usn.mob3000.ui.components.settings.SettingsSectionUser
-import no.usn.mob3000.ui.components.auth.Error as ProgressError
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * SettingsScreen allows users to configure user and application-wide settings.
@@ -35,6 +30,8 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * @param logoutState The logout state.
  * @param logoutStateReset Callback function to reset the account logout state.
+ * @param changeEmailState The e-mail change state.
+ * @param changePasswordState The password change state.
  * @param authenticationState The authentication status state.
  * @param onLogoutClick Function to log the user out.
  * @param onLoginClick Function to log the user in.
@@ -49,6 +46,8 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *                      the selected theme as a String parameter.
  * @param onLanguageChange Callback function invoked when the user selects a new language. It
  *                         receives the selected language as a String parameter.
+ * @param navigateToPasswordReset Callback function to navigate to the password reset screen.
+ * @param navigateToEmailChange Callback function to navigate to the e-mail address change screen.
  * @see Viewport
  * @see CBViewModel
  * @author frigvid
@@ -58,6 +57,8 @@ import no.usn.mob3000.ui.theme.DefaultButton
 fun SettingsScreen(
     logoutState: Flow<LogoutState>,
     logoutStateReset: () -> Unit,
+    changeEmailState: Flow<ChangeEmailState>,
+    changePasswordState: Flow<ChangePasswordState>,
     authenticationState: StateFlow<AuthenticationState>,
     onLogoutClick: () -> Unit,
     onLoginClick: () -> Unit,
@@ -69,7 +70,9 @@ fun SettingsScreen(
     selectedTheme: String,
     selectedLanguage: String,
     onThemeChange: (String) -> Unit,
-    onLanguageChange: (String) -> Unit
+    onLanguageChange: (String) -> Unit,
+    navigateToPasswordReset: () -> Unit,
+    navigateToEmailChange: () -> Unit
 ) {
     Viewport(
         topBarActions = { AuthenticationStatusText(authenticationState, authenticationStateUpdate) }
@@ -92,12 +95,16 @@ fun SettingsScreen(
                 authenticationState,
                 logoutState,
                 accountDeleteState,
+                changeEmailState,
+                changePasswordState,
                 logoutStateReset,
                 accountDeleteStateReset,
                 authenticationStateUpdate,
                 onLoginClick,
                 onLogoutClick,
-                onDeleteAccountClick
+                onDeleteAccountClick,
+                navigateToPasswordReset,
+                navigateToEmailChange
             )
 
             SettingsSectionApplication(
