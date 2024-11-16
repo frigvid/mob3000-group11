@@ -93,11 +93,12 @@ fun ChessBoard(
     var boardSize by remember { mutableFloatStateOf(0f) }
     val cellSize = boardSize / 8
 
-    val textMeasurer = rememberTextMeasurer()
+    val chessBoardCellTextMeasurer = rememberTextMeasurer()
 
-    val piecePainters = ChessResources.pieceToResourceMap.mapValues { (_, resourceId) ->
-        painterResource(id = resourceId)
-    }
+    val chessBoardPiecePainters =
+        ChessResources.pieceToResourceMap.mapValues { (_, resourceId) ->
+            painterResource(id = resourceId)
+        }
 
 
 
@@ -164,21 +165,6 @@ fun ChessBoard(
                     },
                     onDragEnd = {
                         Logger.d(message = "Drag gesture ended")
-                        // TODO: Remove when done testing.
-                        //val draggedPiece = boardState.draggedPiece
-                        //if (draggedPiece != null) {
-                        //    val file = (draggedPiece.currentX / cellSize).toInt().coerceIn(0, 7)
-                        //    val rank = 7 - (draggedPiece.currentY / cellSize).toInt().coerceIn(0, 7)
-                        //    val toSquare = Square.encode(
-                        //        Rank.allRanks[rank],
-                        //        File.allFiles[file]
-                        //    )
-                        //    Logger.d(message = "Drag ended at square $toSquare")
-                        //    viewModel.onEvent(ChessBoardEvent.OnPieceDragEnd(toSquare))
-                        //} else {
-                        //    Logger.e(message = "Drag ended but no dragged piece found")
-                        //}
-
                         val draggedPiece = boardState.draggedPiece
                         if (draggedPiece != null) {
                             val file = (draggedPiece.currentX / cellSize).toInt()
@@ -191,9 +177,6 @@ fun ChessBoard(
                             } else null
 
                             Logger.d(message = "Drag ended at square $toSquare")
-                            if (toSquare != null) {
-                                viewModel.setBoardPieceDraggedToSquare(toSquare)
-                            }
                             viewModel.onEvent(ChessBoardEvent.OnPieceDragEnd(toSquare))
                         } else {
                             Logger.e(message = "Drag ended but no dragged piece found")
@@ -222,7 +205,7 @@ fun ChessBoard(
                     )
 
                     val textColor = if (isLight) ChessboardCellDark else ChessboardCellLight
-                    val textLayoutResult = textMeasurer.measure(
+                    val textLayoutResult = chessBoardCellTextMeasurer.measure(
                         text = square.toString(),
                         style = TextStyle(
                             color = textColor,
@@ -257,7 +240,7 @@ fun ChessBoard(
                             boardState.draggedPiece!!.fromSquare != square
                         )
                     ) {
-                        val painter = piecePainters[piece]
+                        val painter = chessBoardPiecePainters[piece]
                         if (painter != null) {
                             drawPiece(
                                 painter,
@@ -271,7 +254,7 @@ fun ChessBoard(
 
             /* Draw the piece's new location. */
             boardState.draggedPiece?.let { draggedPiece ->
-                val painter = piecePainters[draggedPiece.piece]
+                val painter = chessBoardPiecePainters[draggedPiece.piece]
                 if (painter != null) {
                     drawPiece(
                         painter,
@@ -287,17 +270,25 @@ fun ChessBoard(
 
         promotionState?.let { state ->
             PromotionDialog(
-                square = viewModel.boardPieceDraggedToSquare.value,
+                square = state.square,
                 offset = state.offset,
                 side = state.side,
                 onPieceSelected = { piece ->
                     viewModel.onEvent(ChessBoardEvent.OnPromotionPieceSelected(piece))
+                },
+                onDismissRequest = {
+                    promotionState = null
                 }
             )
         }
     }
 }
 
+/**
+ *
+ * @author frigvid
+ * @created 2024-11-16
+ */
 private fun DrawScope.drawPiece(
     painter: Painter,
     topLeft: Offset,
@@ -312,12 +303,18 @@ private fun DrawScope.drawPiece(
     }
 }
 
+/**
+ *
+ * @author frigvid
+ * @created 2024-11-16
+ */
 @Composable
 private fun PromotionDialog(
     square: Square,
     offset: Offset,
     side: Side,
-    onPieceSelected: (Piece) -> Unit
+    onPieceSelected: (Piece) -> Unit,
+    onDismissRequest: () -> Unit
 ) {
     Logger.i("Promotion dialogue opened!\n\tSquare: $square\n\tOffset: $offset\n\tSide: $side\n\tOn Piece Selected: $onPieceSelected")
     val promotionPieces = if (side == Side.WHITE) {
@@ -329,6 +326,7 @@ private fun PromotionDialog(
     Popup(
         properties = PopupProperties(focusable = true),
         alignment = Alignment.TopStart,
+        onDismissRequest = onDismissRequest
     ) {
         Card(
             modifier = Modifier
@@ -339,20 +337,8 @@ private fun PromotionDialog(
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
         ) {
             Column {
-                TrianglePointer(true)
+                // TODO: Dynamic placement, horizontal, vertical. TrianglePointer(true)
                 TrianglePointer()
-                //Canvas(modifier = Modifier
-                //    .size(16.dp)
-                //    .align(Alignment.CenterHorizontally)
-                //) {
-                //    val path = Path().apply {
-                //        moveTo(size.width / 2, 0f)
-                //        lineTo(size.width, size.height)
-                //        lineTo(0f, size.height)
-                //        close()
-                //    }
-                //    drawPath(path, Color.White, style = Fill)
-                //}
 
                 Row(
                     modifier = Modifier.padding(8.dp),
@@ -366,6 +352,7 @@ private fun PromotionDialog(
                                 .size(48.dp)
                                 .clickable {
                                     onPieceSelected(piece)
+                                    onDismissRequest()
                                 }
                                 .padding(4.dp)
                         )
@@ -376,8 +363,13 @@ private fun PromotionDialog(
     }
 }
 
+/**
+ *
+ * @author frigvid
+ * @created 2024-11-16
+ */
 @Composable
-fun ColumnScope.TrianglePointer(
+private fun ColumnScope.TrianglePointer(
     isAbove: Boolean = false,
 ) {
     return Canvas(
