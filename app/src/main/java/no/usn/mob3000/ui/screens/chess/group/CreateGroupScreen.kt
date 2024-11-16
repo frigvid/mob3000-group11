@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.chess.train.group
+package no.usn.mob3000.ui.screens.chess.group
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

@@ -22,7 +22,7 @@ import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
-import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
+import no.usn.mob3000.ui.screens.chess.opening.OpeningDetailsScreen
 import java.text.SimpleDateFormat
 import java.util.*
 

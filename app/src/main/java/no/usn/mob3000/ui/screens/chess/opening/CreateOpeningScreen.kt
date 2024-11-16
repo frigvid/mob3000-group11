@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.chess.train.opening
+package no.usn.mob3000.ui.screens.chess.opening
 
 import android.util.Log
 import androidx.compose.material3.AlertDialog
