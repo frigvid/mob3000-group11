@@ -52,6 +52,7 @@ import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
 import no.usn.mob3000.domain.model.game.board.ChessResources
 import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
 import no.usn.mob3000.domain.model.game.board.DraggedPiece
+import no.usn.mob3000.domain.model.game.board.PromotionState
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 // FIX: This is cursed. Common now.
@@ -103,10 +104,10 @@ fun ChessBoard(
     // NOTE: Separated from the rest of the code, somewhat, to indicate its testy nature.
     val lifecycleOwner = LocalLifecycleOwner.current
     var dragPiece by remember { mutableStateOf<DraggedPiece?>(null) }
-    var promotionState by remember { mutableStateOf<ChessBoardViewModel.PromotionState?>(null) }
+    var promotionState by remember { mutableStateOf<PromotionState?>(null) }
 
     DisposableEffect(lifecycleOwner) {
-        val observer = Observer<ChessBoardViewModel.PromotionState?> { state ->
+        val observer = Observer<PromotionState?> { state ->
             promotionState = state
         }
 

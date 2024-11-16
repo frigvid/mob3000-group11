@@ -18,6 +18,7 @@ import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.game.board.DraggedPiece
 import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
 import no.usn.mob3000.domain.model.game.board.ChessBoardState
+import no.usn.mob3000.domain.model.game.board.PromotionState
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.utils.Logger
 
@@ -52,26 +53,8 @@ class ChessBoardViewModel : ViewModel() {
     val promotionLiveData: LiveData<PromotionState?> = _promotionLiveData
     private var pendingPromotionMove: Pair<Square, Square>? = null
 
-    data class PromotionState(
-        val square: Square,
-        val offset: Offset,
-        val side: Side
-    )
-
     private val _draggedPieceLiveData = MutableLiveData<DraggedPiece?>()
     val draggedPieceLiveData: LiveData<DraggedPiece?> = _draggedPieceLiveData
-
-
-
-
-
-    fun loadFen(fen: String) {
-        _boardState.value.board.loadFromFen(fen)
-    }
-    fun loadPgn(pgn: String) {
-        _boardState.value.board.loadFromFen(convertPgnToFen(pgn))
-    }
-
 
 
 

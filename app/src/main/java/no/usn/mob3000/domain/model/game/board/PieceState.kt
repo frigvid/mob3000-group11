@@ -1,5 +1,6 @@
 package no.usn.mob3000.domain.model.game.board
 
+import androidx.compose.ui.geometry.Offset
 import com.github.bhlangonijr.chesslib.Piece
 import com.github.bhlangonijr.chesslib.PieceType
 import com.github.bhlangonijr.chesslib.Rank
@@ -17,6 +18,18 @@ data class PendingPromotion(
     val pieceSide: Side,
     val squareRank: Rank,
     val dialogPosition: Pair<Float, Float>
+)
+
+/**
+ * The chess board's piece's promotion information.
+ *
+ * @author frigvid
+ * @created 2024-11-16
+ */
+data class PromotionState(
+    val square: Square,
+    val offset: Offset,
+    val side: Side
 )
 
 /**
