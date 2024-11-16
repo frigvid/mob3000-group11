@@ -15,11 +15,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.UserProfile
-import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 
@@ -32,17 +30,10 @@ import no.usn.mob3000.ui.theme.DefaultButton
  */
 @Composable
 fun ProfileAddFriendsScreen(
-    selectedUser: UserProfile? = null,
     fetchNonFriends: () -> Unit,
     nonFriendState: StateFlow<Result<List<UserProfile>>>,
     sendFriendRequest: () -> Unit,
-    onUserClick: (String) -> Unit,
-    fetchUser: (String) -> Unit,
-    fetchUserById: (String) -> Unit,
-    friendState: StateFlow<Result<List<FriendData>>>,
-    userIdState: StateFlow<String?>,
-    userProfilesMap: StateFlow<Map<String, UserProfile>>,
-    setSelectedUser: (UserProfile) -> Unit
+    onUserClick: (String) -> Unit
 ) {
     val nonFriends by nonFriendState.collectAsState()
     var searchQuery by remember { mutableStateOf("") }

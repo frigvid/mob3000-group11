@@ -118,7 +118,6 @@ fun ProfileScreen(
                     tint = Color.Black
                 )
             }
-
         }
     ) { innerPadding ->
         Column(
@@ -145,9 +144,9 @@ fun ProfileScreen(
                     AboutSection()
                     FriendsSection(
                         friendResult = friendResult,
+                        userProfilesMap = userProfiles,
                         userId = userId,
-                        fetchUserById = fetchUserById,
-                        userProfilesMap = userProfiles
+                        fetchUserById = fetchUserById
                     )
                 }
 
@@ -156,10 +155,6 @@ fun ProfileScreen(
         }
     }
 }
-
-
-
-
 /**
  * Composable function that displays the header section of the profile screen.
  *
@@ -286,7 +281,6 @@ fun AboutSection() {
         )
     }
 }
-
 /**
  * Composable function that displays the friends section of the profile screen.
  *
@@ -296,30 +290,28 @@ fun AboutSection() {
  * @created 2024-10-11
  */
 @Composable
-fun friendComponent(
+fun FriendComponent(
     friendResult: Result<List<FriendData>>,
+    userProfilesMap: Map<String, UserProfile>,
     userId: String?,
-    fetchUserById: (String) -> Unit,
-    userProfilesMap: Map<String, UserProfile>
+    fetchUserById: (String) -> Unit
 ) {
     LazyColumn {
         friendResult.onSuccess { friends ->
             items(friends) { friend ->
-                val friendIdToDisplay = if (userId != friend.user1) friend.user1 else friend.user2
+                val friendIdToDisplay = if (friend.user1 != userId) friend.user1 else friend.user2
                 LaunchedEffect(friendIdToDisplay) {
                     if (!userProfilesMap.containsKey(friendIdToDisplay)) {
                         fetchUserById(friendIdToDisplay)
                     }
                 }
-
-                val friendDisplayName = userProfilesMap[friendIdToDisplay]?.displayName ?: friendIdToDisplay
-
+                val friendDisplayName = userProfilesMap[friendIdToDisplay]?.displayName ?: "No name"
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
-                        .clickable {  }
+                        .clickable { }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.profile_icon),
@@ -349,12 +341,13 @@ fun friendComponent(
     }
 }
 
+
 @Composable
 fun FriendsSection(
     friendResult: Result<List<FriendData>>,
+    userProfilesMap: Map<String, UserProfile>,
     userId: String?,
-    fetchUserById: (String) -> Unit,
-    userProfilesMap: Map<String, UserProfile>
+    fetchUserById: (String) -> Unit
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
@@ -363,13 +356,15 @@ fun FriendsSection(
             fontSize = 16.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        friendComponent(
+        FriendComponent(
             friendResult = friendResult,
+            userProfilesMap = userProfilesMap,
             userId = userId,
-            fetchUserById = fetchUserById,
-            userProfilesMap = userProfilesMap
+            fetchUserById = fetchUserById
         )
     }
 }
+
+
 
 

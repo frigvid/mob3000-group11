@@ -1,6 +1,10 @@
 package no.usn.mob3000.domain.repository.social
 
-
+/**
+ * Interface for the profile edit repository.
+ * @author 258030
+ * @created 2024-11-15
+ */
 interface IProfileEditRepository {
     suspend fun updateProfile(
         userid: String,
@@ -10,8 +14,5 @@ interface IProfileEditRepository {
         nationality: String,
         profileVisibility: Boolean,
         friendsVisibility: Boolean
-
     ): Result<Unit>
-
-
 }

@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.user
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
@@ -32,13 +32,16 @@ import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
- * Screen to allow users to see pending friend requests for their acccounts,
- * and accept or reject them.
+ * This screen allows users to view pending friend requests, and provides options to accept or decline
+ * each request. It fetches friend request data and displays them in a vertical list.
  *
- * TODO: Add data layer functionality that actually fetches friend requests in the background.
- * TODO: Cache known, but unhandled, friend requests for the user in ViewModel state.
- *
- * @author Hussein, frigvid
+ * @param fetchFriendRequests Function to fetch the friend requests.
+ * @param friendRequestState StateFlow containing the result of fetching friend requests.
+ * @param userProfilesMap Map of user profiles.
+ * @param fetchUserById Function to fetch a user by their ID.
+ * @param onAcceptFriendRequest Function to handle accepting a friend request.
+ * @param onDeclineFriendRequest Function to handle declining a friend request.
+ * @author Hussein, frigvid, 258030
  * @created 2024-10-11
  */
 @Composable
@@ -93,8 +96,18 @@ fun ProfileFriendRequestsScreen(
         }
     }
 }
-
-
+/**
+ * Function that displays a single friend request item in the list.
+ *
+ * This item shows the user who sent the friend request, along with "Accept" and "Decline" buttons
+ * to allow the user to respond to the request.
+ *
+ * @param friendRequest The [FriendRequestData] object representing the friend request.
+ * @param userProfilesMap A map of user profiles keyed by user IDs, used to display the sender's information.
+ * @param fetchUserById Function to fetch the profile of the user who sent the friend request, if their profile is not already available.
+ * @param onAccept Function to handle the acceptance of the friend request.
+ * @param onDecline Function to handle the decline of the friend request.
+ */
 @Composable
 fun FriendRequestItem(
     friendRequest: FriendRequestData,
@@ -104,15 +117,12 @@ fun FriendRequestItem(
     onDecline: () -> Unit
 ) {
     val friendIdToDisplay = friendRequest.byUser
-
     LaunchedEffect(friendIdToDisplay) {
         if (!userProfilesMap.containsKey(friendIdToDisplay)) {
             fetchUserById(friendIdToDisplay)
         }
     }
-
-    val displayName = userProfilesMap[friendIdToDisplay]?.displayName ?: "Ukjent bruker"
-
+    val displayName = userProfilesMap[friendIdToDisplay]?.displayName ?: stringResource(R.string.profile_pending_friend_requests_unknown_user)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -138,14 +148,14 @@ fun FriendRequestItem(
             modifier = Modifier.padding(horizontal = 4.dp),
             colors = ButtonDefaults.buttonColors(DefaultButton)
         ) {
-            Text(text = "Accept", color = Color.White)
+            Text(text = stringResource(R.string.profile_pending_friend_requests_accept_button), color = Color.White)
         }
         Button(
             onClick = onDecline,
             modifier = Modifier.padding(horizontal = 4.dp),
             colors = ButtonDefaults.buttonColors(DefaultButton)
         ) {
-            Text(text = "Decline", color = Color.White)
+            Text(text = stringResource(R.string.profile_pending_friend_requests_decline_button), color = Color.White)
         }
     }
 }

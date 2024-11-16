@@ -149,6 +149,9 @@
     <!-- Profile pending friend requests page. -->
     <string name="profile_pending_friend_requests_title">Ventende venneforespørsler</string>
     <string name="profile_pending_friend_requests_no_requests">Det er ingen ventende forespørsler akkurat nå.</string>
+    <string name="profile_pending_friend_requests_accept_button">Godkjenn</string>
+    <string name="profile_pending_friend_requests_decline_button">Avslå</string>
+    <string name="profile_pending_friend_requests_unknown_user">Ukjent bruker</string>
 
     <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>

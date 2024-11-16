@@ -1,60 +1,67 @@
 package no.usn.mob3000.data.repository.social
 
-import android.util.Log
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
 import no.usn.mob3000.data.source.remote.social.FriendsDataSource
-import no.usn.mob3000.data.source.remote.auth.UserDataSource
-import no.usn.mob3000.data.source.remote.social.ProfileUserDataSource
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.domain.repository.social.IFriendsRepository
-
 /**
- * @author Husseinabdulameer11
- * @created  05.11.2024
+ * This repository orchestrates mainly the showcasing of the users friends. In difference to [FriendRequestRepository], this repository
+ * contains only fetch-actions.
+ *
+ * Mapping is implemented to join [displayName] from [UserProfile] to [FriendData].
+ * TODO: Deletion of a friendship and other actions if we have the time
+ *
+ * @param FriendsDataSource The data source for fetching friends.
+ * @param profileUserDataSource The data source for fetching non-friend profiles.
+ * @author Husseinabdulameer11, 258030
+ * @created 2024-11-05
  **/
-
 class FriendsRepository (
-
-    private val FriendsDataSource: FriendsDataSource = FriendsDataSource(),
-    private val userDataSource : UserDataSource = UserDataSource(),
-    private val profileUserDataSource: ProfileUserDataSource = ProfileUserDataSource()
+    private val friendsDataSource: FriendsDataSource = FriendsDataSource()
 ):IFriendsRepository{
-
-   override suspend fun getFriendProfile(userId: String):Result<List<FriendData>>{
-       return try {
-           val friendprofileDto = userDataSource.getUserFriends(userId);
-           Result.success( friendprofileDto.map { it.toDomainModel() })
-       }
-       catch (e: Exception){
-           Result.failure(e)
-       }
-   }
-
-    override suspend fun fetchFriends(): Result<List<FriendData>> {
+    /**
+     * Fetches all friends and puts it into a list, maps it for usage in the ui layer. Checks for if the user ID
+     * matches a column, shows the row where the userId matched least one of the columns (either user1 or user2).
+     * More filtration is done in the ui layer.
+     *
+     * @param userId The user id of the current user. Used to filter out friend connections that does not exist
+     * @return A list of [FriendData]
+     * @author 258030
+     * @created 2024-11-14
+     */
+    override suspend fun fetchFriends(userId: String): Result<List<FriendData>> {
         return try{
-            val Friendslist = FriendsDataSource.fetchAllFriends();
-            Friendslist.forEach { friend ->
-                Log.d("FriendsRepository", "Friend: $friend")
-            }
-            Result.success(Friendslist.map {it.toDomainModel()  })
+            val friendsList = friendsDataSource.fetchFriends()
+            val userFriends = friendsList.filter { it.user1 == userId || it.user2 == userId }
+            Result.success(userFriends.map { it.toDomainModel() })
         } catch (e: Exception){
             Result.failure(e)
         }
     }
-
+    /**
+     * Fetches all non-friends and maps it for usage in the ui layer. Used for adding new friends
+     *
+     * @param userId The user id of the current user. Used to filter out friend connections that does not exist
+     * @author 258030
+     * @created 2024-11-15
+     */
     override suspend fun fetchNonFriends(userId: String): Result<List<UserProfile>> {
         return try {
-            val nonFriendProfiles: List<ProfileDto> = profileUserDataSource.fetchNonFriends(userId)
+            val friendIds = friendsDataSource.fetchFriends().flatMap { listOf(it.user1, it.user2) }.filter { it != userId }
+            val nonFriendProfiles = friendsDataSource.fetchNonFriends(userId).filter { it.userId !in friendIds }
             val nonFriendProfilesMapped = nonFriendProfiles.map { it.toDomainModel() }
             Result.success(nonFriendProfilesMapped)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
-
-
+    /**
+     * Maps [FriendsDto] to [FriendData]
+     *
+     * @return The corresponding [FriendData] instance
+     */
     private fun FriendsDto.toDomainModel(): FriendData {
         return FriendData(
             friendshipId = this.friendshipId ?: "",
@@ -63,7 +70,11 @@ class FriendsRepository (
             user2 = this.user2 ?: ""
         )
     }
-
+    /**
+     * Maps [ProfileDto] to [UserProfile]
+     *
+     * @return The corresponding [UserProfile] instance
+     */
     private fun ProfileDto.toDomainModel(): UserProfile {
         return UserProfile(
             userId = this.userId,

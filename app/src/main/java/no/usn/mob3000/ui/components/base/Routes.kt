@@ -205,7 +205,6 @@ object Routes {
                 )
             }
         }
-
         /**
          * The news routes.
          *
@@ -434,7 +433,6 @@ object Routes {
                     viewModel = ProfileViewModel()
                 )
             }
-
             composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
                 ProfileEditScreen(
                     selectedUser = profileViewModel.selectedUser.value,
@@ -450,16 +448,9 @@ object Routes {
         ) {
             composable(route = Destination.PROFILE_ADD_FRIENDS.name) {
                 ProfileAddFriendsScreen(
-                    selectedUser = profileViewModel.selectedUser.value,
                     fetchNonFriends = { profileViewModel.fetchNonFriends() },
                     nonFriendState = profileViewModel.nonFriends,
                     sendFriendRequest = { navController.navigate(Destination.PROFILE.name) },
-                    fetchUser = { userId -> profileViewModel.fetchUser(userId) },
-                    fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
-                    friendState = profileViewModel.friends,
-                    userIdState = profileViewModel.userId,
-                    userProfilesMap = profileViewModel.userProfiles,
-                    setSelectedUser = profileViewModel::setSelectedUser,
                     onUserClick = profileViewModel::insertFriendRequest
                 )
             }

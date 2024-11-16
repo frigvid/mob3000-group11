@@ -1,7 +1,6 @@
 package no.usn.mob3000.domain.viewmodel.socials
 
 import android.util.Log
-import no.usn.mob3000.domain.usecase.social.Profile.FetchUserProfileUseCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,35 +12,33 @@ import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendData
-import no.usn.mob3000.domain.usecase.social.Profile.FetchFriendsUseCase
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import no.usn.mob3000.data.repository.social.ProfileEditRepository
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
-import no.usn.mob3000.domain.usecase.social.AddFriends.FetchNonFriendsUseCase
-import no.usn.mob3000.domain.usecase.social.FriendRequest.AcceptFriendRequestUseCase
-import no.usn.mob3000.domain.usecase.social.FriendRequest.FetchFriendRequestUseCase
-import no.usn.mob3000.domain.usecase.social.FriendRequest.InsertFriendRequestUseCase
-import no.usn.mob3000.domain.usecase.social.Profile.FetchUserByIdUseCase
-import no.usn.mob3000.domain.usecase.social.ProfileEdit.UpdateProfileUseCase
-
+import no.usn.mob3000.domain.usecase.social.requests.FriendRequestUseCase
+import no.usn.mob3000.domain.usecase.social.userProfile.FetchFriendsUseCase
+import no.usn.mob3000.domain.usecase.social.userProfile.FetchUserByIdUseCase
+import no.usn.mob3000.domain.usecase.social.userProfile.FetchUserProfileUseCase
+import no.usn.mob3000.domain.usecase.social.userUpdate.UpdateProfileUseCase
 /**
+ * ViewModel for handling user profile-related functionality. Using the different usecases to communicate with the business logic handled in
+ * the data layer
  *
- * TODO: KDoc
- *
- * @author Husseinabdulameer11
- * @contributors 258030
+ * @param updateProfileUseCase The use case for updating a user's profile.
+ * @param fetchFriendsUseCase The use case for fetching a user's friends.
+ * @param friendRequestUseCase The use case for managing friend requests.
+ * @param fetchUserByIdUseCase The use case for fetching a user by their ID.
+ * @param getCurrentUserIdUseCase The use case for getting the current user's ID.
+ * @param fetchUserProfileUseCase The use case for fetching a user's profile.
+ * @author Husseinabdulameer11, 258030
  * @created 2024-11-05
  **/
-
 class ProfileViewModel(
     private val updateProfileUseCase: UpdateProfileUseCase = UpdateProfileUseCase(ProfileEditRepository()),
-    private val insertFriendRequestUseCase: InsertFriendRequestUseCase = InsertFriendRequestUseCase(),
     private val fetchFriendsUseCase: FetchFriendsUseCase = FetchFriendsUseCase(),
-    private val fetchFriendRequestUseCase: FetchFriendRequestUseCase = FetchFriendRequestUseCase(),
-    private val fetchNonFriendsUseCase: FetchNonFriendsUseCase = FetchNonFriendsUseCase(),
-    private val acceptFriendRequestUseCase: AcceptFriendRequestUseCase = AcceptFriendRequestUseCase(),
+    private val friendRequestUseCase: FriendRequestUseCase = FriendRequestUseCase(),
     private val fetchUserByIdUseCase: FetchUserByIdUseCase = FetchUserByIdUseCase(UserRepository()),
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase = GetCurrentUserIdUseCase(
         authRepository = AuthRepository(
@@ -51,28 +48,34 @@ class ProfileViewModel(
     ),
     private val fetchUserProfileUseCase: FetchUserProfileUseCase = FetchUserProfileUseCase(UserRepository())
 ) : ViewModel() {
-
+    /* User profiles. */
     private val _userProfiles = MutableStateFlow<Map<String, UserProfile>>(emptyMap())
     val userProfiles: StateFlow<Map<String, UserProfile>> = _userProfiles
 
+    private val _currentUserProfile = MutableStateFlow<UserProfile?>(null)
+    val currentUserProfile: StateFlow<UserProfile?> = _currentUserProfile
+
+    /* ID/Selection */
     private val _selectedUser = mutableStateOf<UserProfile?>(null)
     val selectedUser: State<UserProfile?> = _selectedUser
 
+    private val _userId = MutableStateFlow<String?>(null)
+    val userId: StateFlow<String?> = _userId
+
+    /* Friend requests. */
     private val _friends = MutableStateFlow<Result<List<FriendData>>>(Result.success(emptyList()))
     val friends: StateFlow<Result<List<FriendData>>> = _friends
 
     private val _nonFriends = MutableStateFlow<Result<List<UserProfile>>>(Result.success(emptyList()))
     val nonFriends: StateFlow<Result<List<UserProfile>>> = _nonFriends
 
-    private val _userId = MutableStateFlow<String?>(null)
-    val userId: StateFlow<String?> = _userId
-
     private val _friendRequests = MutableStateFlow<Result<List<FriendRequestData>>>(Result.success(emptyList()))
     val friendRequests: StateFlow<Result<List<FriendRequestData>>> = _friendRequests
 
-    private val _currentUserProfile = MutableStateFlow<UserProfile?>(null)
-    val currentUserProfile: StateFlow<UserProfile?> = _currentUserProfile
-
+    /**
+     * Initializes the ViewModel by fetching the current user's ID and fetching their profile. Used primary to ensure better refreshes, as this part of the system will not
+     * have access to the room database.
+     */
     init {
         viewModelScope.launch {
             _userId.value = getCurrentUserIdUseCase.getCurrentUserId()
@@ -82,17 +85,25 @@ class ProfileViewModel(
         }
     }
 
+    /***************Friend request***************/
+    /**
+     * Inserts a friend request into the database.
+     *
+     * @param toUser The ID of the user to send the friend request to.
+     */
     fun insertFriendRequest(
         toUser: String
     ) {
         viewModelScope.launch {
-            insertFriendRequestUseCase.execute(toUser)
+            friendRequestUseCase.insert(toUser)
         }
     }
-
+    /**
+     * Accepts a friend request.
+     */
     fun acceptFriendRequest(friendRequestId: String) {
         viewModelScope.launch {
-            val result = acceptFriendRequestUseCase.accept(friendRequestId)
+            val result = friendRequestUseCase.accept(friendRequestId)
             result.onSuccess {
                 fetchFriendRequests()
                 fetchFriends()
@@ -101,10 +112,12 @@ class ProfileViewModel(
             }
         }
     }
-
+    /**
+     * Declines a friend request.
+     */
     fun declineFriendRequest(friendRequestId: String) {
         viewModelScope.launch {
-            val result = acceptFriendRequestUseCase.decline(friendRequestId)
+            val result = friendRequestUseCase.decline(friendRequestId)
             result.onSuccess {
                 fetchFriendRequests()
             }.onFailure {
@@ -113,7 +126,10 @@ class ProfileViewModel(
         }
     }
 
-
+    /***************User profile***************/
+    /**
+     * Fetches a user's profile from the database.
+     */
     fun fetchUser(userId: String) {
         viewModelScope.launch {
             val result = fetchUserProfileUseCase(userId)
@@ -124,7 +140,9 @@ class ProfileViewModel(
             }
         }
     }
-
+    /**
+     * Fetches a user by their ID from the database.
+     */
     fun fetchUserById(userId: String) {
         viewModelScope.launch {
             val result = fetchUserByIdUseCase(userId)
@@ -135,34 +153,57 @@ class ProfileViewModel(
             }
         }
     }
-
-    fun fetchFriends() {
-        viewModelScope.launch {
-            _friends.value = fetchFriendsUseCase.fetchFriends()
-        }
-    }
-
-    fun fetchNonFriends() {
-        viewModelScope.launch {
-            _userId.value?.let { userId ->
-                val result = fetchNonFriendsUseCase.execute(userId)
-                _nonFriends.value = result
-            }
-        }
-    }
-
-    fun fetchFriendRequests() {
-        viewModelScope.launch {
-            val result = fetchFriendRequestUseCase.execute()
-            _friendRequests.value = result
-        }
-    }
-
-
+    /**
+     * Sets the selected user for further actions.
+     */
     fun setSelectedUser(selectedUser: UserProfile) {
         _selectedUser.value = selectedUser
     }
 
+    /***************Friends**************/
+    /**
+     * Fetches a user's friends from the database.
+     */
+    fun fetchFriends() {
+        viewModelScope.launch {
+            _userId.value?.let { userId ->
+                val result = fetchFriendsUseCase.fetchFriends(userId)
+                _friends.value = result
+            }
+        }
+    }
+    /**
+     * Fetches a user's non-friends from the database.
+     */
+    fun fetchNonFriends() {
+        viewModelScope.launch {
+            _userId.value?.let { userId ->
+                val result = fetchFriendsUseCase.fetchNonFriends(userId)
+                _nonFriends.value = result
+            }
+        }
+    }
+    /**
+     * Fetches a user's friend requests from the database.
+     */
+    fun fetchFriendRequests() {
+        viewModelScope.launch {
+            val result = fetchFriendsUseCase.fetchFriendRequests()
+            _friendRequests.value = result
+        }
+    }
+
+    /***************Update**************/
+    /**
+     * Saves changes made to the currently selected user's profile.
+     *
+     * @param displayName The new display name for the user.
+     * @param avatarUrl The new avatar URL for the user.
+     * @param aboutMe The new about-me text for the user.
+     * @param nationality The new nationality for the user.
+     * @param profileVisibility Whether the user's profile is visible or not.
+     * @param friendsVisibility Whether the user's friends list is visible or not.
+     */
     fun saveProfileChanges(
         displayName: String,
         avatarUrl: String,
@@ -183,9 +224,16 @@ class ProfileViewModel(
             )
         }
     }
-
     /**
      * Updates the user's profile in the database.
+     *
+     * @param userid The ID of the user to update.
+     * @param displayName The new display name for the user.
+     * @param avatarUrl The new avatar URL for the user.
+     * @param aboutMe The new about-me text for the user.
+     * @param nationality The new nationality for the user.
+     * @param profileVisibility Whether the user's profile is visible or not.
+     * @param friendsVisibility Whether the user's friends list is visible or not.
      */
     private fun updateUserInDb(
         userid: String,
@@ -208,9 +256,6 @@ class ProfileViewModel(
             )
         }
     }
-
-
-
 }
 
 

@@ -17,13 +17,12 @@ import java.util.UUID
  * The class contains functionality for fetching, inserting, updating, and handling the requests (accept/decline). Implemented mapping with [toDomainModel],
  * joining [displayName] from [UserProfile] with [FriendRequestData] to associate the common userId between the tables.
  *
- * @property authDataSource The data source for authentication.
- * @property friendRequestDataSource The data source for friend-requests.
- * @property profileUserDataSource The data source for user profile.
- *
+ * @param authDataSource The data source for authentication.
+ * @param friendRequestDataSource The data source for friend-requests.
+ * @param profileUserDataSource The data source for user profile.
  * @author 258030
  * @contributor Husseinabdulameer11
- * @created  2024-11-16
+ * @created 2024-11-16
  */
 class FriendRequestRepository (
     private val authDataSource: AuthDataSource = AuthDataSource(),
@@ -37,14 +36,19 @@ class FriendRequestRepository (
      * TODO: Remove logs
      *
      * @return [Result] containing a list of [FriendRequestData] if successful, otherwise an error.
+     * @throws Exception if an error occurs during the fetch.
+     * @author 258030
+     * @contributor Husseinabdulameer11
+     * @created 2024-11-16
      */
     override suspend fun fetchFriendRequests(): Result<List<FriendRequestData>> {
         return try {
-            val requestsList = friendRequestDataSource.fetchFriendRequests();
+            val currentUserId = authDataSource.getCurrentUserId()
+            val requestsList = friendRequestDataSource.fetchFriendRequests(currentUserId)
             requestsList.forEach { friend ->
                 Log.d("FriendRequestRepository", "Friend: $friend")
             }
-            Result.success(requestsList.map {it.toDomainModel()  })
+            Result.success(requestsList.map { it.toDomainModel() })
         } catch (e: Exception) {
             Log.e("FriendRequestRepository", "Failed to fetch friend requests: ${e.message}")
             Result.failure(e)
@@ -55,6 +59,8 @@ class FriendRequestRepository (
      *
      * @param toUser The user ID to whom the friend request is being sent.
      * @return [Result] indicating success or failure.
+     * @author Husseinabdulameer11
+     * @created 2024-11-16
      */
     override suspend fun insertFriendRequest(toUser: String): Result<Unit>{
         val requestItem = FriendRequestsDto(
@@ -65,9 +71,17 @@ class FriendRequestRepository (
             accepted = null
         )
         return friendRequestDataSource.insertFriendRequest(requestItem)
-
     }
-
+    /**
+     * Accepts a friend request by its ID.
+     *
+     * This function inserts the friend pair into the friends table and deletes the original friend request.
+     *
+     * @param friendRequestId The ID of the friend request to be accepted.
+     * @return [Result] indicating success or failure.
+     * @author 258030
+     * @created 2024-11-16
+     */
     override suspend fun acceptFriendRequest(friendRequestId: String): Result<Unit> {
         return try {
             val friendRequest = friendRequestDataSource.fetchFriendRequestById(friendRequestId)
@@ -80,7 +94,6 @@ class FriendRequestRepository (
                 )
                 friendRequestDataSource.insertFriend(newFriend)
                 deleteFriendRequest(friendRequestId)
-
                 Result.success(Unit)
             } else {
                 Result.failure(Exception("Friend request $friendRequestId does not exist"))
@@ -90,17 +103,29 @@ class FriendRequestRepository (
             Result.failure(e)
         }
     }
-
+    /**
+     * Declines a friend request by its ID.
+     * This function simply deletes the friend request without any further action.
+     *
+     * TODO: Might add a confirmation option here?
+     *
+     * @param friendRequestId The ID of the friend request to be declined.
+     * @return [Result] indicating success or failure.
+     * @author 258030
+     * @created 2024-11-16
+     */
     override suspend fun declineFriendRequest(friendRequestId: String): Result<Unit> {
         return deleteFriendRequest(friendRequestId)
     }
-
     /**
      * Declines a friend requests after interaction with [ProfileFriendRequestsScreen]. This function is used by both the accept and decline option, since
      * the friend request is deleted in both cases.
      *
      * @param friendRequestId The ID of the friend request to be deleted.
      * @return [Result] indicating success or failure.
+     * @author 258030
+     * @contributor Husseinabdulameer11
+     * @created 2024-11-16
      */
     private suspend fun deleteFriendRequest(friendRequestId: String): Result<Unit> {
         return try {
@@ -111,7 +136,11 @@ class FriendRequestRepository (
             Result.failure(e)
         }
     }
-
+    /**
+     * Converts [FriendRequestsDto] to [FriendRequestData]. "accepted" is not really used in the implementation.
+     *
+     * @return The corresponding [FriendRequestData] instance.
+     */
     private fun FriendRequestsDto.toDomainModel(): FriendRequestData {
         return FriendRequestData(
             friendRequestId = this.friendRequestId,
@@ -121,5 +150,4 @@ class FriendRequestRepository (
             createdAt = this.createdAt ?: Clock.System.now()
         )
     }
-
 }
