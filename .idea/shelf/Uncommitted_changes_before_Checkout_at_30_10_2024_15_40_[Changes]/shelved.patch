@@ -1,0 +1,59 @@
+Index: app/src/main/java/no/usn/mob3000/data/model/auth/UserDto.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package no.usn.mob3000.data.model.auth\r\n\r\nimport kotlinx.datetime.Instant\r\nimport kotlinx.serialization.SerialName\r\nimport kotlinx.serialization.Serializable\r\nimport kotlinx.serialization.json.JsonObject\r\n\r\n/**\r\n * The user.\r\n *\r\n * @param id The user's UUID.\r\n * @param email The user's email.\r\n * @param emailConfirmedAt A timestamp for when the account's email was confirmed.\r\n * @param invitedAt A timestamp for when, and if, the user was invited to the platform.\r\n * @param emailConfirmationSentAt A timestamp for when the account's confirmation email was sent.\r\n * @param recoveryEmailSentAt A timestamp for when the password recovery email was sent.\r\n * @param emailChangeSentAt A timestamp for when the e-mail change was sent.\r\n * @param lastSignInAt A timestamp for when the user last signed in.\r\n * @param rawUserMetadata Json object containing potential arbitrary key-value pairs.\r\n * @param isAdmin Whether the user is an admin or not.\r\n * @param accountCreatedAt A timestamp for when the account was created.\r\n * @param accountUpdatedAt A timestamp for when the account was updated.\r\n * @param accountBannedUntil A timestamp telling for how long a user is banned.\r\n * @author frigvid\r\n * @created 2024-10-21\r\n */\r\n@Serializable\r\ndata class UserDto(\r\n    @SerialName(\"id\")\r\n    val id: String,\r\n    @SerialName(\"email\")\r\n    val email: String? = null,\r\n    @SerialName(\"email_confirmed_at\")\r\n    val emailConfirmedAt: Instant? = null,\r\n    @SerialName(\"invited_at\")\r\n    val invitedAt: Instant? = null,\r\n    @SerialName(\"confirmation_sent_at\")\r\n    val emailConfirmationSentAt: Instant? = null,\r\n    @SerialName(\"recovery_sent_at\")\r\n    val recoveryEmailSentAt: Instant? = null,\r\n    @SerialName(\"email_change_sent_at\")\r\n    val emailChangeSentAt: Instant? = null,\r\n    @SerialName(\"last_sign_in_at\")\r\n    val lastSignInAt: Instant? = null,\r\n    @SerialName(\"raw_user_meta_data\")\r\n    val rawUserMetadata: JsonObject? = null,\r\n    @SerialName(\"is_super_admin\")\r\n    val isAdmin: Boolean? = false,\r\n    @SerialName(\"created_at\")\r\n    val accountCreatedAt: Instant? = null,\r\n    @SerialName(\"updated_at\")\r\n    val accountUpdatedAt: Instant? = null,\r\n    @SerialName(\"banned_until\")\r\n    val accountBannedUntil: Instant? = null,\r\n)\r\n
+===================================================================
+diff --git a/app/src/main/java/no/usn/mob3000/data/model/auth/UserDto.kt b/app/src/main/java/no/usn/mob3000/data/model/auth/UserDto.kt
+--- a/app/src/main/java/no/usn/mob3000/data/model/auth/UserDto.kt	
++++ b/app/src/main/java/no/usn/mob3000/data/model/auth/UserDto.kt	
+@@ -1,5 +1,7 @@
+ package no.usn.mob3000.data.model.auth
+ 
++import android.os.Parcel
++import android.os.Parcelable
+ import kotlinx.datetime.Instant
+ import kotlinx.serialization.SerialName
+ import kotlinx.serialization.Serializable
+@@ -52,4 +54,41 @@
+     val accountUpdatedAt: Instant? = null,
+     @SerialName("banned_until")
+     val accountBannedUntil: Instant? = null,
+-)
++) : Parcelable {
++    constructor(parcel: Parcel) : this(
++        parcel.readString(),
++        parcel.readString(),
++        TODO("emailConfirmedAt"),
++        TODO("invitedAt"),
++        TODO("emailConfirmationSentAt"),
++        TODO("recoveryEmailSentAt"),
++        TODO("emailChangeSentAt"),
++        TODO("lastSignInAt"),
++        TODO("rawUserMetadata"),
++        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
++        TODO("accountCreatedAt"),
++        TODO("accountUpdatedAt"),
++        TODO("accountBannedUntil")
++    ) {
++    }
++
++    override fun writeToParcel(parcel: Parcel, flags: Int) {
++        parcel.writeString(id)
++        parcel.writeString(email)
++        parcel.writeValue(isAdmin)
++    }
++
++    override fun describeContents(): Int {
++        return 0
++    }
++
++    companion object CREATOR : Parcelable.Creator<UserDto> {
++        override fun createFromParcel(parcel: Parcel): UserDto {
++            return UserDto(parcel)
++        }
++
++        override fun newArray(size: Int): Array<UserDto?> {
++            return arrayOfNulls(size)
++        }
++    }
++}
