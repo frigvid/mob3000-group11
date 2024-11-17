@@ -20,4 +20,3 @@ class FetchNewsUseCase(
         return repository.refreshNewsFromNetwork()
     }
 }
-

@@ -1,6 +1,7 @@
 package no.usn.mob3000.domain.usecase.content.docs
 
 import no.usn.mob3000.domain.repository.content.IDocsRepository
+
 /**
  * Use case for deleting news. Functions as a bridge between the UI and Data layers.
  *
