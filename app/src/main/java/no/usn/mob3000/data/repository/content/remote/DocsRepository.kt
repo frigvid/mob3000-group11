@@ -15,8 +15,8 @@ import java.util.UUID
  * database actions. Via [IDocsRepository] it makes a possible communication route with the UI domain layer, without the domain layer getting accidental access
  * to parts of the code it never was suppose to have. It also helps the application run smoother, as there are less dependencies between layers.
  *
- * @param docsDataSource The data source for document-related operations.
  * @param authDataSource The data source for authentication-related operations.
+ * @param docsDataSource The data source for document-related operations.
  * @param docsRepositoryLocal The local data source for document-related operations.
  * @author 258030
  * @contributor frigvid
@@ -41,6 +41,7 @@ class DocsRepository(
             Result.failure(e)
         }
     }
+
     /**
      * Fetches a list of all documents to later be used for generating document-cards in the UI.
      * It maps the fetched data to a domain model, so it can be used in the UI.
@@ -59,6 +60,7 @@ class DocsRepository(
             Result.failure(e)
         }
     }
+
     /**
      * Deletes a document by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
      * [DocumentationScreen] -> [DocumentationDetailsScreen].
@@ -74,6 +76,7 @@ class DocsRepository(
             Result.failure(e)
         }
     }
+
     /**
      * Updates a chosen document by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
      * [DocumentationScreen] -> [DocumentationDetailsScreen]. As long as the docsId exist, the update instance starts. Without an actual UUID for the doc
@@ -81,7 +84,7 @@ class DocsRepository(
      * but the validator also make us aware if the method for fetching the ID fails.
      *
      * @return A result indicating the success or failure of the update operation.
-     * */
+     */
     override suspend fun updateDocs(
         docsId: String,
         title: String,
@@ -106,6 +109,7 @@ class DocsRepository(
             return Result.failure(Exception("Original docs data not found"))
         }
     }
+
     /**
      * Fetches a document by its ID. Used for populating the update screen and identify what row we are working with.
      *
@@ -120,6 +124,7 @@ class DocsRepository(
             Result.failure(e)
         }
     }
+
     /**
      * Inserts a new row into the database. The database has an auto generated UUID for new rows, but we call it here for good measure. Not passing the value seems
      * to interfere with the null exception. It displays the time of creation using [kotlinx.datetime.Clock] and tracks what user made the row.
@@ -148,6 +153,7 @@ class DocsRepository(
         return docsDataSource.insertDocs(docsItem)
 
     }
+
     /**
      * Maps a DocsDto to a DocsData. For usage in the domain layer. Might be moved if repository are made abstract.
      */
@@ -163,6 +169,7 @@ class DocsRepository(
             docsId = this.docId
         )
     }
+
     private fun DocsDto.toLocalModel(): DocsItemLocal {
         return DocsItemLocal(
             docsId = this.docId,
@@ -176,6 +183,7 @@ class DocsRepository(
         )
 
     }
+
     private fun DocsItemLocal.toDomainModel(): DocsData {
         return DocsData(
             docsId = this.docsId,

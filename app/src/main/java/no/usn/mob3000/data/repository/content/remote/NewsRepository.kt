@@ -9,13 +9,14 @@ import no.usn.mob3000.data.source.remote.content.NewsDataSource
 import no.usn.mob3000.domain.model.content.NewsData
 import no.usn.mob3000.domain.repository.content.INewsRepository
 import java.util.UUID
+
 /**
  * Repository class responsible for managing operations related to the docs table. It uses [NewsDataSource] for fetching and handling
  * database actions. Via [INewsRepository] it makes a possible communication route with the UI domain layer, without the domain layer getting accidental access
  * to parts of the code it never was suppose to have. It also helps the application run smoother, as there are less dependencies between layers.
  *
- * @param newsDataSource The data source for news-related operations.
  * @param authDataSource The data source for authentication-related operations.
+ * @param newsDataSource The data source for news-related operations.
  * @param newsRepositoryLocal The local data handling for news-related operations.
  * @author 258030
  * @created 2024-10-30
@@ -58,6 +59,7 @@ class NewsRepository(
             Result.failure(e)
         }
     }
+
     /**
      * Deletes a news by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
      * [NewsScreen] -> [NewsDetailsScreen]
@@ -73,6 +75,7 @@ class NewsRepository(
             Result.failure(e)
         }
     }
+
     /**
      * Updates a chosen news by its ID. The ID is directly fetched by what specific card has been opened from one of the main screens
      * [NewsScreen] -> [NewsDetailsScreen]. As long as the ewsId exist, the update instance starts. Without an actual UUID for the news
@@ -105,6 +108,7 @@ class NewsRepository(
             return Result.failure(Exception("Original news data not found"))
         }
     }
+
     /**
      * Fetches a news by its ID. Used for populating the update screen and identify what row we are working with.
      *
@@ -119,6 +123,7 @@ class NewsRepository(
             Result.failure(e)
         }
     }
+
     /**
      * Inserts a new news.The database has an auto generated UUID for new rows, but we call it here for good measure. Not passing the value seems
      * to interfere with the null exception. It displays the time of creation using [kotlinx.datetime.Clock] and tracks what user made the row.
@@ -144,6 +149,7 @@ class NewsRepository(
         )
         return newsDataSource.insertNews(newsItem)
     }
+    
     /**
      * Maps a NewsDto to a NewsData. For usage in the domain layer. Might be moved if repository are made abstract.
      */
