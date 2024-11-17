@@ -49,22 +49,61 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.github.bhlangonijr.chesslib.game.GameMode
 import com.github.bhlangonijr.chesslib.game.VariationType
 import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
-import no.usn.mob3000.domain.model.game.board.ChessResources
+import no.usn.mob3000.domain.model.game.board.ChessPieces
 import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
 import no.usn.mob3000.domain.model.game.board.DraggedPiece
 import no.usn.mob3000.domain.model.game.board.PromotionState
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
-
-// FIX: This is cursed. Common now.
-val ChessboardCellLight = Color(0xFFf0d9b5)
-val ChessboardCellDark = Color(0xFFb58863)
-val LegalMoveHighlight = Color(0x668BC34A)
+import no.usn.mob3000.ui.theme.LegalMoveHighlight
 
 /**
- * The cursedest chessboard.
+ * The chess board component provides a a mostly functional chess board.
+ *
+ * ## Note
+ *
+ * As a rule of thumb, we've been passing screens the view models functions and values via
+ * parameters as this makes them easier to test, were we to need or want for such a thing.
+ *
+ * However, the chess board is very tightly interwoven with its view model, and passing
+ * around its functions and values via parameters would cause strange and unnecessary
+ * dependency chains. Mostly because aside from the `PlayScreen`, most others have no
+ * need for the full interactable experience.
+ *
+ * Thus, the view model is provided and instantiated via a default parameter value in
+ * the composable function's parameter list instead. I'd prefer another method, but it's
+ * a discussion of complexity versus simplicity, as well as the cost in time. Which, as of
+ * this date, there's not a lot left to go around.
+ *
+ * ## Warning
+ *
+ * The chess board, from a lack of development time, is somewhat fragile. You'll notice this
+ * appear in some places. In debug builds, via the [Logger] helper function, you'll be able
+ * to see the logs for movement and state changes. Most of the issues are caused by a fragile
+ * relationship between the logic board and the graphical user-interface board.
+ *
+ * Here's some things that may come up:
+ *
+ * 1. Dragging pieces may not seem to work, though, if you keep at it, it usually does by the
+ *    second or third attempt.
+ *
+ * 2. Managing to reach the other side with a pawn, and opening the promotion dialogue resets
+ *    the board.
+ *
+ * 3. The "reset board" and "undo move" buttons have their logic implemented, but again, a
+ *    fragile relationship between the graphical and the logical layers, without additional
+ *    development time, means they don't seem to work. They do on the logical layer, however,
+ *    so it's mostly just a case of debugging until it works.
+ *
+ * Most of the functionality is there though, it's just a matter of a good few more days of
+ * development time that we don't have.
+ *
+ * Currently, you can move pieces, consume other pieces, end up in mate and check mate and
+ * potentially soft-lock the board if you win/lose. Should be fixed by exiting the screen
+ * and entering it again, however.
  *
  * @param modifier The modifier.
  * @param startingPosition FEN notation for the chess board's default piece starting position.
+ * @param chessBoardViewModel The tightly coupled chess board view model.
  * @param gameMode The game mode. E.g. vs humans or machine.
  * @param gameVariation The chess variation to play.
  * @param gameHistory Whether history is enabled for the chess board.
@@ -76,61 +115,54 @@ val LegalMoveHighlight = Color(0x668BC34A)
 fun ChessBoard(
     modifier: Modifier = Modifier,
     startingPosition: String = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-    // FIX: Replace with standard method.
-    // NOTE: Debugging strange behavior.
-    viewModel: ChessBoardViewModel = ChessBoardViewModel(),
+    chessBoardViewModel: ChessBoardViewModel = ChessBoardViewModel(),
     gameMode: GameMode = GameMode.HUMAN_VS_HUMAN,
     gameVariation: VariationType = VariationType.NORMAL,
     gameHistory: Boolean = true,
     gameInteractable: Boolean = true
 ) {
-    // TODO: Implement better board setting than this atrocity.
     LaunchedEffect(startingPosition) {
-        viewModel.onEvent(ChessBoardEvent.InitializeBoard(startingPosition))
+        chessBoardViewModel.onEvent(ChessBoardEvent.InitializeBoard(startingPosition))
     }
 
-    val boardState by viewModel.boardState.collectAsState()
+    val boardState by chessBoardViewModel.boardState.collectAsState()
     var boardSize by remember { mutableFloatStateOf(0f) }
     val cellSize = boardSize / 8
 
     val chessBoardCellTextMeasurer = rememberTextMeasurer()
 
     val chessBoardPiecePainters =
-        ChessResources.pieceToResourceMap.mapValues { (_, resourceId) ->
+        ChessPieces.pieceToResourceMap.mapValues { (_, resourceId) ->
             painterResource(id = resourceId)
         }
 
-
-
-    // NOTE: Separated from the rest of the code, somewhat, to indicate its testy nature.
     val lifecycleOwner = LocalLifecycleOwner.current
     var dragPiece by remember { mutableStateOf<DraggedPiece?>(null) }
     var promotionState by remember { mutableStateOf<PromotionState?>(null) }
 
     DisposableEffect(lifecycleOwner) {
-        val observer = Observer<PromotionState?> { state ->
-            promotionState = state
-        }
+        val promotionStateObserver = Observer<PromotionState?> { state -> promotionState = state }
 
-        val observer2 = Observer<DraggedPiece?> { state ->
-            dragPiece = state
-        }
-
-        viewModel.promotionLiveData.observe(lifecycleOwner, observer)
+        chessBoardViewModel.promotionLiveData.observe(lifecycleOwner, promotionStateObserver)
         Logger.i("Promotion state observer initialized!")
-        viewModel.draggedPieceLiveData.observe(lifecycleOwner, observer2)
-        Logger.i("Dragged piece state observer initialized! $dragPiece")
 
         onDispose {
-            viewModel.promotionLiveData.removeObserver(observer)
+            chessBoardViewModel.promotionLiveData.removeObserver(promotionStateObserver)
             Logger.i("Promotion state observer destroyed!")
-
-            viewModel.draggedPieceLiveData.removeObserver(observer2)
-            Logger.i("Dragged piece state observer destroyed!")
         }
     }
 
+    DisposableEffect(lifecycleOwner) {
+        val draggedPieceObserver = Observer<DraggedPiece?> { state -> dragPiece = state }
 
+        chessBoardViewModel.draggedPieceLiveData.observe(lifecycleOwner, draggedPieceObserver)
+        Logger.i("Dragged piece state observer initialized! $dragPiece")
+
+        onDispose {
+            chessBoardViewModel.draggedPieceLiveData.removeObserver(draggedPieceObserver)
+            Logger.i("Dragged piece state observer destroyed!")
+        }
+    }
 
     Box(
         modifier = modifier
@@ -153,12 +185,12 @@ fun ChessBoard(
                                     Rank.allRanks[rank],
                                     File.allFiles[file]
                                 )
-                                viewModel.onEvent(ChessBoardEvent.OnPieceDragStart(square, offset.x, offset.y))
+                                chessBoardViewModel.onEvent(ChessBoardEvent.OnPieceDragStart(square, offset.x, offset.y))
                             }
                         },
                         onDrag = { change, _ ->
                             Logger.v(message = "Drag gesture update at ${change.position}")
-                            viewModel.onEvent(
+                            chessBoardViewModel.onEvent(
                                 ChessBoardEvent.OnPieceDragged(
                                 change.position.x,
                                 change.position.y
@@ -178,7 +210,7 @@ fun ChessBoard(
                                 } else null
 
                                 Logger.d(message = "Drag ended at square $toSquare")
-                                viewModel.onEvent(ChessBoardEvent.OnPieceDragEnd(toSquare))
+                                chessBoardViewModel.onEvent(ChessBoardEvent.OnPieceDragEnd(toSquare))
                             } else {
                                 Logger.e(message = "Drag ended but no dragged piece found")
                             }
@@ -223,7 +255,7 @@ fun ChessBoard(
                     }
 
                     /* Show a highlight for a legal move when dragging a piece. */
-                    if (boardState.legalMoves.contains(square)) {
+                    if (boardState.legalMoves.contains(square) && gameInteractable) {
                         drawCircle(
                             color = LegalMoveHighlight,
                             radius = cellSize * 0.3f,
@@ -279,7 +311,7 @@ fun ChessBoard(
                     offset = state.offset,
                     side = state.side,
                     onPieceSelected = { piece ->
-                        viewModel.onEvent(ChessBoardEvent.OnPromotionPieceSelected(piece))
+                        chessBoardViewModel.onEvent(ChessBoardEvent.OnPromotionPieceSelected(piece))
                     },
                     onDismissRequest = {
                         promotionState = null
@@ -291,6 +323,7 @@ fun ChessBoard(
 }
 
 /**
+ * Draw the chess board's chess piece.
  *
  * @author frigvid
  * @created 2024-11-16
@@ -310,6 +343,7 @@ private fun DrawScope.drawPiece(
 }
 
 /**
+ * Composable promotion dialogue for finishing "upgrading" chess pieces.
  *
  * @author frigvid
  * @created 2024-11-16
@@ -323,6 +357,7 @@ private fun PromotionDialog(
     onDismissRequest: () -> Unit
 ) {
     Logger.i("Promotion dialogue opened!\n\tSquare: $square\n\tOffset: $offset\n\tSide: $side\n\tOn Piece Selected: $onPieceSelected")
+
     val promotionPieces = if (side == Side.WHITE) {
         listOf(Piece.WHITE_QUEEN, Piece.WHITE_ROOK, Piece.WHITE_BISHOP, Piece.WHITE_KNIGHT)
     } else {
@@ -352,7 +387,7 @@ private fun PromotionDialog(
                 ) {
                     promotionPieces.forEach { piece ->
                         Image(
-                            painter = painterResource(ChessResources.pieceToResourceMap[piece]!!),
+                            painter = painterResource(ChessPieces.pieceToResourceMap[piece]!!),
                             contentDescription = piece.name,
                             modifier = Modifier
                                 .size(48.dp)
@@ -370,6 +405,12 @@ private fun PromotionDialog(
 }
 
 /**
+ * The triangle pointer used in the [PromotionDialog].
+ *
+ * Together with it, this is meant to be used to be
+ * re-drawn on the fly, so that it's always correctly
+ * positioned on the top or bottom row of the dialogue
+ * and always pointing at the correct chess board square.
  *
  * @author frigvid
  * @created 2024-11-16

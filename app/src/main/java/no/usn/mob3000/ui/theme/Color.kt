@@ -13,6 +13,7 @@ val ProfileUserStatisticsBackground = Color(0xFFEFEBE9)
 
 val ChessboardCellLight = Color(0xFFf0d9b5)
 val ChessboardCellDark = Color(0xFFb58863)
+val LegalMoveHighlight = Color(0x668BC34A)
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)

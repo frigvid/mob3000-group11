@@ -59,7 +59,8 @@ fun GroupItem(
     onOpeningLongClick: (Opening, Group) -> Unit,
     onEditClick: (Group) -> Unit,
     onDeleteClick: (Group) -> Unit,
-    onTrainClick: (Group) -> Unit
+    onTrainClick: (Group) -> Unit,
+    setSelectedBoardOpenings: (List<Opening>) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -114,7 +115,7 @@ fun GroupItem(
                 )
 
                 Button(
-                    onClick = { onTrainClick(group) },
+                    onClick = { setSelectedBoardOpenings(group.openings) },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) {

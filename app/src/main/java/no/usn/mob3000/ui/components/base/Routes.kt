@@ -310,6 +310,7 @@ object Routes {
                 navController,
                 openingsViewModel,
                 groupsViewModel,
+                chessBoardViewModel,
                 authenticationViewModel
             )
 
@@ -393,6 +394,7 @@ object Routes {
          * @param navController The navigation controller.
          * @param groupsViewModel The groups ViewModel.
          * @param openingsViewModel The openings ViewModel.
+         * @param chessBoardViewModel The chess board ViewModel.
          * @param authenticationViewModel The authentication state ViewModel.
          * @author frigvid
          * @created 2024-11-06
@@ -401,6 +403,7 @@ object Routes {
             navController: NavController,
             openingsViewModel: OpeningsViewModel,
             groupsViewModel: GroupsViewModel,
+            chessBoardViewModel: ChessBoardViewModel,
             authenticationViewModel: AuthenticationViewModel
         ) {
             composable(route = Destination.GROUPS.name) {
@@ -410,6 +413,7 @@ object Routes {
                     groupsStartPeriodicUpdates = groupsViewModel::startPeriodicUpdates,
                     onOpeningSelect = openingsViewModel::setSelectedOpening,
                     setSelectedGroup = groupsViewModel::setSelectedGroup,
+                    setSelectedBoardOpenings = chessBoardViewModel::setSelectedBoardOpenings,
                     onGroupDelete = groupsViewModel::deleteGroup,
                     onNavigateToGroupCreation = { navController.navigate((Destination.GROUPS_CREATE.name)) },
                     onNavigateToGroupEditing = { navController.navigate(Destination.GROUPS_UPDATE.name) },
@@ -454,6 +458,10 @@ object Routes {
             composable(route = Destination.PLAY.name) {
                 PlayScreen(
                     openingsList = chessBoardViewModel.selectedBoardOpenings.value,
+                    boardState = chessBoardViewModel.boardState,
+                    gameState = chessBoardViewModel.gameState,
+                    onResetBoardClick = chessBoardViewModel::resetGame,
+                    onUndoMoveClick = chessBoardViewModel::undoLastMove
                 )
             }
 

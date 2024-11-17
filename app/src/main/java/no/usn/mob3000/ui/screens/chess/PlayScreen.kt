@@ -14,6 +14,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,11 +26,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.helper.game.convertPgnToFen
+import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
+import no.usn.mob3000.domain.model.game.board.ChessBoardGameState
+import no.usn.mob3000.domain.model.game.board.ChessBoardState
 import no.usn.mob3000.domain.model.game.board.PracticeMode
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.utils.Logger
+import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.board.ChessBoard
 import no.usn.mob3000.ui.theme.DefaultButton
@@ -43,18 +51,27 @@ import no.usn.mob3000.ui.theme.DefaultListItemBackground
  * - Game statistics (wins, losses, draws)
  * - Control buttons for resetting the board, undoing moves, and switching to multiplayer
  *
+ * @param openingsList The list of openings to train against. May only contain one, or multiple.
+ * @param boardState The chess board's state. The logic layer, if you will.
+ * @param gameState The chess board's game state; the status and user stats.
+ * @param onResetBoardClick Callback function to reset the board.
+ * @param onUndoMoveClick Callback function to undo a move.
  * @author frigvid
  * @created 2024-09-24
  */
 @Composable
 fun PlayScreen(
     openingsList: List<Opening>?,
+    boardState: StateFlow<ChessBoardState>,
+    gameState: StateFlow<ChessBoardGameState>,
+    onResetBoardClick: () -> Unit,
+    onUndoMoveClick: () -> Unit
 ) {
-    /* TODO: Extract to ViewModel as necessary. */
-    val gameStatus by remember { mutableStateOf("Ongoing") }
-    val wins by remember { mutableIntStateOf(5) }
-    val losses by remember { mutableIntStateOf(3) }
-    val draws by remember { mutableIntStateOf(2) }
+    val statefulBoard by boardState.collectAsState()
+    val statefulGame by gameState.collectAsState()
+
+    Logger.d("PlayScreen: Collected board state: $statefulBoard")
+    Logger.d("PlayScreen: Collected game state: $statefulGame")
 
     /* If list is more than one long, assume that practice mode is group training. */
     val practiceMode = if (openingsList != null && openingsList.size == 1) {
@@ -90,8 +107,9 @@ fun PlayScreen(
                         fontWeight = FontWeight.Bold
                     )
 
+                    Logger.d("PlayScreen: About to display status: ${statefulGame.status}")
                     Text(
-                        text = gameStatus,
+                        text = statefulGame.status,
                         fontSize = 16.sp
                     )
                 }
@@ -113,9 +131,9 @@ fun PlayScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        StatisticItem(stringResource(R.string.play_wins), wins)
-                        StatisticItem(stringResource(R.string.play_losses), losses)
-                        StatisticItem(stringResource(R.string.play_draws), draws)
+                        StatisticItem(stringResource(R.string.play_wins), statefulGame.wins)
+                        StatisticItem(stringResource(R.string.play_losses), statefulGame.losses)
+                        StatisticItem(stringResource(R.string.play_draws), statefulGame.draws)
                     }
                 }
             }
@@ -134,8 +152,8 @@ fun PlayScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    // TODO@frigvid: Remove after testing complete.
-                    startingPosition = "3qk3/7P/8/8/8/8/7p/3QK3 w - - 0 1"
+                    // TODO@frigvid: Remove after finishing promotion testing.
+                    //               startingPosition = "3qk3/7P/8/8/8/8/7p/3QK3 w - - 0 1"
                 )
             }
 
@@ -144,16 +162,20 @@ fun PlayScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
-                    onClick = { /* TODO: Implement reset board logic */ },
+                    onClick = onResetBoardClick,
                     colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
                     modifier = Modifier.weight(1f).padding(end = 8.dp)
-                ) { Text(stringResource(R.string.play_reset_board)) }
+                ) {
+                    Text(stringResource(R.string.play_reset_board))
+                }
 
                 Button(
-                    onClick = { /* TODO: Implement undo move logic */ },
+                    onClick = onUndoMoveClick,
                     colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
                     modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                ) { Text(stringResource(R.string.play_undo_move)) }
+                ) {
+                    Text(stringResource(R.string.play_undo_move))
+                }
 
                 /* TODO: Currently, this button is disabled because we're technically always in
                  *       local multiplayer mode. Either some form of custom algorithm, a simple
@@ -165,7 +187,9 @@ fun PlayScreen(
                     enabled = false,
                     colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
                     modifier = Modifier.weight(1f).padding(start = 8.dp)
-                ) { Text(stringResource(R.string.play_multiplayer)) }
+                ) {
+                    Text(stringResource(R.string.play_multiplayer))
+                }
             }
         }
     }
@@ -180,7 +204,10 @@ fun PlayScreen(
  * @created 2024-10-09
  */
 @Composable
-fun StatisticItem(label: String, value: Int) {
+private fun StatisticItem(
+    label: String,
+    value: Int
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = label, fontSize = 14.sp)
         Text(text = value.toString(), fontSize = 18.sp, fontWeight = FontWeight.Bold)

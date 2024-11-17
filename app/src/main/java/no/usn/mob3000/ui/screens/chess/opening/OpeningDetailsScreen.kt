@@ -46,8 +46,15 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * TODO: Add functionality to traverse steps in the opening, akin to website version.
  * TODO: Extract data/logic related code to data layer.
  *
+ * @param authenticationState The authentication status state.
+ * @param authenticationStateUpdate Callback function to update the authentication status state.
  * @param opening The [Opening] to display details about.
  * @param navigateToPlayScreen Callback function to navigate to the [PlayScreen].
+ * @param onDeleteOpeningClick Callback function to delete an opening.
+ * @param setSelectedOpening Track an opening in state.
+ * @param setSelectedBoardOpenings Track a list of openings in state.
+ * @param navigateToOpeningEditor Callback function to navigate to the opening editor.
+ * @param popNavigationBackStack Callback function to pop the navigation controller's back stack.
  * @author frigvid
  * @created 2024-10-08
  */
@@ -137,6 +144,7 @@ fun OpeningDetailsScreen(
                         fontStyle = FontStyle.Italic,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
+
                     Text(
                         text = opening.description ?: "\uD83D\uDC4B\uD83D\uDE00",
                         modifier = Modifier.padding(bottom = 16.dp)

@@ -49,6 +49,7 @@ fun GroupsScreen(
     groupsStartPeriodicUpdates: () -> Unit,
     onOpeningSelect: (Opening) -> Unit,
     setSelectedGroup: (Group) -> Unit,
+    setSelectedBoardOpenings: (List<Opening>) -> Unit,
     onGroupDelete: (String) -> Unit,
     onNavigateToGroupCreation: () -> Unit,
     onNavigateToGroupEditing: () -> Unit,
@@ -121,7 +122,8 @@ fun GroupsScreen(
                         onNavigateToGroupEditing()
                     },
                     onDeleteClick = { showDeleteConfirm = it },
-                    onTrainClick = setSelectedGroup
+                    onTrainClick = setSelectedGroup,
+                    setSelectedBoardOpenings = setSelectedBoardOpenings
                 )
             }
         }

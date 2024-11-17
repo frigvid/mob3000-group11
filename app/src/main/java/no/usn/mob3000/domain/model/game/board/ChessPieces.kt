@@ -9,7 +9,7 @@ import no.usn.mob3000.R
  * @author frigvid
  * @created 2024-11-03
  */
-object ChessResources {
+object ChessPieces {
     val pieceToResourceMap = mapOf(
         Piece.BLACK_PAWN to R.drawable.chess_pawn_black,
         Piece.BLACK_ROOK to R.drawable.chess_rook_black,
