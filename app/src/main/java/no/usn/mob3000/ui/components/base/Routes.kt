@@ -16,6 +16,8 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.game.GroupsViewModel
+import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
@@ -28,9 +30,11 @@ import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 import no.usn.mob3000.ui.screens.chess.train.group.CreateGroupScreen
 import no.usn.mob3000.ui.screens.chess.train.group.GroupsScreen
+import no.usn.mob3000.ui.screens.chess.train.group.UpdateGroupScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.CreateOpeningScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
 import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
+import no.usn.mob3000.ui.screens.chess.train.opening.UpdateOpeningScreen
 import no.usn.mob3000.ui.screens.info.AboutUsScreen
 import no.usn.mob3000.ui.screens.info.InfoScreen
 import no.usn.mob3000.ui.screens.info.docs.CreateDocumentationScreen
@@ -69,7 +73,10 @@ object Routes {
          *
          * @param navGraphBuilder The navigation graph builder.
          * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
+         * @param authenticationViewModel The authentication status ViewModel.
+         * @param documentationViewModel The documentation ViewModel.
+         * @param faqViewModel The FAQ ViewModel.
+         * @param newsViewModel The news ViewModel.
          * @author frigvid
          * @created 2024-11-06
          */
@@ -212,7 +219,8 @@ object Routes {
          * The news routes.
          *
          * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
+         * @param authenticationViewModel The authentication status ViewModel.
+         * @param newsViewModel The news ViewModel.
          * @author frigvid
          * @created 2024-11-06
          */
@@ -275,18 +283,22 @@ object Routes {
          *
          * @param navGraphBuilder The navigation graph builder.
          * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
+         * @param openingsViewModel The openings ViewModel.
+         * @param groupsViewModel The groups ViewModel.
+         * @param authenticationViewModel The authentication state ViewModel.
          * @author frigvid
          * @created 2024-11-06
          */
         operator fun invoke(
             navGraphBuilder: NavGraphBuilder,
             navController: NavController,
-            cbViewModel: CBViewModel
+            openingsViewModel: OpeningsViewModel,
+            groupsViewModel: GroupsViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ): Game {
-            navGraphBuilder.openingRoutes(navController, cbViewModel)
-            navGraphBuilder.repositoryRoutes(navController, cbViewModel)
-            navGraphBuilder.gameRoutes(navController, cbViewModel)
+            navGraphBuilder.openingRoutes(navController, openingsViewModel, authenticationViewModel)
+            navGraphBuilder.repositoryRoutes(navController, openingsViewModel, groupsViewModel, authenticationViewModel)
+            navGraphBuilder.gameRoutes(navController, openingsViewModel)
 
             return this
         }
@@ -295,30 +307,60 @@ object Routes {
          * The chess openings routes.
          *
          * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
+         * @param openingsViewModel The openings ViewModel.
+         * @param authenticationViewModel The authentication state ViewModel.
          * @author frigvid
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.openingRoutes(
             navController: NavController,
-            cbViewModel: CBViewModel
+            openingsViewModel: OpeningsViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ) {
             composable(route = Destination.OPENINGS.name) {
                 OpeningsScreen(
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    openingsStartPeriodicUpdates = openingsViewModel::startPeriodicUpdates,
+                    setSelectedOpening = openingsViewModel::setSelectedOpening,
+                    openings = openingsViewModel.openings.value,
                     onGroupsClick = { navController.navigate(Destination.GROUPS.name) },
                     onCreateOpeningClick = { navController.navigate(Destination.OPENINGS_CREATE.name) },
-                    onOpeningClick = { navController.navigate(Destination.OPENING_DETAILS.name) },
-                    setOpenings = cbViewModel::setOpenings,
-                    setSelectedOpening = cbViewModel::setSelectedOpening
+                    onOpeningClick = { navController.navigate(Destination.OPENING_DETAILS.name) }
                 )
             }
 
-            composable(route = Destination.OPENINGS_CREATE.name) { CreateOpeningScreen() }
+            composable(route = Destination.OPENINGS_CREATE.name) {
+                CreateOpeningScreen(
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    openingsStartPeriodicUpdates = openingsViewModel::startPeriodicUpdates,
+                    onSaveOpeningClick = openingsViewModel::createOpening,
+                    popNavigationBackStack = navController::popBackStack
+                )
+            }
+
+            composable(route = Destination.OPENINGS_UPDATE.name) {
+                UpdateOpeningScreen(
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    opening = openingsViewModel.selectedOpening.value,
+                    onUpdateOpeningClick = openingsViewModel::updateOpening,
+                    openingsStartPeriodicUpdates = openingsViewModel::startPeriodicUpdates,
+                    popNavigationBackStack = navController::popBackStack
+                )
+            }
 
             composable(route = Destination.OPENING_DETAILS.name) {
                 OpeningDetailsScreen(
-                    opening = cbViewModel.selectedOpening.value,
-                    onPracticeClick = { navController.navigate(Destination.PLAY.name) }
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    opening = openingsViewModel.selectedOpening.value,
+                    onPracticeClick = { navController.navigate(Destination.PLAY.name) },
+                    onDeleteOpeningClick = openingsViewModel::deleteOpening,
+                    onEditOpeningClick = openingsViewModel::setSelectedOpening,
+                    navigateToOpeningEditor = { navController.navigate(Destination.OPENINGS_UPDATE.name) },
+                    popNavigationBackStack = navController::popBackStack
                 )
             }
         }
@@ -327,24 +369,48 @@ object Routes {
          * The chess repository/groups routes.
          *
          * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
+         * @param groupsViewModel The groups ViewModel.
+         * @param openingsViewModel The openings ViewModel.
+         * @param authenticationViewModel The authentication state ViewModel.
          * @author frigvid
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.repositoryRoutes(
             navController: NavController,
-            cbViewModel: CBViewModel
+            openingsViewModel: OpeningsViewModel,
+            groupsViewModel: GroupsViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ) {
             composable(route = Destination.GROUPS.name) {
                 GroupsScreen(
-                    onCreateGroupClick = { navController.navigate(Destination.GROUPS_CREATE.name) },
-                    onReturnToOpeningClick = { navController.navigate(Destination.OPENINGS.name) }
+                    groupsList = groupsViewModel.groups.value,
+                    openingsStartPeriodicUpdates = openingsViewModel::startPeriodicUpdates,
+                    groupsStartPeriodicUpdates = groupsViewModel::startPeriodicUpdates,
+                    onOpeningSelect = openingsViewModel::setSelectedOpening,
+                    setSelectedGroup = groupsViewModel::setSelectedGroup,
+                    onGroupDelete = groupsViewModel::deleteGroup,
+                    onNavigateToGroupCreation = { navController.navigate((Destination.GROUPS_CREATE.name)) },
+                    onNavigateToGroupEditing = { navController.navigate(Destination.GROUPS_UPDATE.name) },
+                    onNavigateToOpeningDetails = { navController.navigate(Destination.OPENING_DETAILS.name) }
                 )
             }
 
             composable(route = Destination.GROUPS_CREATE.name) {
                 CreateGroupScreen(
-                    availableOpenings = cbViewModel.openings.value
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    availableOpenings = openingsViewModel.openings.value,
+                    onCreateGroup = groupsViewModel::createGroup,
+                    navControllerPopBackStack = navController::popBackStack
+                )
+            }
+
+            composable(route = Destination.GROUPS_UPDATE.name) {
+                UpdateGroupScreen(
+                    group = groupsViewModel.selectedGroup.value,
+                    availableOpenings = openingsViewModel.openings.value,
+                    onUpdateGroupClick = groupsViewModel::updateGroup,
+                    navControllerPopBackStack = navController::popBackStack
                 )
             }
         }
@@ -353,20 +419,20 @@ object Routes {
          * The chess game and history routes.
          *
          * @param navController The navigation controller.
-         * @param cbViewModel The generic application ViewModel.
+         * @param openingsViewModel The openings ViewModel.
          * @author frigvid
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.gameRoutes(
             navController: NavController,
-            cbViewModel: CBViewModel
+            openingsViewModel: OpeningsViewModel
         ) {
             composable(route = Destination.PLAY.name) { PlayScreen() }
 
             composable(route = Destination.HISTORY.name) {
                 HistoryScreen(
-                    setSelectedOpening = cbViewModel::setSelectedOpening,
-                    getOpeningById = cbViewModel::getOpeningById,
+                    setSelectedOpening = openingsViewModel::setSelectedOpening,
+                    getOpeningById = openingsViewModel::getOpeningById,
                     onOpeningDetailsClick = { navController.navigate(Destination.OPENING_DETAILS.name) }
                 )
             }
@@ -609,18 +675,24 @@ object Routes {
          *
          * @param navGraphBuilder The navigation graph builder.
          * @param navController The navigation controller.
+         * @param openingsViewModel The openings ViewModel.
+         * @param groupsViewModel The groups ViewModel.
          * @author frigvid
          * @created 2024-11-06
          */
         operator fun invoke(
             navGraphBuilder: NavGraphBuilder,
-            navController: NavController
+            navController: NavController,
+            openingsViewModel: OpeningsViewModel,
+            groupsViewModel: GroupsViewModel
         ): Home {
             navGraphBuilder.composable(route = Destination.HOME.name) {
                 HomeScreen(
                     onTrainClick = { navController.navigate(Destination.OPENINGS.name) },
                     onPlayClick =  { navController.navigate(Destination.PLAY.name) },
-                    onHistoryClick =  { navController.navigate(Destination.HISTORY.name) }
+                    onHistoryClick =  { navController.navigate(Destination.HISTORY.name) },
+                    openingsStartPeriodicUpdates = openingsViewModel::startPeriodicUpdates,
+                    groupsStartPeriodicUpdates = groupsViewModel::startPeriodicUpdates
                 )
             }
 

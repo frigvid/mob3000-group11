@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
     <string name="ISO8601_yyyy_MM_dd_HH_mm" translatable="false">yyyy-MM-dd HH:mm</string>
@@ -183,13 +183,13 @@
 
     <!-- Opening creation page. -->
     <string name="openings_create_title">Create an opening</string>
-    <string name="opening_create_prompt_title">Title</string>
-    <string name="opening_create_prompt_description">Description</string>
-    <string name="opening_create_moves">Moves</string>
-    <string name="opening_create_undo_move">Undo Move</string>
-    <string name="opening_create_reset_board">Reset Board</string>
     <string name="opening_create_save_opening">Save Opening</string>
-    <string name="opening_create_reset_all">Clear</string>
+    <string name="opening_create_auth_required_message">You need to log in to perform this action.</string>
+    <string name="opening_create_auth_required_button" tools:ignore="Typos">Ok.</string>
+
+    <!-- Openings update page. -->
+    <string name="opening_update_title">Update opening</string>
+    <string name="opening_update_save_opening">Update Opening</string>
 
     <!-- Opening details page. -->
     <string name="opening_details">Opening details</string>
@@ -202,6 +202,22 @@
     <string name="groups_create_description_missing">No description available</string>
     <string name="groups_create_openings">Openings</string>
 
+    <!-- TODO@frigvid: Normalize/generalize string resources for groups. -->
+    <!-- Some minor generics for repertoires/groups. Needs clean-up later. TODO. -->
+    <string name="groups_action_delete">Delete this group?</string>
+    <string name="groups_action_remove">Remove this opening from the group?</string>
+    <string name="groups_editor_create_button">Create group</string>
+    <string name="groups_editor_update_button">Update group</string>
+    <string name="groups_editor_cancel_button">Cancel</string>
+    <string name="groups_editor_group_title">Group title</string>
+    <string name="groups_editor_group_description">Group description</string>
+    <string name="groups_editor_group_openings_available">Available openings</string>
+    <string name="groups_editor_group_openings_selected">Selected openings</string>
+    <string name="groups_group_edit_button">Edit Group</string>
+    <string name="groups_group_delete_button">Delete Group</string>
+    <string name="groups_group_train_all_button">Train All Openings</string>
+    <string name="groups_opening_card_moves">Moves</string>
+
     <!-- Groups creation page. -->
     <string name="groups_create_title">Create a repertoire</string>
     <string name="group_create_prompt_title">Title</string>
@@ -210,6 +226,10 @@
     <string name="group_create_selected_openings">Openings in this repertoire</string>
     <string name="group_create_reset_all">Clear all</string>
     <string name="group_create_save_group">Save repertoire</string>
+
+    <!-- Groups update page. -->
+    <string name="group_update_title">Update group</string>
+    <string name="group_update_save_opening">Update group</string>
 
     <!-- Play now page. -->
     <string name="play_title">Play</string>
@@ -301,8 +321,15 @@
     <string name="confirmation_dialog_delete_text">Are you sure you want to delete this?</string>
     <string name="confirmation_dialog_delete_confirm">Delete</string>
 
-    <!-- Components. -->
     <!-- Dangerous Action Dialogue. -->
     <string name="component_dialogue_dangerous_action_button_confirm">Yes</string>
     <string name="component_dialogue_dangerous_action_button_dismiss">No</string>
+
+    <!-- Opening editor. -->
+    <string name="opening_editor_prompt_title">Title</string>
+    <string name="opening_editor_prompt_description">Description</string>
+    <string name="opening_editor_moves">Moves</string>
+    <string name="opening_editor_undo_move">Undo Move</string>
+    <string name="opening_editor_reset_board">Reset Board</string>
+    <string name="opening_editor_reset_all">Clear</string>
 </resources>
