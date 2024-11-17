@@ -71,8 +71,7 @@ fun NewsScreen(
             }
         }
     ) { innerPadding ->
-        PaddedLazyColumn(innerPadding = innerPadding)
-        {
+        PaddedLazyColumn(innerPadding = innerPadding) {
             /**
              * Generating the list of documentation items.
              */
