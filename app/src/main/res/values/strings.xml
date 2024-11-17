@@ -313,6 +313,15 @@
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">You will not be able to see your own account here.</string>
+    <string name="admin_dashboard_dialog_promote_user_title">Are you sure you want to demote this regular user to an administrator?</string>
+    <string name="admin_dashboard_dialog_demote_user_title">Are you sure you want to demote this administrator to a regular user?</string>
+    <string name="admin_dashboard_dialog_delete_user_title">Are you sure you want to delete this user?</string>
+    <string name="admin_dashboard_fragment_email_unknown">Unknown e-mail</string>
+    <string name="admin_dashboard_fragment_is_administrator">Administrator</string>
+    <string name="admin_dashboard_fragment_is_regular_user">Regular User</string>
+    <string name="admin_dashboard_fragment_button_promote">Promote</string>
+    <string name="admin_dashboard_fragment_button_demote">Demote</string>
+    <string name="admin_dashboard_fragment_button_delete">Delete</string>
 
     <!-- Components. -->
     <!-- Confirmation dialog -->
