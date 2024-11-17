@@ -1,5 +1,6 @@
 package no.usn.mob3000.domain.repository.social
 
+import no.usn.mob3000.domain.model.auth.UserGameStats
 import no.usn.mob3000.domain.model.auth.UserProfile
 /**
  * Interface for the user repository.
@@ -10,4 +11,5 @@ import no.usn.mob3000.domain.model.auth.UserProfile
 interface IUserRepository {
     suspend fun getUserProfile(userId: String): Result<UserProfile?>
     suspend fun fetchUserById(userId: String): Result<UserProfile?>
+    suspend fun getUserGameStats(): Result<UserGameStats>
 }

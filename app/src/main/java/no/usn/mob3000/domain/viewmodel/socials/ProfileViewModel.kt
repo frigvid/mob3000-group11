@@ -15,12 +15,14 @@ import no.usn.mob3000.domain.model.social.FriendData
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import no.usn.mob3000.data.repository.social.ProfileEditRepository
+import no.usn.mob3000.domain.model.auth.UserGameStats
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.domain.usecase.auth.GetCurrentUserIdUseCase
 import no.usn.mob3000.domain.usecase.social.requests.FriendRequestUseCase
 import no.usn.mob3000.domain.usecase.social.userProfile.FetchFriendsUseCase
 import no.usn.mob3000.domain.usecase.social.userProfile.FetchUserByIdUseCase
 import no.usn.mob3000.domain.usecase.social.userProfile.FetchUserProfileUseCase
+import no.usn.mob3000.domain.usecase.social.userProfile.GetUserGameStatsUseCase
 import no.usn.mob3000.domain.usecase.social.userUpdate.UpdateProfileUseCase
 /**
  * ViewModel for handling user profile-related functionality. Using the different usecases to communicate with the business logic handled in
@@ -40,6 +42,7 @@ class ProfileViewModel(
     private val fetchFriendsUseCase: FetchFriendsUseCase = FetchFriendsUseCase(),
     private val friendRequestUseCase: FriendRequestUseCase = FriendRequestUseCase(),
     private val fetchUserByIdUseCase: FetchUserByIdUseCase = FetchUserByIdUseCase(UserRepository()),
+    private val getUserGameStatsUseCase: GetUserGameStatsUseCase = GetUserGameStatsUseCase(),
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase = GetCurrentUserIdUseCase(
         authRepository = AuthRepository(
             authDataSource = AuthDataSource(),
@@ -54,6 +57,9 @@ class ProfileViewModel(
 
     private val _currentUserProfile = MutableStateFlow<UserProfile?>(null)
     val currentUserProfile: StateFlow<UserProfile?> = _currentUserProfile
+
+    private val _userGameStats = MutableStateFlow<Result<UserGameStats>>(Result.success(UserGameStats(0, 0, 0)))
+    val userGameStats: StateFlow<Result<UserGameStats>> = _userGameStats
 
     /* ID/Selection */
     private val _selectedUser = mutableStateOf<UserProfile?>(null)
@@ -81,6 +87,7 @@ class ProfileViewModel(
             _userId.value = getCurrentUserIdUseCase.getCurrentUserId()
             userId.value?.let { userId ->
                 fetchUser(userId)
+                fetchUserGameStats()
             }
         }
     }
@@ -125,7 +132,6 @@ class ProfileViewModel(
             }
         }
     }
-
     /***************User profile***************/
     /**
      * Fetches a user's profile from the database.
@@ -137,6 +143,19 @@ class ProfileViewModel(
                 _currentUserProfile.value = userProfile
             }.onFailure {
                 Log.e("ProfileViewModel", "Failed to fetch user profile: ${it.message}")
+            }
+        }
+    }
+    /**
+     * Fetches a user's game stats from the database.
+     */
+    fun fetchUserGameStats() {
+        viewModelScope.launch {
+            val result = getUserGameStatsUseCase.invoke()
+            result.onSuccess { userGameStats ->
+                _userGameStats.value = result
+            }.onFailure {
+                Log.e("ProfileViewModel", "Failed to fetch user game stats: ${it.message}")
             }
         }
     }

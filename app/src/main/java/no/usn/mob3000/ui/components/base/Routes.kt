@@ -430,6 +430,7 @@ object Routes {
                     authenticationState = authenticationViewModel.authState,
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
                     onLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
+                    userGameStats = profileViewModel.userGameStats,
                     viewModel = ProfileViewModel()
                 )
             }

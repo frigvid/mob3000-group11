@@ -31,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.flow.StateFlow
+import no.usn.mob3000.domain.model.auth.UserGameStats
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
@@ -68,6 +69,7 @@ fun ProfileScreen(
     authenticationState: StateFlow<AuthenticationState>,
     authenticationStateUpdate: () -> Unit,
     onLoginClick: () -> Unit,
+    userGameStats: StateFlow<Result<UserGameStats>>,
     viewModel : ProfileViewModel
 ) {
     val friendResult by friendState.collectAsState()
@@ -75,6 +77,7 @@ fun ProfileScreen(
     val userProfiles by userProfilesMap.collectAsState()
     val state by remember { authenticationState }.collectAsState()
     val currentUserProfile by viewModel.currentUserProfile.collectAsState()
+    val gameStats by userGameStats.collectAsState()
 
     LaunchedEffect(userId) {
         authenticationStateUpdate()
@@ -82,7 +85,6 @@ fun ProfileScreen(
             fetchFriends()
         }
     }
-
     Viewport(
         topBarActions = {
             currentUserProfile?.let { user ->
@@ -136,11 +138,9 @@ fun ProfileScreen(
                             .padding(bottom = 8.dp)
                     ) { Text(stringResource(R.string.settings_section_user_button_login)) }
                 }
-
                 is AuthenticationState.Authenticated -> {
-
                     ProfileHeader(userResult = Result.success(currentUserProfile))
-                    ProfileStats(userProfile = currentUserProfile)
+                    ProfileStats(userProfile = currentUserProfile, gameStats = gameStats)
                     AboutSection()
                     FriendsSection(
                         friendResult = friendResult,
@@ -149,7 +149,6 @@ fun ProfileScreen(
                         fetchUserById = fetchUserById
                     )
                 }
-
                 else -> return@Viewport
             }
         }
@@ -160,10 +159,9 @@ fun ProfileScreen(
  *
  * This section includes the user's profile picture and display name.
  *
- * TODO: Input actual data about the user here, such as their profile picture and display name.
  *
  * @author Hussein
- * @contributor frigvid
+ * @contributor frigvid, 258030
  * @created 2024-10-11
  */
 @Composable
@@ -213,14 +211,13 @@ fun ProfileHeader(userResult: Result<UserProfile?>) {
  * This section shows various user statistics such as ELO rating, games played,
  * wins, losses, draws, and country.
  *
- * TODO: INPUT CORRECT DATATABLE HERE, WRONG DATA REFERENCE IN DOMAIN
- *
  * @author Hussein
  * @contributor frigvid, 258030
  * @created 2024-10-11
  */
 @Composable
-fun ProfileStats(userProfile: UserProfile?) {
+fun ProfileStats(userProfile: UserProfile?, gameStats: Result<UserGameStats>) {
+    val userGameStats = gameStats.getOrNull()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -229,10 +226,11 @@ fun ProfileStats(userProfile: UserProfile?) {
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         StatItem(stringResource(R.string.profile_stat_elo), userProfile?.eloRank?.toString() ?: "N/A")
-        StatItem(stringResource(R.string.profile_stat_games), "0")
-        StatItem(stringResource(R.string.profile_stat_wins), "0")
-        StatItem(stringResource(R.string.profile_stat_losses), "0")
-        StatItem(stringResource(R.string.profile_stat_draws), "0")
+        StatItem(stringResource(R.string.profile_stat_games), (userGameStats?.wins?.plus(userGameStats.losses)
+            ?.plus(userGameStats.draws)).toString())
+        StatItem(stringResource(R.string.profile_stat_wins), userGameStats?.wins?.toString() ?: "0")
+        StatItem(stringResource(R.string.profile_stat_losses), userGameStats?.losses?.toString() ?: "0")
+        StatItem(stringResource(R.string.profile_stat_draws), userGameStats?.draws?.toString() ?: "0")
         StatItem(stringResource(R.string.profile_stat_country), userProfile?.nationality ?: "N/A")
     }
 }

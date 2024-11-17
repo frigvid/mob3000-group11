@@ -1,7 +1,9 @@
 package no.usn.mob3000.data.repository.social
 
+import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.model.social.ProfileDto
 import no.usn.mob3000.data.source.remote.auth.UserDataSource
+import no.usn.mob3000.domain.model.auth.UserGameStats
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.repository.social.IUserRepository
 /**
@@ -44,6 +46,18 @@ class UserRepository(
         }
     }
     /**
+     * Retrieves the user's game statistics.
+     */
+    override suspend fun getUserGameStats(): Result<UserGameStats> {
+        return try {
+            val gameDataDto = userDataSource.getUserGameStats()
+            Result.success(gameDataDto.toDomainModel())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
      *  Converts a [ProfileDto] to a [UserProfile]
      */
     private fun ProfileDto.toDomainModel(): UserProfile {
@@ -56,6 +70,13 @@ class UserRepository(
             nationality = this.nationality ?: "",
             visibility = this.profileVisibility,
             visibilityFriends = this.friendsVisibility
+        )
+    }
+    private fun GameDataDto.toDomainModel(): UserGameStats {
+        return UserGameStats(
+            wins = this.gameWins ?: 0,
+            losses = this.gameLosses ?: 0,
+            draws = this.gameDraws ?: 0
         )
     }
 }
