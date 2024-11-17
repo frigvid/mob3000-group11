@@ -9,6 +9,7 @@ import no.usn.mob3000.domain.usecase.content.docs.DeleteDocsUseCase
 import no.usn.mob3000.domain.usecase.content.docs.FetchDocUseCase
 import no.usn.mob3000.domain.usecase.content.docs.InsertDocsUseCase
 import no.usn.mob3000.domain.usecase.content.docs.UpdateDocsUseCase
+
 /**
  * Provides documentationViewModel with an instance. Instead of instancing everything trough the useCases, I use this support-class for each viewModel.
  * Having interfaces does cover some of this workarounds, but for extra measure i've collected all the initializations here.

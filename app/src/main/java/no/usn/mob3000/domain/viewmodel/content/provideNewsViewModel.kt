@@ -9,6 +9,7 @@ import no.usn.mob3000.domain.usecase.content.news.DeleteNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.FetchNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.InsertNewsUseCase
 import no.usn.mob3000.domain.usecase.content.news.UpdateNewsUseCase
+
 /**
  * Provides newviewmodel with an instance. Instead of instancing everything trough the useCases, I use this support-class for each viewModel. Having interfaces
  * does cover some of this workarounds, but for extra measure i've collected all the initializations here.
@@ -30,6 +31,3 @@ fun provideNewsViewModel(context: Context): NewsViewModel {
         deleteNewsUseCase = DeleteNewsUseCase(newsRepository)
     )
 }
-
-
-
