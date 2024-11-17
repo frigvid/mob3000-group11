@@ -4,6 +4,7 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
@@ -49,4 +50,5 @@ class FriendsDataSource(
             }
             .decodeList()
     }
+
 }

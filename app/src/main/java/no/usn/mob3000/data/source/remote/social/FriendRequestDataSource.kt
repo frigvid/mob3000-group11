@@ -32,6 +32,28 @@ class FriendRequestDataSource (private val supabaseClient: SupabaseClient = Supa
             { filter { eq("to_user", userId) } }
             .decodeList()
     }
+
+    /**
+     * This function retrieves a list of all friend requests where the user is the "by_user" or "to_user".
+     *
+     * @param userId The ID of the user to fetch friend requests for.
+     * @return A list of [FriendRequestsDto].
+     * @author 258030
+     * @created 2024-11-17
+     */
+    suspend fun fetchAllFriendRequests(userId: String): List<FriendRequestsDto> = withContext(Dispatchers.IO) {
+        supabaseClient
+            .from("friend_requests")
+            .select {
+                filter {
+                    or {
+                        eq("by_user", userId)
+                        eq("to_user", userId)
+                    }
+                }
+            }
+            .decodeList()
+    }
     /**
      * This function retrieves a single friend request based on the given ID, used for getting a specific request
      * for further actions.

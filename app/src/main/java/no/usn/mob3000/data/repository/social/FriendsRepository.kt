@@ -2,6 +2,7 @@ package no.usn.mob3000.data.repository.social
 
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
+import no.usn.mob3000.data.source.remote.social.FriendRequestDataSource
 import no.usn.mob3000.data.source.remote.social.FriendsDataSource
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendData
@@ -19,7 +20,8 @@ import no.usn.mob3000.domain.repository.social.IFriendsRepository
  * @created 2024-11-05
  **/
 class FriendsRepository (
-    private val friendsDataSource: FriendsDataSource = FriendsDataSource()
+    private val friendsDataSource: FriendsDataSource = FriendsDataSource(),
+    private val friendRequestDataSource: FriendRequestDataSource = FriendRequestDataSource(),
 ):IFriendsRepository{
     /**
      * Fetches all friends and puts it into a list, maps it for usage in the ui layer. Checks for if the user ID
@@ -42,6 +44,7 @@ class FriendsRepository (
     }
     /**
      * Fetches all non-friends and maps it for usage in the ui layer. Used for adding new friends
+     * It also checks for if the userId matches byUser and the targeted userId matches toUser, that way we don't get duplicate friend requests
      *
      * @param userId The user id of the current user. Used to filter out friend connections that does not exist
      * @author 258030
@@ -49,8 +52,15 @@ class FriendsRepository (
      */
     override suspend fun fetchNonFriends(userId: String): Result<List<UserProfile>> {
         return try {
-            val friendIds = friendsDataSource.fetchFriends().flatMap { listOf(it.user1, it.user2) }.filter { it != userId }
-            val nonFriendProfiles = friendsDataSource.fetchNonFriends(userId).filter { it.userId !in friendIds }
+            val friendIds = friendsDataSource.fetchFriends()
+                .flatMap { listOf(it.user1, it.user2) }
+                .filter { it != userId }
+            val friendRequestIds = friendRequestDataSource.fetchAllFriendRequests(userId)
+                .flatMap { listOf(it.byUser, it.toUser) }
+                .filter { it != userId }
+            val excludedIds = friendIds + friendRequestIds
+            val nonFriendProfiles = friendsDataSource.fetchNonFriends(userId)
+                .filter { it.userId !in excludedIds }
             val nonFriendProfilesMapped = nonFriendProfiles.map { it.toDomainModel() }
             Result.success(nonFriendProfilesMapped)
         } catch (e: Exception) {
