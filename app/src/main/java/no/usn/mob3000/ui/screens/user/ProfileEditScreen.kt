@@ -19,7 +19,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * Screen to allow users to edit their profiles, and get access to some user-related settings.
  *
  * @author frigvid
- * @contributor 258030
+ * @contributor 258030, Husseinabdulameer11
  * @created 2024-10-11
  */
 @OptIn(ExperimentalMaterial3Api::class)

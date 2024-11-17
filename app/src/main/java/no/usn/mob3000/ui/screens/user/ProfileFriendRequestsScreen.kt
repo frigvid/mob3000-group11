@@ -45,7 +45,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * @param fetchUserById Function to fetch a user by their ID.
  * @param onAcceptFriendRequest Function to handle accepting a friend request.
  * @param onDeclineFriendRequest Function to handle declining a friend request.
- * @author Hussein, frigvid, 258030
+ * @author Husseinabdulameer11 , frigvid, 258030
  * @created 2024-10-11
  */
 @Composable
@@ -106,6 +106,7 @@ fun ProfileFriendRequestsScreen(
  * This item shows the user who sent the friend request, along with "Accept" and "Decline" buttons
  * to allow the user to respond to the request.
  *
+ * @author Husseinabdulameer11
  * @param friendRequest The [FriendRequestData] object representing the friend request.
  * @param userProfilesMap A map of user profiles keyed by user IDs, used to display the sender's information.
  * @param fetchUserById Function to fetch the profile of the user who sent the friend request, if their profile is not already available.

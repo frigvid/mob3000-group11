@@ -50,7 +50,7 @@ import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
  * @param onProfileEditClick Callback function to navigate to [ProfileEditScreen].
  * @param onProfileAddFriendsClick Callback function to navigate to [ProfileAddFriendsScreen].
  * @param onProfileFriendRequestsClick Callback function to navigate to [ProfileFriendRequestsScreen].
- * @author frigvid, Hussein
+ * @author frigvid, Husseinabdulameer11
  * @contributor 258030
  * @created 2024-09-12
  */
@@ -154,16 +154,18 @@ fun ProfileScreen(
         }
     }
 }
+
 /**
  * Composable function that displays the header section of the profile screen.
  *
  * This section includes the user's profile picture and display name.
  *
  *
- * @author Hussein
+ * @author Husseinabdulameer11
  * @contributor frigvid, 258030
  * @created 2024-10-11
  */
+
 @Composable
 fun ProfileHeader(userResult: Result<UserProfile?>) {
     Column(
@@ -211,10 +213,11 @@ fun ProfileHeader(userResult: Result<UserProfile?>) {
  * This section shows various user statistics such as ELO rating, games played,
  * wins, losses, draws, and country.
  *
- * @author Hussein
+ * @author Husseinabdulameer11
  * @contributor frigvid, 258030
  * @created 2024-10-11
  */
+
 @Composable
 fun ProfileStats(userProfile: UserProfile?, gameStats: Result<UserGameStats>) {
     val userGameStats = gameStats.getOrNull()
@@ -240,9 +243,10 @@ fun ProfileStats(userProfile: UserProfile?, gameStats: Result<UserGameStats>) {
  *
  * @param label String The label for the statistic.
  * @param value String The value of the statistic.
- * @author Hussein
+ * @author Husseinabdulameer11
  * @created 2024-10-11
  */
+
 @Composable
 fun StatItem(
     label: String,
@@ -259,9 +263,10 @@ fun StatItem(
  *
  * This section shows a brief description or biography of the user.
  *
- * @author Hussein
+ * @author Husseinabdulameer11
  * @created 2024-10-11
  */
+
 @Composable
 fun AboutSection() {
     Column(modifier = Modifier.padding(16.dp)) {
@@ -279,14 +284,16 @@ fun AboutSection() {
         )
     }
 }
+
 /**
  * Composable function that displays the friends section of the profile screen.
  *
  * This section lists the user's friends, showing their profile pictures and names.
  *
- * @author Hussein
+ * @author Husseinabdulameer11
  * @created 2024-10-11
  */
+
 @Composable
 fun FriendComponent(
     friendResult: Result<List<FriendData>>,
@@ -339,7 +346,10 @@ fun FriendComponent(
     }
 }
 
-
+/**
+ * @author Husseinabdulameer11
+ * @created 2024-10-11
+ */
 @Composable
 fun FriendsSection(
     friendResult: Result<List<FriendData>>,
@@ -362,7 +372,3 @@ fun FriendsSection(
         )
     }
 }
-
-
-
-
