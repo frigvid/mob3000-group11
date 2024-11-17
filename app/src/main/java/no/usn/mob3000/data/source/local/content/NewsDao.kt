@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import no.usn.mob3000.data.model.content.local.NewsItemLocal
+
 /**
  * Data Access Object (DAO) interface for the news table.
  *
@@ -15,7 +16,6 @@ import no.usn.mob3000.data.model.content.local.NewsItemLocal
  */
 @Dao
 interface NewsDao {
-
     @Query("SELECT * FROM news_table")
     suspend fun getAllNews(): List<NewsItemLocal>
 
@@ -34,4 +34,3 @@ interface NewsDao {
     @Delete
     suspend fun deleteNews(news: NewsItemLocal)
 }
-

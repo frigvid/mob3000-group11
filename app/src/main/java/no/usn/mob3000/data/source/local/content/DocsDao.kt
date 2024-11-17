@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import no.usn.mob3000.data.model.content.local.DocsItemLocal
+
 /**
  * Data Access Object (DAO) for the Docs entity.
  *
@@ -32,5 +33,4 @@ interface DocsDao {
 
     @Delete
     suspend fun deleteFaq(docs: DocsItemLocal)
-
 }

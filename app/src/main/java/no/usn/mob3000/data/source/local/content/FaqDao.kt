@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import no.usn.mob3000.data.model.content.local.FaqItemLocal
+
 /**
  * Data Access Object (DAO) for the Faq entity.
  *
@@ -15,7 +16,6 @@ import no.usn.mob3000.data.model.content.local.FaqItemLocal
  */
 @Dao
 interface FaqDao {
-
     @Query("SELECT * FROM faq_table")
     suspend fun getAllFaq(): List<FaqItemLocal>
 

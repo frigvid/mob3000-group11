@@ -20,4 +20,3 @@ class InstantConverter {
         return timestamp?.let { Instant.fromEpochMilliseconds(it) }
     }
 }
-

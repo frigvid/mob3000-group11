@@ -149,7 +149,7 @@ class NewsRepository(
         )
         return newsDataSource.insertNews(newsItem)
     }
-    
+
     /**
      * Maps a NewsDto to a NewsData. For usage in the domain layer. Might be moved if repository are made abstract.
      */
