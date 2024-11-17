@@ -4,7 +4,7 @@ import android.content.Context
 import no.usn.mob3000.data.repository.content.local.DocsRepositoryLocal
 import no.usn.mob3000.data.repository.content.remote.DocsRepository
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
-import no.usn.mob3000.data.source.remote.docs.DocsDataSource
+import no.usn.mob3000.data.source.remote.content.DocsDataSource
 import no.usn.mob3000.domain.usecase.content.docs.DeleteDocsUseCase
 import no.usn.mob3000.domain.usecase.content.docs.FetchDocUseCase
 import no.usn.mob3000.domain.usecase.content.docs.InsertDocsUseCase

@@ -5,7 +5,7 @@ import no.usn.mob3000.data.model.content.local.FaqItemLocal
 import no.usn.mob3000.data.model.content.remote.FaqDto
 import no.usn.mob3000.data.repository.content.local.FAQRepositoryLocal
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
-import no.usn.mob3000.data.source.remote.docs.FAQDataSource
+import no.usn.mob3000.data.source.remote.content.FAQDataSource
 import no.usn.mob3000.domain.model.content.FAQData
 import no.usn.mob3000.domain.repository.content.IFAQRepository
 import java.util.UUID

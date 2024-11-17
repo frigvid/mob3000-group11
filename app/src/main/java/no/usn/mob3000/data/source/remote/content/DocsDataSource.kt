@@ -1,4 +1,4 @@
-package no.usn.mob3000.data.source.remote.docs
+package no.usn.mob3000.data.source.remote.content
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.usn.mob3000.data.model.content.remote.DocsDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
+
 /**
  * Data source class responsible for the database communication. All database
  * interactions are executed on the IO dispatcher to ensure optimal performance for

@@ -1,4 +1,4 @@
-package no.usn.mob3000.data.source.remote.docs
+package no.usn.mob3000.data.source.remote.content
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from

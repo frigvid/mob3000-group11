@@ -2,7 +2,7 @@ package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.content.local.DocsItemLocal
-import no.usn.mob3000.data.source.remote.docs.DocsDataSource
+import no.usn.mob3000.data.source.remote.content.DocsDataSource
 import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.data.model.content.remote.DocsDto
 import no.usn.mob3000.data.repository.content.local.DocsRepositoryLocal
