@@ -18,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +31,8 @@ import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.ui.components.info.ConfirmationDialog
+import no.usn.mob3000.ui.components.socials.friendrequests.profileConfirmDialog
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
@@ -117,6 +121,7 @@ fun FriendRequestItem(
     onDecline: () -> Unit
 ) {
     val friendIdToDisplay = friendRequest.byUser
+    val showDialog = remember { mutableStateOf(false) }
     LaunchedEffect(friendIdToDisplay) {
         if (!userProfilesMap.containsKey(friendIdToDisplay)) {
             fetchUserById(friendIdToDisplay)
@@ -151,12 +156,29 @@ fun FriendRequestItem(
             Text(text = stringResource(R.string.profile_pending_friend_requests_accept_button), color = Color.White)
         }
         Button(
-            onClick = onDecline,
+            onClick ={ showDialog.value = true},
             modifier = Modifier.padding(horizontal = 4.dp),
             colors = ButtonDefaults.buttonColors(DefaultButton)
         ) {
             Text(text = stringResource(R.string.profile_pending_friend_requests_decline_button), color = Color.White)
         }
+    }
+    if (showDialog.value) {
+        profileConfirmDialog(
+            showDialog = showDialog,
+            onConfirm = {
+                onDecline()
+                showDialog.value = false
+            },
+            onDismiss = {
+                // Close the dialog when dismissed
+                showDialog.value = false
+            },
+            "dismiss friend request?",
+            "are you sure you want to dismiss this friend request?",
+            "Delete",
+            "Cancel"
+        )
     }
 }
 

@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.ui.components.info.ConfirmationDialog
+import no.usn.mob3000.ui.components.socials.friendrequests.profileConfirmDialog
 import no.usn.mob3000.ui.theme.DefaultButton
 /**
  * Screen to allow users to edit their profiles, and get access to some user-related settings.
@@ -34,6 +36,8 @@ fun ProfileEditScreen(
     var isProfileVisible by remember { mutableStateOf(selectedUser?.visibility ?: true) }
     var isFriendsListVisible by remember { mutableStateOf(selectedUser?.visibilityFriends ?: true) }
     var isDropdownExpanded by remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(false) }
+
 
     /* TODO: Use "https://restcountries.com/v3.1/all?fields=name,cca2" to fetch countries,
      *       and cache it in ViewModel state.
@@ -169,8 +173,7 @@ fun ProfileEditScreen(
 
             Button(
                 onClick = {
-                    onSaveProfileClick(displayName, avatarUrl, aboutMe, selectedCountry, isProfileVisible, isFriendsListVisible)
-                    navigateToProfile()
+                    showDialog.value = true
                 },
                 colors = ButtonDefaults.buttonColors(DefaultButton),
                 modifier = Modifier
@@ -178,5 +181,19 @@ fun ProfileEditScreen(
                     .padding(bottom = 8.dp)
             ) { Text(stringResource(R.string.profile_edit_save_button)) }
         }
+    }
+    if (showDialog.value) {
+        profileConfirmDialog(
+            showDialog = showDialog,
+            onConfirm = {
+                onSaveProfileClick(displayName, avatarUrl, aboutMe, selectedCountry, isProfileVisible, isFriendsListVisible)
+                navigateToProfile()
+            },
+            onDismiss = {
+                // Close the dialog when dismissed
+                showDialog.value = false
+            },
+            "Save changes?","do you want to save your changes?","Save","Cancel"
+        )
     }
 }
