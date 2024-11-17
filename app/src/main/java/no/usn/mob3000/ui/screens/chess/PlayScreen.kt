@@ -155,8 +155,14 @@ fun PlayScreen(
                     modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
                 ) { Text(stringResource(R.string.play_undo_move)) }
 
+                /* TODO: Currently, this button is disabled because we're technically always in
+                 *       local multiplayer mode. Either some form of custom algorithm, a simple
+                 *       randomizer, or Stockfish would be needed before this is ready to be enabled
+                 *       again.
+                 */
                 Button(
                     onClick = { /* TODO: Implement switch to multiplayer logic */ },
+                    enabled = false,
                     colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
                     modifier = Modifier.weight(1f).padding(start = 8.dp)
                 ) { Text(stringResource(R.string.play_multiplayer)) }
