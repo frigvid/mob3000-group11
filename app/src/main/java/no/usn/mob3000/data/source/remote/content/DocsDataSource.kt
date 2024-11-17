@@ -59,7 +59,7 @@ class DocsDataSource(
             { filter { eq("id", docsId) } }
             .decodeSingleOrNull()
     }
-    
+
     /**
      * Updates an existing document by its ID with new data
      *

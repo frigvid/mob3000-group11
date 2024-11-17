@@ -11,6 +11,7 @@ import no.usn.mob3000.domain.model.content.DocsData
 interface IDocsRepository {
     suspend fun fetchDocsById(docsId: String): Result<DocsData?>
     suspend fun deleteDocs(docsId: String): Result<Unit>
+
     suspend fun updateDocs(
         docsId: String,
         title: String,
@@ -18,12 +19,14 @@ interface IDocsRepository {
         content: String,
         isPublished: Boolean
     ): Result<Unit>
+
     suspend fun insertDocs(
         title: String,
         summary: String,
         content: String,
         isPublished: Boolean
     ): Result<Unit>
+
     suspend fun refreshDocsFromNetwork(): Result<Unit>
     suspend fun fetchAllDocsLocal(): Result<List<DocsData>>
 }
