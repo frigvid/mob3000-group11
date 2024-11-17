@@ -39,10 +39,10 @@ import no.usn.mob3000.domain.repository.IAuthRepository
  */
 class AuthRepository(
     private val authDataSource: AuthDataSource,
-    private val userDataSource: UserDataSource,
+    val userDataSource: UserDataSource,
     private val supabase: SupabaseClient = SupabaseClientWrapper.getClient()
 ) : IAuthRepository {
-    private lateinit var currentUserId: String
+    lateinit var currentUserId: String
 
     /**
      * Performs user login and fetches associated user data.
@@ -103,12 +103,77 @@ class AuthRepository(
         }
     }
 
-    override suspend fun changePassword() {
-        TODO("Password change not yet implemented")
+    /**
+     * Updates the currently authenticated user's account with a new password.
+     *
+     * ## References
+     *
+     * [Supabase-kt 'update a user' docs](https://supabase.com/docs/reference/kotlin/auth-updateuser).
+     *
+     * @param newPassword The password to change to.
+     * @author frigvid
+     * @created 2024-11-13
+     */
+    override suspend fun changePassword(
+        newPassword: String
+    ): Result<Unit> {
+        return try {
+            supabase.auth.updateUser {
+                password = newPassword
+            }
+
+            Result.success(Unit)
+        } catch (error: Exception) {
+            Result.failure(error)
+        }
     }
 
-    override suspend fun changeEmail() {
-        TODO("E-mail change not yet implemented")
+    /**
+     * Request a forgotten password e-mail.
+     *
+     * ## References
+     *
+     * [Supabase-kt 'send a password reset request' docs](https://supabase.com/docs/reference/kotlin/auth-resetpasswordforemail).
+     *
+     * @param email The e-mail address of the user requesting the forgotten password e-mail.
+     * @author frigvid
+     * @created 2024-11-13
+     */
+    override suspend fun forgotPassword(
+        email: String
+    ): Result<Unit> {
+        return try {
+            supabase.auth.resetPasswordForEmail(email)
+
+            Result.success(Unit)
+        } catch (error: Exception) {
+            Result.failure(error)
+        }
+    }
+
+    /**
+     * Updates the currently authenticated user's account with a new e-mail.
+     *
+     * ## References
+     *
+     * [Supabase-kt 'update a user' docs](https://supabase.com/docs/reference/kotlin/auth-updateuser).
+     *
+     * @param newEmail The e-mail address to change to.
+     * @author frigvid
+     * @created 2024-11-13
+     */
+    override suspend fun changeEmail(
+        newEmail: String
+    ): Result<Unit> {
+        return try {
+            supabase.auth.updateUser {
+                email = newEmail
+            }
+
+            Result.success(Unit)
+        } catch (error: Exception) {
+            Result.failure(error)
+        }
     }
 
     /**
@@ -182,8 +247,10 @@ class AuthRepository(
      *
      * @param dto The user DTO to map.
      * @throws IllegalArgumentException if it's not not a user DTO.
+     * @author frigvid
+     * @created 2024-10-22
      */
-    private suspend inline fun <reified T> mapToDomainUser(
+    suspend inline fun <reified T> mapToDomainUser(
         dto: Any
     ): T {
         return when {

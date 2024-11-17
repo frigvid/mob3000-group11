@@ -50,14 +50,17 @@ enum class Destination(
     SETTINGS(title = R.string.settings_title, icon = Icon.DrawableResourceIcon(R.drawable.navbar_settings)),
     OPENINGS(title = R.string.openings_title),
     OPENINGS_CREATE(title = R.string.openings_create_title),
+    OPENINGS_UPDATE(title = R.string.opening_update_title),
     OPENING_DETAILS(title = R.string.opening_details),
     GROUPS(title = R.string.groups_title),
     GROUPS_CREATE(title = R.string.groups_create_title),
+    GROUPS_UPDATE(title = R.string.group_update_title),
     PLAY(title = R.string.home_play_title),
     HISTORY(title = R.string.home_history_title),
     AUTH_LOGIN(title = R.string.auth_login_title),
     AUTH_CREATE(title = R.string.auth_create_user_title),
     AUTH_FORGOT(title = R.string.auth_forgot_password_title),
     AUTH_RESET(title = R.string.auth_reset_password_title),
+    AUTH_EMAIL_CHANGE(title = R.string.auth_email_title),
     ADMIN_DASHBOARD(title = R.string.admin_dashboard_title)
 }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Non-translatable. -->
     <string name="app_name" translatable="false">Chess Buddy</string>
 
@@ -161,6 +161,8 @@
     <string name="settings_section_user_button_logout">Logg ut</string>
     <string name="settings_section_user_popup_logout_title">Er du sikker på at du vil logge ut?</string>
     <string name="settings_section_user_state_logout_success">Du har blitt logget ut.</string>
+    <string name="settings_section_user_email_change_title">Endre e-post adresse</string>
+    <string name="settings_section_user_password_change_title">Endre passord</string>
     <string name="settings_section_user_button_delete">Slett brukerkonto?</string>
     <string name="settings_section_user_popup_delete_title">Er du sikker på at du vil slette kontoen din?</string>
     <string name="settings_section_user_state_delete_success">Brukerkontoen din er nå slettet.</string>
@@ -178,14 +180,14 @@
     <string name="openings_title">Åpninger</string>
 
     <!-- Opening creation page. -->
-    <string name="openings_create_title">ÅpningLagingStub</string>
-    <string name="opening_create_prompt_title">Tittel</string>
-    <string name="opening_create_prompt_description">Beskrivelse</string>
-    <string name="opening_create_moves">Trekk</string>
-    <string name="opening_create_undo_move">Angre trekk</string>
-    <string name="opening_create_reset_board">Nullstill sjakkbrett</string>
+    <string name="openings_create_title">Opprett ny åpning</string>
     <string name="opening_create_save_opening">Lagre åpning</string>
-    <string name="opening_create_reset_all">Nullstill</string>
+    <string name="opening_create_auth_required_message">Du må være logget inn for å gjennomføre denne handlingen.</string>
+    <string name="opening_create_auth_required_button" tools:ignore="Typos">Ok.</string>
+
+    <!-- Openings update page. -->
+    <string name="opening_update_title">Oppdater åpning</string>
+    <string name="opening_update_save_opening">Oppdater åpning</string>
 
     <!-- Opening details page. -->
     <string name="opening_details">Åpningsdetaljer</string>
@@ -198,6 +200,22 @@
     <string name="groups_create_description_missing">Ingen beskrivelse tilgjengelig</string>
     <string name="groups_create_openings">Åpninger</string>
 
+    <!-- TODO@frigvid: Normalize/generalize string resources for groups. -->
+    <!-- Some minor generics for repertoires/groups. Needs clean-up later. TODO. -->
+    <string name="groups_action_delete">Slett denne gruppen?</string>
+    <string name="groups_action_remove">Fjern denne åpningen fra gruppen?</string>
+    <string name="groups_editor_create_button">Opprett gruppe</string>
+    <string name="groups_editor_update_button">Oppdater gruppe</string>
+    <string name="groups_editor_cancel_button">Kanseler</string>
+    <string name="groups_editor_group_title">Gruppetittel</string>
+    <string name="groups_editor_group_description">Gruppebeskrivelse</string>
+    <string name="groups_editor_group_openings_available">Tilgjengelige åpninger</string>
+    <string name="groups_editor_group_openings_selected">Valgte åpninger</string>
+    <string name="groups_group_edit_button">Rediger gruppe</string>
+    <string name="groups_group_delete_button">Slett gruppe</string>
+    <string name="groups_group_train_all_button">Tren på alle åpninger</string>
+    <string name="groups_opening_card_moves">Trekk</string>
+
     <!-- Groups creation page. -->
     <string name="groups_create_title">Lag en ny repertoar</string>
     <string name="group_create_prompt_title">Tittel</string>
@@ -206,6 +224,10 @@
     <string name="group_create_selected_openings">Åpninger i dette repertoaret</string>
     <string name="group_create_reset_all">Nullstill</string>
     <string name="group_create_save_group">Lagre repertoar</string>
+
+    <!-- Groups update page. -->
+    <string name="group_update_title">Oppdater gruppe</string>
+    <string name="group_update_save_opening">Oppdater gruppe</string>
 
     <!-- Play now page. -->
     <string name="play_title">Spill</string>
@@ -245,18 +267,35 @@
 
     <!-- Forgot password page. -->
     <string name="auth_forgot_password_title">Glemt passord</string>
-    <string name="auth_forgot_password_preamble">Skriv inn e-post adressen din og klikk på reset passord knappen. Du vil etterpå motta en e-post som lar deg endre passordet ditt.</string>
-    <string name="auth_forgot_password_reset">Nullstill passord</string>
+    <string name="auth_forgot_password_preamble">Skriv inn e-post adressen din og klikk på knappen under. Du vil etterpå motta en e-post som lar deg endre passordet ditt snart.</string>
+    <string name="auth_forgot_password_reset">Forespør glemt passord e-post</string>
+    <string name="auth_forgot_password_confirmation">Er du sikker på at du ønkser å motta en passord nullstillings e-post?</string>
+    <string name="auth_forgot_password_state_success">En e-post har blitt sendt med linken for å resette brukerkontoen sitt passord.</string>
+    <string name="auth_forgot_password_state_failure">Noe gikk galt!</string>
 
     <!-- Reset password page. -->
     <string name="auth_reset_password_title">Nullstill passord</string>
     <string name="auth_reset_password_input">Nytt passord</string>
     <string name="auth_reset_password_confirm">Gjenta nytt passord</string>
+    <string name="auth_reset_password_button">Nullstill passord</string>
+    <string name="auth_reset_password_confirmation">Er du sikker på at du vil endre ditt passord?</string>
+    <string name="auth_reset_password_state_success">Passordet har blitt endret.</string>
+    <string name="auth_reset_password_state_failure">Noe gikk galt!</string>
+
+    <!-- Change e-mail address page. -->
+    <string name="auth_email_title">Endre e-post adresse</string>
+    <string name="auth_email_confirmation">Er du sikker på at du vil endre e-post adressen din?</string>
+    <string name="auth_email_input">Ny e-post adresse</string>
+    <string name="auth_email_input_confirm">Bekreft ny e-post adresse</string>
+    <string name="auth_email_button">Endre e-post</string>
+    <string name="auth_email_state_success">En e-post har blitt sendt til den gamle og nye e-post adressen. For å fullføre, så må du godkjenne endringen fra både den gamle og den nye e-post adressen.</string>
+    <string name="auth_email_state_failure">Noe gikk galt!</string>
 
     <!-- Authentication Error Messages. -->
     <string name="auth_error_email_exists">E-post adresse eksisterer allerede.</string>
     <string name="auth_error_signup_disabled">Opprettelse av konto er stengt.</string>
     <string name="auth_error_passwords_must_match">Passordene må være identiske!</string>
+    <string name="auth_error_emails_must_match">E-post adressene må være identiske!</string>
     <string name="auth_error_weak_password">Passordet ditt må være minst 8 tegn langt og inneholde en blanding av bokstaver og tall.</string>
     <string name="auth_error_not_admin">Brukeren er ikke en administrator.</string>
 
@@ -271,16 +310,32 @@
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">Du vil ikke kunne se din egen brukerkonto her.</string>
+    <string name="admin_dashboard_dialog_promote_user_title">Er du sikker på at du vil oppgradere denne ordinære brukerkontoen til en administrator?</string>
+    <string name="admin_dashboard_dialog_demote_user_title">Er du sikker på at du vil nedgradere denne administratoren til en ordinær brukerkonto?</string>
+    <string name="admin_dashboard_dialog_delete_user_title">Er du sikker på at du vil slette denne brukerkontoen?</string>
+    <string name="admin_dashboard_fragment_email_unknown">Ukjent e-post</string>
+    <string name="admin_dashboard_fragment_is_administrator">Administrator</string>
+    <string name="admin_dashboard_fragment_is_regular_user">Ordinær Brukerkonto</string>
+    <string name="admin_dashboard_fragment_button_promote">Oppgrader</string>
+    <string name="admin_dashboard_fragment_button_demote">Nedgrader</string>
+    <string name="admin_dashboard_fragment_button_delete">Slett</string>
 
     <!-- Components. -->
     <!-- Dangerous Action Dialogue. -->
     <string name="component_dialogue_dangerous_action_button_confirm">Ja</string>
     <string name="component_dialogue_dangerous_action_button_dismiss">Nei</string>
 
-    <!-- Components. -->
     <!-- Confirmation dialog -->
     <string name="confirmation_dialog_confirm">Slettebekreftelse</string>
     <string name="confirmation_dialog_cancel">Avbryt</string>
     <string name="confirmation_dialog_delete_text">Er du sikker på at du ønsker å slette dette?</string>
     <string name="confirmation_dialog_delete_confirm">Slett</string>
+
+    <!-- Opening editor -->
+    <string name="opening_editor_prompt_title">Tittel</string>
+    <string name="opening_editor_prompt_description">Beskrivelse</string>
+    <string name="opening_editor_moves">Trekk</string>
+    <string name="opening_editor_undo_move">Angre trekk</string>
+    <string name="opening_editor_reset_board">Nullstill sjakkbrett</string>
+    <string name="opening_editor_reset_all">Nullstill</string>
 </resources>

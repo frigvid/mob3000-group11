@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
+import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
+import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
 import no.usn.mob3000.domain.model.auth.state.DeleteAccountState
 import no.usn.mob3000.domain.model.auth.state.LogoutState
 import no.usn.mob3000.ui.components.DangerousActionDialogue
@@ -45,6 +47,8 @@ private const val TAG: String = "SettingsSectionUser"
  * @param onLogoutClick Function to log the user out.
  * @param onLoginClick Function to log the user in.
  * @param onDeleteAccountClick Function to delete account.
+ * @param navigateToPasswordReset Callback function to navigate to the password reset screen.
+ * @param navigateToEmailChange Callback function to navigate to the e-mail address change screen.
  * @author frigvid
  * @created 2024-11-11
  */
@@ -53,12 +57,16 @@ fun SettingsSectionUser(
     authenticationState: StateFlow<AuthenticationState>,
     logoutState: Flow<LogoutState>,
     accountDeleteState: Flow<DeleteAccountState>,
+    changeEmailState: Flow<ChangeEmailState>,
+    changePasswordState: Flow<ChangePasswordState>,
     logoutStateReset: () -> Unit,
     accountDeleteStateReset: () -> Unit,
     authenticationStateUpdate: () -> Unit,
     onLoginClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onDeleteAccountClick: () -> Unit,
+    navigateToPasswordReset: () -> Unit,
+    navigateToEmailChange: () -> Unit
 ) {
     /**
      * This is sort of viscerally disgusting, but also somewhat necessary.
@@ -112,6 +120,8 @@ fun SettingsSectionUser(
             Log.d(TAG, "User is authenticated. Showing authenticated user actions.")
 
             LogoutAccount(logoutState, onLogoutClick, authenticationStateUpdate)
+            EmailChange(navigateToEmailChange, changeEmailState)
+            PasswordChange(navigateToPasswordReset, changePasswordState)
             DeleteAccount(accountDeleteState, onDeleteAccountClick, authenticationStateUpdate)
         }
 
@@ -169,6 +179,95 @@ private fun LogoutAccount(
         }
 
         is LogoutState.Loading -> Loading()
+
+        else -> {}
+    }
+}
+
+/**
+ * Private composable component to display and handle e-mail address changes.
+ *
+ * @param navigationGoToChangeEmail Callback function to navigate to the e-mail address change screen.
+ * @author frigvid
+ * @created 2024-11-13
+ */
+@Composable
+private fun EmailChange(
+    navigationGoToChangeEmail: () -> Unit,
+    changeEmailState: Flow<ChangeEmailState>
+) {
+    val state by changeEmailState.collectAsState(initial = ChangeEmailState.Idle)
+
+    Button(
+        onClick = navigationGoToChangeEmail,
+        colors = ButtonDefaults.buttonColors(DefaultButton),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp)
+    ) {
+        Text(stringResource(R.string.settings_section_user_email_change_title))
+    }
+
+    when (state) {
+        is ChangeEmailState.Success -> {
+            Error(
+                text = stringResource(R.string.auth_email_state_success),
+                cardContainerColor = Color.Green
+            )
+        }
+
+        is ChangeEmailState.Error -> {
+            Error(
+                text = stringResource(R.string.auth_email_state_failure)
+            )
+        }
+
+        is ChangeEmailState.Loading -> Loading()
+
+        else -> {}
+    }
+}
+
+/**
+ * Private composable component to display and handle password changes.
+ *
+ * @param navigationGoToResetPassword Callback function to navigate to the password reset screen.
+ * @param changePasswordState The password change state.
+ * @author frigvid
+ * @created 2024-11-13
+ */
+@Composable
+private fun PasswordChange(
+    navigationGoToResetPassword: () -> Unit,
+    changePasswordState: Flow<ChangePasswordState>
+) {
+    val state by changePasswordState.collectAsState(initial = ChangePasswordState.Idle)
+
+    Button(
+        onClick = navigationGoToResetPassword,
+        colors = ButtonDefaults.buttonColors(DefaultButton),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp)
+    ) {
+        Text(stringResource(R.string.settings_section_user_password_change_title))
+    }
+
+    when (state) {
+        is ChangePasswordState.Success -> {
+            Error(
+                text = stringResource(R.string.auth_reset_password_state_success),
+                cardContainerColor = Color.Green
+            )
+        }
+
+        is ChangePasswordState.Error -> {
+            Error(
+                text = stringResource(R.string.auth_reset_password_state_failure)
+            )
+        }
+
+        is ChangePasswordState.Loading -> Loading()
 
         else -> {}
     }
