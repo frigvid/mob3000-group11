@@ -564,7 +564,7 @@ object Routes {
              * @author Anarox
              * @created 2024-11-11
              */
-            navGraphBuilder.composable(route = Destination.AUTH_RESET.name + "?token_hash={token_hash}&type={type}&next={next}",
+                navGraphBuilder.composable(route = Destination.AUTH_RESET.name + "?token_hash={token_hash}&type={type}&next={next}",
                 arguments = listOf(
                     navArgument("token_hash") {
                         type = NavType.StringType; defaultValue = ""
@@ -601,6 +601,10 @@ object Routes {
                     type = type,
                     next = next,
                     onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
+                    navControllerPopBackStack = navController::popBackStack,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    changePasswordStateUpdate = changePasswordViewModel::updateState
+
                 )
             }
 

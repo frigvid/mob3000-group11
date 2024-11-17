@@ -34,7 +34,7 @@
 
                 <data android:scheme="https" />
                 <data android:host="a2g11.vercel.app" />
-                <data android:pathPrefix="/confirm?token_hash" />
+                <data android:pathPrefix="/confirm" />
             </intent-filter>
 
         </activity>
