@@ -34,5 +34,3 @@ class NewsRepositoryLocal(
         newsDao.clearAllNews()
     }
 }
-
-

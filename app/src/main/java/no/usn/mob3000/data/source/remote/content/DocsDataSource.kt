@@ -31,28 +31,35 @@ class DocsDataSource(
             .select()
             .decodeList()
     }
+
     /**
      * Deletes a document by its ID.
      *
      * @param docsId The ID of the document to be deleted..
      */
-    suspend fun deleteDocsById(docsId: String): PostgrestResult = withContext(Dispatchers.IO) {
+    suspend fun deleteDocsById(
+        docsId: String
+    ): PostgrestResult = withContext(Dispatchers.IO) {
         supabaseClient
             .from("docs")
             .delete { filter { eq("id", docsId) } }
     }
+
     /**
      * Fetches a document by its ID.
      *
      * @param docsId The ID of the document to be fetched.
      */
-    suspend fun fetchDocsById(docsId: String): DocsDto? = withContext(Dispatchers.IO) {
+    suspend fun fetchDocsById(
+        docsId: String
+    ): DocsDto? = withContext(Dispatchers.IO) {
         supabaseClient
             .from("docs")
             .select()
             { filter { eq("id", docsId) } }
             .decodeSingleOrNull()
     }
+    
     /**
      * Updates an existing document by its ID with new data
      *
@@ -60,7 +67,10 @@ class DocsDataSource(
      * @param updatedData The new data for the document.
      * @throws Exception If an error occurs during the update operation.
      */
-    suspend fun updateDocs(docsId: String, updatedData: DocsDto): Result<Unit> = withContext(Dispatchers.IO) {
+    suspend fun updateDocs(
+        docsId: String,
+        updatedData: DocsDto
+    ): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             supabaseClient
                 .from("docs")
@@ -72,6 +82,7 @@ class DocsDataSource(
             Result.failure(e)
         }
     }
+
     /**
      * Inserts a new row into the docs table
      *
@@ -79,7 +90,9 @@ class DocsDataSource(
      * @return A result indicating the success or failure of the insertion operation.
      * @throws Exception If an error occurs during the insertion process.
      */
-    suspend fun insertDocs(docsItem: DocsDto): Result<Unit> {
+    suspend fun insertDocs(
+        docsItem: DocsDto
+    ): Result<Unit> {
         return try {
             supabaseClient.from("docs").insert(docsItem)
             Result.success(Unit)
