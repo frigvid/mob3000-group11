@@ -15,4 +15,5 @@ interface IGroupsRepository {
     suspend fun update(group: RepertoireDto): Result<Unit>
     suspend fun getGroups(): List<Group>
     suspend fun getGroupSingle(groupId: String): Group
+    suspend fun getGroupsContainingOpening(openingId: String): List<Group>
 }

@@ -13,6 +13,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import no.usn.mob3000.data.repository.game.GroupsRepository
 import no.usn.mob3000.data.repository.game.OpeningsRepository
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.model.game.opening.OpeningState
@@ -39,7 +40,7 @@ class OpeningsViewModel(
     private val fetchOpeningsUseCase: FetchOpeningsUseCase = FetchOpeningsUseCase(OpeningsRepository()),
     private val fetchOpeningSingleUseCase: FetchOpeningSingleUseCase = FetchOpeningSingleUseCase(OpeningsRepository()),
     private val updateOpeningUseCase: UpdateOpeningUseCase = UpdateOpeningUseCase(OpeningsRepository()),
-    private val deleteOpeningUseCase: DeleteOpeningUseCase = DeleteOpeningUseCase(OpeningsRepository())
+    private val deleteOpeningUseCase: DeleteOpeningUseCase = DeleteOpeningUseCase(OpeningsRepository(), GroupsRepository())
 ) : ViewModel() {
     private val _openingState = MutableStateFlow<OpeningState>(OpeningState.Idle)
     val openingState = _openingState.asStateFlow()

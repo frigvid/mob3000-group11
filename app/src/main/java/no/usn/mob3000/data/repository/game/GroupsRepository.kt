@@ -133,4 +133,21 @@ class GroupsRepository(
             .mapToDomain()
     }
 
+    /**
+     * Get groups that contain a certain `Opening`'s UUID.
+     *
+     * @param openingId The opening's ID.
+     * @author frigvid
+     * @created 2024-11-17
+     */
+    override suspend fun getGroupsContainingOpening(
+        openingId: String
+    ): List<Group> {
+        return getGroups()
+            .filter {
+                it.openings.any {
+                    opening -> opening.id == openingId
+                }
+            }
+    }
 }
