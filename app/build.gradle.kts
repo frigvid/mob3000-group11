@@ -91,15 +91,11 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:functions-kt")
     implementation("io.ktor:ktor-client-android:2.3.12")
 
-    // Room package/modules
-    val room_version = "2.6.1"
-
+    // Room/Local database modules.
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
-    //Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
-    //Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:2.6.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
