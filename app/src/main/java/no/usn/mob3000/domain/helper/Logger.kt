@@ -1,4 +1,4 @@
-package no.usn.mob3000.domain.utils
+package no.usn.mob3000.domain.helper
 
 import android.util.Log
 import no.usn.mob3000.BuildConfig

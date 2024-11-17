@@ -2,7 +2,7 @@ package no.usn.mob3000.domain.helper.game
 
 import com.github.bhlangonijr.chesslib.Board
 import com.github.bhlangonijr.chesslib.move.MoveList
-import no.usn.mob3000.domain.utils.Logger
+import no.usn.mob3000.domain.helper.Logger
 
 /**
  * Converts a PGN notation string into FEN notation.

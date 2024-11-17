@@ -26,7 +26,7 @@ import no.usn.mob3000.domain.model.game.board.PromotionState
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.usecase.game.gamedata.FetchGameDataUseCase
 import no.usn.mob3000.domain.usecase.game.gamedata.UpdateGameDataUseCase
-import no.usn.mob3000.domain.utils.Logger
+import no.usn.mob3000.domain.helper.Logger
 
 /**
  * The `ChessBoard` components view model. It's primarily used there and in the `PlayScreen`.
