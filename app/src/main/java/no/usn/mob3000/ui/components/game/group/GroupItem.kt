@@ -34,8 +34,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
-import no.usn.mob3000.domain.model.game.Group
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.group.Group
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
@@ -59,7 +59,8 @@ fun GroupItem(
     onOpeningLongClick: (Opening, Group) -> Unit,
     onEditClick: (Group) -> Unit,
     onDeleteClick: (Group) -> Unit,
-    onTrainClick: (Group) -> Unit
+    onTrainClick: (Group) -> Unit,
+    setSelectedBoardOpenings: (List<Opening>) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -114,7 +115,7 @@ fun GroupItem(
                 )
 
                 Button(
-                    onClick = { onTrainClick(group) },
+                    onClick = { setSelectedBoardOpenings(group.openings) },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) {

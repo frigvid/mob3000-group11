@@ -32,6 +32,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            isDefault = true
+            isDebuggable = false
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -72,6 +76,7 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.chesslib)
 
     // Supabase package/modules.
     // See: https://supabase.com/docs/reference/kotlin/installing

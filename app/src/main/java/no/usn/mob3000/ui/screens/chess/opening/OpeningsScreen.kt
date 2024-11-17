@@ -1,7 +1,6 @@
-package no.usn.mob3000.ui.screens.chess.train.opening
+package no.usn.mob3000.ui.screens.chess.opening
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,13 +15,11 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,16 +30,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.ui.components.game.board.ChessBoard
 import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 import no.usn.mob3000.ui.theme.DefaultButton
 
@@ -78,6 +76,7 @@ fun OpeningsScreen(
 ) {
     val openingsList by remember { mutableStateOf(openings) }
 
+    // TODO: Hide top bar and bottom bar when in landscape.
     //val configuration = LocalConfiguration.current
     //val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
 
@@ -146,8 +145,7 @@ fun OpeningsScreen(
         ) {
             items(openingsList) { opening ->
                 CardButton(
-                    text = opening.title ?: "\uD83D\uDC4B\uD83D\uDE00",
-                    imageResource = R.drawable.placeholder_chess,
+                    opening = opening,
                     onClick = {
                         Log.d("OpeningsScreen", opening.moves.toString())
                         setSelectedOpening(opening)
@@ -162,19 +160,14 @@ fun OpeningsScreen(
 /**
  * Displays a card, with a title and a thumbnail of the opening.
  *
- * TODO: Either generate the thumbnail, or otherwise display the finished steps akin to the website,
- *       instead of showing a placeholder.
- *
- * @param text The title to display above the picture.
- * @param imageResource The thumbnail to display. Temporary, should be generated and not a reference.
+ * @param opening The [Opening].
  * @param onClick What the card does when clicked.
  * @author frigvid
  * @created 2024-10-08
  */
 @Composable
-fun CardButton(
-    text: String,
-    imageResource: Int,
+private fun CardButton(
+    opening: Opening,
     onClick: () -> Unit
 ) {
     Card(
@@ -192,7 +185,7 @@ fun CardButton(
                 .padding(16.dp)
         ) {
             Text(
-                text = text,
+                text = opening.title ?: "\uD83D\uDC4B\uD83D\uDE00",
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
@@ -200,13 +193,14 @@ fun CardButton(
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
             )
-            Image(
-                painter = painterResource(id = imageResource),
-                contentDescription = null,
+
+            ChessBoard(
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentScale = ContentScale.Fit
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                startingPosition = convertPgnToFen(listOf(opening).first().moves ?: ""),
+                gameHistory = false,
+                gameInteractable = false
             )
         }
     }

@@ -3,12 +3,11 @@ package no.usn.mob3000.data.repository.game
 import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
-import no.usn.mob3000.data.model.game.OpeningsDto
 import no.usn.mob3000.data.model.game.RepertoireDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.source.remote.game.GroupsDataSource
 import no.usn.mob3000.domain.helper.game.mapToDomain
-import no.usn.mob3000.domain.model.game.Group
+import no.usn.mob3000.domain.model.game.group.Group
 import no.usn.mob3000.domain.repository.game.IGroupsRepository
 
 /**
@@ -134,4 +133,21 @@ class GroupsRepository(
             .mapToDomain()
     }
 
+    /**
+     * Get groups that contain a certain `Opening`'s UUID.
+     *
+     * @param openingId The opening's ID.
+     * @author frigvid
+     * @created 2024-11-17
+     */
+    override suspend fun getGroupsContainingOpening(
+        openingId: String
+    ): List<Group> {
+        return getGroups()
+            .filter {
+                it.openings.any {
+                    opening -> opening.id == openingId
+                }
+            }
+    }
 }

@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import no.usn.mob3000.data.repository.game.GroupsRepository
-import no.usn.mob3000.domain.model.game.Group
-import no.usn.mob3000.domain.model.game.state.GroupState
+import no.usn.mob3000.domain.model.game.group.Group
+import no.usn.mob3000.domain.model.game.group.GroupState
 import no.usn.mob3000.domain.usecase.game.group.CreateGroupUseCase
 import no.usn.mob3000.domain.usecase.game.group.DeleteGroupUseCase
 import no.usn.mob3000.domain.usecase.game.group.FetchGroupSingleUseCase

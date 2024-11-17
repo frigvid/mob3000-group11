@@ -1,7 +1,8 @@
-package no.usn.mob3000.domain.model.game
+package no.usn.mob3000.domain.model.game.group
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import no.usn.mob3000.domain.model.game.opening.Opening
 import java.util.UUID
 
 /**

@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.usecase.game.opening
 
 import no.usn.mob3000.domain.helper.game.mapToData
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.repository.game.IOpeningsRepository
 
 /**

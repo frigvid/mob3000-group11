@@ -310,6 +310,15 @@
     <!-- Administrator dashboard page. -->
     <string name="admin_dashboard_title">Administrator dashboard</string>
     <string name="admin_dashboard_subtitle">Du vil ikke kunne se din egen brukerkonto her.</string>
+    <string name="admin_dashboard_dialog_promote_user_title">Er du sikker på at du vil oppgradere denne ordinære brukerkontoen til en administrator?</string>
+    <string name="admin_dashboard_dialog_demote_user_title">Er du sikker på at du vil nedgradere denne administratoren til en ordinær brukerkonto?</string>
+    <string name="admin_dashboard_dialog_delete_user_title">Er du sikker på at du vil slette denne brukerkontoen?</string>
+    <string name="admin_dashboard_fragment_email_unknown">Ukjent e-post</string>
+    <string name="admin_dashboard_fragment_is_administrator">Administrator</string>
+    <string name="admin_dashboard_fragment_is_regular_user">Ordinær Brukerkonto</string>
+    <string name="admin_dashboard_fragment_button_promote">Oppgrader</string>
+    <string name="admin_dashboard_fragment_button_demote">Nedgrader</string>
+    <string name="admin_dashboard_fragment_button_delete">Slett</string>
 
     <!-- Components. -->
     <!-- Dangerous Action Dialogue. -->

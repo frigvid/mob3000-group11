@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.chess.train.group
+package no.usn.mob3000.ui.screens.chess.group
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
-import no.usn.mob3000.domain.model.game.Group
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.group.Group
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.group.GroupItem
@@ -49,6 +49,7 @@ fun GroupsScreen(
     groupsStartPeriodicUpdates: () -> Unit,
     onOpeningSelect: (Opening) -> Unit,
     setSelectedGroup: (Group) -> Unit,
+    setSelectedBoardOpenings: (List<Opening>) -> Unit,
     onGroupDelete: (String) -> Unit,
     onNavigateToGroupCreation: () -> Unit,
     onNavigateToGroupEditing: () -> Unit,
@@ -121,7 +122,8 @@ fun GroupsScreen(
                         onNavigateToGroupEditing()
                     },
                     onDeleteClick = { showDeleteConfirm = it },
-                    onTrainClick = setSelectedGroup
+                    onTrainClick = setSelectedGroup,
+                    setSelectedBoardOpenings = setSelectedBoardOpenings
                 )
             }
         }

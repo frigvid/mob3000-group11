@@ -1,13 +1,10 @@
-package no.usn.mob3000.ui.screens.chess.train.opening
+package no.usn.mob3000.ui.screens.chess.opening
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,7 +15,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,9 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.ui.components.game.board.ChessBoard
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 import no.usn.mob3000.ui.theme.DefaultButton
 
@@ -48,8 +46,15 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * TODO: Add functionality to traverse steps in the opening, akin to website version.
  * TODO: Extract data/logic related code to data layer.
  *
+ * @param authenticationState The authentication status state.
+ * @param authenticationStateUpdate Callback function to update the authentication status state.
  * @param opening The [Opening] to display details about.
- * @param onPracticeClick Callback function to navigate to the [PlayScreen].
+ * @param navigateToPlayScreen Callback function to navigate to the [PlayScreen].
+ * @param onDeleteOpeningClick Callback function to delete an opening.
+ * @param setSelectedOpening Track an opening in state.
+ * @param setSelectedBoardOpenings Track a list of openings in state.
+ * @param navigateToOpeningEditor Callback function to navigate to the opening editor.
+ * @param popNavigationBackStack Callback function to pop the navigation controller's back stack.
  * @author frigvid
  * @created 2024-10-08
  */
@@ -58,9 +63,10 @@ fun OpeningDetailsScreen(
     authenticationState: StateFlow<AuthenticationState>,
     authenticationStateUpdate: () -> Unit,
     opening: Opening?,
-    onPracticeClick: () -> Unit,
+    navigateToPlayScreen: () -> Unit,
     onDeleteOpeningClick: (String) -> Unit,
-    onEditOpeningClick: (Opening) -> Unit,
+    setSelectedOpening: (Opening) -> Unit,
+    setSelectedBoardOpenings: (List<Opening>) -> Unit,
     navigateToOpeningEditor: () -> Unit,
     popNavigationBackStack: () -> Unit
 ) {
@@ -96,7 +102,7 @@ fun OpeningDetailsScreen(
 
                         IconButton(
                             onClick = {
-                                onEditOpeningClick(opening)
+                                setSelectedOpening(opening)
                                 navigateToOpeningEditor()
                             }
                         ) {
@@ -138,42 +144,28 @@ fun OpeningDetailsScreen(
                         fontStyle = FontStyle.Italic,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
+
                     Text(
                         text = opening.description ?: "\uD83D\uDC4B\uD83D\uDE00",
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
 
+                    /* TODO: Go back-forward in history. */
+                    ChessBoard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        startingPosition = convertPgnToFen(listOf(opening).first().moves ?: ""),
+                        gameInteractable = false
+                    )
+
                     Text(
-                        text = stringResource(R.string.opening_details_moves),
+                        text = "FEN: ${convertPgnToFen(listOf(opening).first().moves ?: "")}",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         fontStyle = FontStyle.Italic,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-
-                    // TODO: chess.
-                    //opening.moves.forEachIndexed { index, move ->
-                    //    /* TODO: Extract string resources. Should also probably not be designed this way. */
-                    //    val pieceFullName = when (move["piece"]) {
-                    //        "p" -> "pawn"
-                    //        "q" -> "queen"
-                    //        "k" -> "king"
-                    //        "b" -> "bishop"
-                    //        "n" -> "knight"
-                    //        "r" -> "rook"
-                    //        else -> "piece"
-                    //    }
-                    //
-                    //    /* TODO: Extract as string resource. */
-                    //    val moveDescription = "Move $pieceFullName from ${move["from"]?.uppercase()} to ${move["to"]?.uppercase()}"
-                    //
-                    //    Text(
-                    //        text = "${index + 1}. $moveDescription",
-                    //        modifier = Modifier
-                    //            .fillMaxWidth()
-                    //            .padding(bottom = 4.dp)
-                    //    )
-                    //}
                 }
 
                 Column(
@@ -182,11 +174,11 @@ fun OpeningDetailsScreen(
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-                    /* TODO: Stick this to the bottom of the screen, or something. Should probably be
-                     *       floating.
-                     */
                     Button(
-                        onClick = onPracticeClick,
+                        onClick = {
+                            setSelectedBoardOpenings(listOf(opening))
+                            navigateToPlayScreen()
+                        },
                         colors = ButtonDefaults.buttonColors(DefaultButton),
                         modifier = Modifier
                             .fillMaxWidth()

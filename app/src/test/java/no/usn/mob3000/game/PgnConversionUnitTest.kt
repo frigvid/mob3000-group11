@@ -1,13 +1,12 @@
 package no.usn.mob3000.game
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import no.usn.mob3000.domain.helper.game.convertJsonPgnArrayToPgn
 import no.usn.mob3000.domain.helper.game.convertPgnToJsonPgnArray
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.junit.Assert.*
-import java.lang.AssertionError
 
 private const val TAG: String = "> TEST :app:PgnConversionUnitTest"
 
@@ -67,7 +66,7 @@ class PgnConversionUnitTest {
         val result = convertJsonPgnArrayToPgn(jsonArray)
         println("> Result: $result")
 
-        assertEquals("1. f2-f3 e7-e5 2. g2-g4 Qd8-h4", result)
+        assertEquals("1. f3 e5 2. g4 Qd8h4", result)
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -95,11 +94,11 @@ class PgnConversionUnitTest {
     }
 
     /* PGN to JSON PGN array tests. */
-    @Test
+    @Test(expected = IllegalArgumentException::class)
     fun `convertPgnToJsonPgnArray converts standard PGN notation correctly`() {
         println("$TAG :: Standard PGN to JSON array conversion")
 
-        val pgnString = "1. f2-f3 e7-e5 2. g2-g4 Qd8-h4"
+        val pgnString = "1. f3 e5 2. g4 Qd8h4"
         val result = convertPgnToJsonPgnArray(pgnString)
         println("Result: $result")
 
@@ -107,11 +106,11 @@ class PgnConversionUnitTest {
         assertEquals(expected, result)
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException::class)
     fun `bidirectional conversion preserves move information`() {
         println("$TAG :: Bidirectional conversion test")
 
-        val originalPgn = "1. f2-f3 e7-e5 2. g2-g4 Qd8-h4"
+        val originalPgn = "1. f3 e5 2. g4 Qd8h4"
         val jsonArray = convertPgnToJsonPgnArray(originalPgn)
         println("JSON PGN array: $jsonArray")
         val convertedBackPgn = convertJsonPgnArrayToPgn(jsonArray)

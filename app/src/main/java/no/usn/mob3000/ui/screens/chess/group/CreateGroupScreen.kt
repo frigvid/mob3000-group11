@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.screens.chess.train.group
+package no.usn.mob3000.ui.screens.chess.group
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.domain.model.game.Group
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.group.Group
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.game.group.GroupEditor
 import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 

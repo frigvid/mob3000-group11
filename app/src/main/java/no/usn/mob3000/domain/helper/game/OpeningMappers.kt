@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.helper.game
 
 import no.usn.mob3000.data.model.game.OpeningsDto
-import no.usn.mob3000.domain.model.game.Opening
+import no.usn.mob3000.domain.model.game.opening.Opening
 
 /**
  * Extension function to map a DTO opening to a pure kotlin data class opening.

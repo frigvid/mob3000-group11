@@ -1,11 +1,13 @@
 package no.usn.mob3000.domain.helper.game
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.put
 import no.usn.mob3000.data.model.game.OpeningsDto
 
@@ -58,40 +60,18 @@ import no.usn.mob3000.data.model.game.OpeningsDto
 fun convertJsonPgnArrayToPgn(
     jsonPgnArray: JsonArray?
 ): String {
-    if (jsonPgnArray == null) return ""
+    if (jsonPgnArray.isNullOrEmpty()) return ""
 
-    val moves = mutableListOf<String>()
+    // NOTE: See Logger.kt TODO.
+    // TODO: Fix. Logger.d("Processing ${jsonMoves.size} moves: $jsonMoves")
 
-    for (step in jsonPgnArray) {
-        try {
-            val moveObj = step.jsonObject
-            val piece = moveObj["piece"]?.jsonPrimitive?.content ?: throw IllegalArgumentException("Missing piece")
-            val from = moveObj["from"]?.jsonPrimitive?.content ?: throw IllegalArgumentException("Missing from")
-            val to = moveObj["to"]?.jsonPrimitive?.content ?: throw IllegalArgumentException("Missing to")
-
-            val standardAlgebraicNotation = when (piece.lowercase()) {
-                "p" -> ""
-                "n" -> "N"
-                "b" -> "B"
-                "r" -> "R"
-                "q" -> "Q"
-                "k" -> "K"
-
-                else -> throw IllegalArgumentException("Invalid piece type: $piece")
-            }
-
-            val move = "$standardAlgebraicNotation$from-$to"
-
-            moves.add(move)
-        } catch (error: Exception) {
-            throw IllegalArgumentException("Invalid move format in PGN array", error)
-        }
+    return try {
+        val moves = convertMovesToPgnFormat(jsonPgnArray)
+        formatMovesWithNumbers(moves)
+    } catch (error: Exception) {
+        //TODO: Fix. Logger.e("Failed to convert moves to PGN $error")
+        throw IllegalArgumentException("Failed to convert moves to PGN: ${error.message}", error)
     }
-
-    /* Prefix move sets with move numbers. */
-    return moves.chunked(2).mapIndexed { index, movePair ->
-        "${index + 1}. ${movePair[0]}${if (movePair.size > 1) { " ${movePair[1]}" } else { "" } }"
-    }.joinToString(" ")
 }
 
 /**
@@ -155,6 +135,66 @@ fun convertPgnToJsonPgnArray(
 }
 
 /**
+ * Converts individual moves to proper PGN format.
+ *
+ * @author frigvid
+ * @created 2024-11-16
+ */
+private fun convertMovesToPgnFormat(jsonMoves: JsonArray): List<String> {
+    return jsonMoves.map { element ->
+        try {
+            val move = Json.decodeFromJsonElement<ChessMove>(element)
+            formatSingleMove(move)
+        } catch (error: Exception) {
+            throw IllegalArgumentException("Invalid move format", error)
+        }
+    }
+}
+
+/**
+ * Formats a single move into proper PGN notation.
+ *
+ * @author frigvid
+ * @created 2024-11-16
+ */
+private fun formatSingleMove(move: ChessMove): String {
+    return when (move.piece.lowercase()) {
+        "p" -> {
+            if (move.from[0] != move.to[0]) {
+                "${move.from[0]}x${move.to}"
+            } else {
+                move.to
+            }
+        }
+
+        "n" -> "N${move.from}${move.to}"
+        "b" -> "B${move.from}${move.to}"
+        "r" -> "R${move.from}${move.to}"
+        "q" -> "Q${move.from}${move.to}"
+        "k" -> "K${move.from}${move.to}"
+
+        else -> throw IllegalArgumentException("Invalid piece type: ${move.piece}")
+    }
+}
+
+/**
+ * Formats the moves list with move numbers.
+ *
+ * @author frigvid
+ * @created 2024-11-16
+ */
+private fun formatMovesWithNumbers(moves: List<String>): String {
+    return moves.chunked(2).mapIndexed { index, pair ->
+        val moveNumber = index + 1
+        when (pair.size) {
+            2 -> "$moveNumber. ${pair[0]} ${pair[1]}"
+            1 -> "$moveNumber. ${pair[0]}"
+            else -> ""
+        }
+    }.joinToString(" ").trim()
+}
+
+/**
  * Extension function for OpeningsDto to convert its JSON PGN array to a
  * standard PGN string.
  *
@@ -166,3 +206,19 @@ fun convertPgnToJsonPgnArray(
 fun OpeningsDto.toPgn(): String {
     return convertJsonPgnArrayToPgn(this.pgn)
 }
+
+/**
+ * Represents a chess move with piece type and square coordinates.
+ *
+ * @author frigvid
+ * @created 2024-11-16
+ */
+@Serializable
+private data class ChessMove(
+    @SerialName("piece")
+    val piece: String,
+    @SerialName("from")
+    val from: String,
+    @SerialName("to")
+    val to: String
+)

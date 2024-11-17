@@ -1,4 +1,4 @@
-package no.usn.mob3000.domain.model.game
+package no.usn.mob3000.domain.model.game.opening
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant

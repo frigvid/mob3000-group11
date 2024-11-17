@@ -4,7 +4,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
 import no.usn.mob3000.data.model.game.RepertoireDto
-import no.usn.mob3000.domain.model.game.Group
+import no.usn.mob3000.domain.model.game.group.Group
 
 /**
  * Extension function to map a DTO repertoire to a pure kotlin data class repertoire/group.
