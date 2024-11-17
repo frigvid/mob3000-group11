@@ -124,7 +124,10 @@ object Routes {
                 DocumentationScreen(
                     docsState = documentationViewModel.documentations,
                     fetchDocs = documentationViewModel::fetchDocumentations,
-                    navigateToDocumentationDetails = { navController.navigate(Destination.DOCUMENTATION_DETAILS.name) },
+                    onDocsClick = { docsItem ->
+                        documentationViewModel.setSelectedDocumentation(docsItem)
+                        navController.navigate(Destination.DOCUMENTATION_DETAILS.name)
+                    },
                     onCreateDocumentationClick = { navController.navigate(Destination.DOCUMENTATION_CREATE.name) },
                     setSelectedDocumentation = documentationViewModel::setSelectedDocumentation,
                     clearSelectedDocumentation = documentationViewModel::clearSelectedDocumentation,
@@ -179,7 +182,9 @@ object Routes {
                 FAQScreen(
                     faqState = faqViewModel.faq,
                     fetchFaq = faqViewModel::fetchFAQ,
-                    navigateToFaqDetails = { navController.navigate(Destination.FAQ_DETAILS.name) },
+                    onFaqClick = { faqItem ->
+                        faqViewModel.setSelectedFAQ(faqItem)
+                        navController.navigate(Destination.FAQ_DETAILS.name) },
                     onCreateFAQClick = { navController.navigate(Destination.FAQ_CREATE.name) },
                     setSelectedFAQ = faqViewModel::setSelectedFAQ,
                     clearSelectedFAQ = faqViewModel::clearSelectedFAQ,
@@ -233,8 +238,11 @@ object Routes {
             composable(route = Destination.NEWS.name) {
                 NewsScreen(
                     newsState = newsViewModel.news,
-                    fetchNews = newsViewModel::fetchNews,
-                    onNewsClick = { navController.navigate(Destination.NEWS_DETAILS.name) },
+                    fetchNews = { newsViewModel.fetchNews() },
+                    onNewsClick = { newsItem ->
+                        newsViewModel.setSelectedNews(newsItem)
+                        navController.navigate(Destination.NEWS_DETAILS.name)
+                    },
                     onCreateNewsClick = { navController.navigate(Destination.NEWS_CREATE.name) },
                     setSelectedNews = newsViewModel::setSelectedNews,
                     clearSelectedNews = newsViewModel::clearSelectedNews,
@@ -243,7 +251,7 @@ object Routes {
                 )
             }
 
-            composable(route = Destination.NEWS_DETAILS.name) {
+        composable(route = Destination.NEWS_DETAILS.name) {
                 NewsDetailsScreen(
                     setSelectedNews = newsViewModel::setSelectedNews,
                     deleteNewsItem = newsViewModel::deleteNews,

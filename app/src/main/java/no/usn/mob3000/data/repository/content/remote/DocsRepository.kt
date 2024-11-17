@@ -1,9 +1,11 @@
-package no.usn.mob3000.data.repository.content
+package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
-import no.usn.mob3000.data.source.remote.docs.DocsDataSource
+import no.usn.mob3000.data.model.content.local.DocsItemLocal
+import no.usn.mob3000.data.source.remote.content.DocsDataSource
 import no.usn.mob3000.domain.model.content.DocsData
-import no.usn.mob3000.data.model.content.DocsDto
+import no.usn.mob3000.data.model.content.remote.DocsDto
+import no.usn.mob3000.data.repository.content.local.DocsRepositoryLocal
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.domain.repository.content.IDocsRepository
 import java.util.UUID
@@ -13,15 +15,17 @@ import java.util.UUID
  * database actions. Via [IDocsRepository] it makes a possible communication route with the UI domain layer, without the domain layer getting accidental access
  * to parts of the code it never was suppose to have. It also helps the application run smoother, as there are less dependencies between layers.
  *
- * @param docsDataSource The data source for document-related operations.
  * @param authDataSource The data source for authentication-related operations.
+ * @param docsDataSource The data source for document-related operations.
+ * @param docsRepositoryLocal The local data source for document-related operations.
  * @author 258030
  * @contributor frigvid
  * @created 2024-10-30
  */
 class DocsRepository(
     private val authDataSource: AuthDataSource = AuthDataSource(),
-    private val docsDataSource: DocsDataSource = DocsDataSource()
+    private val docsDataSource: DocsDataSource = DocsDataSource(),
+    private val docsRepositoryLocal: DocsRepositoryLocal
 ) : IDocsRepository {
     /**
      * Fetches a list of all documents to later be used for generating document-cards in the UI. It maps the fetched data to a domain model, so it can be used in the UI.
@@ -29,10 +33,29 @@ class DocsRepository(
      * @return A result containing a list of documents.
      * @throws Exception If an error occurs during the fetching process.
      */
-    override suspend fun fetchDocuments(): Result<List<DocsData>> {
+    override suspend fun fetchAllDocsLocal(): Result<List<DocsData>> {
         return try {
-            val docsDtoList = docsDataSource.fetchAllDocs()
-            Result.success(docsDtoList.map { it.toDomainModel() })
+            val localDocs = docsRepositoryLocal.fetchAllDocs()
+            Result.success(localDocs.map { it.toDomainModel() })
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Fetches a list of all documents to later be used for generating document-cards in the UI.
+     * It maps the fetched data to a domain model, so it can be used in the UI.
+     *
+     * @return A result containing a list of documents.
+     * @throws Exception If an error occurs during the fetching process.
+     */
+    override suspend fun refreshDocsFromNetwork(): Result<Unit> {
+        return try {
+            val networkDocsList = docsDataSource.fetchAllDocs()
+            val localDocsList = networkDocsList.map { it.toLocalModel() }
+            docsRepositoryLocal.clearAllDocs()
+            docsRepositoryLocal.insertDocsList(localDocsList)
+            Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -61,7 +84,7 @@ class DocsRepository(
      * but the validator also make us aware if the method for fetching the ID fails.
      *
      * @return A result indicating the success or failure of the update operation.
-     * */
+     */
     override suspend fun updateDocs(
         docsId: String,
         title: String,
@@ -86,6 +109,7 @@ class DocsRepository(
             return Result.failure(Exception("Original docs data not found"))
         }
     }
+
     /**
      * Fetches a document by its ID. Used for populating the update screen and identify what row we are working with.
      *
@@ -143,6 +167,33 @@ class DocsRepository(
             modifiedAt = this.modifiedAt,
             createdByUser = this.createdByUser ?: "",
             docsId = this.docId
+        )
+    }
+
+    private fun DocsDto.toLocalModel(): DocsItemLocal {
+        return DocsItemLocal(
+            docsId = this.docId,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser ?: "",
+            title = this.title ?: "",
+            summary = this.summary ?: "",
+            content = this.content ?: "",
+            isPublished = this.isPublished
+        )
+
+    }
+
+    private fun DocsItemLocal.toDomainModel(): DocsData {
+        return DocsData(
+            docsId = this.docsId,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser,
+            title = this.title,
+            summary = this.summary,
+            content = this.content,
+            isPublished = this.isPublished
         )
     }
 }

@@ -1,7 +1,9 @@
-package no.usn.mob3000.data.repository.content
+package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
-import no.usn.mob3000.data.model.content.NewsDto
+import no.usn.mob3000.data.model.content.remote.NewsDto
+import no.usn.mob3000.data.model.content.local.NewsItemLocal
+import no.usn.mob3000.data.repository.content.local.NewsRepositoryLocal
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.content.NewsDataSource
 import no.usn.mob3000.domain.model.content.NewsData
@@ -13,14 +15,16 @@ import java.util.UUID
  * database actions. Via [INewsRepository] it makes a possible communication route with the UI domain layer, without the domain layer getting accidental access
  * to parts of the code it never was suppose to have. It also helps the application run smoother, as there are less dependencies between layers.
  *
- * @param newsDataSource The data source for news-related operations.
  * @param authDataSource The data source for authentication-related operations.
+ * @param newsDataSource The data source for news-related operations.
+ * @param newsRepositoryLocal The local data handling for news-related operations.
  * @author 258030
  * @created 2024-10-30
  */
 class NewsRepository(
     private val authDataSource: AuthDataSource = AuthDataSource(),
-    private val newsDataSource: NewsDataSource = NewsDataSource()
+    private val newsDataSource: NewsDataSource = NewsDataSource(),
+    private val newsRepositoryLocal: NewsRepositoryLocal
 ) : INewsRepository {
     /**
      * Fetches a list of all news to later be used for generating news-cards in the UI. It maps the fetched data to a domain model, so it can be used in the UI.
@@ -28,10 +32,29 @@ class NewsRepository(
      * @return a result containing a list of news.
      * @throws Exception if an error occurs during the fetching process.
      */
-    override suspend fun fetchNews(): Result<List<NewsData>> {
+    override suspend fun fetchAllNewsLocal(): Result<List<NewsData>> {
         return try {
-            val newsDtoList = newsDataSource.fetchAllNews()
-            Result.success(newsDtoList.map { it.toDomainModel() })
+            val localNews = newsRepositoryLocal.fetchAllNews()
+            Result.success(localNews.map { it.toDomainModel() })
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Fetches a list of all news to later be used for generating news-cards in the UI.
+     * It maps the fetched data to a domain model, so it can be used in the UI.
+     *
+     * @return A result containing a list of news.
+     * @throws Exception If an error occurs during the fetching process.
+     */
+    override suspend fun refreshNewsFromNetwork(): Result<Unit> {
+        return try {
+            val networkNewsList = newsDataSource.fetchAllNews()
+            val localNewsList = networkNewsList.map { it.toLocalModel() }
+            newsRepositoryLocal.clearAllNews()
+            newsRepositoryLocal.insertNewsList(localNewsList)
+            Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -140,6 +163,32 @@ class NewsRepository(
         modifiedAt = this.modifiedAt,
         createdByUser = this.createdByUser ?: "",
         newsId = this.newsId
+        )
+    }
+
+    private fun NewsDto.toLocalModel(): NewsItemLocal {
+        return NewsItemLocal(
+            newsId = this.newsId,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser ?: "",
+            title = this.title ?: "",
+            summary = this.summary ?: "",
+            content = this.content ?: "",
+            isPublished = this.isPublished
+        )
+    }
+
+    private fun NewsItemLocal.toDomainModel(): NewsData {
+        return NewsData(
+            newsId = this.newsId,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser,
+            title = this.title,
+            summary = this.summary,
+            content = this.content,
+            isPublished = this.isPublished
         )
     }
 }

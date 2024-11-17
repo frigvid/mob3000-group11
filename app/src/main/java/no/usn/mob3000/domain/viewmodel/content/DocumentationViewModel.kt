@@ -1,14 +1,13 @@
 package no.usn.mob3000.domain.viewmodel.content
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import no.usn.mob3000.data.repository.content.DocsRepository
 import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.domain.usecase.content.docs.DeleteDocsUseCase
 import no.usn.mob3000.domain.usecase.content.docs.FetchDocUseCase
@@ -28,11 +27,13 @@ import no.usn.mob3000.domain.usecase.content.docs.UpdateDocsUseCase
  * @created 2024-11-04
  */
 class DocumentationViewModel(
-    private val fetchDocUseCase: FetchDocUseCase = FetchDocUseCase(),
-    private val deleteDocsUseCase: DeleteDocsUseCase = DeleteDocsUseCase(),
-    private val updateDocsUseCase: UpdateDocsUseCase = UpdateDocsUseCase(DocsRepository()),
-    private val insertDocsUseCase: InsertDocsUseCase = InsertDocsUseCase(DocsRepository()),
+    private val fetchDocUseCase: FetchDocUseCase,
+    private val deleteDocsUseCase: DeleteDocsUseCase,
+    private val updateDocsUseCase: UpdateDocsUseCase,
+    private val insertDocsUseCase: InsertDocsUseCase
 ): ViewModel() {
+    private var hasRefreshed = false
+
     private val _documentations =
         MutableStateFlow<Result<List<DocsData>>>(Result.success(emptyList()))
     val documentations: StateFlow<Result<List<DocsData>>> = _documentations
@@ -40,14 +41,31 @@ class DocumentationViewModel(
     private val _selectedDocumentation = mutableStateOf<DocsData?>(null)
     val selectedDocumentation: State<DocsData?> = _selectedDocumentation
 
+    init {
+        periodicRefresh()
+    }
+
     /**
      * Fetches documentation from the data layer.
      */
     fun fetchDocumentations() {
         viewModelScope.launch {
-            _documentations.value = fetchDocUseCase.fetchDocumentations()
+            if (!hasRefreshed) {
+                refreshRoomDocs()
+                hasRefreshed = true
+            }
+            loadLocalDocs()
         }
     }
+
+    suspend fun refreshRoomDocs() {
+        fetchDocUseCase.refreshRoomFromNetwork()
+    }
+
+    suspend fun loadLocalDocs() {
+        _documentations.value = fetchDocUseCase.fetchLocalDocs()
+    }
+
 
     /**
      * Inserts a new row into the docs table with the provided parameters.
@@ -66,9 +84,8 @@ class DocumentationViewModel(
         viewModelScope.launch {
             val result = insertDocsUseCase.execute(title, summary, content, isPublished)
             if (result.isSuccess) {
-                // TODO: Handle success
-            } else {
-                // TODO: Handle error
+                refreshRoomDocs()
+                loadLocalDocs()
             }
         }
     }
@@ -80,7 +97,12 @@ class DocumentationViewModel(
      */
     fun deleteDocs(docsId: String) {
         viewModelScope.launch {
-            deleteDocsUseCase.deleteDocs(docsId)
+            val result = deleteDocsUseCase.deleteDocs(docsId)
+            if (result.isSuccess) {
+                deleteDocsUseCase.deleteDocs(docsId)
+                refreshRoomDocs()
+                loadLocalDocs()
+            }
         }
     }
 
@@ -112,7 +134,6 @@ class DocumentationViewModel(
     /**
      * Update a docs item in the database with new values. Logs the result console-side.
      *
-     * TODO: Remove logs before final iteration
      *
      * @param docsId The ID of the documentation to be updated.
      * @param title The new title of the documentation.
@@ -136,15 +157,8 @@ class DocumentationViewModel(
                 isPublished = isPublished
             )
             if (result.isSuccess) {
-                Log.d(
-                    "ContentViewModel",
-                    "Update successful for documentation with ID: $docsId"
-                )
-            } else {
-                Log.e(
-                    "ContentViewModel",
-                    "Update failed for documentation with ID: $docsId"
-                )
+                refreshRoomDocs()
+                loadLocalDocs()
             }
 
         }
@@ -164,5 +178,15 @@ class DocumentationViewModel(
      */
     fun clearSelectedDocumentation() {
         _selectedDocumentation.value = null
+    }
+
+    private fun periodicRefresh() {
+        viewModelScope.launch {
+            while (true) {
+                delay(2 * 60 * 1000)
+                refreshRoomDocs()
+                loadLocalDocs()
+            }
+        }
     }
 }
