@@ -142,47 +142,49 @@ fun ChessBoard(
                 )
             }
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = { offset ->
-                        Logger.i(message = "Drag gesture started at $offset")
-                        val file = (offset.x / cellSize).toInt()
-                        val rank = 7 - (offset.y / cellSize).toInt()
-                        if (file in 0..7 && rank in 0..7) {
-                            val square = Square.encode(
-                                Rank.allRanks[rank],
-                                File.allFiles[file]
-                            )
-                            viewModel.onEvent(ChessBoardEvent.OnPieceDragStart(square, offset.x, offset.y))
-                        }
-                    },
-                    onDrag = { change, _ ->
-                        Logger.v(message = "Drag gesture update at ${change.position}")
-                        viewModel.onEvent(
-                            ChessBoardEvent.OnPieceDragged(
-                            change.position.x,
-                            change.position.y
-                        ))
-                    },
-                    onDragEnd = {
-                        Logger.d(message = "Drag gesture ended")
-                        val draggedPiece = boardState.draggedPiece
-                        if (draggedPiece != null) {
-                            val file = (draggedPiece.currentX / cellSize).toInt()
-                            val rank = 7 - (draggedPiece.currentY / cellSize).toInt()
-                            val toSquare = if (file in 0..7 && rank in 0..7) {
-                                Square.encode(
+                if (gameInteractable) {
+                    detectDragGestures(
+                        onDragStart = { offset ->
+                            Logger.i(message = "Drag gesture started at $offset")
+                            val file = (offset.x / cellSize).toInt()
+                            val rank = 7 - (offset.y / cellSize).toInt()
+                            if (file in 0..7 && rank in 0..7) {
+                                val square = Square.encode(
                                     Rank.allRanks[rank],
                                     File.allFiles[file]
                                 )
-                            } else null
+                                viewModel.onEvent(ChessBoardEvent.OnPieceDragStart(square, offset.x, offset.y))
+                            }
+                        },
+                        onDrag = { change, _ ->
+                            Logger.v(message = "Drag gesture update at ${change.position}")
+                            viewModel.onEvent(
+                                ChessBoardEvent.OnPieceDragged(
+                                change.position.x,
+                                change.position.y
+                            ))
+                        },
+                        onDragEnd = {
+                            Logger.d(message = "Drag gesture ended")
+                            val draggedPiece = boardState.draggedPiece
+                            if (draggedPiece != null) {
+                                val file = (draggedPiece.currentX / cellSize).toInt()
+                                val rank = 7 - (draggedPiece.currentY / cellSize).toInt()
+                                val toSquare = if (file in 0..7 && rank in 0..7) {
+                                    Square.encode(
+                                        Rank.allRanks[rank],
+                                        File.allFiles[file]
+                                    )
+                                } else null
 
-                            Logger.d(message = "Drag ended at square $toSquare")
-                            viewModel.onEvent(ChessBoardEvent.OnPieceDragEnd(toSquare))
-                        } else {
-                            Logger.e(message = "Drag ended but no dragged piece found")
+                                Logger.d(message = "Drag ended at square $toSquare")
+                                viewModel.onEvent(ChessBoardEvent.OnPieceDragEnd(toSquare))
+                            } else {
+                                Logger.e(message = "Drag ended but no dragged piece found")
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
@@ -252,34 +254,38 @@ fun ChessBoard(
                 }
             }
 
-            /* Draw the piece's new location. */
-            boardState.draggedPiece?.let { draggedPiece ->
-                val painter = chessBoardPiecePainters[draggedPiece.piece]
-                if (painter != null) {
-                    drawPiece(
-                        painter,
-                        Offset(
-                            draggedPiece.currentX - cellSize / 2,
-                            draggedPiece.currentY - cellSize / 2
-                        ),
-                        cellSize
-                    )
+            if (gameInteractable) {
+                /* Draw the piece's new location. */
+                boardState.draggedPiece?.let { draggedPiece ->
+                    val painter = chessBoardPiecePainters[draggedPiece.piece]
+                    if (painter != null) {
+                        drawPiece(
+                            painter,
+                            Offset(
+                                draggedPiece.currentX - cellSize / 2,
+                                draggedPiece.currentY - cellSize / 2
+                            ),
+                            cellSize
+                        )
+                    }
                 }
             }
         }
 
-        promotionState?.let { state ->
-            PromotionDialog(
-                square = state.square,
-                offset = state.offset,
-                side = state.side,
-                onPieceSelected = { piece ->
-                    viewModel.onEvent(ChessBoardEvent.OnPromotionPieceSelected(piece))
-                },
-                onDismissRequest = {
-                    promotionState = null
-                }
-            )
+        if (gameInteractable) {
+            promotionState?.let { state ->
+                PromotionDialog(
+                    square = state.square,
+                    offset = state.offset,
+                    side = state.side,
+                    onPieceSelected = { piece ->
+                        viewModel.onEvent(ChessBoardEvent.OnPromotionPieceSelected(piece))
+                    },
+                    onDismissRequest = {
+                        promotionState = null
+                    }
+                )
+            }
         }
     }
 }
