@@ -14,17 +14,21 @@ import no.usn.mob3000.data.source.local.content.FaqDao
  * @author 258030
  * @created 2024-11-13
  */
-class FAQRepositoryLocal(private val context: Context) {
-
+class FAQRepositoryLocal(
+    private val context: Context
+) {
     private val faqDao: FaqDao by lazy {
         AppDatabase.getInstance(context).faqDao()
     }
+
     suspend fun insertFaqList(faqList: List<FaqItemLocal>) = withContext(Dispatchers.IO) {
         faqDao.insertFaqList(faqList)
     }
+
     suspend fun fetchAllFaq(): List<FaqItemLocal> = withContext(Dispatchers.IO) {
         faqDao.getAllFaq()
     }
+
     suspend fun clearAllFaq() = withContext(Dispatchers.IO) {
         faqDao.clearAllFaq()
     }
