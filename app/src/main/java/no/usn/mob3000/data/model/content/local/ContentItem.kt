@@ -1,17 +1,16 @@
 package no.usn.mob3000.data.model.content.local
 
-/**
- * Data classes representing the local tables for news, docs, and faq items.
- *
- * @author 258030
- * @created 2024-11-13
- */
-
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.datetime.Instant
 
+/**
+ * Data class representing the local tables for news items.
+ *
+ * @author 258030
+ * @created 2024-11-13
+ */
 @Entity(tableName = "news_table")
 class NewsItemLocal(
     @PrimaryKey(autoGenerate = false) var newsId: String,
@@ -24,6 +23,12 @@ class NewsItemLocal(
     @ColumnInfo(name = "is_published") var isPublished: Boolean
 )
 
+/**
+ * Data class representing the local tables for docs items.
+ *
+ * @author 258030
+ * @created 2024-11-13
+ */
 @Entity(tableName = "docs_table")
 class DocsItemLocal (
     @PrimaryKey(autoGenerate = false) var docsId: String,
@@ -36,6 +41,12 @@ class DocsItemLocal (
     @ColumnInfo(name = "is_published") var isPublished: Boolean
 )
 
+/**
+ * Data class representing the local tables for faq items.
+ *
+ * @author 258030
+ * @created 2024-11-13
+ */
 @Entity(tableName = "faq_table")
 class FaqItemLocal(
     @PrimaryKey(autoGenerate = false) var faqId: String,
