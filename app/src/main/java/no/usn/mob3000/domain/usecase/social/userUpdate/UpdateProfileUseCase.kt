@@ -1,6 +1,7 @@
 package no.usn.mob3000.domain.usecase.social.userUpdate
 
 import no.usn.mob3000.domain.repository.social.IProfileEditRepository
+
 /**
  * Usercase for updating profile
  *

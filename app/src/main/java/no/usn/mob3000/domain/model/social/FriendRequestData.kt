@@ -1,8 +1,12 @@
 package no.usn.mob3000.domain.model.social
 
 import kotlinx.datetime.Instant
-import kotlinx.serialization.SerialName
 
+
+/**
+ * @author Husseinabdulameer11
+ * created on 05.11.2024
+ **/
 data class FriendRequestData(
     val friendRequestId: String,
     val createdAt: Instant,

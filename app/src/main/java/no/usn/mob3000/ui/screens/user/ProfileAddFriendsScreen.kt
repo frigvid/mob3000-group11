@@ -25,7 +25,7 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * Screen for allowing users to search for other users and sending them a friend request.
  *
  * @author frigvid
- * @contributors 258030
+ * @contributors 258030,Husseinabdulameer11
  * @created 2024-10-11
  */
 @Composable
