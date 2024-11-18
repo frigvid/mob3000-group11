@@ -7,7 +7,9 @@ import no.usn.mob3000.data.source.remote.social.FriendsDataSource
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.domain.repository.social.IFriendsRepository
+
 /**
+ *
  * This repository orchestrates mainly the showcasing of the users friends. In difference to [FriendRequestRepository], this repository
  * contains only fetch-actions.
  *
@@ -22,8 +24,9 @@ import no.usn.mob3000.domain.repository.social.IFriendsRepository
 class FriendsRepository (
     private val friendsDataSource: FriendsDataSource = FriendsDataSource(),
     private val friendRequestDataSource: FriendRequestDataSource = FriendRequestDataSource(),
-):IFriendsRepository{
+): IFriendsRepository{
     /**
+     *
      * Fetches all friends and puts it into a list, maps it for usage in the ui layer. Checks for if the user ID
      * matches a column, shows the row where the userId matched least one of the columns (either user1 or user2).
      * More filtration is done in the ui layer.
@@ -43,6 +46,7 @@ class FriendsRepository (
         }
     }
     /**
+     *
      * Fetches all non-friends and maps it for usage in the ui layer. Used for adding new friends
      * It also checks for if the userId matches byUser and the targeted userId matches toUser, that way we don't get duplicate friend requests
      *
@@ -68,6 +72,7 @@ class FriendsRepository (
         }
     }
     /**
+     *
      * Maps [FriendsDto] to [FriendData]
      *
      * @return The corresponding [FriendData] instance
@@ -81,6 +86,7 @@ class FriendsRepository (
         )
     }
     /**
+     *
      * Maps [ProfileDto] to [UserProfile]
      *
      * @return The corresponding [UserProfile] instance
@@ -98,5 +104,3 @@ class FriendsRepository (
         )
     }
 }
-
-
