@@ -19,53 +19,50 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.error.AccountModificationError
-import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
+import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
- * This is the password reset screen, where users can change their passwords.
+ * This is the e-mail address change screen, where users can change their e-mails.
  *
- * @param onResetPasswordClick Callback triggered when the user presses the "Reset Password"
- *                             button to initiate the password reset process.
- * @author Markus, frigvid
- * @created 2024-09-24
+ * @author frigvid
+ * @created 2024-11-13
  */
 @Composable
-fun ResetPasswordScreen(
-    onResetPasswordClick: (String) -> Unit,
-    changePasswordStateUpdate: (ChangePasswordState) -> Unit,
-    authenticationStateUpdate: () -> Unit,
-    navControllerPopBackStack: () -> Unit
+fun ChangeEmailScreen(
+    changeEmailStateUpdate: (ChangeEmailState) -> Unit,
+    onChangeEmailClick: (String) -> Unit,
+    navControllerPopBackStack: () -> Unit,
+    authenticationStateUpdate: () -> Unit
 ) {
-    var showPasswordChangeConfirmation by remember { mutableStateOf(false) }
+    var showEmailChangeConfirmation by remember { mutableStateOf(false) }
 
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var confirmEmail by remember { mutableStateOf("") }
 
-    if (showPasswordChangeConfirmation) {
+    if (showEmailChangeConfirmation) {
         DangerousActionDialogue(
-            title = stringResource(R.string.auth_reset_password_confirmation),
+            title = stringResource(R.string.auth_email_confirmation),
             onConfirm = {
-                showPasswordChangeConfirmation = false
+                showEmailChangeConfirmation = false
 
-                if (password == confirmPassword) {
-                    onResetPasswordClick(password)
+                if (email == confirmEmail) {
+                    onChangeEmailClick(email)
                 } else {
-                    changePasswordStateUpdate(
-                        ChangePasswordState.Error(AccountModificationError.PasswordMustMatch)
+                    changeEmailStateUpdate(
+                        ChangeEmailState.Error(AccountModificationError.EmailMustMatch)
                     )
                 }
 
                 authenticationStateUpdate()
                 navControllerPopBackStack()
             },
-            onDismiss = { showPasswordChangeConfirmation = false }
+            onDismiss = { showEmailChangeConfirmation = false }
         )
     }
 
@@ -82,33 +79,34 @@ fun ResetPasswordScreen(
             ) {
 
                 TextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text(stringResource(R.string.auth_reset_password_input)) },
-                    placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
-                    visualTransformation = PasswordVisualTransformation(),
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text(stringResource(R.string.auth_email_input)) },
+                    placeholder = { Text(stringResource(R.string.auth_login_email_placeholder)) },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 TextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
-                    label = { Text(stringResource(R.string.auth_reset_password_confirm)) },
-                    placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
-                    visualTransformation = PasswordVisualTransformation(),
+                    value = confirmEmail,
+                    onValueChange = { confirmEmail = it },
+                    label = { Text(stringResource(R.string.auth_email_input_confirm)) },
+                    placeholder = { Text(stringResource(R.string.auth_login_email_placeholder)) },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // TODO: If fields are empty, change text and action. Should
+                //       take user back to settings. If there are text, change
+                //       it to say and do what it does now.
                 Button(
-                    onClick = { showPasswordChangeConfirmation = true },
+                    onClick = { showEmailChangeConfirmation = true },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(stringResource(R.string.auth_reset_password_button))
+                    Text(stringResource(R.string.auth_email_button))
                 }
             }
         }

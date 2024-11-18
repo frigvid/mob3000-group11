@@ -13,7 +13,10 @@ import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ChangeEmailViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ChangePasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ForgotPasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
@@ -99,7 +102,10 @@ fun Navigation(
     viewModel: CBViewModel = viewModel(),
     loginViewModel: LoginViewModel = viewModel(),
     logoutViewModel: LogoutViewModel = viewModel(),
+    changeEmailViewModel: ChangeEmailViewModel = viewModel(),
+    changePasswordViewModel: ChangePasswordViewModel = viewModel(),
     registrationViewModel: RegistrationViewModel = viewModel(),
+    forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     authenticationViewModel: AuthenticationViewModel = viewModel(),
     documentationViewModel: DocumentationViewModel = viewModel(),
@@ -144,6 +150,8 @@ fun Navigation(
                 viewModel,
                 logoutViewModel,
                 deleteAccountViewModel,
+                changeEmailViewModel,
+                changePasswordViewModel,
                 authenticationViewModel
             )
 
@@ -151,7 +159,11 @@ fun Navigation(
                 this,
                 navController,
                 loginViewModel,
-                registrationViewModel
+                registrationViewModel,
+                changeEmailViewModel,
+                changePasswordViewModel,
+                forgotPasswordViewModel,
+                authenticationViewModel
             )
 
             Routes.Administrator(this)
