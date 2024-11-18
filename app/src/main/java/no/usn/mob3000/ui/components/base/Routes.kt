@@ -690,7 +690,7 @@ object Routes {
              * @created 2024-11-11
              */
             navGraphBuilder.composable(
-                route = Destination.AUTH_PASSWORD_RESET_VIA_EMAIL.name + "?token_hash={token_hash}&type={type}&next={next}",
+                route = Destination.AUTH_PASSWORD_RESET_VIA_EMAIL.name,
                 arguments = listOf(
                     navArgument("token_hash") {
                         type = NavType.StringType; defaultValue = ""
@@ -726,7 +726,7 @@ object Routes {
                     type = type,
                     next = next,
                     onResetPasswordClick = changePasswordViewModel::changePassword,
-                    navControllerPopBackStack = navController::popBackStack,
+                    navControllerPopBackStack = {  },
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
                     changePasswordStateUpdate = changePasswordViewModel::updateState
                 )
