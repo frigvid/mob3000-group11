@@ -11,6 +11,7 @@ import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.domain.repository.social.IFriendRequestRepository
 import java.util.UUID
 /**
+ * 
  * This repository orchestrates friend request-related data operations. Shares similarities with [FriendsRepository]. In future versions, we would
  * ideally want to abstract this across all database operations.
  *
