@@ -1,7 +1,10 @@
 package no.usn.mob3000.ui.screens.auth
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
+import no.usn.mob3000.domain.usecase.auth.ImportSessionTokenUseCase
 import no.usn.mob3000.ui.components.auth.PasswordResetContent
 
 /**
@@ -25,8 +28,20 @@ fun ResetPasswordViaEmailScreen(
     onResetPasswordClick: (String) -> Unit,
     changePasswordStateUpdate: (ChangePasswordState) -> Unit,
     authenticationStateUpdate: () -> Unit,
-    navControllerPopBackStack: () -> Unit
+    navControllerPopBackStack: () -> Unit,
+    importSessionTokenUseCase: ImportSessionTokenUseCase = ImportSessionTokenUseCase(),
+    authenticationStartPeriodicUpdates: () -> Unit,
 ) {
+    LaunchedEffect(Unit) {
+        Logger.d("Importing authentication token hash! $tokenHash")
+        try {
+            importSessionTokenUseCase(tokenHash)
+            authenticationStartPeriodicUpdates()
+        } catch (error: Exception) {
+            Logger.d("Something went wrong while importing the authentication token hash.")
+        }
+    }
+
     PasswordResetContent(
         onPasswordReset = onResetPasswordClick,
         onChangePasswordStateUpdate = changePasswordStateUpdate,

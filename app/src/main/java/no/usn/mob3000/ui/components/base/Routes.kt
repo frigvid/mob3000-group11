@@ -728,7 +728,8 @@ object Routes {
                     onResetPasswordClick = changePasswordViewModel::changePassword,
                     navControllerPopBackStack = {  },
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
-                    changePasswordStateUpdate = changePasswordViewModel::updateState
+                    changePasswordStateUpdate = changePasswordViewModel::updateState,
+                    authenticationStartPeriodicUpdates = authenticationViewModel::startPeriodicUpdates
                 )
             }
 
