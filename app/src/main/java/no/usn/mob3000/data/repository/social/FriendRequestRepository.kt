@@ -75,6 +75,7 @@ class FriendRequestRepository (
         return friendRequestDataSource.insertFriendRequest(requestItem)
     }
     /**
+     *
      * Accepts a friend request by its ID.
      *
      * This function inserts the friend pair into the friends table and deletes the original friend request.
@@ -106,6 +107,7 @@ class FriendRequestRepository (
         }
     }
     /**
+     *
      * Declines a friend request by its ID.
      * This function simply deletes the friend request without any further action.
      *
@@ -120,6 +122,7 @@ class FriendRequestRepository (
         return deleteFriendRequest(friendRequestId)
     }
     /**
+     *
      * Declines a friend requests after interaction with [ProfileFriendRequestsScreen]. This function is used by both the accept and decline option, since
      * the friend request is deleted in both cases.
      *
@@ -139,6 +142,7 @@ class FriendRequestRepository (
         }
     }
     /**
+     *
      * Converts [FriendRequestsDto] to [FriendRequestData]. "accepted" is not really used in the implementation.
      *
      * @return The corresponding [FriendRequestData] instance.
