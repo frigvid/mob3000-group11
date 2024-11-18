@@ -51,10 +51,7 @@ fun TopNavbar(
 ) {
     TopAppBar(
         title = { if (showTitle) Text(stringResource(currentScreen.title),color = MaterialTheme.colorScheme.onSurface) },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            titleContentColor = MaterialTheme.colorScheme.onSurface
-        ),
+        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = modifier,
         navigationIcon = {
             if (canNavigateBack && currentScreen !in roots) {

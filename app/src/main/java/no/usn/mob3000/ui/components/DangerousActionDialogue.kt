@@ -33,6 +33,9 @@ fun DangerousActionDialogue(
     onDismiss: () -> Unit,
     confirmText: String = stringResource(R.string.component_dialogue_dangerous_action_button_confirm),
     dismissText: String = stringResource(R.string.component_dialogue_dangerous_action_button_dismiss),
+    colorContainer: Color = MaterialTheme.colorScheme.surface,
+    colorButtonDismiss: Color = MaterialTheme.colorScheme.primary,
+    colorButtonConfirm: Color = Color.Red,
 
 ) {
     Dialog(
@@ -42,7 +45,7 @@ fun DangerousActionDialogue(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+            colors = CardDefaults.cardColors(containerColor = colorContainer)
         ) {
             Column(
                 modifier = Modifier
@@ -63,10 +66,7 @@ fun DangerousActionDialogue(
                 ) {
                     Button(
                         onClick = onDismiss,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        ),
+                        colors = ButtonDefaults.buttonColors(colorButtonDismiss),
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 8.dp)
@@ -74,10 +74,8 @@ fun DangerousActionDialogue(
 
                     Button(
                         onClick = onConfirm,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Red,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        ),                        modifier = Modifier
+                        colors = ButtonDefaults.buttonColors(colorButtonConfirm),
+                        modifier = Modifier
                             .weight(1f)
                             .padding(start = 8.dp)
                     ) { Text(confirmText) }

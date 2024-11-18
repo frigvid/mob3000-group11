@@ -126,9 +126,11 @@ fun HistoryListItem(
     var expanded by remember { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier.fillMaxWidth()
-                           .clickable { expanded = !expanded },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { expanded = !expanded },
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {

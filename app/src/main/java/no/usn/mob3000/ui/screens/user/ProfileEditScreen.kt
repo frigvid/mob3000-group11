@@ -94,8 +94,15 @@ fun ProfileEditScreen(
             OutlinedTextField(
                 value = aboutMe,
                 onValueChange = { aboutMe = it },
-                label = { Text(stringResource(R.string.profile_edit_about_me)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_about_me_placeholder), color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)) },
+                label = {
+                    Text(stringResource(R.string.profile_edit_about_me))
+                },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.profile_edit_about_me_placeholder),
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                },
                 textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -111,9 +118,13 @@ fun ProfileEditScreen(
                     value = selectedCountry,
                     onValueChange = { selectedCountry = it },
                     readOnly = true,
-                    label = { Text(stringResource(R.string.profile_edit_nationality)) },
+                    label = {
+                        Text(stringResource(R.string.profile_edit_nationality))
+                    },
                     textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropdownExpanded) },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropdownExpanded)
+                    },
                     modifier = Modifier
                         .menuAnchor(MenuAnchorType.PrimaryNotEditable)
                         .fillMaxWidth()
@@ -127,7 +138,12 @@ fun ProfileEditScreen(
                     /* TODO: Use country-code to decide on which emoji to display. */
                     commonCountries.forEach { (code, name) ->
                         DropdownMenuItem(
-                            text = { Text(name, color = MaterialTheme.colorScheme.onBackground) },
+                            text = {
+                                Text(
+                                    name,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            },
                             onClick = {
                                 selectedCountry = name
                                 isDropdownExpanded = false

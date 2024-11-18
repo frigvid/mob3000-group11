@@ -161,7 +161,7 @@ private fun LogoutAccount(
     OutlinedButton(
         onClick = { showLogoutConfirmation = true },
         colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
-            modifier = Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)
     ) { Text(stringResource(R.string.settings_section_user_button_logout) + "?") }

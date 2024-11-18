@@ -116,7 +116,12 @@ fun CreateUserScreen(
 
                 OutlinedButton(
                     onClick = onReturnToLoginClick
-                ) { Text(stringResource(R.string.auth_create_user_return_to_login), color = MaterialTheme.colorScheme.onBackground) }
+                ) {
+                    Text(
+                        text = stringResource(R.string.auth_create_user_return_to_login),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
 
                 when (state) {
                     is RegistrationState.Success -> {

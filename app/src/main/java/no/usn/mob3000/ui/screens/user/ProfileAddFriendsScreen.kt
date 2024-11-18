@@ -103,7 +103,6 @@ fun UserListItem(
             Text(
                 text = user.username,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(

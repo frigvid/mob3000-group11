@@ -217,7 +217,7 @@ fun UserListItem(
                 Text(
                     text = user.email ?: stringResource(R.string.admin_dashboard_fragment_email_unknown),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
+                    fontSize = 16.sp
                 )
 
                 Text(
@@ -260,19 +260,15 @@ fun UserListItem(
                 if (user.isAdmin) {
                     Button(
                         onClick = { onDemoteUser(user.id) },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        )                       ) {
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary,)
+                    ) {
                         Text(stringResource(R.string.admin_dashboard_fragment_button_demote))
                     }
                 } else {
                     Button(
                         onClick = { onPromoteUser(user.id) },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        )                    ) {
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary,)
+                    ) {
                         Text(stringResource(R.string.admin_dashboard_fragment_button_promote))
                     }
                 }

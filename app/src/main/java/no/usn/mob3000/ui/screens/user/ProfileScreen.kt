@@ -49,7 +49,7 @@ fun ProfileScreen(
                     painter = painterResource(R.drawable.profile_edit),
                     contentDescription = "Edit Profile",
                     modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
 
@@ -58,7 +58,7 @@ fun ProfileScreen(
                     painter = painterResource(R.drawable.profile_add_friends),
                     contentDescription = "Add Friend",
                     modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
 
@@ -67,7 +67,7 @@ fun ProfileScreen(
                     painter = painterResource(R.drawable.profile_pending_friends),
                     contentDescription = "Friend Requests",
                     modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
