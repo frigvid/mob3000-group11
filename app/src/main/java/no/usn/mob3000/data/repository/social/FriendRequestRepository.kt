@@ -56,6 +56,7 @@ class FriendRequestRepository (
         }
     }
     /**
+     *
      * Inserts a new friend request after interacting with [ProfileAddFriendsScreen].
      *
      * @param toUser The user ID to whom the friend request is being sent.
