@@ -670,7 +670,7 @@ object Routes {
 
             navGraphBuilder.composable(route = Destination.AUTH_RESET.name) {
                 ResetPasswordScreen(
-                    onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
+                    onResetPasswordClick = changePasswordViewModel::changePassword,
                     navControllerPopBackStack = {
                         /* Pop back stack stopped working for mysterious reasons. But this works. */
                         navController.navigate(Destination.SETTINGS.name)
@@ -725,7 +725,7 @@ object Routes {
                     tokenHash = tokenHash,
                     type = type,
                     next = next,
-                    onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
+                    onResetPasswordClick = changePasswordViewModel::changePassword,
                     navControllerPopBackStack = navController::popBackStack,
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
                     changePasswordStateUpdate = changePasswordViewModel::updateState
