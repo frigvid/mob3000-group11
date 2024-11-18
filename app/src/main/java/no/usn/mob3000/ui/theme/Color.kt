@@ -22,5 +22,3 @@ val DarkDefaultButton = Color(0xFF1E1E1E)
 val DarkDefaultListItemBackground = Color(0xFFFFFBF3)
 val DarkProfileUserBackground = Color(0xFFE0E0E0)
 val DarkProfileUserStatisticsBackground = Color(0xFFE0E0E0)
-
-

@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
@@ -75,6 +76,7 @@ fun SettingsSectionApplication(
             onValueChange = {},
             readOnly = true,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = languageExpanded) },
+            textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
             modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
                 .fillMaxWidth()
         )
@@ -84,14 +86,14 @@ fun SettingsSectionApplication(
             onDismissRequest = { languageExpanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_section_app_language_enus)) },
+                text = { Text(stringResource(R.string.settings_section_app_language_enus),color = MaterialTheme.colorScheme.onBackground) },
                 onClick = {
                     onLanguageChange("English")
                     languageExpanded = false
                 }
             )
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_section_app_language_nonb)) },
+                text = { Text(stringResource(R.string.settings_section_app_language_nonb),color = MaterialTheme.colorScheme.onBackground) },
                 onClick = {
                     onLanguageChange("Norwegian bokmål")
                     languageExpanded = false
@@ -114,6 +116,7 @@ fun SettingsSectionApplication(
             onValueChange = {},
             readOnly = true,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = themeExpanded) },
+            textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
             modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
                 .fillMaxWidth()
         )
@@ -123,14 +126,14 @@ fun SettingsSectionApplication(
             onDismissRequest = { themeExpanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_section_app_theme_light)) },
+                text = { Text(stringResource(R.string.settings_section_app_theme_light), color = MaterialTheme.colorScheme.onBackground) },
                 onClick = {
                     onThemeChange("Default - light")
                     themeExpanded = false
                 }
             )
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_section_app_theme_dark)) },
+                text = { Text(stringResource(R.string.settings_section_app_theme_dark), color = MaterialTheme.colorScheme.onBackground) },
                 onClick = {
                     onThemeChange("Default - dark")
                     themeExpanded = false

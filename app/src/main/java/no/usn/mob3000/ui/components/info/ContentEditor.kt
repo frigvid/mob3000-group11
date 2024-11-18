@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.ui.components.base.Viewport
@@ -43,14 +44,16 @@ fun ContentEditor(
             OutlinedTextField(
                 value = title,
                 onValueChange = onTitleChange,
-                label = { Text(stringResource(R.string.info_item_content_title)) },
+                label = { Text(stringResource(R.string.info_item_content_title), color = MaterialTheme.colorScheme.onBackground) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = summary,
                 onValueChange = onSummaryChange,
-                label = { Text(stringResource(R.string.info_item_content_summary)) },
+                label = { Text(stringResource(R.string.info_item_content_summary), color = MaterialTheme.colorScheme.onBackground) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3
             )
@@ -58,7 +61,8 @@ fun ContentEditor(
             OutlinedTextField(
                 value = content,
                 onValueChange = onContentChange,
-                label = { Text(stringResource(R.string.info_item_content_content)) },
+                label = { Text(stringResource(R.string.info_item_content_content), color = MaterialTheme.colorScheme.onBackground) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 14
             )

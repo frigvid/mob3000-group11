@@ -112,6 +112,7 @@ fun ProfileEditScreen(
                     onValueChange = { selectedCountry = it },
                     readOnly = true,
                     label = { Text(stringResource(R.string.profile_edit_nationality)) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropdownExpanded) },
                     modifier = Modifier
                         .menuAnchor(MenuAnchorType.PrimaryNotEditable)
