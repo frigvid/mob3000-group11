@@ -37,7 +37,6 @@ import no.usn.mob3000.domain.model.auth.state.ForgotPasswordState
 import no.usn.mob3000.domain.model.auth.state.LoginState
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This screen allows users to log into accounts, request new passwords ([ForgotPasswordScreen]),
@@ -131,7 +130,12 @@ fun LoginScreen(
                 OutlinedButton(
                     onClick = onForgotPasswordClick,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) { Text(stringResource(R.string.auth_login_forgot_password), color = MaterialTheme.colorScheme.onBackground) }
+                ) {
+                    Text(
+                        stringResource(R.string.auth_login_forgot_password),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
 
                 Row(
                     modifier = Modifier

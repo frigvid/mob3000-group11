@@ -125,7 +125,7 @@ fun OpeningsScreen(
                                 painter = painterResource(R.drawable.group_button),
                                 contentDescription = "Groups",
                                 modifier = Modifier.size(24.dp),
-                                tint = MaterialTheme.colorScheme.onPrimary
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }

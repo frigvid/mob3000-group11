@@ -86,14 +86,22 @@ fun SettingsSectionApplication(
             onDismissRequest = { languageExpanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_section_app_language_enus),color = MaterialTheme.colorScheme.onBackground) },
+                text =
+                { Text(
+                    stringResource(R.string.settings_section_app_language_enus),
+                    color = MaterialTheme.colorScheme.onBackground)
+                },
                 onClick = {
                     onLanguageChange("English")
                     languageExpanded = false
                 }
             )
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_section_app_language_nonb),color = MaterialTheme.colorScheme.onBackground) },
+                text =
+                { Text(
+                        stringResource(R.string.settings_section_app_language_nonb),
+                        color = MaterialTheme.colorScheme.onBackground)
+                },
                 onClick = {
                     onLanguageChange("Norwegian bokmål")
                     languageExpanded = false
@@ -117,7 +125,8 @@ fun SettingsSectionApplication(
             readOnly = true,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = themeExpanded) },
             textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
-            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable)
                 .fillMaxWidth()
         )
 
@@ -126,14 +135,24 @@ fun SettingsSectionApplication(
             onDismissRequest = { themeExpanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_section_app_theme_light), color = MaterialTheme.colorScheme.onBackground) },
+                text = {
+                    Text(
+                        stringResource(R.string.settings_section_app_theme_light),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
                 onClick = {
                     onThemeChange("Default - light")
                     themeExpanded = false
                 }
             )
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_section_app_theme_dark), color = MaterialTheme.colorScheme.onBackground) },
+                text = {
+                    Text(
+                        stringResource(R.string.settings_section_app_theme_dark),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
                 onClick = {
                     onThemeChange("Default - dark")
                     themeExpanded = false

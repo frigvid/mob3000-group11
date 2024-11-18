@@ -86,7 +86,7 @@ fun PlayScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Card( colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
+            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -105,7 +105,7 @@ fun PlayScreen(
                     )
                 }
             }
-            Card( colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
+            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

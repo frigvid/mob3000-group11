@@ -101,7 +101,7 @@ fun ProfileHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(MaterialTheme.colorScheme.primary),
+            .background(Color(0xFFA1887F)),
         verticalArrangement = Arrangement.Center
     ) {
         /* TODO: Fetch the user's icon and display name from cached state in ViewModel. */

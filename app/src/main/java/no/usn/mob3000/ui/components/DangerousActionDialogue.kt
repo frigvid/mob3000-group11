@@ -36,7 +36,6 @@ fun DangerousActionDialogue(
     colorContainer: Color = MaterialTheme.colorScheme.surface,
     colorButtonDismiss: Color = MaterialTheme.colorScheme.primary,
     colorButtonConfirm: Color = Color.Red,
-
 ) {
     Dialog(
         onDismissRequest = onDismiss

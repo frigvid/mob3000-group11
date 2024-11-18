@@ -73,23 +73,18 @@ fun ProfileEditScreen(
                 value = avatarUrl,
                 onValueChange = { avatarUrl = it },
                 label = { Text(stringResource(R.string.profile_edit_avatar_url)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_avatar_url_placeholder), color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)) },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.profile_edit_avatar_url_placeholder),
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                },
                 textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
 
-            OutlinedTextField(
-                value = displayName,
-                onValueChange = { displayName = it },
-                label = { Text(stringResource(R.string.profile_edit_display_name)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_display_name_placeholder), color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)) },
-                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
 
             OutlinedTextField(
                 value = aboutMe,
@@ -107,6 +102,23 @@ fun ProfileEditScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
+                    .padding(bottom = 16.dp)
+            )
+
+
+            OutlinedTextField(
+                value = displayName,
+                onValueChange = { displayName = it },
+                label = { Text(stringResource(R.string.profile_edit_display_name)) },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.profile_edit_display_name_placeholder),
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
 

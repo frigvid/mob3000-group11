@@ -50,7 +50,12 @@ fun TopNavbar(
     topBarActions: @Composable (RowScope.() -> Unit) = {},
 ) {
     TopAppBar(
-        title = { if (showTitle) Text(stringResource(currentScreen.title),color = MaterialTheme.colorScheme.onSurface) },
+        title = {
+            if (showTitle) {
+                Text(stringResource(currentScreen.title),
+                    color = MaterialTheme.colorScheme.onBackground)
+            }
+        },
         colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = modifier,
         navigationIcon = {
@@ -58,6 +63,7 @@ fun TopNavbar(
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        tint = MaterialTheme.colorScheme.onBackground,
 
                         /* TODO: Extract this resource, or find a better
                          *       dynamic/semantic way to give end-users context.
