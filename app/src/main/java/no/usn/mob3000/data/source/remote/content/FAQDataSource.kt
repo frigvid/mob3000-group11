@@ -1,11 +1,11 @@
-package no.usn.mob3000.data.source.remote.docs
+package no.usn.mob3000.data.source.remote.content
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.result.PostgrestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.usn.mob3000.data.model.content.FaqDto
+import no.usn.mob3000.data.model.content.remote.FaqDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 
 /**
@@ -37,7 +37,9 @@ class FAQDataSource(
      *
      * @param faqId The ID of the FAQ to be deleted.
      */
-    suspend fun deleteFAQById(faqId: String): PostgrestResult = withContext(Dispatchers.IO) {
+    suspend fun deleteFAQById(
+        faqId: String
+    ): PostgrestResult = withContext(Dispatchers.IO) {
         supabaseClient
             .from("faq")
             .delete { filter { eq("id", faqId) } }
@@ -48,7 +50,9 @@ class FAQDataSource(
      *
      * @param faqId The ID of the FAQ to be fetched.
      */
-    suspend fun fetchFAQById(faqId: String): FaqDto? = withContext(Dispatchers.IO) {
+    suspend fun fetchFAQById(
+        faqId: String
+    ): FaqDto? = withContext(Dispatchers.IO) {
         supabaseClient
             .from("faq")
             .select()
@@ -63,18 +67,21 @@ class FAQDataSource(
      * @param updatedData The new data for the FAQ.
      * @throws Exception If an error occurs during the update operation.
      */
-    suspend fun updateFAQ(faqId: String, updatedData: FaqDto): Result<Unit> = withContext(Dispatchers.IO) {
-            try {
-                supabaseClient
-                    .from("faq")
-                    .update(updatedData) {
-                        filter { eq("id", faqId) }
-                    }
-                Result.success(Unit)
-            } catch (e: Exception) {
-                Result.failure(e)
-            }
+    suspend fun updateFAQ(
+        faqId: String,
+        updatedData: FaqDto
+    ): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            supabaseClient
+                .from("faq")
+                .update(updatedData) {
+                    filter { eq("id", faqId) }
+                }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
+    }
 
     /**
      * Inserts a new row into the faq table.
@@ -83,7 +90,9 @@ class FAQDataSource(
      * @return A result indicating the success or failure of the insertion operation.
      * @throws Exception If an error occurs during the insertion process.
      */
-    suspend fun insertFAQ(faqItem: FaqDto): Result<Unit> = withContext(Dispatchers.IO) {
+    suspend fun insertFAQ(
+        faqItem: FaqDto
+    ): Result<Unit> = withContext(Dispatchers.IO) {
        try {
             supabaseClient.from("faq").insert(faqItem)
             Result.success(Unit)

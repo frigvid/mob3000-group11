@@ -5,7 +5,7 @@ import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.result.PostgrestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.usn.mob3000.data.model.content.NewsDto
+import no.usn.mob3000.data.model.content.remote.NewsDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 
 /**
@@ -37,7 +37,9 @@ class NewsDataSource(
      *
      * @param newsId The ID of the news to be deleted.
      */
-    suspend fun deleteNewsById(newsId: String): PostgrestResult = withContext(Dispatchers.IO) {
+    suspend fun deleteNewsById(
+        newsId: String
+    ): PostgrestResult = withContext(Dispatchers.IO) {
         supabaseClient
             .from("news")
             .delete { filter { eq("id", newsId) } }
@@ -48,7 +50,9 @@ class NewsDataSource(
      *
      * @param newsId The ID of the news to be fetched.
      */
-    suspend fun fetchNewsById(newsId: String): NewsDto? = withContext(Dispatchers.IO) {
+    suspend fun fetchNewsById(
+        newsId: String
+    ): NewsDto? = withContext(Dispatchers.IO) {
         supabaseClient
             .from("news")
             .select()
@@ -63,7 +67,10 @@ class NewsDataSource(
      * @param updatedData The new data for the news.
      * @throws Exception If an error occurs during the update operation.
      */
-    suspend fun updateNews(newsId: String, updatedData: NewsDto): Result<Unit> = withContext(Dispatchers.IO) {
+    suspend fun updateNews(
+        newsId: String,
+        updatedData: NewsDto
+    ): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             supabaseClient
                 .from("news")
@@ -83,7 +90,9 @@ class NewsDataSource(
      * @return A result indicating the success or failure of the insertion operation.
      * @throws Exception If an error occurs during the insertion process.
      */
-    suspend fun insertNews(newsItem: NewsDto): Result<Unit> {
+    suspend fun insertNews(
+        newsItem: NewsDto
+    ): Result<Unit> {
         return try {
             supabaseClient.from("news").insert(newsItem)
             Result.success(Unit)

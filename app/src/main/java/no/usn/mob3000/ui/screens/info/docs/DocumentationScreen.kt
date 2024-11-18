@@ -19,13 +19,15 @@ import java.util.*
 
 /**
  * Screen for the documentation page.
-
- * @param documentations The list of documentation stored in the ViewModel's state.
- * @param navigateToDocumentationDetails Callback function to navigate to the [Documentation] object's [DocumentationDetailsScreen].
+ *
+ * @param docsState The documentation state.
+ * @param fetchDocs Callback function to get the documentation.
+ * @param onDocsClick Arbitrary unit function.
  * @param onCreateDocumentationClick Callback function to navigate to [CreateDocumentationScreen].
- * @param setDocumentationList ViewModel function to store the list of [Documentation] objects in state.
  * @param setSelectedDocumentation ViewModel function to store a specific [Documentation] object in state.
  * @param clearSelectedDocumentation ViewModel function to clear the stored state documentation object.
+ * @param authenticationState The authentication status state.
+ * @param authenticationStateUpdate Callback function to update the authentication status state.
  * @author frigvid, 258030
  * @created 2024-09-23
  */
@@ -33,7 +35,7 @@ import java.util.*
 fun DocumentationScreen(
     docsState: StateFlow<Result<List<DocsData>>>,
     fetchDocs: () -> Unit,
-    navigateToDocumentationDetails: (DocsData) -> Unit,
+    onDocsClick: (DocsData) -> Unit,
     onCreateDocumentationClick: () -> Unit,
     setSelectedDocumentation: (DocsData) -> Unit,
     clearSelectedDocumentation: () -> Unit,
@@ -80,8 +82,7 @@ fun DocumentationScreen(
          * Lazy column to display the list of news articles. The column padding is the same for
          * all info-main screens. Abstracted to reduce redundancy.
          */
-        PaddedLazyColumn(innerPadding = innerPadding)
-         {
+        PaddedLazyColumn(innerPadding = innerPadding) {
              /**
               * Generating the list of documentation items.
               */
@@ -93,7 +94,8 @@ fun DocumentationScreen(
                      onClick = {
                          setSelectedDocumentation(docsItem)
                          authenticationStateUpdate()
-                         navigateToDocumentationDetails(docsItem) }
+                         onDocsClick(docsItem)
+                     }
                  )
              }
          }

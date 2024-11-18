@@ -39,10 +39,10 @@ import no.usn.mob3000.domain.repository.IAuthRepository
  */
 class AuthRepository(
     private val authDataSource: AuthDataSource,
-    private val userDataSource: UserDataSource,
+    val userDataSource: UserDataSource,
     private val supabase: SupabaseClient = SupabaseClientWrapper.getClient()
 ) : IAuthRepository {
-    private lateinit var currentUserId: String
+    lateinit var currentUserId: String
 
     /**
      * Performs user login and fetches associated user data.
@@ -247,8 +247,10 @@ class AuthRepository(
      *
      * @param dto The user DTO to map.
      * @throws IllegalArgumentException if it's not not a user DTO.
+     * @author frigvid
+     * @created 2024-10-22
      */
-    private suspend inline fun <reified T> mapToDomainUser(
+    suspend inline fun <reified T> mapToDomainUser(
         dto: Any
     ): T {
         return when {

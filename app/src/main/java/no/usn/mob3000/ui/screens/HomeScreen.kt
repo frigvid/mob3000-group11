@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,6 +17,13 @@ import no.usn.mob3000.R
 import no.usn.mob3000.ui.components.base.Viewport
 
 /**
+ * The home screen.
+ *
+ * @param onTrainClick Callback function to navigate to the openings screen.
+ * @param onPlayClick Callback function to navigate to the chessboard screen.
+ * @param onHistoryClick Callback function to navigate to the game history screen.
+ * @param openingsStartPeriodicUpdates Callback function to schedule an update for openings.
+ * @param groupsStartPeriodicUpdates Callback function to schedule an update for repertoires/groups.
  * @author frigvid
  * @created 2024-09-12
  */
@@ -24,11 +32,18 @@ fun HomeScreen(
     onTrainClick: () -> Unit,
     onPlayClick: () -> Unit,
     onHistoryClick: () -> Unit,
-    modifier: Modifier = Modifier
+    openingsStartPeriodicUpdates: () -> Unit,
+    groupsStartPeriodicUpdates: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val buttonSize = (screenWidth * 0.4f).coerceAtMost(192.dp)
+
+    /* Schedule background check for openings. */
+    LaunchedEffect(Unit) {
+        openingsStartPeriodicUpdates()
+        groupsStartPeriodicUpdates()
+    }
 
     Viewport { innerPadding ->
         Box(

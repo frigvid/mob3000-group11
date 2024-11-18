@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.secrets.gradle.plugin)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlinKapt)
 }
 
 secrets {
@@ -32,6 +33,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            isDefault = true
+            isDebuggable = false
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -72,6 +77,7 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.chesslib)
 
     // Supabase package/modules.
     // See: https://supabase.com/docs/reference/kotlin/installing
@@ -84,6 +90,12 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.github.jan-tennert.supabase:functions-kt")
     implementation("io.ktor:ktor-client-android:2.3.12")
+
+    // Room/Local database modules.
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    kapt("androidx.room:room-compiler:2.6.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

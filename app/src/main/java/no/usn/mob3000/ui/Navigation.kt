@@ -20,9 +20,12 @@ import no.usn.mob3000.domain.viewmodel.auth.ForgotPasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
-import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
-import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
-import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideDocumentationViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideFAQViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideNewsViewModel
+import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
+import no.usn.mob3000.domain.viewmodel.game.GroupsViewModel
+import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
 import no.usn.mob3000.ui.components.base.Routes
 
 /**
@@ -93,7 +96,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * @see ScreenIcon
  * @see Icon
  * @author frigvid
- * @contributors Routes: Anarox1111, Markus
+ * @contributors Routes: Anarox1111, Markus, 258030
  * @created 2024-09-24
  */
 @Composable
@@ -107,9 +110,9 @@ fun Navigation(
     forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     authenticationViewModel: AuthenticationViewModel = viewModel(),
-    documentationViewModel: DocumentationViewModel = viewModel(),
-    newsViewModel: NewsViewModel = viewModel(),
-    faqViewModel: FAQViewModel = viewModel(),
+    openingsViewModel: OpeningsViewModel = viewModel(),
+    groupsViewModel: GroupsViewModel = viewModel(),
+    chessBoardViewModel: ChessBoardViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -118,21 +121,29 @@ fun Navigation(
             startDestination = Destination.HOME.name,
             modifier = Modifier.fillMaxSize()
         ) {
-            Routes.Home(this, navController)
+            Routes.Home(
+                this,
+                navController,
+                openingsViewModel,
+                groupsViewModel
+            )
 
             Routes.Information(
                 this,
                 navController,
                 authenticationViewModel,
-                documentationViewModel,
-                faqViewModel,
-                newsViewModel
+                provideDocumentationViewModel(navController.context),
+                provideFAQViewModel(navController.context),
+                provideNewsViewModel(navController.context)
             )
 
             Routes.Game(
                 this,
                 navController,
-                viewModel
+                openingsViewModel,
+                groupsViewModel,
+                chessBoardViewModel,
+                authenticationViewModel
             )
 
             Routes.UserProfile(

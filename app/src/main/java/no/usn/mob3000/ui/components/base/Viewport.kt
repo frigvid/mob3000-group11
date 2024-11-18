@@ -14,7 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import no.usn.mob3000.ui.Navigation
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.ui.LocalNavController
-import no.usn.mob3000.ui.screens.chess.train.opening.OpeningsScreen
+import no.usn.mob3000.ui.screens.chess.opening.OpeningsScreen
 
 /**
  * The [Viewport] is a wrapper function for content on a given [Composable] screen. This means that

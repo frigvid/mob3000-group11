@@ -1,6 +1,5 @@
 package no.usn.mob3000.domain.usecase.content.news
 
-import no.usn.mob3000.data.repository.content.NewsRepository
 import no.usn.mob3000.domain.repository.content.INewsRepository
 
 /**
@@ -10,7 +9,7 @@ import no.usn.mob3000.domain.repository.content.INewsRepository
  * @created 2024-10-30
  */
 class DeleteNewsUseCase(
-    private val newsRepository: INewsRepository = NewsRepository()
+    private val newsRepository: INewsRepository
 ) {
     suspend fun deleteNews(newsId: String): Result<Unit> {
         return newsRepository.deleteNews(newsId)
