@@ -274,13 +274,16 @@
     <string name="auth_forgot_password_state_failure">Noe gikk galt!</string>
 
     <!-- Reset password page. -->
-    <string name="auth_reset_password_title">Nullstill passord</string>
+    <string name="auth_reset_password_title">Tilbakestill passord</string>
     <string name="auth_reset_password_input">Nytt passord</string>
     <string name="auth_reset_password_confirm">Gjenta nytt passord</string>
-    <string name="auth_reset_password_button">Nullstill passord</string>
+    <string name="auth_reset_password_button">Tilbakestill passord</string>
     <string name="auth_reset_password_confirmation">Er du sikker på at du vil endre ditt passord?</string>
     <string name="auth_reset_password_state_success">Passordet har blitt endret.</string>
     <string name="auth_reset_password_state_failure">Noe gikk galt!</string>
+
+    <!-- Reset password via email. -->
+    <string name="auth_reset_password_via_email_title">Tilbakestill passord via email</string>
 
     <!-- Change e-mail address page. -->
     <string name="auth_email_title">Endre e-post adresse</string>

@@ -17,7 +17,7 @@ import no.usn.mob3000.data.SecureEnvManager
  * It handles the initialization of the client with secure credentials and ensures that only one
  * instance of the client is created and used across the app.
  *
- * @author frigvid
+ * @author frigvid, Anarox
  * @created 2024-10-07
  */
 object SupabaseClientWrapper {
@@ -48,6 +48,14 @@ object SupabaseClientWrapper {
             supabaseUrl = supabaseUrl,
             supabaseKey = supabaseKey
         ) {
+            // TODO: Investigate if more plugins are necessary.
+            install(Auth)
+            install(Auth) {
+                scheme = "a2g11.vercel.app"
+                host = "/confirm"
+
+            }
+
             // TODO: Investigate if more plugins are necessary.
             install(Auth)
             install(Postgrest)

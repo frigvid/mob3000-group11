@@ -2,8 +2,12 @@ package no.usn.mob3000.ui.components.base
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import no.usn.mob3000.domain.enumerate.Destination
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
 import no.usn.mob3000.domain.viewmodel.auth.ChangeEmailViewModel
@@ -27,6 +31,7 @@ import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
+import no.usn.mob3000.ui.screens.auth.ResetPasswordViaEmailScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 import no.usn.mob3000.ui.screens.chess.group.CreateGroupScreen
@@ -620,6 +625,7 @@ object Routes {
          * @param forgotPasswordViewModel The forgotten password request ViewModel.
          * @param registrationViewModel The registration ViewModel.
          * @author frigvid
+         * @contributor Anarox
          * @created 2024-11-06
          */
         operator fun invoke(
@@ -665,9 +671,65 @@ object Routes {
             navGraphBuilder.composable(route = Destination.AUTH_RESET.name) {
                 ResetPasswordScreen(
                     onResetPasswordClick = changePasswordViewModel::changePassword,
-                    changePasswordStateUpdate = changePasswordViewModel::updateState,
+                    navControllerPopBackStack = {
+                        /* Pop back stack stopped working for mysterious reasons. But this works. */
+                        navController.navigate(Destination.SETTINGS.name)
+                        navController.clearBackStack(Destination.AUTH_RESET.name)
+                    },
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
-                    navControllerPopBackStack = navController::popBackStack
+                    changePasswordStateUpdate = changePasswordViewModel::updateState
+                )
+            }
+
+            /**
+             * Routing with Deeplinking if the external webdomain is matching the URI. The URI holds the navArguments:
+             * @see navArgument that contains a token, a type and next which identifies the specific link sent to the email
+             * of the user.
+             *
+             * @author Anarox
+             * @created 2024-11-11
+             */
+            navGraphBuilder.composable(
+                route = Destination.AUTH_PASSWORD_RESET_VIA_EMAIL.name,
+                arguments = listOf(
+                    navArgument("token_hash") {
+                        type = NavType.StringType; defaultValue = ""
+                    },
+                    navArgument("type") {
+                        type = NavType.StringType; defaultValue = ""
+                    },
+                    navArgument("next") {
+                        type = NavType.StringType; defaultValue = ""
+                    }
+                ),
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "https://a2g11.vercel.app/confirm?token_hash={token_hash}&type={type}&next={next}" }
+                )
+            ) { backStackEntry ->
+                /**
+                 * backStackEntry extracts the passed parameters through the deeplink to ensure that ResetPasswordScreen
+                 * recieves the correct data.
+                 *
+                 * If there are no arguments provided, it will use default value "" as a fallback value.
+                 *
+                 * @author Anarox
+                 * @created 2024-11-11
+                 */
+                val tokenHash = backStackEntry.arguments?.getString("token_hash") ?: ""
+                val type = backStackEntry.arguments?.getString("type") ?: ""
+                val next = backStackEntry.arguments?.getString("next") ?: ""
+
+                Logger.d("tokenHash: $tokenHash, type: $type, next: $next")
+
+                ResetPasswordViaEmailScreen(
+                    tokenHash = tokenHash,
+                    type = type,
+                    next = next,
+                    onResetPasswordClick = changePasswordViewModel::changePassword,
+                    navControllerPopBackStack = {  },
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    changePasswordStateUpdate = changePasswordViewModel::updateState,
+                    authenticationStartPeriodicUpdates = authenticationViewModel::startPeriodicUpdates
                 )
             }
 

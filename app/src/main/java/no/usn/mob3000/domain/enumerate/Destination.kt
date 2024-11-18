@@ -61,6 +61,7 @@ enum class Destination(
     AUTH_CREATE(title = R.string.auth_create_user_title),
     AUTH_FORGOT(title = R.string.auth_forgot_password_title),
     AUTH_RESET(title = R.string.auth_reset_password_title),
+    AUTH_PASSWORD_RESET_VIA_EMAIL(title = R.string.auth_reset_password_via_email_title),
     AUTH_EMAIL_CHANGE(title = R.string.auth_email_title),
     ADMIN_DASHBOARD(title = R.string.admin_dashboard_title)
 }

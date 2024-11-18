@@ -196,6 +196,26 @@ class AuthRepository(
     }
 
     /**
+     * Imports a authentication session token into the Supabase client.
+     *
+     * ## Note
+     *
+     * Useful for deep linking.
+     *
+     * @author Anarox
+     * @created 2024-11-18
+     */
+    override suspend fun importSessionToken(
+        sessionToken: String
+    ) {
+        try {
+            supabase.auth.importAuthToken(sessionToken)
+        } catch (error: Exception) {
+            throw Exception("Failed to import session token! ${error.message}", error)
+        }
+    }
+
+    /**
      * Fetches and aggregates all user-related data.
      *
      * @return A [DomainUser] object.
