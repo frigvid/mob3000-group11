@@ -28,6 +28,7 @@ import no.usn.mob3000.ui.screens.auth.CreateUserScreen
 import no.usn.mob3000.ui.screens.auth.ForgotPasswordScreen
 import no.usn.mob3000.ui.screens.auth.LoginScreen
 import no.usn.mob3000.ui.screens.auth.ResetPasswordScreen
+import no.usn.mob3000.ui.screens.auth.ResetPasswordViaEmailScreen
 import no.usn.mob3000.ui.screens.chess.HistoryScreen
 import no.usn.mob3000.ui.screens.chess.PlayScreen
 import no.usn.mob3000.ui.screens.chess.train.group.CreateGroupScreen
@@ -556,6 +557,15 @@ object Routes {
                 )
             }
 
+            navGraphBuilder.composable(route = Destination.AUTH_RESET.name) {
+                ResetPasswordScreen(
+                    onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
+                    navControllerPopBackStack = navController::popBackStack,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    changePasswordStateUpdate = changePasswordViewModel::updateState
+                )
+            }
+
             /**
              * Routing with Deeplinking if the external webdomain is matching the URI. The URI holds the navArguments:
              * @see navArgument that contains a token, a type and next which identifies the specific link sent to the email
@@ -564,7 +574,8 @@ object Routes {
              * @author Anarox
              * @created 2024-11-11
              */
-                navGraphBuilder.composable(route = Destination.AUTH_RESET.name + "?token_hash={token_hash}&type={type}&next={next}",
+            navGraphBuilder.composable(
+                route = Destination.AUTH_PASSWORD_RESET_VIA_EMAIL.name + "?token_hash={token_hash}&type={type}&next={next}",
                 arguments = listOf(
                     navArgument("token_hash") {
                         type = NavType.StringType; defaultValue = ""
@@ -596,7 +607,7 @@ object Routes {
 
                 Log.d("DeepLink", "tokenHash: $tokenHash, type: $type, next: $next")
 
-                ResetPasswordScreen(
+                ResetPasswordViaEmailScreen(
                     tokenHash = tokenHash,
                     type = type,
                     next = next,
@@ -604,7 +615,6 @@ object Routes {
                     navControllerPopBackStack = navController::popBackStack,
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
                     changePasswordStateUpdate = changePasswordViewModel::updateState
-
                 )
             }
 

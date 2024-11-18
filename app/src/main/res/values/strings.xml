@@ -265,6 +265,9 @@
     <string name="auth_reset_password_state_success">Password has been changed.</string>
     <string name="auth_reset_password_state_failure">Something went wrong!</string>
 
+    <!-- Reset password via email. -->
+    <string name="auth_reset_password_via_email_title">Reset password via email</string>
+
     <!-- Change e-mail address page. -->
     <string name="auth_email_title">Change e-mail address</string>
     <string name="auth_email_confirmation">Are you sure you want to change your e-mail address?</string>
