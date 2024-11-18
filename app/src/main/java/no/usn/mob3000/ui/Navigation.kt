@@ -13,14 +13,20 @@ import androidx.navigation.compose.rememberNavController
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ChangeEmailViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ChangePasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.DeleteAccountViewModel
+import no.usn.mob3000.domain.viewmodel.auth.ForgotPasswordViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LoginViewModel
 import no.usn.mob3000.domain.viewmodel.auth.LogoutViewModel
 import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
-import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
-import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
-import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
 import no.usn.mob3000.domain.viewmodel.socials.ProfileViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideDocumentationViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideFAQViewModel
+import no.usn.mob3000.domain.viewmodel.content.provideNewsViewModel
+import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
+import no.usn.mob3000.domain.viewmodel.game.GroupsViewModel
+import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
 import no.usn.mob3000.ui.components.base.Routes
 
 /**
@@ -99,14 +105,17 @@ fun Navigation(
     viewModel: CBViewModel = viewModel(),
     loginViewModel: LoginViewModel = viewModel(),
     logoutViewModel: LogoutViewModel = viewModel(),
+    changeEmailViewModel: ChangeEmailViewModel = viewModel(),
+    changePasswordViewModel: ChangePasswordViewModel = viewModel(),
     registrationViewModel: RegistrationViewModel = viewModel(),
+    forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     authenticationViewModel: AuthenticationViewModel = viewModel(),
-    documentationViewModel: DocumentationViewModel = viewModel(),
-    newsViewModel: NewsViewModel = viewModel(),
-    faqViewModel: FAQViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
-    profileViewModel: ProfileViewModel = viewModel()
+    profileViewModel: ProfileViewModel = viewModel(),
+    openingsViewModel: OpeningsViewModel = viewModel(),
+    groupsViewModel: GroupsViewModel = viewModel(),
+    chessBoardViewModel: ChessBoardViewModel = viewModel()
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(
@@ -114,21 +123,29 @@ fun Navigation(
             startDestination = Destination.HOME.name,
             modifier = Modifier.fillMaxSize()
         ) {
-            Routes.Home(this, navController)
+            Routes.Home(
+                this,
+                navController,
+                openingsViewModel,
+                groupsViewModel
+            )
 
             Routes.Information(
                 this,
                 navController,
                 authenticationViewModel,
-                documentationViewModel,
-                faqViewModel,
-                newsViewModel
+                provideDocumentationViewModel(navController.context),
+                provideFAQViewModel(navController.context),
+                provideNewsViewModel(navController.context)
             )
 
             Routes.Game(
                 this,
                 navController,
-                viewModel
+                openingsViewModel,
+                groupsViewModel,
+                chessBoardViewModel,
+                authenticationViewModel
             )
 
             Routes.UserProfile(
@@ -144,6 +161,8 @@ fun Navigation(
                 viewModel,
                 logoutViewModel,
                 deleteAccountViewModel,
+                changeEmailViewModel,
+                changePasswordViewModel,
                 authenticationViewModel
             )
 
@@ -151,7 +170,11 @@ fun Navigation(
                 this,
                 navController,
                 loginViewModel,
-                registrationViewModel
+                registrationViewModel,
+                changeEmailViewModel,
+                changePasswordViewModel,
+                forgotPasswordViewModel,
+                authenticationViewModel
             )
 
             Routes.Administrator(this)

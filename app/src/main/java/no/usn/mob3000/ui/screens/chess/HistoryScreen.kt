@@ -18,11 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.screens.chess.train.opening.Opening
 import no.usn.mob3000.ui.theme.DefaultButton
 import no.usn.mob3000.ui.theme.DefaultListItemBackground
-import no.usn.mob3000.ui.screens.chess.train.opening.OpeningDetailsScreen
+import no.usn.mob3000.ui.screens.chess.opening.OpeningDetailsScreen
 import java.text.SimpleDateFormat
 import java.util.*
 

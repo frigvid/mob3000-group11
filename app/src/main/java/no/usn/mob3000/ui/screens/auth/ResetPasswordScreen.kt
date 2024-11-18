@@ -22,6 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.auth.error.AccountModificationError
+import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
+import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 
@@ -30,16 +33,41 @@ import no.usn.mob3000.ui.theme.DefaultButton
  *
  * @param onResetPasswordClick Callback triggered when the user presses the "Reset Password"
  *                             button to initiate the password reset process.
- * @author Markus
- * @contributor frigvid
+ * @author Markus, frigvid
  * @created 2024-09-24
  */
 @Composable
 fun ResetPasswordScreen(
-    onResetPasswordClick: () -> Unit
+    onResetPasswordClick: (String) -> Unit,
+    changePasswordStateUpdate: (ChangePasswordState) -> Unit,
+    authenticationStateUpdate: () -> Unit,
+    navControllerPopBackStack: () -> Unit
 ) {
+    var showPasswordChangeConfirmation by remember { mutableStateOf(false) }
+
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+
+    if (showPasswordChangeConfirmation) {
+        DangerousActionDialogue(
+            title = stringResource(R.string.auth_reset_password_confirmation),
+            onConfirm = {
+                showPasswordChangeConfirmation = false
+
+                if (password == confirmPassword) {
+                    onResetPasswordClick(password)
+                } else {
+                    changePasswordStateUpdate(
+                        ChangePasswordState.Error(AccountModificationError.PasswordMustMatch)
+                    )
+                }
+
+                authenticationStateUpdate()
+                navControllerPopBackStack()
+            },
+            onDismiss = { showPasswordChangeConfirmation = false }
+        )
+    }
 
     Viewport { innerPadding ->
         Box(
@@ -76,11 +104,11 @@ fun ResetPasswordScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = onResetPasswordClick,
+                    onClick = { showPasswordChangeConfirmation = true },
                     colors = ButtonDefaults.buttonColors(DefaultButton),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Reset Password")
+                    Text(stringResource(R.string.auth_reset_password_button))
                 }
             }
         }

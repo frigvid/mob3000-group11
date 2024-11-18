@@ -41,7 +41,6 @@ fun ContentDisplay(
     modifiedAt: Long? = null,
     isPublishedText: String = ""
 ) {
-
     Box(
         modifier = modifier
             .fillMaxSize()

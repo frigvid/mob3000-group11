@@ -1,14 +1,13 @@
 package no.usn.mob3000.domain.viewmodel.content
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import no.usn.mob3000.data.repository.content.FAQRepository
 import no.usn.mob3000.domain.model.content.FAQData
 import no.usn.mob3000.domain.usecase.content.faq.DeleteFAQUseCase
 import no.usn.mob3000.domain.usecase.content.faq.FetchFAQUseCase
@@ -24,25 +23,46 @@ import no.usn.mob3000.domain.usecase.content.faq.UpdateFAQUseCase
  * @created 2024-11-04
  */
 class FAQViewModel(
-    private val fetchFAQUseCase: FetchFAQUseCase = FetchFAQUseCase(),
-    private val deleteFAQUseCase: DeleteFAQUseCase = DeleteFAQUseCase(),
-    private val updateFAQUseCase: UpdateFAQUseCase = UpdateFAQUseCase(FAQRepository()),
-    private val insertFAQUseCase: InsertFAQUseCase = InsertFAQUseCase(FAQRepository())
+    private val fetchFAQUseCase: FetchFAQUseCase,
+    private val deleteFAQUseCase: DeleteFAQUseCase,
+    private val updateFAQUseCase: UpdateFAQUseCase,
+    private val insertFAQUseCase: InsertFAQUseCase
 ): ViewModel() {
+    private var hasRefreshed = false
+
+
     private val _faq = MutableStateFlow<Result<List<FAQData>>>(Result.success(emptyList()))
     val faq: StateFlow<Result<List<FAQData>>> = _faq
 
     private val _selectedFAQ = mutableStateOf<FAQData?>(null)
     val selectedFAQ: State<FAQData?> = _selectedFAQ
 
+    init {
+        periodicRefresh()
+    }
+
     /**
      * Fetches faq from the data layer.
      */
     fun fetchFAQ() {
         viewModelScope.launch {
-            _faq.value = fetchFAQUseCase.fetchFAQ()
+            if (!hasRefreshed) {
+                refreshRoomFAQ()
+                hasRefreshed = true
+            }
+            loadLocalFAQ()
         }
     }
+
+
+    suspend fun refreshRoomFAQ() {
+        fetchFAQUseCase.refreshRoomFromNetwork()
+    }
+
+    suspend fun loadLocalFAQ() {
+        _faq.value = fetchFAQUseCase.fetchLocalFaq()
+    }
+
 
     /**
      * Inserts a new row into the faq table with the provided parameters.
@@ -61,9 +81,8 @@ class FAQViewModel(
         viewModelScope.launch {
             val result = insertFAQUseCase.execute(title, summary, content, isPublished)
             if (result.isSuccess) {
-                // TODO: Handle success
-            } else {
-                // TODO: Handle error
+                refreshRoomFAQ()
+                loadLocalFAQ()
             }
         }
     }
@@ -75,7 +94,12 @@ class FAQViewModel(
      */
     fun deleteFAQ(faqId: String) {
         viewModelScope.launch {
-            deleteFAQUseCase.deleteFAQ(faqId)
+            val result = deleteFAQUseCase.deleteFAQ(faqId)
+            if (result.isSuccess) {
+                deleteFAQUseCase.deleteFAQ(faqId)
+                refreshRoomFAQ()
+                loadLocalFAQ()
+            }
         }
     }
 
@@ -107,7 +131,6 @@ class FAQViewModel(
     /**
      * Update a faq item in the database with new values. Logs the result console-side.
      *
-     * Todo: Remove logs before final iteration
      *
      * @param faqId The ID of the FAQ to be updated.
      * @param title The new title of the FAQ.
@@ -131,9 +154,8 @@ class FAQViewModel(
                 isPublished = isPublished
             )
             if (result.isSuccess) {
-                Log.d("ContentViewModel", "Update successful for FAQ with ID: $faqId")
-            } else {
-                Log.e("ContentViewModel", "Update failed for FAQ with ID: $faqId")
+                refreshRoomFAQ()
+                loadLocalFAQ()
             }
         }
     }
@@ -148,9 +170,19 @@ class FAQViewModel(
     /**
      * Clear the cards to reload the view in case of new data.
      *
-     * Todo: Localstorage and a listener to only update the cards when changes are made.
+     * Todo: Redundant
      */
     fun clearSelectedFAQ() {
         _selectedFAQ.value = null
+    }
+
+    private fun periodicRefresh() {
+        viewModelScope.launch {
+            while (true) {
+                delay(2 * 60 * 1000)
+                refreshRoomFAQ()
+                loadLocalFAQ()
+            }
+        }
     }
 }
