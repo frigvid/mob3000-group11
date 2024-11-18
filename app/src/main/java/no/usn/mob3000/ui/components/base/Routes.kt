@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.components.base
 
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -8,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import no.usn.mob3000.domain.enumerate.Destination
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.viewmodel.CBViewModel
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
 import no.usn.mob3000.domain.viewmodel.auth.ChangeEmailViewModel
@@ -671,7 +671,11 @@ object Routes {
             navGraphBuilder.composable(route = Destination.AUTH_RESET.name) {
                 ResetPasswordScreen(
                     onResetPasswordClick = { navController.navigate(Destination.HOME.name) },
-                    navControllerPopBackStack = navController::popBackStack,
+                    navControllerPopBackStack = {
+                        /* Pop back stack stopped working for mysterious reasons. But this works. */
+                        navController.navigate(Destination.SETTINGS.name)
+                        navController.clearBackStack(Destination.AUTH_RESET.name)
+                    },
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
                     changePasswordStateUpdate = changePasswordViewModel::updateState
                 )
@@ -701,7 +705,7 @@ object Routes {
                 deepLinks = listOf(
                     navDeepLink { uriPattern = "https://a2g11.vercel.app/confirm?token_hash={token_hash}&type={type}&next={next}" }
                 )
-            ) {
+            ) { backStackEntry ->
                 /**
                  * backStackEntry extracts the passed parameters through the deeplink to ensure that ResetPasswordScreen
                  * recieves the correct data.
@@ -711,12 +715,11 @@ object Routes {
                  * @author Anarox
                  * @created 2024-11-11
                  */
-                    backStackEntry ->
                 val tokenHash = backStackEntry.arguments?.getString("token_hash") ?: ""
                 val type = backStackEntry.arguments?.getString("type") ?: ""
                 val next = backStackEntry.arguments?.getString("next") ?: ""
 
-                Log.d("DeepLink", "tokenHash: $tokenHash, type: $type, next: $next")
+                Logger.d("tokenHash: $tokenHash, type: $type, next: $next")
 
                 ResetPasswordViaEmailScreen(
                     tokenHash = tokenHash,

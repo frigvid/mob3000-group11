@@ -29,7 +29,7 @@ import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
- * This is the password reset screen, where users can change their passwords.
+ * This is the password reset screen that gets called when opening through email deeplink.
  *
  * @param onResetPasswordClick Callback triggered when the user presses the "Reset Password"
  *                             button to initiate the password reset process.

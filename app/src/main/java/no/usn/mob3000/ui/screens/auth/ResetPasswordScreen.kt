@@ -57,6 +57,8 @@ fun ResetPasswordScreen(
 
                 if (password == confirmPassword) {
                     onResetPasswordClick(password)
+
+                    changePasswordStateUpdate(ChangePasswordState.Success)
                 } else {
                     changePasswordStateUpdate(
                         ChangePasswordState.Error(AccountModificationError.PasswordMustMatch)
