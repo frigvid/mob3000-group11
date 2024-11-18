@@ -625,6 +625,7 @@ object Routes {
          * @param forgotPasswordViewModel The forgotten password request ViewModel.
          * @param registrationViewModel The registration ViewModel.
          * @author frigvid
+         * @contributor Anarox
          * @created 2024-11-06
          */
         operator fun invoke(
