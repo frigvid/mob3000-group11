@@ -23,7 +23,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon;
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -70,7 +70,7 @@ fun ProfileScreen(
     authenticationStateUpdate: () -> Unit,
     onLoginClick: () -> Unit,
     userGameStats: StateFlow<Result<UserGameStats>>,
-    viewModel : ProfileViewModel
+    viewModel: ProfileViewModel
 ) {
     val friendResult by friendState.collectAsState()
     val userId by userIdState.collectAsState()
@@ -165,7 +165,6 @@ fun ProfileScreen(
  * @contributor frigvid, 258030
  * @created 2024-10-11
  */
-
 @Composable
 fun ProfileHeader(userResult: Result<UserProfile?>) {
     Column(
@@ -217,7 +216,6 @@ fun ProfileHeader(userResult: Result<UserProfile?>) {
  * @contributor frigvid, 258030
  * @created 2024-10-11
  */
-
 @Composable
 fun ProfileStats(userProfile: UserProfile?, gameStats: Result<UserGameStats>) {
     val userGameStats = gameStats.getOrNull()
@@ -246,7 +244,6 @@ fun ProfileStats(userProfile: UserProfile?, gameStats: Result<UserGameStats>) {
  * @author Husseinabdulameer11
  * @created 2024-10-11
  */
-
 @Composable
 fun StatItem(
     label: String,
@@ -266,7 +263,6 @@ fun StatItem(
  * @author Husseinabdulameer11
  * @created 2024-10-11
  */
-
 @Composable
 fun AboutSection() {
     Column(modifier = Modifier.padding(16.dp)) {
@@ -293,7 +289,6 @@ fun AboutSection() {
  * @author Husseinabdulameer11
  * @created 2024-10-11
  */
-
 @Composable
 fun FriendComponent(
     friendResult: Result<List<FriendData>>,

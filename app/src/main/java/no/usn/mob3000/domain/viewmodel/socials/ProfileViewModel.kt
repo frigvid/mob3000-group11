@@ -49,8 +49,7 @@ class ProfileViewModel(
             userDataSource = UserDataSource()
         )
     ),
-    private val fetchUserProfileUseCase: FetchUserProfileUseCase = FetchUserProfileUseCase(UserRepository())
-) : ViewModel() {
+    private val fetchUserProfileUseCase: FetchUserProfileUseCase = FetchUserProfileUseCase(UserRepository())): ViewModel() {
     /* User profiles. */
     private val _userProfiles = MutableStateFlow<Map<String, UserProfile>>(emptyMap())
     val userProfiles: StateFlow<Map<String, UserProfile>> = _userProfiles
@@ -276,10 +275,3 @@ class ProfileViewModel(
         }
     }
 }
-
-
-
-
-
-
-

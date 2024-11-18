@@ -1,4 +1,3 @@
-
 package no.usn.mob3000.domain.repository.social
 
 import no.usn.mob3000.domain.model.auth.UserProfile

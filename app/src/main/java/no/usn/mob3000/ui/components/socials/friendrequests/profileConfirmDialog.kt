@@ -5,8 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.res.stringResource
-import no.usn.mob3000.R
+
 
 /**
  * Composable function that displays a confirm dialog
@@ -30,7 +29,7 @@ fun profileConfirmDialog(
     onDismiss: () -> Unit = { showDialog.value = false },
     title: String,
     text: String,
-    confirmtext:String,
+    confirmtext: String,
     dismissText: String
 ) {
     if (showDialog.value) {

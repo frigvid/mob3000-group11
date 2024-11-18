@@ -190,7 +190,7 @@ fun ProfileEditScreen(
                 navigateToProfile()
             },
             onDismiss = {
-                // Close the dialog when dismissed
+
                 showDialog.value = false
             },
             "Save changes?","do you want to save your changes?","Save","Cancel"
