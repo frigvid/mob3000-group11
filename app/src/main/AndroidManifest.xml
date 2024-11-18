@@ -24,6 +24,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Anarox@2024-11-11 DeepLinking -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:host="a2g11.vercel.app" />
+                <data android:pathPrefix="/confirm" />
+            </intent-filter>
+
         </activity>
     </application>
 
