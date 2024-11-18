@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import kotlinx.coroutines.flow.StateFlow
@@ -68,7 +67,7 @@ fun DocumentationScreen(
                 is AuthenticationState.Authenticated -> {
                     FloatingActionButton(
                         onClick = onCreateDocumentationClick,
-                        containerColor = DefaultButton
+                        containerColor = MaterialTheme.colorScheme.primary
                     ) {
                         Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
                     }

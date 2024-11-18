@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Composable component for the settings screen.
@@ -65,7 +64,7 @@ fun SettingsSectionAdmin(
 
                 Button(
                     onClick = onAdminDashboardClick,
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)

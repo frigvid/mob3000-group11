@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,8 +33,6 @@ import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.board.ChessBoard
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
  * Screen for users to play chess.
@@ -88,7 +87,7 @@ fun PlayScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            Card(colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)) {
+            Card( colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -108,7 +107,7 @@ fun PlayScreen(
                 }
             }
 
-            Card(colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)) {
+            Card( colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -156,7 +155,7 @@ fun PlayScreen(
             ) {
                 Button(
                     onClick = onResetBoardClick,
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(end = 8.dp)
                 ) {
                     Text(stringResource(R.string.play_reset_board))
@@ -164,7 +163,7 @@ fun PlayScreen(
 
                 Button(
                     onClick = onUndoMoveClick,
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
                 ) {
                     Text(stringResource(R.string.play_undo_move))
@@ -178,7 +177,7 @@ fun PlayScreen(
                 Button(
                     onClick = { /* TODO: Implement switch to multiplayer logic */ },
                     enabled = false,
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(start = 8.dp)
                 ) {
                     Text(stringResource(R.string.play_multiplayer))

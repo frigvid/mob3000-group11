@@ -8,10 +8,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen to allow users to edit their profiles, and get access to some user-related settings.
@@ -73,7 +73,8 @@ fun ProfileEditScreen(
                 value = avatarUrl,
                 onValueChange = { avatarUrl = it },
                 label = { Text(stringResource(R.string.profile_edit_avatar_url)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_avatar_url_placeholder)) },
+                placeholder = { Text(stringResource(R.string.profile_edit_avatar_url_placeholder), color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -83,7 +84,8 @@ fun ProfileEditScreen(
                 value = displayName,
                 onValueChange = { displayName = it },
                 label = { Text(stringResource(R.string.profile_edit_display_name)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_display_name_placeholder)) },
+                placeholder = { Text(stringResource(R.string.profile_edit_display_name_placeholder), color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -93,7 +95,8 @@ fun ProfileEditScreen(
                 value = aboutMe,
                 onValueChange = { aboutMe = it },
                 label = { Text(stringResource(R.string.profile_edit_about_me)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_about_me_placeholder)) },
+                placeholder = { Text(stringResource(R.string.profile_edit_about_me_placeholder), color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
@@ -123,7 +126,7 @@ fun ProfileEditScreen(
                     /* TODO: Use country-code to decide on which emoji to display. */
                     commonCountries.forEach { (code, name) ->
                         DropdownMenuItem(
-                            text = { Text(name) },
+                            text = { Text(name, color = MaterialTheme.colorScheme.onBackground) },
                             onClick = {
                                 selectedCountry = name
                                 isDropdownExpanded = false
@@ -147,7 +150,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isProfileVisible,
                     onCheckedChange = { isProfileVisible = it },
-                    colors = SwitchDefaults.colors(checkedTrackColor = DefaultButton)
+                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.primary)
                 )
             }
 
@@ -165,7 +168,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isFriendsListVisible,
                     onCheckedChange = { isFriendsListVisible = it },
-                    colors = SwitchDefaults.colors(checkedTrackColor = DefaultButton)
+                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.primary)
                 )
             }
 
@@ -174,7 +177,7 @@ fun ProfileEditScreen(
                     /* TODO: Implement update to database. */
                     onSaveProfileClick()
                 },
-                colors = ButtonDefaults.buttonColors(DefaultButton),
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)

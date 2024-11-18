@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
  * Composable function to display a single content item. Purely an UI component and is made abstract
@@ -38,7 +37,10 @@ fun ContentItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        ),
         border = borderStroke
     ) {
         Column(

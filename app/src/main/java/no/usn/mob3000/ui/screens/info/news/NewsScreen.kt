@@ -5,7 +5,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import kotlinx.coroutines.flow.StateFlow
@@ -60,7 +59,7 @@ fun NewsScreen(
                     if (auth.isAdmin) {
                         FloatingActionButton(
                             onClick = onCreateNewsClick,
-                            containerColor = DefaultButton
+                            containerColor = MaterialTheme.colorScheme.primary
                         ) {
                             Icon(Icons.Filled.Add, contentDescription = "Create News")
                         }

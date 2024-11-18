@@ -27,7 +27,6 @@ import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.board.ChessBoard
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * The chess opening creation and updating editor.
@@ -90,7 +89,7 @@ fun OpeningEditor(
                 Button(
                     onClick = { /* TODO: Implement undo move logic */ },
                     enabled = false,
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
@@ -138,7 +137,7 @@ fun OpeningEditor(
                         onSave(newOpening)
                     },
                     enabled = title.isNotBlank(),
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 8.dp)

@@ -19,12 +19,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
-import androidx.compose.material3.Icon;
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.ProfileUserBackground
-import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 
 /**
  * The profile screen.
@@ -51,7 +49,7 @@ fun ProfileScreen(
                     painter = painterResource(R.drawable.profile_edit),
                     contentDescription = "Edit Profile",
                     modifier = Modifier.size(24.dp),
-                    tint = Color.Black
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -60,7 +58,7 @@ fun ProfileScreen(
                     painter = painterResource(R.drawable.profile_add_friends),
                     contentDescription = "Add Friend",
                     modifier = Modifier.size(24.dp),
-                    tint = Color.Black
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -69,7 +67,7 @@ fun ProfileScreen(
                     painter = painterResource(R.drawable.profile_pending_friends),
                     contentDescription = "Friend Requests",
                     modifier = Modifier.size(24.dp),
-                    tint = Color.Black
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
@@ -103,7 +101,7 @@ fun ProfileHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(ProfileUserBackground),
+            .background(MaterialTheme.colorScheme.primary),
         verticalArrangement = Arrangement.Center
     ) {
         /* TODO: Fetch the user's icon and display name from cached state in ViewModel. */
@@ -113,7 +111,7 @@ fun ProfileHeader() {
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape)
-                .border(2.dp, Color.Black, CircleShape)
+                .border(2.dp, MaterialTheme.colorScheme.onBackground, CircleShape)
         )
 
         Text(
@@ -140,7 +138,7 @@ fun ProfileStats() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(ProfileUserStatisticsBackground)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {

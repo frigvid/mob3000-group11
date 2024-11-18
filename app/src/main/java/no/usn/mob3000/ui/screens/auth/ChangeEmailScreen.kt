@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,13 +20,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.error.AccountModificationError
 import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This is the e-mail address change screen, where users can change their e-mails.
@@ -83,6 +84,7 @@ fun ChangeEmailScreen(
                     onValueChange = { email = it },
                     label = { Text(stringResource(R.string.auth_email_input)) },
                     placeholder = { Text(stringResource(R.string.auth_login_email_placeholder)) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -93,6 +95,7 @@ fun ChangeEmailScreen(
                     onValueChange = { confirmEmail = it },
                     label = { Text(stringResource(R.string.auth_email_input_confirm)) },
                     placeholder = { Text(stringResource(R.string.auth_login_email_placeholder)) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -103,7 +106,7 @@ fun ChangeEmailScreen(
                 //       it to say and do what it does now.
                 Button(
                     onClick = { showEmailChangeConfirmation = true },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(stringResource(R.string.auth_email_button))

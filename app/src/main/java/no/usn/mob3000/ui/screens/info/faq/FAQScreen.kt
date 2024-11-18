@@ -7,7 +7,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
-import no.usn.mob3000.ui.theme.DefaultButton
 import androidx.compose.runtime.*
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.domain.model.content.FAQData
@@ -56,7 +55,7 @@ fun FAQScreen(
                     if (auth.isAdmin) {
                         FloatingActionButton(
                             onClick = onCreateFAQClick,
-                            containerColor = DefaultButton
+                            containerColor = MaterialTheme.colorScheme.primary
                         ) {
                             Icon(Icons.Filled.Add, contentDescription = "Create FAQ")
                         }

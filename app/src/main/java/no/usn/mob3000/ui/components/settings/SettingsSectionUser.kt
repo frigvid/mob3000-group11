@@ -31,7 +31,6 @@ import no.usn.mob3000.domain.model.auth.state.LogoutState
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error
-import no.usn.mob3000.ui.theme.DefaultButton
 
 private const val TAG: String = "SettingsSectionUser"
 
@@ -109,7 +108,7 @@ fun SettingsSectionUser(
             Log.d(TAG, "User is not authenticated. Showing login button.")
             Button(
                 onClick = onLoginClick,
-                colors = ButtonDefaults.buttonColors(DefaultButton),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
@@ -161,7 +160,8 @@ private fun LogoutAccount(
 
     OutlinedButton(
         onClick = { showLogoutConfirmation = true },
-        modifier = Modifier
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
+            modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)
     ) { Text(stringResource(R.string.settings_section_user_button_logout) + "?") }
@@ -200,7 +200,7 @@ private fun EmailChange(
 
     Button(
         onClick = navigationGoToChangeEmail,
-        colors = ButtonDefaults.buttonColors(DefaultButton),
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)
@@ -245,7 +245,7 @@ private fun PasswordChange(
 
     Button(
         onClick = navigationGoToResetPassword,
-        colors = ButtonDefaults.buttonColors(DefaultButton),
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)

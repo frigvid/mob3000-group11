@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 import no.usn.mob3000.ui.screens.chess.opening.OpeningDetailsScreen
 import java.text.SimpleDateFormat
 import java.util.*
@@ -130,8 +128,7 @@ fun HistoryListItem(
     Card(
         modifier = Modifier.fillMaxWidth()
                            .clickable { expanded = !expanded },
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
-    ) {
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
@@ -181,12 +178,12 @@ fun HistoryListItem(
                 ) {
                     Button(
                         onClick = { /* TODO: Implement step backward logic */ },
-                        colors = ButtonDefaults.buttonColors(DefaultButton)
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     ) { Text(stringResource(R.string.history_step_backward)) }
 
                     Button(
                         onClick = { /* TODO: Implement step forward logic */ },
-                        colors = ButtonDefaults.buttonColors(DefaultButton)
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     ) { Text(stringResource(R.string.history_step_forward)) }
                 }
 
@@ -194,7 +191,7 @@ fun HistoryListItem(
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = onViewDetailsClick,
-                        colors = ButtonDefaults.buttonColors(DefaultButton),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) { Text(stringResource(R.string.history_view_opening)) }
                 }

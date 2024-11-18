@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,7 +38,6 @@ import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.board.ChessBoard
 import no.usn.mob3000.ui.screens.chess.PlayScreen
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen that shows the details for any given opening that has been navigated to from
@@ -179,7 +179,7 @@ fun OpeningDetailsScreen(
                             setSelectedBoardOpenings(listOf(opening))
                             navigateToPlayScreen()
                         },
-                        colors = ButtonDefaults.buttonColors(DefaultButton),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.CenterHorizontally)

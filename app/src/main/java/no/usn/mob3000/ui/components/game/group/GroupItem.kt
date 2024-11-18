@@ -36,8 +36,6 @@ import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.game.group.Group
 import no.usn.mob3000.domain.model.game.opening.Opening
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
  * Creates a list item for the scrollable list from any given group given.
@@ -66,7 +64,7 @@ fun GroupItem(
 
     Card(
         modifier = Modifier.clickable { expanded = !expanded },
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -116,7 +114,7 @@ fun GroupItem(
 
                 Button(
                     onClick = { setSelectedBoardOpenings(group.openings) },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(stringResource(R.string.groups_group_train_all_button))
@@ -141,7 +139,7 @@ fun GroupItem(
                                 onClick = { onOpeningClick(opening) },
                                 onLongClick = { onOpeningLongClick(opening, group) }
                             ),
-                        colors = CardDefaults.cardColors(containerColor = DefaultButton.copy(alpha = 0.7f))
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f))
                     ) {
 
                         Row(

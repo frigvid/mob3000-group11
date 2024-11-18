@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.flow.Flow
@@ -92,6 +93,7 @@ fun LoginScreen(
                     onValueChange = { inputEmail = it },
                     label = { Text(stringResource(R.string.auth_login_email)) },
                     placeholder = { Text(stringResource(R.string.auth_login_email_placeholder)) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 16.dp),
@@ -104,6 +106,7 @@ fun LoginScreen(
                     label = { Text(stringResource(R.string.auth_login_password)) },
                     placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
                     visualTransformation = PasswordVisualTransformation(),
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 16.dp),
@@ -117,7 +120,7 @@ fun LoginScreen(
                         loginStateReset()
                         onLoginClick(inputEmail, inputPassword)
                     },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -128,7 +131,7 @@ fun LoginScreen(
                 OutlinedButton(
                     onClick = onForgotPasswordClick,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) { Text(stringResource(R.string.auth_login_forgot_password)) }
+                ) { Text(stringResource(R.string.auth_login_forgot_password), color = MaterialTheme.colorScheme.onBackground) }
 
                 Row(
                     modifier = Modifier
@@ -156,7 +159,7 @@ fun LoginScreen(
 
                     Button(
                         onClick = onCreateUserClick,
-                        colors = ButtonDefaults.buttonColors(DefaultButton)
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     ) { Text(stringResource(R.string.auth_login_register)) }
                 }
 

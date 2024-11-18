@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import no.usn.mob3000.R
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen for allowing users to search for other users and sending them a friend request.
@@ -55,6 +55,7 @@ fun ProfileAddFriendsScreen() {
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
                 label = { Text(stringResource(R.string.profile_add_friends_search_label)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -101,19 +102,20 @@ fun UserListItem(
         ) {
             Text(
                 text = user.username,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(
                 text = user.id,
                 fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
             )
         }
 
         Button(
             onClick = { /* TODO: Implement send friend request logic */ },
-            colors = ButtonDefaults.buttonColors(DefaultButton),
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
             modifier = Modifier.padding(start = 8.dp)
         ) { Text(stringResource(R.string.profile_add_friends_add_button)) }
     }
