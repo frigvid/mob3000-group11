@@ -126,6 +126,11 @@
     <string name="profile_stat_losses">Tap</string>
     <string name="profile_stat_draws">Uavgjort</string>
     <string name="profile_stat_country">Nasjonalitet</string>
+    <string name="profile_stat_not_applicable">N/A</string>
+    <string name="profile_user_null">Ikke noen brukerdata!</string>
+    <string name="profile_user_failure">Feilet å laste inn brukerprofilen!</string>
+    <string name="profile_friends_no_name">Ikke noe visningsnavn eller bruker ID funnet! Dette burde ikke skje.</string>
+    <string name="profile_friends_failed_to_load">Feilet å laste inn venner!</string>
 
     <!-- Profile editor page. -->
     <string name="profile_edit_profile_title">Rediger brukerprofil</string>
@@ -149,6 +154,10 @@
     <!-- Profile pending friend requests page. -->
     <string name="profile_pending_friend_requests_title">Ventende venneforespørsler</string>
     <string name="profile_pending_friend_requests_no_requests">Det er ingen ventende forespørsler akkurat nå.</string>
+    <string name="profile_pending_friend_requests_accept_button">Godkjenn</string>
+    <string name="profile_pending_friend_requests_decline_button">Avslå</string>
+    <string name="profile_pending_friend_requests_unknown_user">Ukjent bruker</string>
+    <string name="profile_pending_friend_requests_error_fetching">Noe gikk galt under henting av venneforespørsler</string>
 
     <!-- Settings page. -->
     <string name="settings_title">Innstillinger</string>
@@ -341,4 +350,16 @@
     <string name="opening_editor_undo_move">Angre trekk</string>
     <string name="opening_editor_reset_board">Nullstill sjakkbrett</string>
     <string name="opening_editor_reset_all">Nullstill</string>
+
+    <!-- User profile friend request component. -->
+    <string name="profile_component_friend_request_title">Avslå venneforespørsel?</string>
+    <string name="profile_component_friend_request_text">Er du sikker på at du vil avslå denne venneforespørselen?</string>
+    <string name="profile_component_friend_request_confirm">Fjern</string>
+    <string name="profile_component_friend_request_dismiss">Kanseller</string>
+
+    <!-- User profile editor component. -->
+    <string name="profile_component_profile_edit_title">Save changes?</string>
+    <string name="profile_component_profile_edit_text">Do you want to save your changes?</string>
+    <string name="profile_component_profile_edit_confirm">Save</string>
+    <string name="profile_component_profile_edit_dismiss">Cancel</string>
 </resources>

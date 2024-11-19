@@ -45,6 +45,14 @@ class AuthRepository(
     lateinit var currentUserId: String
 
     /**
+     * Gets the currently authenticated user's id.
+     *
+     * @author Husseinabdulameer11
+     * @created 2024-11-18
+     */
+    override suspend fun getCurrentUserId(): String = authDataSource.getCurrentUserId()
+
+    /**
      * Performs user login and fetches associated user data.
      *
      * @param email The user's e-mail address.
@@ -311,6 +319,7 @@ class AuthRepository(
             ) as T
 
             dto is ProfileDto && T::class == DomainUserProfile::class -> DomainUserProfile(
+                userId = dto.userId,
                 displayName = dto.displayName ?: "",
                 avatarUrl = dto.avatarUrl ?: "",
                 eloRank = dto.eloRank ?: 0,

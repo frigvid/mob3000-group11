@@ -47,9 +47,11 @@ data class UserGameStats(
  * The user's profile struct.
  *
  * @author frigvid
+ * @contributor Husseinabdulameer11
  * @created 2024-10-22
  */
 data class UserProfile(
+    val userId: String,
     val displayName: String,
     val avatarUrl: String,
     val eloRank: Int,
