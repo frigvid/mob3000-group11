@@ -153,7 +153,14 @@ class UserDataSource(
             throw Exception("Failed to fetch user's friend requests: ${error.message}", error)
         }
     }
-
+  /**
+     * Gets the full user object for the current user.
+     *
+     * @return The user's [UserInfo] object.
+     * @throws Exception if the user cannot be fetched or decoded.
+     * @author Husseinabdulameer11
+     * @created 2024-11-03
+     */
     suspend fun fetchUserById(userId: String): ProfileDto? = withContext(Dispatchers.IO) {
         supabase
             .from("profiles")
