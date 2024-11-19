@@ -157,7 +157,9 @@ fun PlayScreen(
                 Button(
                     onClick = onResetBoardClick,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    modifier = Modifier.weight(1f).padding(end = 8.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp)
                 ) {
                     Text(stringResource(R.string.play_reset_board))
                 }
@@ -165,7 +167,9 @@ fun PlayScreen(
                 Button(
                     onClick = onUndoMoveClick,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 4.dp)
                 ) {
                     Text(stringResource(R.string.play_undo_move))
                 }
@@ -179,7 +183,9 @@ fun PlayScreen(
                     onClick = { /* TODO: Implement switch to multiplayer logic */ },
                     enabled = false,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    modifier = Modifier.weight(1f).padding(start = 8.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp)
                 ) {
                     Text(stringResource(R.string.play_multiplayer))
                 }
@@ -202,7 +208,17 @@ private fun StatisticItem(
     value: Int
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = label, fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
-        Text(text = value.toString(), fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground, fontWeight = FontWeight.Bold)
+        Text(
+            text = label,
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+        Text(
+            text = value.toString(),
+            fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold
+        )
     }
 }

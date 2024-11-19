@@ -34,7 +34,6 @@ private val LightColorScheme = lightColorScheme(
     tertiary = ProfileBanner,
     onTertiary = OnProfileBanner,
     scrim = ProfileScoreboard
-
 )
 
 /**

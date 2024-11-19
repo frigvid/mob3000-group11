@@ -30,4 +30,3 @@ val DarkErrorColor = Color.Red
 val DarkProfileBanner = Color(0xFFC9C9C9)
 val DarkProfileScoreboard = Color(0xFFEFEBE9)
 val DarkOnProfileBanner = Color.Black
-
