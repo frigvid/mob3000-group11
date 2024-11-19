@@ -22,8 +22,12 @@ class ProfileUserDataSource(
      * Updates the user profile.
      *
      * @param userId The user's ID.
+     * @param profileDto The [ProfileDto] object.
      */
-    suspend fun updateProfile(userId: String, profileDto: ProfileDto): Result<Unit> = withContext(Dispatchers.IO) {
+    suspend fun updateProfile(
+        userId: String,
+        profileDto: ProfileDto
+    ): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             supabaseClient
                 .from("profiles")
