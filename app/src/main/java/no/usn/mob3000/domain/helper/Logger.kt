@@ -29,9 +29,9 @@ object Logger {
 
     fun e(
         message: String,
+        throwable: Throwable? = null,
         tagType: TagType = TagType.DEFAULT,
-        tag: String = inferTag(tagType),
-        throwable: Throwable? = null
+        tag: String = inferTag(tagType)
     ) {
         if (BuildConfig.DEBUG) {
             Log.e(tag, message, throwable)
@@ -55,6 +55,16 @@ object Logger {
     ) {
         if (BuildConfig.DEBUG) {
             Log.v(tag, message)
+        }
+    }
+
+    fun w(
+        message: String,
+        tagType: TagType = TagType.DEFAULT,
+        tag: String = inferTag(tagType)
+    ) {
+        if (BuildConfig.DEBUG) {
+            Log.w(tag, message)
         }
     }
 

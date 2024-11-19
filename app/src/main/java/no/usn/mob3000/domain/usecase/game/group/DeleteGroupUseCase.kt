@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.usecase.game.group
 
-import android.util.Log
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.repository.game.IGroupsRepository
 
 /**
@@ -16,7 +16,7 @@ class DeleteGroupUseCase(
     suspend operator fun invoke(
         groupId: String
     ): Result<Unit> = try {
-        Log.d("DeleteGroupUseCase", "Deleting group with ID: $groupId")
+        Logger.d("Deleting group with ID: $groupId")
         groupsRepository.delete(groupId)
         Result.success(Unit)
     } catch (error: Exception) {

@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.game.OpeningEditor
@@ -75,7 +76,7 @@ fun CreateOpeningScreen(
                         openingsStartPeriodicUpdates()
                         popNavigationBackStack()
                     } catch (error: Exception) {
-                        Log.e("CreateOpeningScreen", "Error saving opening", error)
+                        Logger.e("Error saving opening", error)
                     }
                 }
 

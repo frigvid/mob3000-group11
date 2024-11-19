@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.chess.opening
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.game.opening.Opening
@@ -147,7 +147,7 @@ fun OpeningsScreen(
                 CardButton(
                     opening = opening,
                     onClick = {
-                        Log.d("OpeningsScreen", opening.moves.toString())
+                        Logger.d(opening.moves.toString())
                         setSelectedOpening(opening)
                         onOpeningClick(opening)
                     }

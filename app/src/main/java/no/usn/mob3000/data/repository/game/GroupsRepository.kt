@@ -1,11 +1,11 @@
 package no.usn.mob3000.data.repository.game
 
-import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
 import no.usn.mob3000.data.model.game.RepertoireDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.source.remote.game.GroupsDataSource
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.helper.game.mapToDomain
 import no.usn.mob3000.domain.model.game.group.Group
 import no.usn.mob3000.domain.repository.game.IGroupsRepository
@@ -57,7 +57,7 @@ class GroupsRepository(
         groupId: String
     ) {
         try {
-            Log.d("GroupsRepository", "Deleting repertoire/group with ID: $groupId")
+            Logger.d("Deleting repertoire/group with ID: $groupId")
             supabase.postgrest
                 .from("repertoire")
                 .delete {

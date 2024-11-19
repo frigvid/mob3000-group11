@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.components.settings
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -18,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 
 /**
@@ -71,6 +71,6 @@ fun SettingsSectionAdmin(
                 ) { Text(stringResource(R.string.settings_section_admin_button_admin)) }
             }
         }
-        else -> Log.d("SettingsSectionAdmin", "User is not an administrator. Not showing admin section!")
+        else -> Logger.d("User is not an administrator. Not showing admin section!")
     }
 }

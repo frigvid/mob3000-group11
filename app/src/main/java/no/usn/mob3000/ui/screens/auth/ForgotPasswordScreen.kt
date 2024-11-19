@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.auth.error.AccountModificationError
 import no.usn.mob3000.domain.model.auth.error.AuthError
 import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
@@ -60,7 +61,7 @@ fun ForgotPasswordScreen(
                 try {
                     onForgotPasswordClick(email)
                 } catch (error: Exception) {
-                    Log.e("ForgotPasswordScreen", "Something went wrong!", error)
+                    Logger.e("Something went wrong!", error)
 
                     forgotPasswordStateUpdate(
                         ForgotPasswordState.Error(AuthError.UserNotFound)

@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import no.usn.mob3000.data.repository.game.GroupsRepository
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.game.group.Group
 import no.usn.mob3000.domain.model.game.group.GroupState
 import no.usn.mob3000.domain.usecase.game.group.CreateGroupUseCase
@@ -60,19 +61,19 @@ class GroupsViewModel(
      * @created 2024-11-15
      */
     fun startPeriodicUpdates() {
-        Log.d(TAG, "Starting periodic update by first canceling pending jobs.")
+        Logger.d("Starting periodic update by first canceling pending jobs.")
         stopPeriodicUpdates()
 
-        Log.d(TAG, "Starting job!")
+        Logger.d("Starting job!")
         periodicUpdateJob = viewModelScope.launch {
             while (isActive) {
-                Log.d(TAG, "Fetching groups.")
+                Logger.d("Fetching groups.")
                 fetchGroups()
 
-                Log.d(TAG, "Updating authentication state.")
+                Logger.d("Updating authentication state.")
                 authenticationViewModel.updateAuthState()
 
-                Log.d(TAG, "Delaying for 5 minutes.")
+                Logger.d("Delaying for 5 minutes.")
                 delay(REFRESH_INTERVAL)
             }
         }
@@ -101,7 +102,7 @@ class GroupsViewModel(
         stateMutex.withLock {
             stopPeriodicUpdates()
             _groupState.emit(GroupState.Idle)
-            Log.w(TAG, "Resetting groups state! ${_groupState.value}")
+            Logger.w("Resetting groups state! ${_groupState.value}")
         }
     }
 
@@ -136,12 +137,12 @@ class GroupsViewModel(
                             _groupState.emit(GroupState.Success)
                         },
                         onFailure = { error ->
-                            Log.e(TAG, "Failure! Something went wrong while fetching groups!", error)
+                            Logger.e("Failure! Something went wrong while fetching groups!", error)
                             _groupState.emit(GroupState.Error(Exception(error)))
                         }
                     )
                 } catch (error: Exception) {
-                    Log.e(TAG, "Something unknown went wrong!", error)
+                    Logger.e("Something unknown went wrong!", error)
                     _groupState.emit(GroupState.Error(error))
                 }
             }
@@ -165,11 +166,11 @@ class GroupsViewModel(
                         _groupSingle.value = group
                     },
                     onFailure = { error ->
-                        Log.e(TAG, "Something went wrong while fetching the group with ID: $groupId", error)
+                        Logger.e("Something went wrong while fetching the group with ID: $groupId", error)
                     }
                 )
             } catch (error: Exception) {
-                Log.e(TAG, "Something unknown went wrong when fetching a single (1) group!", error)
+                Logger.e("Something unknown went wrong when fetching a single (1) group!", error)
             }
         }
     }
@@ -188,7 +189,7 @@ class GroupsViewModel(
             try {
                 createGroupUseCase(group)
             } catch (error: Exception) {
-                Log.e(TAG, "Something unknown went wrong while creating the group!", error)
+                Logger.e("Something unknown went wrong while creating the group!", error)
             }
         }
     }
@@ -205,10 +206,10 @@ class GroupsViewModel(
     ) {
         viewModelScope.launch {
             try {
-                Log.d("GroupsViewModel", "Deleting group with ID: $groupId")
+                Logger.d("Deleting group with ID: $groupId")
                 deleteGroupUseCase(groupId)
             } catch (error: Exception) {
-                Log.e(TAG, "Something unknown went wrong while deleting the group!", error)
+                Logger.e("Something unknown went wrong while deleting the group!", error)
             }
         }
     }
@@ -227,7 +228,7 @@ class GroupsViewModel(
             try {
                 updateGroupUseCase(group)
             } catch (error: Exception) {
-                Log.e(TAG, "Something went wrong while updating the group!", error)
+                Logger.e("Something went wrong while updating the group!", error)
             }
         }
     }
@@ -257,6 +258,5 @@ class GroupsViewModel(
          * Represents 5 minutes.
          */
         private const val REFRESH_INTERVAL = 5 * 60 * 1000L
-        private const val TAG = "GroupsViewModel"
     }
 }

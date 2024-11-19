@@ -1,9 +1,9 @@
 package no.usn.mob3000.domain.usecase.auth
 
-import android.util.Log
 import no.usn.mob3000.data.repository.auth.AuthRepository
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.auth.UserDataSource
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.viewmodel.auth.AuthenticationViewModel
 
 /**
@@ -29,7 +29,7 @@ class ChangePasswordUseCase(
         newPassword: String
     ): Result<Unit> {
         return authRepository.changePassword(newPassword).onSuccess {
-            Log.d("ChangePasswordUseCase", "Starting authentication state job.")
+            Logger.d("Starting authentication state job.")
             authenticationViewModel.updateAuthState()
             authenticationViewModel.startPeriodicUpdates()
         }

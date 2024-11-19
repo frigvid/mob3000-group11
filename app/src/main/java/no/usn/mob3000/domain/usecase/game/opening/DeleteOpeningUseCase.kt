@@ -1,6 +1,6 @@
 package no.usn.mob3000.domain.usecase.game.opening
 
-import android.util.Log
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.helper.game.mapToData
 import no.usn.mob3000.domain.repository.game.IGroupsRepository
 import no.usn.mob3000.domain.repository.game.IOpeningsRepository
@@ -20,7 +20,7 @@ class DeleteOpeningUseCase(
     suspend operator fun invoke(
         openingId: String
     ): Result<Unit> = try {
-        Log.d("DeleteOpeningUseCase", "Deleting opening with ID: $openingId")
+        Logger.d("Deleting opening with ID: $openingId")
 
         openingsRepository.delete(openingId)
 

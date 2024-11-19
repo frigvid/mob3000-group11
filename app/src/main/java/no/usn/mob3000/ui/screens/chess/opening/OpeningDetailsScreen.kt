@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.game.opening.Opening
@@ -88,7 +89,7 @@ fun OpeningDetailsScreen(
                         // TODO: DangerousActionDialog
                         IconButton(
                             onClick = {
-                                Log.d("OpeningDetailsScreen", "Deleting opening with ID: ${opening.id}")
+                                Logger.d("Deleting opening with ID: ${opening.id}")
                                 onDeleteOpeningClick(opening.id)
                                 popNavigationBackStack()
                             }

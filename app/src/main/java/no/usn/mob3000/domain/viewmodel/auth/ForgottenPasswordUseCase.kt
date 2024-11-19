@@ -1,9 +1,9 @@
 package no.usn.mob3000.domain.viewmodel.auth
 
-import android.util.Log
 import no.usn.mob3000.data.repository.auth.AuthRepository
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.auth.UserDataSource
+import no.usn.mob3000.domain.helper.Logger
 
 /**
  * Android Use Case for handling forgotten password operations.
@@ -28,7 +28,7 @@ class ForgottenPasswordUseCase(
         email: String
     ): Result<Unit> {
         return authRepository.forgotPassword(email).onSuccess {
-            Log.d("ForgottenPasswordUseCase", "Starting authentication state job.")
+            Logger.d("Starting authentication state job.")
             authenticationViewModel.updateAuthState()
             authenticationViewModel.startPeriodicUpdates()
         }

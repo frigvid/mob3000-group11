@@ -7,6 +7,7 @@ import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.social.FriendRequestDataSource
 import no.usn.mob3000.data.source.remote.social.ProfileUserDataSource
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.domain.repository.social.IFriendRequestRepository
 import java.util.UUID
@@ -49,12 +50,12 @@ class FriendRequestRepository (
             val requestsList = friendRequestDataSource.fetchFriendRequests(currentUserId)
 
             requestsList.forEach { friend ->
-                Log.d("FriendRequestRepository", "Friend: $friend")
+                Logger.d("Friend: $friend")
             }
 
             Result.success(requestsList.map { it.toDomainModel() })
         } catch (error: Exception) {
-            Log.e("FriendRequestRepository", "Failed to fetch friend requests: ${error.message}")
+            Logger.e("Failed to fetch friend requests: ${error.message}", error)
             Result.failure(error)
         }
     }
@@ -111,7 +112,8 @@ class FriendRequestRepository (
                 Result.failure(Exception("Friend request $friendRequestId does not exist"))
             }
         } catch (error: Exception) {
-            Log.e("FriendRequestRepository", "Error after accepting: ${error.message}")
+            Logger.e("Error after accepting: ${error.message}", error)
+
             Result.failure(error)
         }
     }
@@ -128,9 +130,7 @@ class FriendRequestRepository (
      * @author 258030
      * @created 2024-11-16
      */
-    override suspend fun declineFriendRequest(friendRequestId: String): Result<Unit> {
-        return deleteFriendRequest(friendRequestId)
-    }
+    override suspend fun declineFriendRequest(friendRequestId: String): Result<Unit> = deleteFriendRequest(friendRequestId)
 
     /**
      *
@@ -148,7 +148,7 @@ class FriendRequestRepository (
             friendRequestDataSource.deleteFriendRequestById(friendRequestId)
             Result.success(Unit)
         } catch (error: Exception) {
-            Log.e("FriendRequestRepository", "Failed to delete friend request: ${error.message}")
+            Logger.e("Failed to delete friend request: ${error.message}", error)
             Result.failure(error)
         }
     }
