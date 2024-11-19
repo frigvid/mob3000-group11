@@ -107,10 +107,12 @@ fun ProfileScreen(
     Viewport(
         topBarActions = {
             currentUserProfile?.let { user ->
-                IconButton(onClick = {
-                    setSelectedUser(user)
-                    onProfileEditClick(user)
-                }) {
+                IconButton(
+                    onClick = {
+                        setSelectedUser(user)
+                        onProfileEditClick(user)
+                    }
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.profile_edit),
                         contentDescription = "Edit Profile",
@@ -121,8 +123,8 @@ fun ProfileScreen(
 
                 IconButton(
                     onClick = {
-                    setSelectedUser(user)
-                    onProfileAddFriendsClick(user)
+                        setSelectedUser(user)
+                        onProfileAddFriendsClick(user)
                     }
                 ) {
                     Icon(
@@ -207,6 +209,7 @@ private fun ProfileHeader(userResult: Result<UserProfile?>) {
                 .clip(CircleShape)
                 .border(2.dp, Color.Black, CircleShape)
         )
+
         userResult.onSuccess { user ->
             user?.let {
                 Text(
@@ -248,6 +251,7 @@ private fun ProfileStats(
     gameStats: Result<UserGameStats>
 ) {
     val userGameStats = gameStats.getOrNull()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -279,8 +283,16 @@ private fun StatItem(
     value: String
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = value, fontWeight = FontWeight.Bold)
-        Text(text = label, fontSize = 12.sp, textAlign = TextAlign.Center)
+        Text(
+            text = value,
+            fontWeight = FontWeight.Bold
+        )
+
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center
+        )
     }
 }
 
