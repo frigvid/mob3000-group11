@@ -63,13 +63,13 @@ fun convertJsonPgnArrayToPgn(
     if (jsonPgnArray.isNullOrEmpty()) return ""
 
     // NOTE: See Logger.kt TODO.
-    // TODO: Fix. Logger.d("Processing ${jsonMoves.size} moves: $jsonMoves")
+    // TODO: Fix JUnit mockup. Logger.d("Processing ${jsonMoves.size} moves: $jsonMoves")
 
     return try {
         val moves = convertMovesToPgnFormat(jsonPgnArray)
         formatMovesWithNumbers(moves)
     } catch (error: Exception) {
-        //TODO: Fix. Logger.e("Failed to convert moves to PGN $error")
+        //TODO: Fix JUnit mockup. Logger.e("Failed to convert moves to PGN $error")
         throw IllegalArgumentException("Failed to convert moves to PGN: ${error.message}", error)
     }
 }
@@ -94,9 +94,11 @@ fun convertPgnToJsonPgnArray(
     if (pgn.isBlank()) return buildJsonArray { }
 
     val moveGroups = pgn.split("""\s+(?=\d+\.)""".toRegex())
-    if (!moveGroups.all {
-        it.matches("""^\d+\.\s+[NBRQK]?[a-h][1-8]-[a-h][1-8](?:\s+[NBRQK]?[a-h][1-8]-[a-h][1-8])?$""".toRegex())
-    }) {
+    if (
+        !moveGroups.all {
+            it.matches("""^\d+\.\s+[NBRQK]?[a-h][1-8]-[a-h][1-8](?:\s+[NBRQK]?[a-h][1-8]-[a-h][1-8])?$""".toRegex())
+        }
+    ) {
         throw IllegalArgumentException("Invalid PGN format: Moves must follow pattern: <number>. <move> [<move>]")
     }
 
