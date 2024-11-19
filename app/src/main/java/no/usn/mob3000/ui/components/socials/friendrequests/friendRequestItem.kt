@@ -33,12 +33,13 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * This item shows the user who sent the friend request, along with "Accept" and "Decline" buttons
  * to allow the user to respond to the request.
  *
- * @author Husseinabdulameer11
  * @param friendRequest The [FriendRequestData] object representing the friend request.
  * @param userProfilesMap A map of user profiles keyed by user IDs, used to display the sender's information.
  * @param fetchUserById Function to fetch the profile of the user who sent the friend request, if their profile is not already available.
  * @param onAccept Function to handle the acceptance of the friend request.
  * @param onDecline Function to handle the decline of the friend request.
+ *
+ * @author Husseinabdulameer11
  */
 @Composable
 fun friendRequestItem(
@@ -56,8 +57,7 @@ fun friendRequestItem(
         }
     }
     val displayName = userProfilesMap[friendIdToDisplay]?.displayName ?: stringResource(R.string.profile_pending_friend_requests_unknown_user)
-    Row(
-
+      Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
@@ -65,14 +65,12 @@ fun friendRequestItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
-
             painter = painterResource(id = R.drawable.user_icon_placeholder),
             contentDescription = "Profile icon",
             modifier = Modifier.size(48.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Column(
-
+         Column(
             modifier = Modifier.weight(1f)
         ) {
             Text(text = displayName)
@@ -87,7 +85,7 @@ fun friendRequestItem(
         ) {
             Text(text = stringResource(R.string.profile_pending_friend_requests_accept_button), color = Color.White)
         }
-        Button(
+          Button(
             onClick = { showDialog.value = true},
             modifier = Modifier.padding(horizontal = 4.dp),
             colors = ButtonDefaults.buttonColors(DefaultButton)
