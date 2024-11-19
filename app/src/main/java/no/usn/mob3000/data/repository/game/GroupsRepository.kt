@@ -16,7 +16,7 @@ import no.usn.mob3000.domain.repository.game.IGroupsRepository
  *
  * It aggregates data from multiple operations into cohesive results.
  *
- * @property openingsDataSource The openings data source.
+ * @property groupsDataSource The groups data source.
  * @property supabase The Supabase client.
  * @author frigvid
  * @created 2024-11-14

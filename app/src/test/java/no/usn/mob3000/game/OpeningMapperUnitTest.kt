@@ -8,8 +8,8 @@ import no.usn.mob3000.data.model.game.OpeningsDto
 import no.usn.mob3000.domain.helper.game.mapToData
 import no.usn.mob3000.domain.helper.game.mapToDomain
 import no.usn.mob3000.domain.model.game.opening.Opening
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.Assert.*
 
 private const val TAG: String = "> TEST :app:OpeningMapperTest"
 

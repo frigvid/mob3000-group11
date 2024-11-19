@@ -37,8 +37,8 @@ class FAQRepository(
         return try {
             val localFAQ = faqRepositoryLocal.fetchAllFaq()
             Result.success(localFAQ.map { it.toDomainModel() })
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -46,19 +46,19 @@ class FAQRepository(
      * Fetches a list of all FAQs to later be used for generating FAQ-cards in the UI.
      * It maps the fetched data to a domain model, so it can be used in the UI.
      *
-     * @return
      * @throws Exception If an error occurs during the fetching process.
      */
     override suspend fun refreshFaqFromNetwork(): Result<Unit> {
         return try {
             val networkFaqList = faqDataSource.fetchAllFAQ()
             val localFaqList = networkFaqList.map { it.toLocalModel() }
+
             faqRepositoryLocal.clearAllFaq()
             faqRepositoryLocal.insertFaqList(localFaqList)
-            Result.success(Unit
-                )
-        } catch (e: Exception) {
-            Result.failure(e)
+
+            Result.success(Unit)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -73,8 +73,8 @@ class FAQRepository(
         return try {
             faqDataSource.deleteFAQById(faqId)
             Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -94,6 +94,7 @@ class FAQRepository(
         isPublished: Boolean
     ): Result<Unit> {
         val originalFAQ = faqDataSource.fetchFAQById(faqId)
+
         return if (originalFAQ != null) {
             val updatedFaqDto = FaqDto(
                 faqId = faqId,
@@ -105,6 +106,7 @@ class FAQRepository(
                 content = content,
                 isPublished = isPublished
             )
+
             faqDataSource.updateFAQ(faqId, updatedFaqDto)
         } else {
             Result.failure(Exception("Original FAQ data not found"))
@@ -120,9 +122,10 @@ class FAQRepository(
     override suspend fun fetchFAQById(faqId: String): Result<FAQData?> {
         return try {
             val faqDto = faqDataSource.fetchFAQById(faqId)
+
             Result.success(faqDto?.toDomainModel())
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -141,16 +144,15 @@ class FAQRepository(
     ): Result<Unit> {
         val faqItem = FaqDto(
             faqId = UUID.randomUUID().toString(),
-            createdAt = Clock.System
-                .now(),
-            modifiedAt = Clock.System
-                .now(),
+            createdAt = Clock.System.now(),
+            modifiedAt = Clock.System.now(),
             createdByUser = authDataSource.getCurrentUserId(),
             title = title,
             summary = summary,
             content = content,
             isPublished = isPublished
         )
+
         return faqDataSource.insertFAQ(faqItem)
     }
 
@@ -170,6 +172,9 @@ class FAQRepository(
         )
     }
 
+    /**
+     * Maps an FAQ DTO to a local model.
+     */
     private fun FaqDto.toLocalModel(): FaqItemLocal {
         return FaqItemLocal(
             faqId = this.faqId,
@@ -181,9 +186,11 @@ class FAQRepository(
             content = this.content ?: "",
             isPublished = this.isPublished
         )
-
     }
 
+    /**
+     * Maps a local FAQ model to a domain model.
+     */
     private fun FaqItemLocal.toDomainModel(): FAQData {
         return FAQData(
             faqId = this.faqId,

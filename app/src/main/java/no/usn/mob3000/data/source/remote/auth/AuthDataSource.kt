@@ -2,9 +2,9 @@ package no.usn.mob3000.data.source.remote.auth
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.user.UserSession
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.rpc
-import io.github.jan.supabase.gotrue.user.UserSession
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.domain.source.IAuthDataSource
 

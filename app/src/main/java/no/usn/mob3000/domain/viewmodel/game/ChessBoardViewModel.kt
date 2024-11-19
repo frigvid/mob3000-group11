@@ -18,15 +18,15 @@ import kotlinx.coroutines.launch
 import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.game.GameDataSource
-import no.usn.mob3000.domain.model.game.board.DraggedPiece
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.game.board.ChessBoardEvent
 import no.usn.mob3000.domain.model.game.board.ChessBoardGameState
 import no.usn.mob3000.domain.model.game.board.ChessBoardState
+import no.usn.mob3000.domain.model.game.board.DraggedPiece
 import no.usn.mob3000.domain.model.game.board.PromotionState
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.usecase.game.gamedata.FetchGameDataUseCase
 import no.usn.mob3000.domain.usecase.game.gamedata.UpdateGameDataUseCase
-import no.usn.mob3000.domain.helper.Logger
 
 /**
  * The `ChessBoard` components view model. It's primarily used there and in the `PlayScreen`.

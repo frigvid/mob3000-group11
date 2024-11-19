@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.chess.opening
 
-import android.util.Log
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton

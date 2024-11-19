@@ -25,12 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.game.board.ChessBoardGameState
 import no.usn.mob3000.domain.model.game.board.ChessBoardState
 import no.usn.mob3000.domain.model.game.board.PracticeMode
 import no.usn.mob3000.domain.model.game.opening.Opening
-import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.board.ChessBoard
 

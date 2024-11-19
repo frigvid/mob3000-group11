@@ -1,11 +1,13 @@
 package no.usn.mob3000.ui.screens.info.news
 
-import no.usn.mob3000.ui.components.info.ConfirmationDialog
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,10 +20,11 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 import no.usn.mob3000.domain.model.content.NewsData
 import no.usn.mob3000.ui.components.base.Viewport
+import no.usn.mob3000.ui.components.info.ConfirmationDialog
 import no.usn.mob3000.ui.components.info.ContentDisplay
+import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 
 /**
  * Screen to display full details about some documentation.

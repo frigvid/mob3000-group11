@@ -28,6 +28,7 @@ class UserRepository(
     override suspend fun getUserProfile(userId: String): Result<UserProfile?> {
         return try {
             val profileDto = userDataSource.getUserProfile(userId)
+
             Result.success(profileDto?.toDomainModel())
         } catch (error: Exception) {
             Result.failure(error)

@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import no.usn.mob3000.ui.Navigation
 import no.usn.mob3000.domain.enumerate.Destination
 import no.usn.mob3000.ui.LocalNavController
+import no.usn.mob3000.ui.Navigation
 import no.usn.mob3000.ui.screens.chess.opening.OpeningsScreen
 
 /**

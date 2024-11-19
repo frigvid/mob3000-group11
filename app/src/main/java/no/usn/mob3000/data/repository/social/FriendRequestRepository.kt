@@ -1,6 +1,5 @@
 package no.usn.mob3000.data.repository.social
 
-import android.util.Log
 import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
@@ -13,7 +12,6 @@ import no.usn.mob3000.domain.repository.social.IFriendRequestRepository
 import java.util.UUID
 
 /**
- * 
  * This repository orchestrates friend request-related data operations. Shares similarities with [FriendsRepository]. In future versions, we would
  * ideally want to abstract this across all database operations.
  *
@@ -61,7 +59,6 @@ class FriendRequestRepository (
     }
 
     /**
-     *
      * Inserts a new friend request after interacting with [ProfileAddFriendsScreen].
      *
      * @param toUser The user ID to whom the friend request is being sent.
@@ -82,7 +79,6 @@ class FriendRequestRepository (
     }
 
     /**
-     *
      * Accepts a friend request by its ID.
      *
      * This function inserts the friend pair into the friends table and deletes the original friend request.
@@ -119,7 +115,6 @@ class FriendRequestRepository (
     }
 
     /**
-     *
      * Declines a friend request by its ID.
      * This function simply deletes the friend request without any further action.
      *
@@ -133,7 +128,6 @@ class FriendRequestRepository (
     override suspend fun declineFriendRequest(friendRequestId: String): Result<Unit> = deleteFriendRequest(friendRequestId)
 
     /**
-     *
      * Declines a friend requests after interaction with [ProfileFriendRequestsScreen]. This function is used by both the accept and decline option, since
      * the friend request is deleted in both cases.
      *
@@ -154,7 +148,6 @@ class FriendRequestRepository (
     }
 
     /**
-     *
      * Converts [FriendRequestsDto] to [FriendRequestData]. "accepted" is not really used in the implementation.
      *
      * @return The corresponding [FriendRequestData] instance.

@@ -13,10 +13,11 @@ import com.github.bhlangonijr.chesslib.game.VariationType
  * @created 2024-11-03
  */
 data class ChessBoardState(
-    val board: Board = Board(
-        GameContext(GameMode.HUMAN_VS_HUMAN, VariationType.NORMAL),
-        true
-    ),
+    val board: Board =
+        Board(
+            GameContext(GameMode.HUMAN_VS_HUMAN, VariationType.NORMAL),
+            true
+        ),
     val draggedPiece: DraggedPiece? = null,
     val legalMoves: Set<Square> = emptySet(),
     val pendingPromotion: PendingPromotion? = null

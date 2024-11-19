@@ -1,8 +1,8 @@
 package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
-import no.usn.mob3000.data.model.content.remote.NewsDto
 import no.usn.mob3000.data.model.content.local.NewsItemLocal
+import no.usn.mob3000.data.model.content.remote.NewsDto
 import no.usn.mob3000.data.repository.content.local.NewsRepositoryLocal
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.content.NewsDataSource
@@ -36,8 +36,8 @@ class NewsRepository(
         return try {
             val localNews = newsRepositoryLocal.fetchAllNews()
             Result.success(localNews.map { it.toDomainModel() })
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -52,11 +52,13 @@ class NewsRepository(
         return try {
             val networkNewsList = newsDataSource.fetchAllNews()
             val localNewsList = networkNewsList.map { it.toLocalModel() }
+
             newsRepositoryLocal.clearAllNews()
             newsRepositoryLocal.insertNewsList(localNewsList)
+
             Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -71,8 +73,8 @@ class NewsRepository(
         return try {
             newsDataSource.deleteNewsById(newsId)
             Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -92,6 +94,7 @@ class NewsRepository(
         isPublished: Boolean
     ): Result<Unit> {
         val originalNews = newsDataSource.fetchNewsById(newsId)
+
         if (originalNews != null) {
             val updatedNewsDto = NewsDto(
                 newsId = newsId,
@@ -103,6 +106,7 @@ class NewsRepository(
                 content = content,
                 isPublished = isPublished
             )
+
             return newsDataSource.updateNews(newsId, updatedNewsDto)
         } else {
             return Result.failure(Exception("Original news data not found"))
@@ -119,8 +123,8 @@ class NewsRepository(
         return try {
             val newsDto = newsDataSource.fetchNewsById(newsId)
             Result.success(newsDto?.toDomainModel())
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -147,6 +151,7 @@ class NewsRepository(
             content = content,
             isPublished = isPublished
         )
+
         return newsDataSource.insertNews(newsItem)
     }
 
@@ -155,17 +160,20 @@ class NewsRepository(
      */
     private fun NewsDto.toDomainModel(): NewsData {
     return NewsData(
-        title = this.title ?: "",
-        summary = this.summary ?: "",
-        content = this.content ?: "",
-        isPublished = this.isPublished,
-        createdAt = this.createdAt,
-        modifiedAt = this.modifiedAt,
-        createdByUser = this.createdByUser ?: "",
-        newsId = this.newsId
+            title = this.title ?: "",
+            summary = this.summary ?: "",
+            content = this.content ?: "",
+            isPublished = this.isPublished,
+            createdAt = this.createdAt,
+            modifiedAt = this.modifiedAt,
+            createdByUser = this.createdByUser ?: "",
+            newsId = this.newsId
         )
     }
 
+    /**
+     * Maps a news DTO to a local model.
+     */
     private fun NewsDto.toLocalModel(): NewsItemLocal {
         return NewsItemLocal(
             newsId = this.newsId,
@@ -179,6 +187,9 @@ class NewsRepository(
         )
     }
 
+    /**
+     * Maps a local News model to a domain model.
+     */
     private fun NewsItemLocal.toDomainModel(): NewsData {
         return NewsData(
             newsId = this.newsId,

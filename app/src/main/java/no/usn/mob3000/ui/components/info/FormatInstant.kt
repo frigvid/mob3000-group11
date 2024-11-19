@@ -1,11 +1,11 @@
 package no.usn.mob3000.ui.components.info
 
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import no.usn.mob3000.R
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Formats a timestamp into a readable date string with a prefix indicating whether it's a creation or modification date.
