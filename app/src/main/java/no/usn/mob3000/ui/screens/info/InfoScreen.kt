@@ -81,5 +81,5 @@ private fun InfoButton(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
-    ) { Text(text) }
+    ) { Text(text,) }
 }

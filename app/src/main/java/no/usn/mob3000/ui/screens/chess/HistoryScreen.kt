@@ -129,7 +129,7 @@ fun HistoryListItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { expanded = !expanded },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -146,18 +146,21 @@ fun HistoryListItem(
                             Locale.getDefault()
                         ).format(item.date),
                         fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.Bold
                     )
 
                     Text(
                         text = stringResource(R.string.history_result, item.result),
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 14.sp
                     )
                 }
 
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = if (expanded) "Collapse" else "Expand"
+                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
 
@@ -180,12 +183,12 @@ fun HistoryListItem(
                 ) {
                     Button(
                         onClick = { /* TODO: Implement step backward logic */ },
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
                     ) { Text(stringResource(R.string.history_step_backward)) }
 
                     Button(
                         onClick = { /* TODO: Implement step forward logic */ },
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
                     ) { Text(stringResource(R.string.history_step_forward)) }
                 }
 
@@ -193,7 +196,7 @@ fun HistoryListItem(
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = onViewDetailsClick,
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) { Text(stringResource(R.string.history_view_opening)) }
                 }

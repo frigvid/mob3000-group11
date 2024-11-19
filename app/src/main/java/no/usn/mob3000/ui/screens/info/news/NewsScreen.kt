@@ -13,6 +13,7 @@ import no.usn.mob3000.domain.model.content.NewsData
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
 import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
+import androidx.compose.material3.MaterialTheme
 
 /**
  * Screen for displaying a list of news articles.
@@ -61,7 +62,11 @@ fun NewsScreen(
                             onClick = onCreateNewsClick,
                             containerColor = MaterialTheme.colorScheme.primary
                         ) {
-                            Icon(Icons.Filled.Add, contentDescription = "Create News")
+                            Icon(
+                                Icons.Filled.Add,
+                                contentDescription = "Create News",
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
                         }
                     }
                 }

@@ -95,12 +95,14 @@ fun PlayScreen(
                     Text(
                         text = stringResource(R.string.play_game_status),
                         fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.Bold
                     )
 
                     Logger.d("PlayScreen: About to display status: ${statefulGame.status}")
                     Text(
                         text = statefulGame.status,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 16.sp
                     )
                 }
@@ -114,6 +116,7 @@ fun PlayScreen(
                     Text(
                         text = stringResource(R.string.play_statistics),
                         fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.Bold
                     )
 
@@ -199,7 +202,7 @@ private fun StatisticItem(
     value: Int
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = label, fontSize = 14.sp)
-        Text(text = value.toString(), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Text(text = label, fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
+        Text(text = value.toString(), fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground, fontWeight = FontWeight.Bold)
     }
 }

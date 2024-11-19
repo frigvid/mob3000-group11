@@ -111,13 +111,14 @@ fun ProfileHeader() {
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape)
-                .border(2.dp, MaterialTheme.colorScheme.onBackground, CircleShape)
+                .border(2.dp, Color.Black, CircleShape)
         )
 
         Text(
             text = "Example user",
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
+            color = Color.Black,
             modifier = Modifier.padding(top = 8.dp)
         )
     }
@@ -138,7 +139,7 @@ fun ProfileStats() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
+            .background(Color(0xFFEFEBE9))
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -162,11 +163,11 @@ fun ProfileStats() {
 @Composable
 fun StatItem(
     label: String,
-    value: String
+    value: String,
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = value, fontWeight = FontWeight.Bold)
-        Text(text = label, fontSize = 12.sp, textAlign = TextAlign.Center)
+        Text(text = value, fontWeight = FontWeight.Bold, color = Color.Black)
+        Text(text = label, fontSize = 12.sp, textAlign = TextAlign.Center, color = Color.Black)
     }
 }
 

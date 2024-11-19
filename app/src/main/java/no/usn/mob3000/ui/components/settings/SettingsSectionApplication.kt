@@ -86,10 +86,10 @@ fun SettingsSectionApplication(
             onDismissRequest = { languageExpanded = false }
         ) {
             DropdownMenuItem(
-                text =
-                { Text(
-                    stringResource(R.string.settings_section_app_language_enus),
-                    color = MaterialTheme.colorScheme.onBackground)
+                text = {
+                    Text(
+                        stringResource(R.string.settings_section_app_language_enus),
+                        color = MaterialTheme.colorScheme.onBackground)
                 },
                 onClick = {
                     onLanguageChange("English")
@@ -97,8 +97,8 @@ fun SettingsSectionApplication(
                 }
             )
             DropdownMenuItem(
-                text =
-                { Text(
+                text = {
+                    Text(
                         stringResource(R.string.settings_section_app_language_nonb),
                         color = MaterialTheme.colorScheme.onBackground)
                 },

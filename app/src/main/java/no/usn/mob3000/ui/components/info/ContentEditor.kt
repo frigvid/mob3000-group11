@@ -44,7 +44,12 @@ fun ContentEditor(
             OutlinedTextField(
                 value = title,
                 onValueChange = onTitleChange,
-                label = { Text(stringResource(R.string.info_item_content_title), color = MaterialTheme.colorScheme.onBackground) },
+                label = {
+                    Text(
+                        stringResource(R.string.info_item_content_title),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
                 textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -52,7 +57,12 @@ fun ContentEditor(
             OutlinedTextField(
                 value = summary,
                 onValueChange = onSummaryChange,
-                label = { Text(stringResource(R.string.info_item_content_summary), color = MaterialTheme.colorScheme.onBackground) },
+                label = {
+                    Text(
+                        stringResource(R.string.info_item_content_summary),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
                 textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3
@@ -61,7 +71,12 @@ fun ContentEditor(
             OutlinedTextField(
                 value = content,
                 onValueChange = onContentChange,
-                label = { Text(stringResource(R.string.info_item_content_content), color = MaterialTheme.colorScheme.onBackground) },
+                label = {
+                    Text(
+                        stringResource(R.string.info_item_content_content),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
                 textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 14

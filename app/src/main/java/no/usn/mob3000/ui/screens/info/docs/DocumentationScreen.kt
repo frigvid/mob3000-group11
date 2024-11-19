@@ -69,7 +69,11 @@ fun DocumentationScreen(
                         onClick = onCreateDocumentationClick,
                         containerColor = MaterialTheme.colorScheme.primary
                     ) {
-                        Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
+                        Icon(
+                            Icons.Filled.Add,
+                            contentDescription = "Create Documentation",
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
                     }
                 }
 
