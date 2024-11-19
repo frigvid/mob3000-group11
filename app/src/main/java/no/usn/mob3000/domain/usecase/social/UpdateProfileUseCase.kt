@@ -7,7 +7,7 @@ import no.usn.mob3000.domain.repository.social.IProfileEditRepository
  *
  * @param profileEditRepository The repository for updating profile
  * @author Husseinabdulameer11
- * @created: 2024-11-10
+ * @created 2024-11-10
  */
 class UpdateProfileUseCase(
     private val profileEditRepository: IProfileEditRepository
