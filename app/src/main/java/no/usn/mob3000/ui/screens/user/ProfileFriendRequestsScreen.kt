@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,7 +72,7 @@ fun ProfileFriendRequestsScreen(
                     if (requests.isEmpty()) {
                         Text(
                             text = stringResource(R.string.profile_pending_friend_requests_no_requests),
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     } else {
                         requests.forEach { friendRequest ->
@@ -87,11 +88,10 @@ fun ProfileFriendRequestsScreen(
                 } else {
                     Text(
                         text = stringResource(R.string.profile_pending_friend_requests_error_fetching),
-                        color = Color.Red
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
             }
         }
     }
 }
-

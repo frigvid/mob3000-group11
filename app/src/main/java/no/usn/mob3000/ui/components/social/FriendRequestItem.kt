@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -88,7 +88,10 @@ fun FriendRequestItem(
             modifier = Modifier.padding(horizontal = 4.dp),
             colors = ButtonDefaults.buttonColors(DefaultButton)
         ) {
-            Text(text = stringResource(R.string.profile_pending_friend_requests_accept_button), color = Color.White)
+            Text(
+                text = stringResource(R.string.profile_pending_friend_requests_accept_button),
+                color = MaterialTheme.colorScheme.onPrimary
+            )
         }
 
         Button(
@@ -96,7 +99,10 @@ fun FriendRequestItem(
             modifier = Modifier.padding(horizontal = 4.dp),
             colors = ButtonDefaults.buttonColors(DefaultButton)
         ) {
-            Text(text = stringResource(R.string.profile_pending_friend_requests_decline_button), color = Color.White)
+            Text(
+                text = stringResource(R.string.profile_pending_friend_requests_decline_button),
+                color = MaterialTheme.colorScheme.onPrimary
+            )
         }
     }
 

@@ -204,7 +204,11 @@ private fun ProfileHeader(userResult: Result<UserProfile?>) {
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape)
-                .border(2.dp, Color.Black, CircleShape)
+                .border(
+                    2.dp,
+                    MaterialTheme.colorScheme.onBackground,
+                    CircleShape
+                )
         )
 
         userResult.onSuccess { user ->
@@ -369,7 +373,11 @@ private fun FriendComponent(
                         modifier = Modifier
                             .size(40.dp)
                             .clip(CircleShape)
-                            .border(1.dp, Color.Gray, CircleShape)
+                            .border(
+                                1.dp,
+                                MaterialTheme.colorScheme.onBackground,
+                                CircleShape
+                            )
                     )
 
                     Text(
@@ -383,7 +391,7 @@ private fun FriendComponent(
             item {
                 Text(
                     text = stringResource(R.string.profile_friends_failed_to_load),
-                    color = Color.Red,
+                    color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(16.dp)
                 )
             }

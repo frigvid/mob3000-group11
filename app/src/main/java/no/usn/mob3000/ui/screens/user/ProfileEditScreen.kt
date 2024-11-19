@@ -149,6 +149,7 @@ fun ProfileEditScreen(
                 value = aboutMe,
                 onValueChange = { aboutMe = it },
                 label = { Text(stringResource(R.string.profile_edit_about_me)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
