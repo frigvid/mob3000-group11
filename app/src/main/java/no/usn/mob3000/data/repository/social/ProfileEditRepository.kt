@@ -39,7 +39,7 @@ class ProfileEditRepository (
         friendsVisibility: Boolean
     ) : Result<Unit>{
         val originalUser = userDataSource.fetchUserById(userid)
-        return if(originalUser != null){
+        return if( originalUser != null ) {
             val updateProfileDto = ProfileDto(
                 userId = userid,
                     updatedAt = Clock.System.now(),
