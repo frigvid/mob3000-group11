@@ -9,8 +9,8 @@ import no.usn.mob3000.domain.repository.social.IUserRepository
 
 /**
  * This repository is responsible for generating information about the current user. It uses generic auth
- * methods from [UserDataSource]. [fetchUserById] exist in another from in [AuthRepository], but our usecase demands some changes
- * to the notation, so instead of refactoring something thats beeing used for a lot of other things, it has its own
+ * methods from [UserDataSource]. [fetchUserById] exist in another from in [AuthRepository], but our use case demands some changes
+ * to the notation, so instead of refactoring something that's being used for a lot of other things, it has its own
  * function here
  *
  * @param userDataSource The data source for user operations.
