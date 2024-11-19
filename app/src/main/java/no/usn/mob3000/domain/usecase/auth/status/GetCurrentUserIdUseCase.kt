@@ -3,6 +3,7 @@ package no.usn.mob3000.domain.usecase.auth
 import no.usn.mob3000.domain.repository.IAuthRepository
 
 /**
+ *
  * This class is responsible for getting the current user's ID.
  *
  * @author 258030
