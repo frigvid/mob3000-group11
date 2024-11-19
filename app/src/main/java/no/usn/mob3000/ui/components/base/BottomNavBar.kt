@@ -2,17 +2,15 @@ package no.usn.mob3000.ui.components.base
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import no.usn.mob3000.domain.enumerate.Destination
-import no.usn.mob3000.ui.theme.NavbarBackground
-import no.usn.mob3000.ui.theme.NavbarButtonSelected
 
 /**
  * This is the bottom navigation bar, it's used in the [Viewport] by default. It is a wrapper for the
@@ -39,7 +37,7 @@ fun BottomNavbar(
     onNavigate: (String) -> Unit
 ) {
     BottomAppBar(
-        containerColor = NavbarBackground
+        containerColor = MaterialTheme.colorScheme.surface
     ) {
         roots.forEach { screen ->
             NavigationBarItem(
@@ -55,8 +53,8 @@ fun BottomNavbar(
                 selected = currentDestination?.hierarchy?.any { it.route == screen.name } == true,
                 onClick = { onNavigate(screen.name) },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    indicatorColor = NavbarButtonSelected
+                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    indicatorColor = MaterialTheme.colorScheme.secondary
                 )
             )
         }

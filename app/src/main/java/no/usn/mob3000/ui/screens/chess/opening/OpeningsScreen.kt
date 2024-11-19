@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.chess.opening
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,6 +19,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,13 +36,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.board.ChessBoard
 import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This shows the various chess openings that are available by default, and that
@@ -100,7 +100,7 @@ fun OpeningsScreen(
                 is AuthenticationState.Authenticated -> {
                     if (auth.isAdmin) {
                         FloatingActionButton(
-                            containerColor = DefaultButton,
+                            containerColor = MaterialTheme.colorScheme.primary,
                             onClick = onCreateOpeningClick
                         ) {
                             Icon(
@@ -125,7 +125,7 @@ fun OpeningsScreen(
                                 painter = painterResource(R.drawable.group_button),
                                 contentDescription = "Groups",
                                 modifier = Modifier.size(24.dp),
-                                tint = Color.Black
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -147,7 +147,7 @@ fun OpeningsScreen(
                 CardButton(
                     opening = opening,
                     onClick = {
-                        Log.d("OpeningsScreen", opening.moves.toString())
+                        Logger.d(opening.moves.toString())
                         setSelectedOpening(opening)
                         onOpeningClick(opening)
                     }

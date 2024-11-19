@@ -1,20 +1,18 @@
 package no.usn.mob3000.ui.screens.info.docs
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
-import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import kotlinx.coroutines.flow.StateFlow
+import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.content.DocsData
+import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
+import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 import java.util.*
 
 /**
@@ -68,9 +66,13 @@ fun DocumentationScreen(
                 is AuthenticationState.Authenticated -> {
                     FloatingActionButton(
                         onClick = onCreateDocumentationClick,
-                        containerColor = DefaultButton
+                        containerColor = MaterialTheme.colorScheme.primary
                     ) {
-                        Icon(Icons.Filled.Add, contentDescription = "Create Documentation")
+                        Icon(
+                            Icons.Filled.Add,
+                            contentDescription = "Create Documentation",
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
                     }
                 }
 

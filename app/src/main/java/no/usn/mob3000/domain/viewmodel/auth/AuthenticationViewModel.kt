@@ -1,6 +1,5 @@
 package no.usn.mob3000.domain.viewmodel.auth
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -12,6 +11,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.usecase.auth.status.IsAdministratorUseCase
 import no.usn.mob3000.domain.usecase.auth.status.IsAuthenticatedUseCase
@@ -83,12 +83,12 @@ class AuthenticationViewModel(
      * stops any existing jobs, in case there's any dirty state.
      */
     fun startPeriodicUpdates() {
-        Log.d(TAG, "Starting periodic update by canceling pending jobs.")
+        Logger.d("Starting periodic update by canceling pending jobs.")
         stopPeriodicUpdates()
         periodicUpdateJob = viewModelScope.launch {
             while (isActive) {
                 delay(REFRESH_INTERVAL)
-                Log.d(TAG, "Updating authentication state.")
+                Logger.d("Updating authentication state.")
                 updateAuthState()
             }
         }
@@ -120,7 +120,7 @@ class AuthenticationViewModel(
      * ```
      */
     fun updateAuthState() {
-        Log.i(TAG, "Updating authentication state!")
+        Logger.i("Updating authentication state!")
         viewModelScope.launch {
             stateMutex.withLock {
                 _authState.emit(AuthenticationState.Loading)
@@ -128,13 +128,13 @@ class AuthenticationViewModel(
                 try {
                     isAuthenticatedUseCase().fold(
                         onSuccess = { userInfo ->
-                            Log.d(TAG, "Success! Checking if user data is null...")
+                            Logger.d("Success! Checking if user data is null...")
                             if (userInfo == null) {
                                 _authState.emit(AuthenticationState.Unauthenticated)
                                 return@fold
                             }
 
-                            Log.d(TAG, "User data is not null. User ID: ${userInfo.id}. Checking administrator access...")
+                            Logger.d("User data is not null. User ID: ${userInfo.id}. Checking administrator access...")
                             isAdministratorUseCase().fold(
                                 onSuccess = { isAdmin ->
                                     val authObject = AuthenticationState.Authenticated(
@@ -143,11 +143,11 @@ class AuthenticationViewModel(
                                         lastChecked = System.currentTimeMillis()
                                     )
 
-                                    Log.d(TAG, "Auth state update: $authObject")
+                                    Logger.d("Auth state update: $authObject")
                                     _authState.emit(authObject)
                                 },
                                 onFailure = { error ->
-                                    Log.e(TAG, "Failure! Something went wrong while checking administrator access!", error)
+                                    Logger.e("Failure! Something went wrong while checking administrator access!", error)
                                     _authState.emit(AuthenticationState.Error(Exception(error)))
                                 }
                             )
@@ -160,12 +160,12 @@ class AuthenticationViewModel(
                             *        Though, if it's an unknown error, then it should be logged as
                             *        such.
                             */
-                            Log.i(TAG, "No session token found, assuming unauthenticated!")
+                            Logger.i("No session token found, assuming unauthenticated!")
                             _authState.emit(AuthenticationState.Error(Exception(error)))
                         }
                     )
                 } catch (error: Exception) {
-                    Log.e(TAG, "Something unknown went wrong!", error)
+                    Logger.e("Something unknown went wrong!", error)
                     _authState.emit(AuthenticationState.Error(Exception(error)))
                 }
             }
@@ -180,7 +180,7 @@ class AuthenticationViewModel(
         stateMutex.withLock {
             stopPeriodicUpdates()
             _authState.emit(AuthenticationState.Unauthenticated)
-            Log.w(TAG, "Resetting authentication state! ${_authState.value}")
+            Logger.w("Resetting authentication state! ${_authState.value}")
         }
     }
 
@@ -199,10 +199,5 @@ class AuthenticationViewModel(
          * Represents 5 minutes.
          */
         private const val REFRESH_INTERVAL = 5 * 60 * 1000L
-
-        /**
-         * TODO: Remove when chess functionality is merged with Logger wrapper function.
-         */
-        private const val TAG = "AuthenticationViewModel"
     }
 }

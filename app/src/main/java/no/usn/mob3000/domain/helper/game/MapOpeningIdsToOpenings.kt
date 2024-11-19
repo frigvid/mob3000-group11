@@ -1,12 +1,11 @@
 package no.usn.mob3000.domain.helper.game
 
-import android.util.Log
 import kotlinx.coroutines.runBlocking
 import no.usn.mob3000.data.repository.game.OpeningsRepository
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
 
-private const val TAG = "OpeningsFetcher"
 private const val FETCH_THRESHOLD = 0.3f
 
 /**
@@ -71,13 +70,13 @@ fun mapOpeningIdsToOpenings(
                         val opening = openingsRepository.getOpeningSingle(id)
                         result.add(opening)
                     } catch (error: Exception) {
-                        Log.e(TAG, "Failed to fetch opening $id.", error)
+                        Logger.e("Failed to fetch opening $id.", error)
                     }
                 }
             }
         }
     } catch (error: Exception) {
-        Log.e(TAG, "Error fetching openings.", error)
+        Logger.e("Error fetching openings.", error)
     }
 
     return result

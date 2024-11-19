@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.screens.chess.opening
 
-import android.util.Log
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -15,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.game.OpeningEditor
@@ -75,7 +75,7 @@ fun CreateOpeningScreen(
                         openingsStartPeriodicUpdates()
                         popNavigationBackStack()
                     } catch (error: Exception) {
-                        Log.e("CreateOpeningScreen", "Error saving opening", error)
+                        Logger.e("Error saving opening", error)
                     }
                 }
 

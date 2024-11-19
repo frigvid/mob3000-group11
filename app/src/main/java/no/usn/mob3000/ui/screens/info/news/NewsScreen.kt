@@ -1,16 +1,20 @@
 package no.usn.mob3000.ui.screens.info.news
 
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.*
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
-import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.content.NewsData
+import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
 import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
@@ -60,9 +64,13 @@ fun NewsScreen(
                     if (auth.isAdmin) {
                         FloatingActionButton(
                             onClick = onCreateNewsClick,
-                            containerColor = DefaultButton
+                            containerColor = MaterialTheme.colorScheme.primary
                         ) {
-                            Icon(Icons.Filled.Add, contentDescription = "Create News")
+                            Icon(
+                                Icons.Filled.Add,
+                                contentDescription = "Create News",
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
                         }
                     }
                 }

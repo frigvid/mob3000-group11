@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,7 +26,6 @@ import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.group.GroupItem
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * This shows the various chess opening repertoires/groups that have been created by the active user.
@@ -90,7 +90,7 @@ fun GroupsScreen(
     Viewport(
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = DefaultButton,
+                containerColor = MaterialTheme.colorScheme.primary,
                 onClick = onNavigateToGroupCreation
             ) {
                 Icon(

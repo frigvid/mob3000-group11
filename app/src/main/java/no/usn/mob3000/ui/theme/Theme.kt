@@ -1,57 +1,64 @@
 package no.usn.mob3000.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = DarkDefaultButton,
+    secondary = DarkNavbarButtonSelected,
+    background = DarkDefaultBackground,
+    surface = DarkNavbarBackground,
+    onPrimary = DarkProfileUserBackground,
+    onSecondary = DarkDefaultListItemBackground,
+    onBackground = DarkProfileUserBackground,
+    onSurface = DarkProfileUserStatisticsBackground,
+    error = DarkErrorColor,
+    tertiary = DarkProfileBanner,
+    onTertiary = DarkOnProfileBanner,
+    scrim = DarkProfileScoreboard
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = DefaultButton,
+    secondary = NavbarButtonSelected,
+    background = DefaultBackground,
+    surface = NavbarBackground,
+    onPrimary = DefaultBackground,
+    onSecondary = DefaultListItemBackground,
+    onBackground = ProfileUserBackground,
+    onSurface = ProfileUserStatisticsBackground,
+    error = ErrorColor,
+    tertiary = ProfileBanner,
+    onTertiary = OnProfileBanner,
+    scrim = ProfileScoreboard
 )
 
+/**
+ * Function that provides a customizable theme for the app, allowing switching between light and dark modes.
+ *
+ * @param darkTheme Boolean flag indicating if dark theme should be used.
+ * @param content Composable content that should be wrapped with the theme.
+ * @author markusingierd
+ * @created 2024-10-12
+ */
 @Composable
 fun ChessbuddyTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    // TODO: investigate better solution for dynamically switching color schemes
+    val colorScheme =
+        if (!darkTheme) {
+            LightColorScheme
+        } else {
+            DarkColorScheme
         }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
         content = content
     )
 }

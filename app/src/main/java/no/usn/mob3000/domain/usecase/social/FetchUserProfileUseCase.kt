@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.usecase.social
 
-import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.data.repository.social.UserRepository
+import no.usn.mob3000.domain.model.auth.UserProfile
 
 /**
  * This use case retrieves the user's profile information.

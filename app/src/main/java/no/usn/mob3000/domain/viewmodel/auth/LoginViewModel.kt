@@ -1,17 +1,13 @@
 package no.usn.mob3000.domain.viewmodel.auth
 
-import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.jan.supabase.gotrue.exception.AuthRestException
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.auth.error.AuthError
-import no.usn.mob3000.domain.model.auth.User
 import no.usn.mob3000.domain.model.auth.state.LoginState
 import no.usn.mob3000.domain.usecase.auth.LoginUseCase
 
@@ -53,7 +49,7 @@ class LoginViewModel(
 
             loginUseCase(email, password).fold(
                 onSuccess = { user ->
-                    Log.d("LoginViewModel", user.toString())
+                    Logger.d(user.toString())
                     _loginState.value = LoginState.Success(user)
                 },
                 onFailure = { error ->

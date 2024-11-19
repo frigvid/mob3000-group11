@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,16 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.game.board.ChessBoardGameState
 import no.usn.mob3000.domain.model.game.board.ChessBoardState
 import no.usn.mob3000.domain.model.game.board.PracticeMode
 import no.usn.mob3000.domain.model.game.opening.Opening
-import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.game.board.ChessBoard
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
  * Screen for users to play chess.
@@ -87,8 +86,7 @@ fun PlayScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
-            Card(colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)) {
+            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -97,18 +95,19 @@ fun PlayScreen(
                     Text(
                         text = stringResource(R.string.play_game_status),
                         fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.Bold
                     )
 
                     Logger.d("PlayScreen: About to display status: ${statefulGame.status}")
                     Text(
                         text = statefulGame.status,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 16.sp
                     )
                 }
             }
-
-            Card(colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)) {
+            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -117,6 +116,7 @@ fun PlayScreen(
                     Text(
                         text = stringResource(R.string.play_statistics),
                         fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.Bold
                     )
 
@@ -156,16 +156,20 @@ fun PlayScreen(
             ) {
                 Button(
                     onClick = onResetBoardClick,
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
-                    modifier = Modifier.weight(1f).padding(end = 8.dp)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp)
                 ) {
                     Text(stringResource(R.string.play_reset_board))
                 }
 
                 Button(
                     onClick = onUndoMoveClick,
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
-                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 4.dp)
                 ) {
                     Text(stringResource(R.string.play_undo_move))
                 }
@@ -178,8 +182,10 @@ fun PlayScreen(
                 Button(
                     onClick = { /* TODO: Implement switch to multiplayer logic */ },
                     enabled = false,
-                    colors = ButtonDefaults.buttonColors(containerColor = DefaultButton),
-                    modifier = Modifier.weight(1f).padding(start = 8.dp)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp)
                 ) {
                     Text(stringResource(R.string.play_multiplayer))
                 }
@@ -202,7 +208,17 @@ private fun StatisticItem(
     value: Int
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = label, fontSize = 14.sp)
-        Text(text = value.toString(), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Text(
+            text = label,
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+        Text(
+            text = value.toString(),
+            fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold
+        )
     }
 }

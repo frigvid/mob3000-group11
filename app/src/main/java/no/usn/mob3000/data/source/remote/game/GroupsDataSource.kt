@@ -2,13 +2,9 @@ package no.usn.mob3000.data.source.remote.game
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.postgrest
-import io.github.jan.supabase.postgrest.rpc
-import no.usn.mob3000.data.model.game.OpeningsDto
 import no.usn.mob3000.data.model.game.RepertoireDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.domain.source.game.IGroupsDataSource
-import no.usn.mob3000.domain.source.game.IOpeningsDataSource
 
 /**
  * The data source for fetching openings related data.

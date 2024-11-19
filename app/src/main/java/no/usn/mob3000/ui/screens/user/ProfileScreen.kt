@@ -29,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,8 +43,6 @@ import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.social.FriendData
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.ProfileUserBackground
-import no.usn.mob3000.ui.theme.ProfileUserStatisticsBackground
 
 /**
  * The profile screen.
@@ -117,10 +114,9 @@ fun ProfileScreen(
                         painter = painterResource(R.drawable.profile_edit),
                         contentDescription = "Edit Profile",
                         modifier = Modifier.size(24.dp),
-                        tint = Color.Black
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
-
                 IconButton(
                     onClick = {
                         setSelectedUser(user)
@@ -131,7 +127,7 @@ fun ProfileScreen(
                         painter = painterResource(R.drawable.profile_add_friends),
                         contentDescription = "Add Friend",
                         modifier = Modifier.size(24.dp),
-                        tint = Color.Black
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -141,7 +137,7 @@ fun ProfileScreen(
                     painter = painterResource(R.drawable.profile_pending_friends),
                     contentDescription = "Friend Requests",
                     modifier = Modifier.size(24.dp),
-                    tint = Color.Black
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
@@ -198,7 +194,7 @@ private fun ProfileHeader(userResult: Result<UserProfile?>) {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(ProfileUserBackground),
+            .background(MaterialTheme.colorScheme.tertiary),
         verticalArrangement = Arrangement.Center
     ) {
         Image(
@@ -207,7 +203,11 @@ private fun ProfileHeader(userResult: Result<UserProfile?>) {
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape)
-                .border(2.dp, Color.Black, CircleShape)
+                .border(
+                    2.dp,
+                    MaterialTheme.colorScheme.onBackground,
+                    CircleShape
+                )
         )
 
         userResult.onSuccess { user ->
@@ -220,13 +220,13 @@ private fun ProfileHeader(userResult: Result<UserProfile?>) {
                 )
             } ?: Text(
                 text = stringResource(R.string.profile_user_null),
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }.onFailure {
             Text(
                 text = stringResource(R.string.profile_user_failure),
-                color = Color.Red,
+                color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(8.dp)
             )
         }
@@ -255,7 +255,7 @@ private fun ProfileStats(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(ProfileUserStatisticsBackground)
+            .background(MaterialTheme.colorScheme.scrim)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -285,13 +285,15 @@ private fun StatItem(
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = value,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onTertiary
         )
 
         Text(
             text = label,
             fontSize = 12.sp,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onTertiary
         )
     }
 }
@@ -370,7 +372,11 @@ private fun FriendComponent(
                         modifier = Modifier
                             .size(40.dp)
                             .clip(CircleShape)
-                            .border(1.dp, Color.Gray, CircleShape)
+                            .border(
+                                1.dp,
+                                MaterialTheme.colorScheme.onBackground,
+                                CircleShape
+                            )
                     )
 
                     Text(
@@ -384,7 +390,7 @@ private fun FriendComponent(
             item {
                 Text(
                     text = stringResource(R.string.profile_friends_failed_to_load),
-                    color = Color.Red,
+                    color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(16.dp)
                 )
             }

@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * The editor for repertoires/groups.
@@ -76,7 +75,7 @@ fun GroupEditor(
                 Button(
                     onClick = onSave,
                     enabled = title.isNotBlank(),
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f).padding(start = 8.dp)
                 ) {
                     Text(saveButtonText)

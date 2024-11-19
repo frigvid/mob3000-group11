@@ -2,7 +2,6 @@ package no.usn.mob3000.domain.model.auth.error
 
 import androidx.annotation.StringRes
 import io.github.jan.supabase.gotrue.exception.AuthRestException
-import io.github.jan.supabase.gotrue.exception.AuthWeakPasswordException
 import no.usn.mob3000.R
 
 /**

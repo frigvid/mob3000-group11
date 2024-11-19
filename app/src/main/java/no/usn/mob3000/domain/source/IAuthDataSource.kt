@@ -1,11 +1,6 @@
 package no.usn.mob3000.domain.source
 
-import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.gotrue.user.UserSession
-import no.usn.mob3000.data.model.game.GameDataDto
-import no.usn.mob3000.data.model.social.FriendRequestsDto
-import no.usn.mob3000.data.model.social.FriendsDto
-import no.usn.mob3000.data.model.social.ProfileDto
 
 /**
  * Interface for authentication data source.

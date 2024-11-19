@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,7 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
@@ -71,7 +71,7 @@ fun ProfileFriendRequestsScreen(
                     if (requests.isEmpty()) {
                         Text(
                             text = stringResource(R.string.profile_pending_friend_requests_no_requests),
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     } else {
                         requests.forEach { friendRequest ->
@@ -87,11 +87,10 @@ fun ProfileFriendRequestsScreen(
                 } else {
                     Text(
                         text = stringResource(R.string.profile_pending_friend_requests_error_fetching),
-                        color = Color.Red
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
             }
         }
     }
 }
-

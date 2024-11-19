@@ -2,11 +2,11 @@ package no.usn.mob3000.data.repository.content.remote
 
 import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.content.local.DocsItemLocal
-import no.usn.mob3000.data.source.remote.content.DocsDataSource
-import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.data.model.content.remote.DocsDto
 import no.usn.mob3000.data.repository.content.local.DocsRepositoryLocal
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
+import no.usn.mob3000.data.source.remote.content.DocsDataSource
+import no.usn.mob3000.domain.model.content.DocsData
 import no.usn.mob3000.domain.repository.content.IDocsRepository
 import java.util.UUID
 
@@ -37,8 +37,8 @@ class DocsRepository(
         return try {
             val localDocs = docsRepositoryLocal.fetchAllDocs()
             Result.success(localDocs.map { it.toDomainModel() })
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -56,8 +56,8 @@ class DocsRepository(
             docsRepositoryLocal.clearAllDocs()
             docsRepositoryLocal.insertDocsList(localDocsList)
             Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -72,8 +72,8 @@ class DocsRepository(
         return try {
             docsDataSource.deleteDocsById(docsId)
             Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -93,6 +93,7 @@ class DocsRepository(
         isPublished: Boolean
     ): Result<Unit> {
         val originalDocs = docsDataSource.fetchDocsById(docsId)
+
         if (originalDocs != null) {
             val updatedDocsDto = DocsDto(
                 docId = docsId,
@@ -104,6 +105,7 @@ class DocsRepository(
                 content = content,
                 isPublished = isPublished
             )
+
             return docsDataSource.updateDocs(docsId, updatedDocsDto)
         } else {
             return Result.failure(Exception("Original docs data not found"))
@@ -120,8 +122,8 @@ class DocsRepository(
         return try {
             val docsDto = docsDataSource.fetchDocsById(docsId)
             Result.success(docsDto?.toDomainModel())
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -140,18 +142,16 @@ class DocsRepository(
     ): Result<Unit> {
         val docsItem = DocsDto(
             docId = UUID.randomUUID().toString(),
-            createdAt = Clock.System
-                .now(),
-            modifiedAt = Clock.System
-                .now(),
+            createdAt = Clock.System.now(),
+            modifiedAt = Clock.System.now(),
             createdByUser = authDataSource.getCurrentUserId(),
             title = title,
             summary = summary,
             content = content,
             isPublished = isPublished
         )
-        return docsDataSource.insertDocs(docsItem)
 
+        return docsDataSource.insertDocs(docsItem)
     }
 
     /**
@@ -170,6 +170,9 @@ class DocsRepository(
         )
     }
 
+    /**
+     * Maps a documentation DTO to a local model.
+     */
     private fun DocsDto.toLocalModel(): DocsItemLocal {
         return DocsItemLocal(
             docsId = this.docId,
@@ -184,6 +187,9 @@ class DocsRepository(
 
     }
 
+    /**
+     * Maps a local documentation model to a domain model.
+     */
     private fun DocsItemLocal.toDomainModel(): DocsData {
         return DocsData(
             docsId = this.docsId,

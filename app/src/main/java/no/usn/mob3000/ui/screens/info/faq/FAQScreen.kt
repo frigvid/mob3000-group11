@@ -3,17 +3,21 @@ package no.usn.mob3000.ui.screens.info.faq
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.*
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import no.usn.mob3000.domain.model.auth.state.AuthenticationState
-import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
-import no.usn.mob3000.ui.theme.DefaultButton
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.StateFlow
+import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.content.FAQData
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.info.ContentItem
 import no.usn.mob3000.ui.components.info.PaddedLazyColumn
+import no.usn.mob3000.ui.components.settings.SettingsSectionAdmin
 
 /**
  * Screen for the FAQ page, with a list of FAQ articles.
@@ -56,9 +60,13 @@ fun FAQScreen(
                     if (auth.isAdmin) {
                         FloatingActionButton(
                             onClick = onCreateFAQClick,
-                            containerColor = DefaultButton
+                            containerColor = MaterialTheme.colorScheme.primary
                         ) {
-                            Icon(Icons.Filled.Add, contentDescription = "Create FAQ")
+                            Icon(
+                                Icons.Filled.Add,
+                                contentDescription = "Create FAQ",
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
                         }
                     }
                 }

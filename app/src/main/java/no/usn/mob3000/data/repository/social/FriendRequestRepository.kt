@@ -1,18 +1,17 @@
 package no.usn.mob3000.data.repository.social
 
-import android.util.Log
 import kotlinx.datetime.Clock
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.source.remote.auth.AuthDataSource
 import no.usn.mob3000.data.source.remote.social.FriendRequestDataSource
 import no.usn.mob3000.data.source.remote.social.ProfileUserDataSource
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.domain.repository.social.IFriendRequestRepository
 import java.util.UUID
 
 /**
- * 
  * This repository orchestrates friend request-related data operations. Shares similarities with [FriendsRepository]. In future versions, we would
  * ideally want to abstract this across all database operations.
  *
@@ -49,18 +48,17 @@ class FriendRequestRepository (
             val requestsList = friendRequestDataSource.fetchFriendRequests(currentUserId)
 
             requestsList.forEach { friend ->
-                Log.d("FriendRequestRepository", "Friend: $friend")
+                Logger.d("Friend: $friend")
             }
 
             Result.success(requestsList.map { it.toDomainModel() })
         } catch (error: Exception) {
-            Log.e("FriendRequestRepository", "Failed to fetch friend requests: ${error.message}")
+            Logger.e("Failed to fetch friend requests: ${error.message}", error)
             Result.failure(error)
         }
     }
 
     /**
-     *
      * Inserts a new friend request after interacting with [ProfileAddFriendsScreen].
      *
      * @param toUser The user ID to whom the friend request is being sent.
@@ -81,7 +79,6 @@ class FriendRequestRepository (
     }
 
     /**
-     *
      * Accepts a friend request by its ID.
      *
      * This function inserts the friend pair into the friends table and deletes the original friend request.
@@ -111,13 +108,13 @@ class FriendRequestRepository (
                 Result.failure(Exception("Friend request $friendRequestId does not exist"))
             }
         } catch (error: Exception) {
-            Log.e("FriendRequestRepository", "Error after accepting: ${error.message}")
+            Logger.e("Error after accepting: ${error.message}", error)
+
             Result.failure(error)
         }
     }
 
     /**
-     *
      * Declines a friend request by its ID.
      * This function simply deletes the friend request without any further action.
      *
@@ -128,12 +125,9 @@ class FriendRequestRepository (
      * @author 258030
      * @created 2024-11-16
      */
-    override suspend fun declineFriendRequest(friendRequestId: String): Result<Unit> {
-        return deleteFriendRequest(friendRequestId)
-    }
+    override suspend fun declineFriendRequest(friendRequestId: String): Result<Unit> = deleteFriendRequest(friendRequestId)
 
     /**
-     *
      * Declines a friend requests after interaction with [ProfileFriendRequestsScreen]. This function is used by both the accept and decline option, since
      * the friend request is deleted in both cases.
      *
@@ -148,13 +142,12 @@ class FriendRequestRepository (
             friendRequestDataSource.deleteFriendRequestById(friendRequestId)
             Result.success(Unit)
         } catch (error: Exception) {
-            Log.e("FriendRequestRepository", "Failed to delete friend request: ${error.message}")
+            Logger.e("Failed to delete friend request: ${error.message}", error)
             Result.failure(error)
         }
     }
 
     /**
-     *
      * Converts [FriendRequestsDto] to [FriendRequestData]. "accepted" is not really used in the implementation.
      *
      * @return The corresponding [FriendRequestData] instance.

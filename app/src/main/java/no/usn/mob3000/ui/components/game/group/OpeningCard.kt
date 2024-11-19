@@ -39,8 +39,6 @@ import no.usn.mob3000.R
 import no.usn.mob3000.domain.helper.game.convertPgnToFen
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.ui.components.game.board.ChessBoard
-import no.usn.mob3000.ui.theme.DefaultButton
-import no.usn.mob3000.ui.theme.DefaultListItemBackground
 
 /**
  * Composable component for openings in repertoire/group items.
@@ -67,7 +65,7 @@ fun OpeningCard(
         modifier = modifier
             .fillMaxWidth()
             .clickable { expanded = !expanded },
-        colors = CardDefaults.cardColors(containerColor = DefaultListItemBackground)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier.padding(12.dp)
@@ -89,7 +87,7 @@ fun OpeningCard(
                 ) {
                     IconButton(
                         onClick = onClick,
-                        colors = IconButtonDefaults.iconButtonColors(DefaultButton)
+                        colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.secondary)
                     ) {
                         Icon(
                             imageVector = icon,

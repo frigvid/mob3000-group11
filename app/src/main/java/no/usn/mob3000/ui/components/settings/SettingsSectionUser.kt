@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.components.settings
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.auth.state.AuthenticationState
 import no.usn.mob3000.domain.model.auth.state.ChangeEmailState
 import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
@@ -31,7 +31,6 @@ import no.usn.mob3000.domain.model.auth.state.LogoutState
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.Loading
 import no.usn.mob3000.ui.components.auth.Error
-import no.usn.mob3000.ui.theme.DefaultButton
 
 private const val TAG: String = "SettingsSectionUser"
 
@@ -106,10 +105,10 @@ fun SettingsSectionUser(
     when (state) {
         is AuthenticationState.Error,
         is AuthenticationState.Unauthenticated -> {
-            Log.d(TAG, "User is not authenticated. Showing login button.")
+            Logger.d("User is not authenticated. Showing login button.")
             Button(
                 onClick = onLoginClick,
-                colors = ButtonDefaults.buttonColors(DefaultButton),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
@@ -117,7 +116,7 @@ fun SettingsSectionUser(
         }
 
         is AuthenticationState.Authenticated -> {
-            Log.d(TAG, "User is authenticated. Showing authenticated user actions.")
+            Logger.d("User is authenticated. Showing authenticated user actions.")
 
             LogoutAccount(logoutState, onLogoutClick, authenticationStateUpdate)
             EmailChange(navigateToEmailChange, changeEmailState)
@@ -125,7 +124,7 @@ fun SettingsSectionUser(
             DeleteAccount(accountDeleteState, onDeleteAccountClick, authenticationStateUpdate)
         }
 
-        else -> Log.d(TAG, "Something went wrong.")
+        else -> Logger.d("Something went wrong.")
     }
 }
 
@@ -161,6 +160,7 @@ private fun LogoutAccount(
 
     OutlinedButton(
         onClick = { showLogoutConfirmation = true },
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)
@@ -200,7 +200,7 @@ private fun EmailChange(
 
     Button(
         onClick = navigationGoToChangeEmail,
-        colors = ButtonDefaults.buttonColors(DefaultButton),
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)
@@ -245,7 +245,7 @@ private fun PasswordChange(
 
     Button(
         onClick = navigationGoToResetPassword,
-        colors = ButtonDefaults.buttonColors(DefaultButton),
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)

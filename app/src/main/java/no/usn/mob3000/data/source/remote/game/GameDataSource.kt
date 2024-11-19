@@ -5,7 +5,6 @@ import io.github.jan.supabase.postgrest.from
 import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.domain.source.game.IGameDataSource
-import java.util.Locale.filter
 
 /**
  * The data source for getting the user's game data.

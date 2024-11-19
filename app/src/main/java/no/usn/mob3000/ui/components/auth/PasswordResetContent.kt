@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
@@ -26,7 +28,6 @@ import no.usn.mob3000.domain.model.auth.error.AccountModificationError
 import no.usn.mob3000.domain.model.auth.state.ChangePasswordState
 import no.usn.mob3000.ui.components.DangerousActionDialogue
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Shared component for password reset functionality that can be used across different screens.
@@ -86,6 +87,7 @@ fun PasswordResetContent(
                     onValueChange = { password = it },
                     label = { Text(stringResource(R.string.auth_reset_password_input)) },
                     placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -97,6 +99,7 @@ fun PasswordResetContent(
                     onValueChange = { confirmPassword = it },
                     label = { Text(stringResource(R.string.auth_reset_password_confirm)) },
                     placeholder = { Text(stringResource(R.string.auth_login_password_placeholder)) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -105,7 +108,7 @@ fun PasswordResetContent(
 
                 Button(
                     onClick = { showPasswordChangeConfirmation = true },
-                    colors = ButtonDefaults.buttonColors(DefaultButton),
+                    colors = ButtonDefaults.buttonColors(containerColor =  MaterialTheme.colorScheme.primary),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(stringResource(R.string.auth_reset_password_button))
@@ -114,3 +117,4 @@ fun PasswordResetContent(
         }
     }
 }
+

@@ -1,11 +1,11 @@
 package no.usn.mob3000.data.repository.game
 
-import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
 import no.usn.mob3000.data.model.game.RepertoireDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.source.remote.game.GroupsDataSource
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.helper.game.mapToDomain
 import no.usn.mob3000.domain.model.game.group.Group
 import no.usn.mob3000.domain.repository.game.IGroupsRepository
@@ -16,7 +16,7 @@ import no.usn.mob3000.domain.repository.game.IGroupsRepository
  *
  * It aggregates data from multiple operations into cohesive results.
  *
- * @property openingsDataSource The openings data source.
+ * @property groupsDataSource The groups data source.
  * @property supabase The Supabase client.
  * @author frigvid
  * @created 2024-11-14
@@ -57,7 +57,7 @@ class GroupsRepository(
         groupId: String
     ) {
         try {
-            Log.d("GroupsRepository", "Deleting repertoire/group with ID: $groupId")
+            Logger.d("Deleting repertoire/group with ID: $groupId")
             supabase.postgrest
                 .from("repertoire")
                 .delete {

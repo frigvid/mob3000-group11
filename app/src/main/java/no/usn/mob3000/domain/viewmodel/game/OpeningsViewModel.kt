@@ -1,6 +1,5 @@
 package no.usn.mob3000.domain.viewmodel.game
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -15,6 +14,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import no.usn.mob3000.data.repository.game.GroupsRepository
 import no.usn.mob3000.data.repository.game.OpeningsRepository
+import no.usn.mob3000.domain.helper.Logger
 import no.usn.mob3000.domain.model.game.opening.Opening
 import no.usn.mob3000.domain.model.game.opening.OpeningState
 import no.usn.mob3000.domain.usecase.game.opening.CreateOpeningUseCase
@@ -65,19 +65,19 @@ class OpeningsViewModel(
      * @created 2024-11-14
      */
     fun startPeriodicUpdates() {
-        Log.d(TAG, "Starting periodic update by first canceling pending jobs.")
+        Logger.d("Starting periodic update by first canceling pending jobs.")
         stopPeriodicUpdates()
 
-        Log.d(TAG, "Starting job!")
+        Logger.d("Starting job!")
         periodicUpdateJob = viewModelScope.launch {
             while (isActive) {
-                Log.d(TAG, "Fetching openings.")
+                Logger.d("Fetching openings.")
                 fetchOpenings()
 
-                Log.d(TAG, "Updating authentication state.")
+                Logger.d("Updating authentication state.")
                 authenticationViewModel.updateAuthState()
 
-                Log.d(TAG, "Delaying for 5 minutes.")
+                Logger.d("Delaying for 5 minutes.")
                 delay(REFRESH_INTERVAL)
             }
         }
@@ -106,7 +106,7 @@ class OpeningsViewModel(
         stateMutex.withLock {
             stopPeriodicUpdates()
             _openingState.emit(OpeningState.Idle)
-            Log.w(TAG, "Resetting openings state! ${_openingState.value}")
+            Logger.w("Resetting openings state! ${_openingState.value}")
         }
     }
 
@@ -141,12 +141,12 @@ class OpeningsViewModel(
                             _openingState.emit(OpeningState.Success)
                         },
                         onFailure = { error ->
-                            Log.e(TAG, "Failure! Something went wrong while fetching openings!")
+                            Logger.e("Failure! Something went wrong while fetching openings!")
                             _openingState.emit(OpeningState.Error(Exception(error)))
                         }
                     )
                 } catch (error: Exception) {
-                    Log.e(TAG, "Something unknown went wrong!", error)
+                    Logger.e("Something unknown went wrong!", error)
                     _openingState.emit(OpeningState.Error(error))
                 }
             }
@@ -170,11 +170,11 @@ class OpeningsViewModel(
                         _openingSingle.value = opening
                     },
                     onFailure = { error ->
-                        Log.e(TAG, "Something went wrong while fetching the opening with the ID: $openingId", error)
+                        Logger.e("Something went wrong while fetching the opening with the ID: $openingId", error)
                     }
                 )
             } catch (error: Exception) {
-                Log.e(TAG, "Something unknown went wrong when fetching a single (1) opening!", error)
+                Logger.e("Something unknown went wrong when fetching a single (1) opening!", error)
             }
         }
     }
@@ -193,7 +193,7 @@ class OpeningsViewModel(
             try {
                 createOpeningUseCase(opening)
             } catch (error: Exception) {
-                Log.e(TAG, "Something unknown went wrong while creating the opening!", error)
+                Logger.e("Something unknown went wrong while creating the opening!", error)
             }
         }
     }
@@ -210,10 +210,10 @@ class OpeningsViewModel(
     ) {
         viewModelScope.launch {
             try {
-                Log.d("OpeningsViewModel", "Deleting opening with ID: $openingId")
+                Logger.d("Deleting opening with ID: $openingId")
                 deleteOpeningUseCase(openingId)
             } catch (error: Exception) {
-                Log.e(TAG, "Something unknown went wrong while deleting the opening!", error)
+                Logger.e("Something unknown went wrong while deleting the opening!", error)
             }
         }
     }
@@ -232,7 +232,7 @@ class OpeningsViewModel(
             try {
                 updateOpeningUseCase(opening)
             } catch (error: Exception) {
-                Log.e(TAG, "Something went wrong while updating the opening!", error)
+                Logger.e("Something went wrong while updating the opening!", error)
             }
         }
     }
@@ -262,6 +262,5 @@ class OpeningsViewModel(
          * Represents 5 minutes.
          */
         private const val REFRESH_INTERVAL = 5 * 60 * 1000L
-        private const val TAG = "OpeningsViewModel"
     }
 }

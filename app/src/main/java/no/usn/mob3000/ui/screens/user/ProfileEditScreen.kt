@@ -14,6 +14,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
@@ -27,12 +28,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.components.social.ProfileConfirmDialog
-import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen to allow users to edit their profiles, and get access to some user-related settings.
@@ -95,17 +96,50 @@ fun ProfileEditScreen(
                 value = avatarUrl,
                 onValueChange = { avatarUrl = it },
                 label = { Text(stringResource(R.string.profile_edit_avatar_url)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_avatar_url_placeholder)) },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.profile_edit_avatar_url_placeholder),
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
 
+
+            OutlinedTextField(
+                value = aboutMe,
+                onValueChange = { aboutMe = it },
+                label = {
+                    Text(stringResource(R.string.profile_edit_about_me))
+                },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.profile_edit_about_me_placeholder),
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .padding(bottom = 16.dp)
+            )
+
+
             OutlinedTextField(
                 value = displayName,
                 onValueChange = { displayName = it },
                 label = { Text(stringResource(R.string.profile_edit_display_name)) },
-                placeholder = { Text(stringResource(R.string.profile_edit_display_name_placeholder)) },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.profile_edit_display_name_placeholder),
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -115,6 +149,7 @@ fun ProfileEditScreen(
                 value = aboutMe,
                 onValueChange = { aboutMe = it },
                 label = { Text(stringResource(R.string.profile_edit_about_me)) },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
@@ -129,8 +164,13 @@ fun ProfileEditScreen(
                     value = selectedCountry,
                     onValueChange = { selectedCountry = it },
                     readOnly = true,
-                    label = { Text(stringResource(R.string.profile_edit_nationality)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropdownExpanded) },
+                    label = {
+                        Text(stringResource(R.string.profile_edit_nationality))
+                    },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropdownExpanded)
+                    },
                     modifier = Modifier
                         .menuAnchor(MenuAnchorType.PrimaryNotEditable)
                         .fillMaxWidth()
@@ -143,7 +183,12 @@ fun ProfileEditScreen(
                 ) {
                     commonCountries.forEach { (_, name) ->
                         DropdownMenuItem(
-                            text = { Text(name) },
+                            text = {
+                                Text(
+                                    name,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            },
                             onClick = {
                                 selectedCountry = name
                                 isDropdownExpanded = false
@@ -167,7 +212,7 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isProfileVisible,
                     onCheckedChange = { isProfileVisible = it },
-                    colors = SwitchDefaults.colors(checkedTrackColor = DefaultButton)
+                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.primary)
                 )
             }
 
@@ -185,13 +230,13 @@ fun ProfileEditScreen(
                 Switch(
                     checked = isFriendsListVisible,
                     onCheckedChange = { isFriendsListVisible = it },
-                    colors = SwitchDefaults.colors(checkedTrackColor = DefaultButton)
+                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.primary)
                 )
             }
 
             Button(
                 onClick = { showDialog.value = true },
-                colors = ButtonDefaults.buttonColors(DefaultButton),
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)

@@ -1,7 +1,7 @@
 package no.usn.mob3000.domain.model.auth.state
 
-import no.usn.mob3000.domain.model.auth.error.AuthError
 import no.usn.mob3000.domain.model.auth.User
+import no.usn.mob3000.domain.model.auth.error.AuthError
 
 /**
  * Sealed class representing the possible states of the login process.
