@@ -517,10 +517,12 @@ object Routes {
         }
 
         /**
-         * The chess openings routes.
+         * The user's user profile routes.
          *
          * @param navController The navigation controller.
-         * @author frigvid
+         * @param profileViewModel The profile ViewModel.
+         * @param authenticationViewModel The authentication status ViewModel.
+         * @author frigvid, Husseinabdulameer11
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.profile(
@@ -553,6 +555,7 @@ object Routes {
                     currentUserProfileState = profileViewModel.currentUserProfile
                 )
             }
+
             composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
                 ProfileEditScreen(
                     selectedUser = profileViewModel.selectedUser.value,
@@ -562,6 +565,14 @@ object Routes {
             }
         }
 
+        /**
+         * The user's user profile friends routes.
+         *
+         * @param navController The navigation controller.
+         * @param profileViewModel The profile ViewModel.
+         * @author Husseinabdulameer11
+         * @created 2024-11-16
+         */
         private fun NavGraphBuilder.profileFriends(
             navController: NavController,
             profileViewModel: ProfileViewModel,
@@ -574,6 +585,7 @@ object Routes {
                     onUserClick = profileViewModel::insertFriendRequest
                 )
             }
+
             composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) {
                 ProfileFriendRequestsScreen(
                     fetchFriendRequests = { profileViewModel.fetchFriendRequests() },
