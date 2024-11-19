@@ -101,7 +101,7 @@ fun ProfileHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .background(Color(0xFFA1887F)),
+            .background(MaterialTheme.colorScheme.tertiary),
         verticalArrangement = Arrangement.Center
     ) {
         /* TODO: Fetch the user's icon and display name from cached state in ViewModel. */
@@ -139,7 +139,7 @@ fun ProfileStats() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFEFEBE9))
+            .background(MaterialTheme.colorScheme.scrim)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -163,11 +163,11 @@ fun ProfileStats() {
 @Composable
 fun StatItem(
     label: String,
-    value: String,
+    value: String
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = value, fontWeight = FontWeight.Bold, color = Color.Black)
-        Text(text = label, fontSize = 12.sp, textAlign = TextAlign.Center, color = Color.Black)
+        Text(text = value, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onTertiary)
+        Text(text = label, fontSize = 12.sp, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onTertiary)
     }
 }
 

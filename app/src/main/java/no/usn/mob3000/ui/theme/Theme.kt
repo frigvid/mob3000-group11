@@ -14,7 +14,11 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = DarkProfileUserBackground,
     onSecondary = DarkDefaultListItemBackground,
     onBackground = DarkProfileUserBackground,
-    onSurface = DarkProfileUserStatisticsBackground
+    onSurface = DarkProfileUserStatisticsBackground,
+    error = DarkErrorColor,
+    tertiary = DarkProfileBanner,
+    onTertiary = DarkOnProfileBanner,
+    scrim = DarkProfileScoreboard
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -25,7 +29,12 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = DefaultBackground,
     onSecondary = DefaultListItemBackground,
     onBackground = ProfileUserBackground,
-    onSurface = ProfileUserStatisticsBackground
+    onSurface = ProfileUserStatisticsBackground,
+    error = ErrorColor,
+    tertiary = ProfileBanner,
+    onTertiary = OnProfileBanner,
+    scrim = ProfileScoreboard
+
 )
 
 /**

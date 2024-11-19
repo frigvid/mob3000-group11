@@ -58,9 +58,9 @@ fun FAQScreen(
                             containerColor = MaterialTheme.colorScheme.primary
                         ) {
                             Icon(
-                            Icons.Filled.Add,
-                            contentDescription = "Create FAQ",
-                            tint = MaterialTheme.colorScheme.onBackground
+                                Icons.Filled.Add,
+                                contentDescription = "Create FAQ",
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
