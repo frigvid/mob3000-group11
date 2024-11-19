@@ -157,7 +157,7 @@ class UserDataSource(
             throw Exception("Failed to fetch user's friend requests: ${error.message}", error)
         }
     }
-    
+
     /**
      * Gets the full user object for the current user.
      *

@@ -12,7 +12,6 @@ import no.usn.mob3000.data.network.SupabaseClientWrapper
  * to the user are handled in [UserDataSource]
  *
  * @param supabaseClient The Supabase client for making API requests.
- *
  * @author 258030
  * @created 2024-11-09
  */
