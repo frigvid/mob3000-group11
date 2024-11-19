@@ -215,10 +215,7 @@ fun ProfileEditScreen(
                 )
                 navigateToProfile()
             },
-            onDismiss = {
-
-                showDialog.value = false
-            },
+            onDismiss = { showDialog.value = false },
             stringResource(R.string.profile_component_profile_edit_title),
             stringResource(R.string.profile_component_profile_edit_text),
             stringResource(R.string.profile_component_profile_edit_confirm),
