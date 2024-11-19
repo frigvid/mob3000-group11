@@ -105,9 +105,8 @@ class ProfileViewModel(
             friendRequestUseCase.insert(toUser)
         }
     }
+    
     /**
-     *
-     *
      * Accepts a friend request.
      */
     fun acceptFriendRequest(friendRequestId: String) {
@@ -121,9 +120,8 @@ class ProfileViewModel(
             }
         }
     }
+    
     /**
-     *
-     *
      * Declines a friend request.
      */
     fun declineFriendRequest(friendRequestId: String) {
@@ -136,8 +134,8 @@ class ProfileViewModel(
             }
         }
     }
+    
     /***************User profile***************/
-
 
     /**
      * Fetches a user's profile from the database.
@@ -152,9 +150,8 @@ class ProfileViewModel(
             }
         }
     }
+    
     /**
-     *
-     *
      * Fetches a user's game stats from the database.
      */
     fun fetchUserGameStats() {
@@ -167,9 +164,8 @@ class ProfileViewModel(
             }
         }
     }
+    
     /**
-     *
-     *
      * Fetches a user by their ID from the database.
      */
     fun fetchUserById(userId: String) {
@@ -182,9 +178,8 @@ class ProfileViewModel(
             }
         }
     }
+    
     /**
-     *
-     *
      * Sets the selected user for further actions.
      */
     fun setSelectedUser(selectedUser: UserProfile) {
@@ -203,9 +198,8 @@ class ProfileViewModel(
             }
         }
     }
+    
     /**
-     *
-     *
      * Fetches a user's non-friends from the database.
      */
     fun fetchNonFriends() {
@@ -216,9 +210,8 @@ class ProfileViewModel(
             }
         }
     }
+    
     /**
-     *
-     *
      * Fetches a user's friend requests from the database.
      */
     fun fetchFriendRequests() {
@@ -259,9 +252,8 @@ class ProfileViewModel(
             )
         }
     }
+    
     /**
-     *
-     *
      * Updates the user's profile in the database.
      *
      * @param userid The ID of the user to update.
