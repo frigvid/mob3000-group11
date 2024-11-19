@@ -38,7 +38,6 @@ fun ProfileEditScreen(
     var isDropdownExpanded by remember { mutableStateOf(false) }
     val showDialog = remember { mutableStateOf(false) }
 
-
     /* TODO: Use "https://restcountries.com/v3.1/all?fields=name,cca2" to fetch countries,
      *       and cache it in ViewModel state.
      */

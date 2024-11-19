@@ -2,6 +2,7 @@ package no.usn.mob3000.domain.usecase.social.requests
 
 import no.usn.mob3000.data.repository.social.FriendRequestRepository
 /**
+ *
  * Use cases for friend request
  *
  * @param friendRequestRepository The repository for friend request

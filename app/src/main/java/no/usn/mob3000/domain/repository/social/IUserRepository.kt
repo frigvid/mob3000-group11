@@ -3,6 +3,7 @@ package no.usn.mob3000.domain.repository.social
 import no.usn.mob3000.domain.model.auth.UserGameStats
 import no.usn.mob3000.domain.model.auth.UserProfile
 /**
+ *
  * Interface for the user repository.
  *
  * @author 258030

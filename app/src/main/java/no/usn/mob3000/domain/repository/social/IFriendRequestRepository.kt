@@ -2,6 +2,7 @@ package no.usn.mob3000.domain.repository.social
 
 import no.usn.mob3000.domain.model.social.FriendRequestData
 /**
+ *
  * Interface for the friend request repository.
  * @author 258030
  * @created 2024-11-16

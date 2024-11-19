@@ -17,7 +17,8 @@ import no.usn.mob3000.data.network.SupabaseClientWrapper
  * @author Husseinabdulameer11, 258030
  * @created 2024-11-13
  */
-class FriendRequestDataSource (private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()){
+
+ class FriendRequestDataSource (private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()){
     /**
      *
      * This function retrieves a list of all friend requests where the user is the "to_user".

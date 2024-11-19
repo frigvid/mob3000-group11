@@ -10,6 +10,7 @@ import no.usn.mob3000.data.source.remote.social.ProfileUserDataSource
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.domain.repository.social.IFriendRequestRepository
 import java.util.UUID
+
 /**
  * 
  * This repository orchestrates friend request-related data operations. Shares similarities with [FriendsRepository]. In future versions, we would
@@ -55,6 +56,7 @@ class FriendRequestRepository (
             Result.failure(e)
         }
     }
+
     /**
      *
      * Inserts a new friend request after interacting with [ProfileAddFriendsScreen].
@@ -74,6 +76,7 @@ class FriendRequestRepository (
         )
         return friendRequestDataSource.insertFriendRequest(requestItem)
     }
+
     /**
      *
      * Accepts a friend request by its ID.
@@ -106,6 +109,7 @@ class FriendRequestRepository (
             Result.failure(e)
         }
     }
+
     /**
      *
      * Declines a friend request by its ID.
@@ -121,6 +125,7 @@ class FriendRequestRepository (
     override suspend fun declineFriendRequest(friendRequestId: String): Result<Unit> {
         return deleteFriendRequest(friendRequestId)
     }
+
     /**
      *
      * Declines a friend requests after interaction with [ProfileFriendRequestsScreen]. This function is used by both the accept and decline option, since
@@ -141,6 +146,7 @@ class FriendRequestRepository (
             Result.failure(e)
         }
     }
+
     /**
      *
      * Converts [FriendRequestsDto] to [FriendRequestData]. "accepted" is not really used in the implementation.

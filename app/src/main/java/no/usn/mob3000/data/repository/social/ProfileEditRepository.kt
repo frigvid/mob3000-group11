@@ -52,8 +52,7 @@ class ProfileEditRepository (
                     friendsVisibility = friendsVisibility
             )
             profileEditDataSource.updateProfile(userid,updateProfileDto)
-        }else{
-            
+        } else{
             Result.failure(Exception("Original User data not found"))
         }
     }

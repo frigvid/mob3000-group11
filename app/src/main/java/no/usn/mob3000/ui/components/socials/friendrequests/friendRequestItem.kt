@@ -57,6 +57,7 @@ fun friendRequestItem(
     }
     val displayName = userProfilesMap[friendIdToDisplay]?.displayName ?: stringResource(R.string.profile_pending_friend_requests_unknown_user)
     Row(
+
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
@@ -64,17 +65,20 @@ fun friendRequestItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
+
             painter = painterResource(id = R.drawable.user_icon_placeholder),
             contentDescription = "Profile icon",
             modifier = Modifier.size(48.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column(
+
             modifier = Modifier.weight(1f)
         ) {
             Text(text = displayName)
         }
-        Spacer(modifier = Modifier.width(8.dp))
+
+        Spacer( modifier = Modifier.width(8.dp))
 
         Button(
             onClick = onAccept,
@@ -84,7 +88,7 @@ fun friendRequestItem(
             Text(text = stringResource(R.string.profile_pending_friend_requests_accept_button), color = Color.White)
         }
         Button(
-            onClick ={ showDialog.value = true},
+            onClick = { showDialog.value = true},
             modifier = Modifier.padding(horizontal = 4.dp),
             colors = ButtonDefaults.buttonColors(DefaultButton)
         ) {
@@ -92,7 +96,7 @@ fun friendRequestItem(
         }
     }
     if (showDialog.value) {
-        profileConfirmDialog(
+         profileConfirmDialog(
             showDialog = showDialog,
             onConfirm = {
                 onDecline()
@@ -109,5 +113,3 @@ fun friendRequestItem(
         )
     }
 }
-
-

@@ -6,14 +6,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 
-
 /**
  * Composable function that displays a confirm dialog
  *
  * this component lets the user create a confirm dialog for diffrent pages and scenarios to ask the users if they want to proceed or stop
  *
- * @author Husseinabdulameer11
- * @created 2024-11-16
  * @param showDialog is a boolean value to check if the dialog is visible or not
  * @param onConfirm is a function that will run if the user wants to proceed with an action
  * @param onDismiss is a function that would hide the popup if the user wants to cancel or stop an action
@@ -21,6 +18,8 @@ import androidx.compose.runtime.MutableState
  * @param text is a parameter to store text about the dialog box
  * @param confirmtext is a parameter to store the text shown on the button used to accept an action
  * @param dismissText is a parameter to store the text shown on the button used to decline or stop an action
+ * @author Husseinabdulameer11
+ * @created 2024-11-16
  */
 @Composable
 fun profileConfirmDialog(

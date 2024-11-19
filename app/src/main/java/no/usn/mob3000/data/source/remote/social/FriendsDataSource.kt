@@ -8,6 +8,7 @@ import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
+
 /**
  * Data source responsible for handling friend fetch calls via Supabase.
  *
@@ -32,6 +33,7 @@ class FriendsDataSource(
             .select()
             .decodeList()
     }
+
     /**
      * Fetches all rows that don't corresponds to the current user.
      *
@@ -50,5 +52,4 @@ class FriendsDataSource(
             }
             .decodeList()
     }
-
 }

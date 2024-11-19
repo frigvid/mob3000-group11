@@ -45,6 +45,7 @@ class FriendsRepository (
             Result.failure(e)
         }
     }
+
     /**
      *
      * Fetches all non-friends and maps it for usage in the ui layer. Used for adding new friends
@@ -71,6 +72,7 @@ class FriendsRepository (
             Result.failure(e)
         }
     }
+
     /**
      *
      * Maps [FriendsDto] to [FriendData]
@@ -85,6 +87,7 @@ class FriendsRepository (
             user2 = this.user2 ?: ""
         )
     }
+
     /**
      *
      * Maps [ProfileDto] to [UserProfile]

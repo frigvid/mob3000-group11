@@ -100,10 +100,12 @@ fun ProfileScreen(
                     )
                 }
 
-                IconButton(onClick = {
+                IconButton(
+                    onClick = {
                     setSelectedUser(user)
                     onProfileAddFriendsClick(user)
-                }) {
+                    }
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.profile_add_friends),
                         contentDescription = "Add Friend",
@@ -159,7 +161,6 @@ fun ProfileScreen(
  * Composable function that displays the header section of the profile screen.
  *
  * This section includes the user's profile picture and display name.
- *
  *
  * @author Husseinabdulameer11
  * @contributor frigvid, 258030
