@@ -4,7 +4,6 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
@@ -15,11 +14,11 @@ import no.usn.mob3000.data.network.SupabaseClientWrapper
  * @param supabaseClient The Supabase client instance.
  * @author 258030
  * @contributor Husseinabdulameer11
- * @created: 2024-11-04
+ * @created 2024-11-04
  */
 class FriendsDataSource(
-    private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient())
-{
+    private val supabaseClient: SupabaseClient = SupabaseClientWrapper.getClient()
+) {
     /**
      * Fetches all rows from the friends table.
      *
@@ -49,7 +48,6 @@ class FriendsDataSource(
                 filter {
                     neq("id", userId)
                 }
-            }
-            .decodeList()
+            }.decodeList()
     }
 }

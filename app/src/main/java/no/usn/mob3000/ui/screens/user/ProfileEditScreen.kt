@@ -1,10 +1,29 @@
 package no.usn.mob3000.ui.screens.user
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -12,9 +31,9 @@ import androidx.compose.ui.unit.dp
 import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.components.info.ConfirmationDialog
-import no.usn.mob3000.ui.components.socials.friendrequests.profileConfirmDialog
+import no.usn.mob3000.ui.components.social.ProfileConfirmDialog
 import no.usn.mob3000.ui.theme.DefaultButton
+
 /**
  * Screen to allow users to edit their profiles, and get access to some user-related settings.
  *
@@ -122,7 +141,7 @@ fun ProfileEditScreen(
                     expanded = isDropdownExpanded,
                     onDismissRequest = { isDropdownExpanded = false }
                 ) {
-                    commonCountries.forEach { (code, name) ->
+                    commonCountries.forEach { (_, name) ->
                         DropdownMenuItem(
                             text = { Text(name) },
                             onClick = {
@@ -171,28 +190,39 @@ fun ProfileEditScreen(
             }
 
             Button(
-                onClick = {
-                    showDialog.value = true
-                },
+                onClick = { showDialog.value = true },
                 colors = ButtonDefaults.buttonColors(DefaultButton),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
-            ) { Text(stringResource(R.string.profile_edit_save_button)) }
+            ) {
+                Text(stringResource(R.string.profile_edit_save_button))
+            }
         }
     }
+
     if (showDialog.value) {
-        profileConfirmDialog(
+        ProfileConfirmDialog(
             showDialog = showDialog,
             onConfirm = {
-                onSaveProfileClick(displayName, avatarUrl, aboutMe, selectedCountry, isProfileVisible, isFriendsListVisible)
+                onSaveProfileClick(
+                    displayName,
+                    avatarUrl,
+                    aboutMe,
+                    selectedCountry,
+                    isProfileVisible,
+                    isFriendsListVisible
+                )
                 navigateToProfile()
             },
             onDismiss = {
 
                 showDialog.value = false
             },
-            "Save changes?","do you want to save your changes?","Save","Cancel"
+            stringResource(R.string.profile_component_profile_edit_title),
+            stringResource(R.string.profile_component_profile_edit_text),
+            stringResource(R.string.profile_component_profile_edit_confirm),
+            stringResource(R.string.profile_component_profile_edit_dismiss)
         )
     }
 }

@@ -2,18 +2,18 @@ package no.usn.mob3000.data.source.remote.auth;
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.gotrue.auth
-import io.github.jan.supabase.postgrest.postgrest
-import io.github.jan.supabase.postgrest.rpc
 import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.data.model.game.GameDataDto
 import no.usn.mob3000.data.model.social.FriendRequestsDto
 import no.usn.mob3000.data.model.social.FriendSingleDto
 import no.usn.mob3000.data.model.social.FriendsDto
 import no.usn.mob3000.data.model.social.ProfileDto
+import no.usn.mob3000.data.network.SupabaseClientWrapper
 import no.usn.mob3000.domain.source.IUserDataSource
 
 /**
@@ -36,9 +36,7 @@ class UserDataSource(
      * @author frigvid
      * @created 2024-10-22
      */
-    override suspend fun getCurrentUser(): UserInfo {
-        return supabase.auth.retrieveUserForCurrentSession(updateSession = true)
-    }
+    override suspend fun getCurrentUser(): UserInfo = supabase.auth.retrieveUserForCurrentSession(updateSession = true)
 
     /**
      * Gets the user's game stats.
@@ -48,12 +46,14 @@ class UserDataSource(
      */
     override suspend fun getUserGameStats(): GameDataDto {
         return try {
-            supabase.from("gamedata").select() {
-                filter {
-                    eq("id", authDataSource.getCurrentUserId())
-                }
-            }.decodeSingleOrNull<GameDataDto>()
-                ?: throw NoSuchElementException("No game data found for the user.")
+            supabase
+                .from("gamedata")
+                .select {
+                    filter {
+                        eq("id", authDataSource.getCurrentUserId())
+                    }
+                }.decodeSingleOrNull<GameDataDto>()
+                    ?: throw NoSuchElementException("No game data found for the user.")
         } catch (error: NoSuchElementException) {
             throw error
         } catch (error: Exception) {
@@ -73,7 +73,9 @@ class UserDataSource(
      */
     override suspend fun getUserProfile(userId: String): ProfileDto? {
         return try {
-            supabase.from("profiles").select() {
+            supabase
+                .from("profiles")
+                .select {
                 filter {
                     eq("id", userId)
                 }
@@ -99,7 +101,9 @@ class UserDataSource(
      */
     override suspend fun getUserFriends(userId: String): List<FriendsDto> {
         return try {
-            supabase.from("friends").select() {
+            supabase
+                .from("friends")
+                .select {
                 filter {
                     or {
                         eq("user1", userId)
@@ -153,9 +157,10 @@ class UserDataSource(
             throw Exception("Failed to fetch user's friend requests: ${error.message}", error)
         }
     }
-  /**
+    /**
      * Gets the full user object for the current user.
      *
+     * @param userId The user's UUID.
      * @return The user's [UserInfo] object.
      * @throws Exception if the user cannot be fetched or decoded.
      * @author Husseinabdulameer11
@@ -164,8 +169,10 @@ class UserDataSource(
     suspend fun fetchUserById(userId: String): ProfileDto? = withContext(Dispatchers.IO) {
         supabase
             .from("profiles")
-            .select()
-            { filter { eq("id", userId) } }
-            .decodeSingleOrNull()
+            .select {
+                filter {
+                    eq("id", userId)
+                }
+            }.decodeSingleOrNull()
     }
 }

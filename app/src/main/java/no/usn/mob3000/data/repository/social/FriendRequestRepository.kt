@@ -47,13 +47,15 @@ class FriendRequestRepository (
         return try {
             val currentUserId = authDataSource.getCurrentUserId()
             val requestsList = friendRequestDataSource.fetchFriendRequests(currentUserId)
+
             requestsList.forEach { friend ->
                 Log.d("FriendRequestRepository", "Friend: $friend")
             }
+
             Result.success(requestsList.map { it.toDomainModel() })
-        } catch (e: Exception) {
-            Log.e("FriendRequestRepository", "Failed to fetch friend requests: ${e.message}")
-            Result.failure(e)
+        } catch (error: Exception) {
+            Log.e("FriendRequestRepository", "Failed to fetch friend requests: ${error.message}")
+            Result.failure(error)
         }
     }
 
@@ -74,6 +76,7 @@ class FriendRequestRepository (
             toUser = toUser,
             accepted = null
         )
+
         return friendRequestDataSource.insertFriendRequest(requestItem)
     }
 
@@ -91,6 +94,7 @@ class FriendRequestRepository (
     override suspend fun acceptFriendRequest(friendRequestId: String): Result<Unit> {
         return try {
             val friendRequest = friendRequestDataSource.fetchFriendRequestById(friendRequestId)
+
             if (friendRequest != null) {
                 val newFriend = FriendsDto(
                     friendshipId = UUID.randomUUID().toString(),
@@ -98,15 +102,17 @@ class FriendRequestRepository (
                     user1 = friendRequest.byUser ?: "",
                     user2 = friendRequest.toUser ?: ""
                 )
+
                 friendRequestDataSource.insertFriend(newFriend)
                 deleteFriendRequest(friendRequestId)
+
                 Result.success(Unit)
             } else {
                 Result.failure(Exception("Friend request $friendRequestId does not exist"))
             }
-        } catch (e: Exception) {
-            Log.e("FriendRequestRepository", "Error after accepting: ${e.message}")
-            Result.failure(e)
+        } catch (error: Exception) {
+            Log.e("FriendRequestRepository", "Error after accepting: ${error.message}")
+            Result.failure(error)
         }
     }
 
@@ -141,9 +147,9 @@ class FriendRequestRepository (
         return try {
             friendRequestDataSource.deleteFriendRequestById(friendRequestId)
             Result.success(Unit)
-        } catch (e: Exception) {
-            Log.e("FriendRequestRepository", "Failed to delete friend request: ${e.message}")
-            Result.failure(e)
+        } catch (error: Exception) {
+            Log.e("FriendRequestRepository", "Failed to delete friend request: ${error.message}")
+            Result.failure(error)
         }
     }
 

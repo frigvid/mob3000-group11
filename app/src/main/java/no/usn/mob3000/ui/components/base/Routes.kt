@@ -1,6 +1,5 @@
 package no.usn.mob3000.ui.components.base
 
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -21,10 +20,10 @@ import no.usn.mob3000.domain.viewmodel.auth.RegistrationViewModel
 import no.usn.mob3000.domain.viewmodel.content.DocumentationViewModel
 import no.usn.mob3000.domain.viewmodel.content.FAQViewModel
 import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
-import no.usn.mob3000.domain.viewmodel.socials.ProfileViewModel
 import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
 import no.usn.mob3000.domain.viewmodel.game.GroupsViewModel
 import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
+import no.usn.mob3000.domain.viewmodel.social.ProfileViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
@@ -541,7 +540,7 @@ object Routes {
                     },
                     onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) },
                     fetchFriends = { profileViewModel.fetchFriends() },
-                    fetchUser = { userId -> profileViewModel.fetchUser(userId) },
+                    fetchUserProfile = { userId -> profileViewModel.fetchUser(userId) },
                     fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
                     friendState = profileViewModel.friends,
                     userIdState = profileViewModel.userId,
@@ -551,7 +550,7 @@ object Routes {
                     authenticationStateUpdate = authenticationViewModel::updateAuthState,
                     onLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
                     userGameStats = profileViewModel.userGameStats,
-                    viewModel = ProfileViewModel()
+                    currentUserProfileState = profileViewModel.currentUserProfile
                 )
             }
             composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
@@ -593,13 +592,6 @@ object Routes {
             }
         }
     }
-
-    /**
-     * The chess repository/groups routes.
-     *
-     * @author frigvid
-     * @created 2024-11-06
-     */
 
     /**
      * Routes for the user/app settings Screen.

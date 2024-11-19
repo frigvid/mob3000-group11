@@ -1,4 +1,4 @@
-package no.usn.mob3000.ui.components.socials.friendrequests
+package no.usn.mob3000.ui.components.social
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -38,11 +38,11 @@ import no.usn.mob3000.ui.theme.DefaultButton
  * @param fetchUserById Function to fetch the profile of the user who sent the friend request, if their profile is not already available.
  * @param onAccept Function to handle the acceptance of the friend request.
  * @param onDecline Function to handle the decline of the friend request.
- *
  * @author Husseinabdulameer11
+ * @created 2024-11-16
  */
 @Composable
-fun friendRequestItem(
+fun FriendRequestItem(
     friendRequest: FriendRequestData,
     userProfilesMap: Map<String, UserProfile>,
     fetchUserById: (String) -> Unit,
@@ -51,13 +51,16 @@ fun friendRequestItem(
 ) {
     val friendIdToDisplay = friendRequest.byUser
     val showDialog = remember { mutableStateOf(false) }
+
     LaunchedEffect(friendIdToDisplay) {
         if (!userProfilesMap.containsKey(friendIdToDisplay)) {
             fetchUserById(friendIdToDisplay)
         }
     }
+
     val displayName = userProfilesMap[friendIdToDisplay]?.displayName ?: stringResource(R.string.profile_pending_friend_requests_unknown_user)
-      Row(
+
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
@@ -69,8 +72,10 @@ fun friendRequestItem(
             contentDescription = "Profile icon",
             modifier = Modifier.size(48.dp)
         )
+
         Spacer(modifier = Modifier.width(16.dp))
-         Column(
+
+        Column(
             modifier = Modifier.weight(1f)
         ) {
             Text(text = displayName)
@@ -85,7 +90,8 @@ fun friendRequestItem(
         ) {
             Text(text = stringResource(R.string.profile_pending_friend_requests_accept_button), color = Color.White)
         }
-          Button(
+
+        Button(
             onClick = { showDialog.value = true},
             modifier = Modifier.padding(horizontal = 4.dp),
             colors = ButtonDefaults.buttonColors(DefaultButton)
@@ -93,21 +99,19 @@ fun friendRequestItem(
             Text(text = stringResource(R.string.profile_pending_friend_requests_decline_button), color = Color.White)
         }
     }
+
     if (showDialog.value) {
-         profileConfirmDialog(
+         ProfileConfirmDialog(
             showDialog = showDialog,
             onConfirm = {
                 onDecline()
                 showDialog.value = false
             },
-            onDismiss = {
-                // Close the dialog when dismissed
-                showDialog.value = false
-            },
-            "dismiss friend request?",
-            "are you sure you want to dismiss this friend request?",
-            "Delete",
-            "Cancel"
+            onDismiss = { showDialog.value = false },
+            stringResource(R.string.profile_component_friend_request_title),
+            stringResource(R.string.profile_component_friend_request_text),
+            stringResource(R.string.profile_component_friend_request_confirm),
+            stringResource(R.string.profile_component_friend_request_dismiss)
         )
     }
 }

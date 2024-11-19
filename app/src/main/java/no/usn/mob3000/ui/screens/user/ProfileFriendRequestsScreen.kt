@@ -13,12 +13,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
+import no.usn.mob3000.R
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.model.social.FriendRequestData
 import no.usn.mob3000.ui.components.base.Viewport
-import no.usn.mob3000.ui.components.socials.friendrequests.friendRequestItem
+import no.usn.mob3000.ui.components.social.FriendRequestItem
 
 /**
  * This screen allows users to view pending friend requests, and provides options to accept or decline
@@ -30,7 +32,7 @@ import no.usn.mob3000.ui.components.socials.friendrequests.friendRequestItem
  * @param fetchUserById Function to fetch a user by their ID.
  * @param onAcceptFriendRequest Function to handle accepting a friend request.
  * @param onDeclineFriendRequest Function to handle declining a friend request.
- * @author Husseinabdulameer11 , frigvid, 258030
+ * @author Husseinabdulameer11, frigvid, 258030
  * @created 2024-10-11
  */
 @Composable
@@ -65,11 +67,15 @@ fun ProfileFriendRequestsScreen(
             ) {
                 if (friendRequests.isSuccess) {
                     val requests = friendRequests.getOrNull() ?: emptyList()
+
                     if (requests.isEmpty()) {
-                        Text(text = "No new friend requests", color = Color.Gray)
+                        Text(
+                            text = stringResource(R.string.profile_pending_friend_requests_no_requests),
+                            color = Color.Gray
+                        )
                     } else {
                         requests.forEach { friendRequest ->
-                            friendRequestItem(
+                            FriendRequestItem(
                                 friendRequest = friendRequest,
                                 userProfilesMap = userProfiles,
                                 fetchUserById = fetchUserById,
@@ -79,7 +85,10 @@ fun ProfileFriendRequestsScreen(
                         }
                     }
                 } else {
-                    Text(text = "Error fetching friend requests", color = Color.Red)
+                    Text(
+                        text = stringResource(R.string.profile_pending_friend_requests_error_fetching),
+                        color = Color.Red
+                    )
                 }
             }
         }

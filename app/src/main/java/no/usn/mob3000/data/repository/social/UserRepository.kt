@@ -29,8 +29,8 @@ class UserRepository(
         return try {
             val profileDto = userDataSource.getUserProfile(userId)
             Result.success(profileDto?.toDomainModel())
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
@@ -43,21 +43,21 @@ class UserRepository(
         return try {
             val profileDto = userDataSource.fetchUserById(userId)
             Result.success(profileDto?.toDomainModel())
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 
     /**
-     *
      * Retrieves the user's game statistics.
      */
     override suspend fun getUserGameStats(): Result<UserGameStats> {
         return try {
             val gameDataDto = userDataSource.getUserGameStats()
+
             Result.success(gameDataDto.toDomainModel())
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 

@@ -2,6 +2,7 @@ package no.usn.mob3000.domain.repository.social
 
 /**
  * Interface for the profile edit repository.
+ *
  * @author 258030
  * @created 2024-11-15
  */

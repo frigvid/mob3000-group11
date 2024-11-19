@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.usn.mob3000.data.model.social.ProfileDto
 import no.usn.mob3000.data.network.SupabaseClientWrapper
+
 /**
  * Data source responsible for handling update data handling for the user profile. Other data related
  * to the user are handled in [UserDataSource]
@@ -28,11 +29,13 @@ class ProfileUserDataSource(
             supabaseClient
                 .from("profiles")
                 .update(profileDto) {
-                    filter { eq("id", userId) }
+                    filter {
+                        eq("id", userId)
+                    }
                 }
             Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (error: Exception) {
+            Result.failure(error)
         }
     }
 }

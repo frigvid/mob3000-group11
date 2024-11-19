@@ -127,6 +127,11 @@
     <string name="profile_stat_losses">Losses</string>
     <string name="profile_stat_draws">Draws</string>
     <string name="profile_stat_country">Country</string>
+    <string name="profile_stat_not_applicable">N/A</string>
+    <string name="profile_user_null">No user data!</string>
+    <string name="profile_user_failure">Failed to load the user profile!</string>
+    <string name="profile_friends_no_name">No display name or UUID found! This should not happen.</string>
+    <string name="profile_friends_failed_to_load">Failed to load friends!</string>
 
     <!-- Profile editor page. -->
     <string name="profile_edit_profile_title">Edit profile</string>
@@ -154,6 +159,7 @@
     <string name="profile_pending_friend_requests_accept_button">Accept</string>
     <string name="profile_pending_friend_requests_decline_button">Decline</string>
     <string name="profile_pending_friend_requests_unknown_user">Unknown user</string>
+    <string name="profile_pending_friend_requests_error_fetching">Error fetching friend requests</string>
 
     <!-- Settings page. -->
     <string name="settings_title">Settings</string>
@@ -347,4 +353,16 @@
     <string name="opening_editor_undo_move">Undo Move</string>
     <string name="opening_editor_reset_board">Reset Board</string>
     <string name="opening_editor_reset_all">Clear</string>
+
+    <!-- User profile friend request component. -->
+    <string name="profile_component_friend_request_title">Dismiss friend request?</string>
+    <string name="profile_component_friend_request_text">Are you sure you want to dismiss this friend request?</string>
+    <string name="profile_component_friend_request_confirm">Delete</string>
+    <string name="profile_component_friend_request_dismiss">Cancel</string>
+
+    <!-- User profile editor component. -->
+    <string name="profile_component_profile_edit_title">Save changes?</string>
+    <string name="profile_component_profile_edit_text">Do you want to save your changes?</string>
+    <string name="profile_component_profile_edit_confirm">Save</string>
+    <string name="profile_component_profile_edit_dismiss">Cancel</string>
 </resources>
