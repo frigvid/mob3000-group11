@@ -92,6 +92,4 @@ class AuthDataSource(
      * @created 2024-11-07
      */
     fun checkAuthStatus(): Boolean = supabase.auth.currentUserOrNull() != null
-
-
 }
