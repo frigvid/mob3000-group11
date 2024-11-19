@@ -24,7 +24,7 @@ import no.usn.mob3000.domain.repository.social.IFriendsRepository
 class FriendsRepository (
     private val friendsDataSource: FriendsDataSource = FriendsDataSource(),
     private val friendRequestDataSource: FriendRequestDataSource = FriendRequestDataSource(),
-): IFriendsRepository{
+) : IFriendsRepository {
     /**
      *
      * Fetches all friends and puts it into a list, maps it for usage in the ui layer. Checks for if the user ID
