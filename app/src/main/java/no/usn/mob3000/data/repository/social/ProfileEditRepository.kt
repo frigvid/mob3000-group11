@@ -6,6 +6,7 @@ import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.data.source.remote.social.ProfileUserDataSource
 import no.usn.mob3000.domain.repository.social.IProfileEditRepository
 /**
+ *
  * This repository orchestrates the updating of the users profile. Currently there is only one implementation of
  * updating a table under profile, thus [updateProfile] being the sole function here
  *
@@ -16,8 +17,9 @@ import no.usn.mob3000.domain.repository.social.IProfileEditRepository
 class ProfileEditRepository (
     private val profileEditDataSource: ProfileUserDataSource = ProfileUserDataSource(),
     private val userDataSource: UserDataSource = UserDataSource()
-):IProfileEditRepository{
+): IProfileEditRepository{
     /**
+     *
      *  Updates the users profile. As long as the value of the user exist, we try to update. Else throw exception
      *
      *  @param userid The user id of the current user.
