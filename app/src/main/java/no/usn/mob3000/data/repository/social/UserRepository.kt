@@ -7,6 +7,7 @@ import no.usn.mob3000.domain.model.auth.UserGameStats
 import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.domain.repository.social.IUserRepository
 /**
+ *
  * This repository is responsible for generating information about the current user. It uses generic auth
  * methods from [UserDataSource]. [fetchUserById] exist in another from in [AuthRepository], but our usecase demands some changes
  * to the notation, so instead of refactoring something thats beeing used for a lot of other things, it has its own
@@ -33,6 +34,7 @@ class UserRepository(
         }
     }
     /**
+     *
      *  Retrieves the specified user's Id.
      *
      *  @param userId The ID of the user.
@@ -46,6 +48,7 @@ class UserRepository(
         }
     }
     /**
+     *
      * Retrieves the user's game statistics.
      */
     override suspend fun getUserGameStats(): Result<UserGameStats> {
@@ -58,6 +61,9 @@ class UserRepository(
     }
 
     /**
+     *
+     * @author Husseinabdulameer11
+     * @created on 2024-11-05
      *  Converts a [ProfileDto] to a [UserProfile]
      */
     private fun ProfileDto.toDomainModel(): UserProfile {
@@ -72,7 +78,7 @@ class UserRepository(
             visibilityFriends = this.friendsVisibility
         )
     }
-    private fun GameDataDto.toDomainModel(): UserGameStats {
+    private fun GameDataDto.toDomainModel(): UserGameStats *
         return UserGameStats(
             wins = this.gameWins ?: 0,
             losses = this.gameLosses ?: 0,
