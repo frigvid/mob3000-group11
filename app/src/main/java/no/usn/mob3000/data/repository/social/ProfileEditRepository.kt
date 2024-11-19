@@ -5,6 +5,7 @@ import no.usn.mob3000.data.model.social.ProfileDto
 import no.usn.mob3000.data.source.remote.auth.UserDataSource
 import no.usn.mob3000.data.source.remote.social.ProfileUserDataSource
 import no.usn.mob3000.domain.repository.social.IProfileEditRepository
+
 /**
  * This repository orchestrates the updating of the users profile. Currently there is only one implementation of
  * updating a table under profile, thus [updateProfile] being the sole function here
