@@ -44,6 +44,12 @@ class AuthRepository(
 ) : IAuthRepository {
     lateinit var currentUserId: String
 
+    /**
+     * Gets the currently authenticated user's id.
+     *
+     * @author Husseinabdulameer11
+     * @created 2024-11-18
+     */
     override suspend fun getCurrentUserId(): String = authDataSource.getCurrentUserId()
 
     /**
