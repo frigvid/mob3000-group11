@@ -1,12 +1,28 @@
 package no.usn.mob3000.ui.screens.user
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -14,35 +30,40 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.flow.StateFlow
 import no.usn.mob3000.R
+import no.usn.mob3000.domain.model.auth.UserProfile
 import no.usn.mob3000.ui.components.base.Viewport
 import no.usn.mob3000.ui.theme.DefaultButton
 
 /**
  * Screen for allowing users to search for other users and sending them a friend request.
  *
+ * @param fetchNonFriends Callback function to get all users who are not friends with the user.
+ * @param nonFriendState State for whether or not the users are friends.
+ * @param sendFriendRequest Callback function to send a friend request.
+ * @param onUserClick Callback function to insert a friend request into the database.
  * @author frigvid
+ * @contributors 258030, Husseinabdulameer11
  * @created 2024-10-11
  */
 @Composable
-fun ProfileAddFriendsScreen() {
+fun ProfileAddFriendsScreen(
+    fetchNonFriends: () -> Unit,
+    nonFriendState: StateFlow<Result<List<UserProfile>>>,
+    sendFriendRequest: () -> Unit,
+    onUserClick: (String) -> Unit
+) {
+    val nonFriends by nonFriendState.collectAsState()
     var searchQuery by remember { mutableStateOf("") }
 
-    /* TODO: Extract user fetcher to data layer. */
-    val dummyUsers = remember {
-        listOf(
-            User("00ba54a6-c585-4871-905e-7d53262f05c1", "ChessMaster42", R.drawable.profile_icon),
-            User("b82bcc28-79b4-4a5f-8efd-080a9c00dc2f", "PawnStar", R.drawable.profile_icon),
-            User("3a574a5d-9406-4245-aebb-6074fc56b9ec", "KnightRider", R.drawable.profile_icon),
-            User("b39a02b1-9b72-4134-905c-fa538b2a9a53", "BishopBoss", R.drawable.profile_icon),
-            User("6237de51-a463-42c8-8c0a-5f0c8930ccc3", "RookiePlayer", R.drawable.profile_icon)
-        )
+    LaunchedEffect(Unit) {
+        fetchNonFriends()
     }
 
-    val filteredUsers = dummyUsers.filter {
-        it.username.contains(searchQuery, ignoreCase = true) || it.id.contains(searchQuery)
-    }
+    val filteredNonFriends = nonFriends.getOrNull()?.filter {
+        it.displayName.contains(searchQuery, ignoreCase = true) || it.userId.contains(searchQuery)
+    } ?: emptyList()
 
     Viewport { innerPadding ->
         Column(
@@ -60,68 +81,58 @@ fun ProfileAddFriendsScreen() {
                     .padding(bottom = 16.dp)
             )
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) { items(filteredUsers) { user -> UserListItem(user) } }
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(filteredNonFriends) { user ->
+                    UserListItem(
+                        user = user,
+                        onClick = {
+                            onUserClick(user.userId)
+                            sendFriendRequest()
+                        }
+                    )
+                }
+            }
         }
     }
 }
 
 /**
- * Composable list item to display the user's profile picture, display name and UUID.
- *
- * @param user The (dummy) user data object.
- * @author frigvid
- * @created 2024-10-12
+ * @param user The user's [UserProfile].
+ * @param onClick Arbitrary unit.
  */
 @Composable
-fun UserListItem(
-    user: User
+private fun UserListItem(
+    user: UserProfile,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(user.profilePicture),
-            contentDescription = "Profile picture",
+            painter = painterResource(R.drawable.profile_icon),
+            contentDescription = null,
             modifier = Modifier
-                .size(48.dp)
+                .size(40.dp)
                 .clip(CircleShape)
+                .border(1.dp, MaterialTheme.colorScheme.onSurface, CircleShape)
         )
 
-        Column(
+        Text(
+            text = user.displayName,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(start = 16.dp)
+                .padding(start = 8.dp)
                 .weight(1f)
-        ) {
-            Text(
-                text = user.username,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = user.id,
-                fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-            )
-        }
+        )
 
         Button(
-            onClick = { /* TODO: Implement send friend request logic */ },
-            colors = ButtonDefaults.buttonColors(DefaultButton),
-            modifier = Modifier.padding(start = 8.dp)
-        ) { Text(stringResource(R.string.profile_add_friends_add_button)) }
+            onClick = onClick,
+            colors = ButtonDefaults.buttonColors(DefaultButton)
+        ) {
+            Text(stringResource(R.string.profile_add_friends_add_button))
+        }
     }
 }
-
-/* TODO: Extract to data layer and fix dummy User data class. */
-data class User(
-    val id: String,
-    val username: String,
-    val profilePicture: Int
-)

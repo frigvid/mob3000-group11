@@ -26,6 +26,7 @@ import no.usn.mob3000.domain.viewmodel.content.provideNewsViewModel
 import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
 import no.usn.mob3000.domain.viewmodel.game.GroupsViewModel
 import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
+import no.usn.mob3000.domain.viewmodel.social.ProfileViewModel
 import no.usn.mob3000.ui.components.base.Routes
 
 /**
@@ -88,15 +89,23 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No NavCo
  * @param viewModel The generic application ViewModel.
  * @param loginViewModel The login state ViewModel.
  * @param logoutViewModel The logout state ViewModel.
+ * @param changeEmailViewModel The E-mail change ViewModel.
+ * @param changePasswordViewModel The password change ViewModel.
  * @param registrationViewModel The registration state ViewModel.
+ * @param forgotPasswordViewModel The forgotten password ViewModel.
  * @param deleteAccountViewModel The account deletion state ViewModel.
+ * @param authenticationViewModel The authentication status state ViewModel.
+ * @param profileViewModel The user profile ViewModel.
+ * @param openingsViewModel The chess openings ViewModel.
+ * @param groupsViewModel The chess groups ViewModel.
+ * @param chessBoardViewModel The chess board's ViewModel.
  * @param navController The navigation controller.
  * @see Destination
  * @see Viewport
  * @see ScreenIcon
  * @see Icon
  * @author frigvid
- * @contributors Routes: Anarox1111, Markus, 258030
+ * @contributors Routes: Anarox1111, Markus
  * @created 2024-09-24
  */
 @Composable
@@ -110,6 +119,7 @@ fun Navigation(
     forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(),
     deleteAccountViewModel: DeleteAccountViewModel = viewModel(),
     authenticationViewModel: AuthenticationViewModel = viewModel(),
+    profileViewModel: ProfileViewModel = viewModel(),
     openingsViewModel: OpeningsViewModel = viewModel(),
     groupsViewModel: GroupsViewModel = viewModel(),
     chessBoardViewModel: ChessBoardViewModel = viewModel(),
@@ -148,7 +158,9 @@ fun Navigation(
 
             Routes.UserProfile(
                 this,
-                navController
+                navController,
+                profileViewModel,
+                authenticationViewModel
             )
 
             Routes.Settings(

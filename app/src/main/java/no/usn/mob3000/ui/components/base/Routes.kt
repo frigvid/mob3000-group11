@@ -23,6 +23,7 @@ import no.usn.mob3000.domain.viewmodel.content.NewsViewModel
 import no.usn.mob3000.domain.viewmodel.game.ChessBoardViewModel
 import no.usn.mob3000.domain.viewmodel.game.GroupsViewModel
 import no.usn.mob3000.domain.viewmodel.game.OpeningsViewModel
+import no.usn.mob3000.domain.viewmodel.social.ProfileViewModel
 import no.usn.mob3000.ui.screens.AdministratorDashboardScreen
 import no.usn.mob3000.ui.screens.HomeScreen
 import no.usn.mob3000.ui.screens.SettingsScreen
@@ -505,48 +506,102 @@ object Routes {
          */
         operator fun invoke(
             navGraphBuilder: NavGraphBuilder,
-            navController: NavController
+            navController: NavController,
+            profileViewModel: ProfileViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ): UserProfile {
-            navGraphBuilder.profile(navController)
-            navGraphBuilder.profileFriends()
+            navGraphBuilder.profile(navController, profileViewModel, authenticationViewModel)
+            navGraphBuilder.profileFriends(navController, profileViewModel)
 
             return this
         }
 
         /**
-         * The chess openings routes.
+         * The user's user profile routes.
          *
          * @param navController The navigation controller.
-         * @author frigvid
+         * @param profileViewModel The profile ViewModel.
+         * @param authenticationViewModel The authentication status ViewModel.
+         * @author frigvid, Husseinabdulameer11
          * @created 2024-11-06
          */
         private fun NavGraphBuilder.profile(
-            navController: NavController
+            navController: NavController,
+            profileViewModel: ProfileViewModel,
+            authenticationViewModel: AuthenticationViewModel
         ) {
             composable(route = Destination.PROFILE.name) {
                 ProfileScreen(
-                    onProfileEditClick = { navController.navigate(Destination.PROFILE_EDIT_PROFILE.name) },
-                    onProfileAddFriendsClick = { navController.navigate(Destination.PROFILE_ADD_FRIENDS.name) },
-                    onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) }
+                    onProfileEditClick = { userItem ->
+                        profileViewModel.setSelectedUser(userItem)
+                        navController.navigate(Destination.PROFILE_EDIT_PROFILE.name)
+                    },
+                    onProfileAddFriendsClick = { userItem ->
+                        profileViewModel.setSelectedUser(userItem)
+                        navController.navigate(Destination.PROFILE_ADD_FRIENDS.name)
+                    },
+                    onProfileFriendRequestsClick = { navController.navigate(Destination.PROFILE_FRIEND_REQUESTS.name) },
+                    fetchFriends = { profileViewModel.fetchFriends() },
+                    fetchUserProfile = { userId -> profileViewModel.fetchUser(userId) },
+                    fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
+                    friendState = profileViewModel.friends,
+                    userIdState = profileViewModel.userId,
+                    userProfilesMap = profileViewModel.userProfiles,
+                    setSelectedUser = profileViewModel::setSelectedUser,
+                    authenticationState = authenticationViewModel.authState,
+                    authenticationStateUpdate = authenticationViewModel::updateAuthState,
+                    onLoginClick = { navController.navigate(Destination.AUTH_LOGIN.name) },
+                    userGameStats = profileViewModel.userGameStats,
+                    currentUserProfileState = profileViewModel.currentUserProfile
                 )
             }
 
             composable(route = Destination.PROFILE_EDIT_PROFILE.name) {
                 ProfileEditScreen(
-                    onSaveProfileClick = { navController.navigate(Destination.PROFILE.name) }
+                    selectedUser = profileViewModel.selectedUser.value,
+                    onSaveProfileClick = profileViewModel::saveProfileChanges,
+                    navigateToProfile = { navController.navigate(Destination.PROFILE.name) },
                 )
             }
         }
 
         /**
-         * The chess repository/groups routes.
+         * The user's user profile friends routes.
          *
-         * @author frigvid
-         * @created 2024-11-06
+         * @param navController The navigation controller.
+         * @param profileViewModel The profile ViewModel.
+         * @author Husseinabdulameer11
+         * @created 2024-11-16
          */
-        private fun NavGraphBuilder.profileFriends() {
-            composable(route = Destination.PROFILE_ADD_FRIENDS.name) { ProfileAddFriendsScreen() }
-            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) { ProfileFriendRequestsScreen() }
+        private fun NavGraphBuilder.profileFriends(
+            navController: NavController,
+            profileViewModel: ProfileViewModel,
+        ) {
+            composable(route = Destination.PROFILE_ADD_FRIENDS.name) {
+                ProfileAddFriendsScreen(
+                    fetchNonFriends = { profileViewModel.fetchNonFriends() },
+                    nonFriendState = profileViewModel.nonFriends,
+                    sendFriendRequest = { navController.navigate(Destination.PROFILE.name) },
+                    onUserClick = profileViewModel::insertFriendRequest
+                )
+            }
+
+            composable(route = Destination.PROFILE_FRIEND_REQUESTS.name) {
+                ProfileFriendRequestsScreen(
+                    fetchFriendRequests = { profileViewModel.fetchFriendRequests() },
+                    friendRequestState = profileViewModel.friendRequests,
+                    userProfilesMap = profileViewModel.userProfiles,
+                    fetchUserById = { userId -> profileViewModel.fetchUserById(userId) },
+                    onAcceptFriendRequest = {
+                        profileViewModel.acceptFriendRequest(it)
+                        navController.navigate(Destination.PROFILE.name)
+                    },
+                    onDeclineFriendRequest = {
+                        profileViewModel.declineFriendRequest(it)
+                        navController.navigate(Destination.PROFILE.name)
+                    }
+                )
+            }
         }
     }
 
