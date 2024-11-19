@@ -24,6 +24,7 @@ import no.usn.mob3000.domain.usecase.social.userProfile.FetchUserByIdUseCase
 import no.usn.mob3000.domain.usecase.social.userProfile.FetchUserProfileUseCase
 import no.usn.mob3000.domain.usecase.social.userProfile.GetUserGameStatsUseCase
 import no.usn.mob3000.domain.usecase.social.userUpdate.UpdateProfileUseCase
+
 /**
  *
  * ViewModel for handling user profile-related functionality. Using the different usecases to communicate with the business logic handled in
